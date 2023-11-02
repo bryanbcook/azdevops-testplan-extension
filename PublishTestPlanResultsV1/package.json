@@ -1,0 +1,24 @@
+{
+  "name": "publishtestplanresultsv1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc && mocha --recursive"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "azure-devops-node-api": "^12.1.0",
+    "azure-pipelines-task-lib": "^4.6.1"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.3",
+    "@types/node": "^20.8.10",
+    "@types/q": "^1.5.7",
+    "@types/sinon": "^10.0.20",
+    "sinon": "^17.0.1",
+    "sync-request": "^6.1.0"
+  }
+}

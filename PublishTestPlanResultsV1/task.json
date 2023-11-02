@@ -1,0 +1,55 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+    "id": "9f8d55a9-9f5e-4e77-a924-2a48c17b65d7",
+    "name": "PublishTestPlanResults",
+    "friendlyName": "Publish Test Plan Results",
+    "description": "Publishes cross-platform test results (xUnit, JUnit) to an Azure DevOps Test Plan",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Bryan Cook",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Publish Test Results",
+    "inputs": [
+        {
+            "name": "accessToken",
+            "type": "string",
+            "label": "Access Token",
+            "defaultValue": "$(System.AccessToken)",
+            "required": false,
+            "helpMarkDown": "Access Token used to obtain Test Plan details and publish Test Results."
+        },
+        {
+            "name": "projectName",
+            "type": "string",
+            "label": "Project Name",
+            "defaultValue": "$(System.TeamProject)",
+            "required": false,
+            "helpMarkDown": "Project containing the Test Plan"
+        },
+        {
+            "name": "testPlan",
+            "type": "string",
+            "label": "Test Plan",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Test Plan name or identifier. If not specified, will attempt to locate the latest active test plan."
+        },
+        {
+            "name": "testConfigFilter",
+            "type": "string",
+            "label": "Test Config Filter",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Publish test results for the specified Test Configuration name or identifier."
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "index.js"
+        }
+    }
+}
