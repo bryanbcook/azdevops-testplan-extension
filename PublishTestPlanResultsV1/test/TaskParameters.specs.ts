@@ -1,81 +1,293 @@
 import * as path from 'path';
 import * as assert from 'assert';
+import { should, expect } from 'chai';
 import * as util from './testUtil';
 import * as TaskParameters from '../TaskParameters';
+import { TestCaseMatchingStrategy } from '../processing/TestResultMatchStrategy';
 
 describe('TaskParameters', () => {
 
-    var tp : any;
+  var tp: any;
+
+  beforeEach(() => {
+    //
+    tp = path.join(__dirname, '..', 'TaskParameters.js');
+    util.clearData();
+
+    util.setSystemVariable("System.CollectionUri", "https://server");
+    util.setSystemVariable("System.AccessToken", "asdf");
+    util.setSystemVariable("System.TeamProject", "dummy");
+
+  });
+
+  afterEach(() => {
+    util.clearData();
+  });
+
+  context('TestResultContextParameters', () => {
+
+    it('Should use user-supplied values if provided', () => {
+      // arrange
+      util.setInput("collectionUri", "https://my");
+      util.setInput("projectName", "myProject");
+      util.setInput("accessToken", "myToken")
+      util.loadData();
+
+      // act
+      require(tp);
+
+      var parameters = TaskParameters.getTestContextParameters();
+
+      // assert
+      expect(parameters.collectionUri).to.eq("https://my");
+      expect(parameters.accessToken).to.eq("myToken");
+      expect(parameters.projectName).to.eq("myProject");
+    });
+
+    it('Should resolve default taskParameters', () => {
+      // arrange
+      util.loadData();
+
+      // act
+      require(tp);
+
+      var parameters = TaskParameters.getTestContextParameters();
+
+      // assert
+      expect(parameters.collectionUri).to.eq("https://server");
+      expect(parameters.accessToken).to.eq("asdf");
+      expect(parameters.projectName).to.eq("dummy");
+    });
+
+    it('Should resolve config aliases', () => {
+      // arrange
+      util.setInput("testConfigAliases", 'ie="Internet Explorer", chrome="Chrome"' + ", lnx='Ubuntu 22.04'");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getTestContextParameters();
+
+      // assert
+      expect(parameters.testConfigAliases.length).to.eq(3);
+      expect(parameters.testConfigAliases[0].alias).to.eq("ie");
+      expect(parameters.testConfigAliases[0].config).to.eq("Internet Explorer");
+      expect(parameters.testConfigAliases[1].alias).to.eq("chrome")
+      expect(parameters.testConfigAliases[1].config).to.eq("Chrome")
+      expect(parameters.testConfigAliases[2].alias).to.eq("lnx")
+      expect(parameters.testConfigAliases[2].config).to.eq("Ubuntu 22.04")
+    });
+  });
+
+  context('TestFrameworkParameters', () => {
+
+    var validFiles : string[] = [];
+    var invalidFiles : string[] = [];
 
     before(() => {
-        //
-        tp = path.join(__dirname, '..', 'TaskParameters.js');
-        util.clearData();
+      var basePath = path.join(__dirname, "data");
+      validFiles.push( path.join( basePath, "xunit","xunit-1.xml") );
+      validFiles.push( path.join( basePath, "xunit","xunit-2.xml") );
 
-        util.setSystemVariable("System.CollectionUri", "https://server");
-        util.setSystemVariable("System.AccessToken", "asdf");
-        util.setSystemVariable("System.TeamProject", "dummy");
+      invalidFiles.push( path.join("xunit", "invalidFile1.xml") );
+    });
+
+    it('Should require testResultFormat to be provided', () => {
+      // arrange
+      // leave testResultFormat empty
+      util.setInput("testResultFiles", validFiles[0] );
+      util.loadData();
+
+      // act
+      require(tp);
+
+      // assert
+      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), "Input required: testResultFormat");
+    });
+
+    it('Should require testResultFiles to be provided', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");     
+      util.loadData();
+
+      // act      
+      require(tp);
+
+      // assert
+      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), "Input required: testResultFiles");
+    });
+
+    it('Should verify that result files are valid', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");     
+      util.setInput("testResultFiles", validFiles[0]);
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.testFormat).to.eq("xunit");
+      expect(parameters.testFiles[0]).to.eq(validFiles[0]);
+    });
+
+    it('Should resolve relative paths to working directory', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");
+      util.setInput("testResultDirectory", path.join(__dirname)); // assume user supplied $(Pipeline.Workspace)/folder
+      util.setInput("testResultFiles", "data/xunit/xunit-1.xml");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.testFiles[0]).to.eq(validFiles[0]);
+    })
+
+    it('Should complain if testResultFiles refers to invalid file', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");     
+      util.setInput("testResultFiles", invalidFiles[0]);
+      util.loadData();
+
+      // act / assert
+      require(tp);
+      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), "Not found testResultFile(s): xunit\\invalidFile1.xml");
+    });
+
+    it('Should allow glob paths to be specified', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");
+      util.setInput("testResultDirectory", path.join(__dirname)); // assume user supplied $(Pipeline.Workspace)/folder
+      util.setInput("testResultFiles","data/xunit/**.xml");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.testFormat).to.eq("xunit");
+      expect(parameters.testFiles.length).to.eq(1);
 
     });
 
-    after(() => {
-        util.clearData();
+    it('Should allow multiple test result files to be specified', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");     
+      util.setInput("testResultFiles", validFiles.join(","));
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.testFormat).to.eq("xunit");
+      expect(parameters.testFiles[0]).to.eq(validFiles[0]);
+      expect(parameters.testFiles[1]).to.eq(validFiles[1]);
     });
 
-    context('TestResultContextParameters', function() {
+  });
 
-        it('Should use user-supplied values if provided', function () {
-            // arrange
-            util.setInput("collectionUri", "https://my");
-            util.setInput("projectName", "myProject");
-            util.setInput("accessToken", "myToken")
-            util.loadData();
-    
-            // act
-            require(tp);
-            
-            var parameters = TaskParameters.getTestContextParameters();
-    
-            // assert
-            assert.equal(parameters.collectionUri, "https://my");
-            assert.equal(parameters.accessToken, "myToken");
-            assert.equal(parameters.projectName, "myProject");
-        });
-    
-        it('Should resolve default taskParameters', function () {
-            // arrange
-            util.loadData();
-    
-            // act
-            require(tp);
-            
-            var parameters = TaskParameters.getTestContextParameters();
-    
-            // assert
-            assert.equal(parameters.collectionUri, "https://server");
-            assert.equal(parameters.accessToken, "asdf");
-            assert.equal(parameters.projectName, "dummy");
-        });
-    
-        it('Should resolve config aliases', function () {
-            // arrange
-            util.setInput("testConfigAliases",'ie="Internet Explorer", chrome="Chrome"' + ", lnx='Ubuntu 22.04'");
-            util.loadData();
-    
-            // act
-            require(tp);
-            var parameters = TaskParameters.getTestContextParameters();
-    
-            // assert
-            assert.equal(parameters.testConfigAliases.length, 3);
-            assert.equal(parameters.testConfigAliases[0].alias, "ie");
-            assert.equal(parameters.testConfigAliases[0].config, "Internet Explorer");
-            assert.equal(parameters.testConfigAliases[1].alias, "chrome")
-            assert.equal(parameters.testConfigAliases[1].config, "Chrome")
-            assert.equal(parameters.testConfigAliases[2].alias, "lnx")
-            assert.equal(parameters.testConfigAliases[2].config, "Ubuntu 22.04")
-        });
+  context('TestResultProcessorParameters', () => {
+
+    it('Should use defaults if no inputs are provided', () => {
+      // arrange
+      // act
+      require(tp);
+      var result = TaskParameters.getProcessorParameters();
+
+      // assert
+      expect(result.testConfigFilter).to.be.undefined;
+      expect(result.testCaseMatchStrategy).to.eq(TestCaseMatchingStrategy.auto); // TODO: Enum
+      expect(result.testCaseProperty).to.be.eq("TestCase");
+      expect(result.testCaseRegEx).to.be.eq("(\\d+)");
+      expect(result.testConfigProperty).eq("Config");
     });
 
-    
+    it('Should recognize testConfigFilter has been applied', () => {
+      // arrange
+      util.setInput("testConfigFilter", "Default");
+      util.loadData();
+
+      // act
+      require(tp);
+      var result = TaskParameters.getProcessorParameters();
+
+      // assert
+      expect(result.testConfigFilter).not.to.be.undefined;
+    });
+
+    it('Should support custom regex for testcase name', () => {
+      // arrange
+      util.setInput("testCaseRegex", "TestCase(\\d+)");
+      util.loadData();
+
+      // act
+      require(tp);
+      var result = TaskParameters.getProcessorParameters();
+
+      // assert
+      expect(result.testCaseRegEx).to.be.eq("TestCase(\\d+)");
+    });
+
+    it('Should support custom property for testcase id', () => {
+      // arrange
+      util.setInput("testCaseProperty", "id");
+      util.loadData();
+
+      // act
+      require(tp);
+      var result = TaskParameters.getProcessorParameters();
+
+      // assert
+      expect(result.testCaseProperty).to.be.eq("id");
+    });
+
+    it('Should support custom property for config name or alias', () => {
+      // arrange
+      util.setInput("testConfigProperty", "Category");
+      util.loadData();
+
+      // act
+      require(tp);
+      var result = TaskParameters.getProcessorParameters();
+
+      // assert
+      expect(result.testConfigProperty).to.be.eq("Category");
+    });
+
+    it('Should allow testCaseMatchStrategy to be used as a set of flags', () => {
+      // arrange
+      util.setInput("testCaseMatchStrategy", "name,property");
+      util.loadData();
+
+      // act
+      require(tp);
+      var result = TaskParameters.getProcessorParameters();
+
+      // assert
+      let final = TestCaseMatchingStrategy.name | TestCaseMatchingStrategy.property;
+      expect(result.testCaseMatchStrategy).to.be.eq( final );
+    });
+
+    it('Should allow testConfigProperty to find single configuration property', () => {
+      // arrange
+      util.setInput("testConfigProperty", "config");
+      util.loadData();
+
+      // act
+      require(tp);
+      var result = TaskParameters.getProcessorParameters();
+
+      // assert
+      expect(result.testConfigProperty).to.be.eq( "config" );
+    })
+  });
+
 });
+

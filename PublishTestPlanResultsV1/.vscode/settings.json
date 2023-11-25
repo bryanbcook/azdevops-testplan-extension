@@ -1,0 +1,7 @@
+{
+  "files.exclude": {
+    "**/*.js": true,
+    "**/node_modules": true,
+    ".taskkey": true
+  }
+}

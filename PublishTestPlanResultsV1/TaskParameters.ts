@@ -1,43 +1,70 @@
-import tl from 'azure-pipelines-task-lib/task';
+import tl = require('azure-pipelines-task-lib/task');
+import * as path from "path";
 import { configAlias } from "./context/configAlias";
 import { TestResultContextParameters } from "./context/TestResultContextParameters";
 import { TestFrameworkParameters } from "./framework/TestFrameworkParameters";
-import { TestFrameworkFormat } from './framework/TestFrameworkFormat';
+import { TestResultProcessorParameters } from './processing/TestResultProcessorParameters';
+import { TestCaseMatchingStrategy } from './processing/TestResultMatchStrategy';
 
 export function getTestContextParameters(): TestResultContextParameters {
 
-    tl.debug("reading TestContextParameters from task inputs.");
+  tl.debug("reading TestContextParameters from task inputs.");
 
-    const accessToken   = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
-    const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI");
-    const projectName   = tl.getInput("projectName", false) ?? tl.getVariable("SYSTEM_TEAMPROJECT");
-    
-    var parameters = new TestResultContextParameters(
-        (collectionUri as string), 
-        (projectName as string), 
-        (accessToken as string));
+  const accessToken = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
+  const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI");
+  const projectName = tl.getInput("projectName", false) ?? tl.getVariable("SYSTEM_TEAMPROJECT");
 
-    parameters.testPlan = tl.getInput("testPlan", false);
-    parameters.testConfigFilter = tl.getInput("testConfigFilter", false);
-    tl.getDelimitedInput("testConfigAliases", ",", false).forEach( (alias: string) => {
-        let parts = alias.split("=");
-        if (parts.length > 1) {
-            parameters.testConfigAliases.push( new configAlias(parts[0], parts[1]) );
-        }
-    });
+  var parameters = new TestResultContextParameters(
+    (collectionUri as string),
+    (projectName as string),
+    (accessToken as string));
 
-    return parameters;
+  parameters.testPlan = tl.getInput("testPlan", false);
+  parameters.testConfigFilter = tl.getInput("testConfigFilter", false);
+  tl.getDelimitedInput("testConfigAliases", ",", false).forEach((alias: string) => {
+    let parts = alias.split("=");
+    if (parts.length > 1) {
+      parameters.testConfigAliases.push(new configAlias(parts[0], parts[1]));
+    }
+  });
+
+  return parameters;
 }
 
 export function getFrameworkParameters(): TestFrameworkParameters {
-    tl.debug("reading TestFrameworkParameters from task inputs.");
+  tl.debug("reading TestFrameworkParameters from task inputs.");
 
-    let testResultFormat = tl.getInput("testResultFormat", false) ?? "xUnit";   
-    let testResultFiles  = tl.getDelimitedInput("testResultFiles", ",", true)
-        .filter( file => {
-        // verify that file exists
+  let testResultFormat = tl.getInput("testResultFormat", true);
+  let testResultFolder = tl.getInput("testResultDirectory", false);
+  let testResultFiles = tl.getDelimitedInput("testResultFiles", ",", true)
+    .map(file => {
+      if (testResultFolder) {
+        return path.join(testResultFolder, file);
+      }
+      return file;
+    })
+    .filter(file => {
+      // verify that file exists
+      if (file.indexOf('**') == -1) {
         tl.checkPath(file, "testResultFile(s)");
-      });
-    
-    return new TestFrameworkParameters(testResultFiles, testResultFormat);
+      }
+      return true;
+    });
+
+  return new TestFrameworkParameters(testResultFiles, testResultFormat as string);
+}
+
+export function getProcessorParameters() : TestResultProcessorParameters {
+  tl.debug("reading TestResultProcessorParameters from task inputs.");
+
+  let matchingStrategy = tl.getInput("testCaseMatchStrategy", false) ?? "Auto";
+  var parameters = new TestResultProcessorParameters(matchingStrategy);
+  
+  // optional parameters
+  parameters.testConfigFilter   = tl.getInput("testConfigFilter", false);
+  parameters.testCaseProperty   = tl.getInput("testCaseProperty", false) ?? "TestCase";
+  parameters.testCaseRegEx      = tl.getInput("testCaseRegex", false) ?? "(\\d+)";
+  parameters.testConfigProperty = tl.getInput("testConfigProperty", false) ?? "Config";
+
+  return parameters;
 }

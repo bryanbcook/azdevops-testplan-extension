@@ -1,36 +1,26 @@
 import { TestFrameworkFormat } from "./TestFrameworkFormat";
 import { TestFrameworkParameters } from "./TestFrameworkParameters";
 import { TestFrameworkResult } from "./TestFrameworkResult";
-import { jUnitResultReader } from "./jUnitResultReader";
-import { xUnitResultReader } from "./xUnitResultReader";
+import { parse, ParseOptions } from 'test-results-parser';
 
-export async function readResults( parameters : TestFrameworkParameters) : Promise<any> {
+export async function readResults(parameters: TestFrameworkParameters): Promise<TestFrameworkResult[]> {
 
-    // use a factory to produce the reader
-    let reader = getReader(parameters.testFormat);
+  // read test files
+  let testResult = parse({ type: parameters.testFormat.toString(), files: parameters.testFiles });
 
-    // read the files
-    var results : TestFrameworkResult[] = [];
-    parameters.testFiles
-        .forEach( async (file) => {
-            let items = await reader.read(file);
-            results.push( ...items );
-        });
+  var results: TestFrameworkResult[] = [];
 
-    return results;
-}
+  testResult.suites.forEach(suite => {
+    suite.cases.forEach(test => {
 
-export interface ITestFrameworkResultReader {
-    read( file: string) : Promise<TestFrameworkResult[]>;
-}
+      let result = new TestFrameworkResult(test.name, test.status);
+      result.failure = test.failure;
+      result.stacktrace = test.stack_trace;
+      result.properties = test.meta_data;
 
-function getReader(format : TestFrameworkFormat) : ITestFrameworkResultReader {
-    switch (format) {
-        case TestFrameworkFormat.xUnit:
-            return new xUnitResultReader();
-        case TestFrameworkFormat.jUnit:
-            return new jUnitResultReader();
-        default:
-            throw new Error("Unrecognized TestFormat");
-    }
+      results.push(result);
+    })
+  });
+
+  return results;
 }

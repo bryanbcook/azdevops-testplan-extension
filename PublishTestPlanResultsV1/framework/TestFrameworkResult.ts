@@ -1,22 +1,22 @@
-export class TestFrameworkResult {
-    name : string;
-    className : string;
-    fullyQualifiedTestName : string | undefined;
-    assembly : string | undefined;
-    output : string[] | undefined;
-    errors : string[] | undefined;
-    outcome : TestOutcome = TestOutcome.None;
+import { TestOutcome, TestPoint } from 'azure-devops-node-api/interfaces/TestInterfaces';
 
-    constructor(name : string, className : string) {
-        this.name = name;
-        this.className = className;
-    }
+const TestParserMapping = {
+  PASS: TestOutcome.Passed,
+  FAIL: TestOutcome.Failed,
+  ERROR: TestOutcome.Error,
+  SKIP: TestOutcome.NotExecuted
 }
 
-export enum TestOutcome {
-    None,
-    Passed,
-    Failed,
-    Errored,
-    Skipped
+export class TestFrameworkResult {
+  name: string;
+  stacktrace: string | undefined;
+  failure: string | undefined;
+  outcome: TestOutcome = TestOutcome.None;
+  properties: Map<string,string>;
+
+  constructor(name: string, outcome: string) {
+    this.name = name;
+    this.outcome = TestParserMapping[outcome as keyof typeof TestParserMapping];
+    this.properties = new Map<string,string>();
+  }
 }

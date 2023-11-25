@@ -2,7 +2,7 @@ import tl = require("azure-pipelines-task-lib/task");
 import * as TaskParameters from "./TaskParameters";
 import { TestResultContext } from "./context/TestResultContext";
 import * as TestFrameworkResultReader from "./framework/TestFrameworkResultReader";
-import * as TestResultProcessor from "./processing/TestResultProcessor";
+import * as TestResultProcessorFactory from "./processing/TestResultProcessorFactory";
 
 async function run() {
 
@@ -17,10 +17,11 @@ async function run() {
 
     // process framework results,
     // mapping test points in the test plan to the result
-    // TODO: testProcessorParameters, construct result processor
-    const testRunData = TestResultProcessor.process(frameworkResults, context);
+    const processorParameters = TaskParameters.getProcessorParameters();
+    const resultProcessor = TestResultProcessorFactory.create(processorParameters, context);
+    const testRunData = resultProcessor.process(frameworkResults);
 
-    // publish a new test run with the mapped outpus
+    // publish a new test run with the mapped outputs
 
 }
 

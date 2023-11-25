@@ -13,6 +13,23 @@
         "Patch": 0
     },
     "instanceNameFormat": "Publish Test Results",
+    "groups": [
+        {
+            "name": "general",
+            "displayName": "General",
+            "isExpanded": true
+        },
+        {
+            "name": "processing",
+            "displayName": "Test Case Matching",
+            "isExpanded": false
+        },
+        {
+            "name": "advanced",
+            "displayName": "Advanced Settings",
+            "isExpanded": false
+        }
+    ],
     "inputs": [
         {
             "name": "accessToken",
@@ -20,6 +37,7 @@
             "label": "Access Token",
             "defaultValue": "$(System.AccessToken)",
             "required": false,
+            "groupName": "advanced",
             "helpMarkDown": "Access Token used to obtain Test Plan details and publish Test Results."
         },
         {
@@ -28,6 +46,7 @@
             "label": "Project Name",
             "defaultValue": "$(System.TeamProject)",
             "required": false,
+            "groupName": "advanced",
             "helpMarkDown": "Project containing the Test Plan"
         },
         {
@@ -36,6 +55,7 @@
             "label": "Test Plan",
             "defaultValue": "",
             "required": false,
+            "groupName": "general",
             "helpMarkDown": "Test Plan name or identifier. If not specified, will attempt to locate the latest active test plan."
         },
         {
@@ -44,7 +64,72 @@
             "label": "Test Config Filter",
             "defaultValue": "",
             "required": false,
+            "groupName": "general",
             "helpMarkDown": "Publish test results for the specified Test Configuration name or identifier."
+        },
+        {
+            "name": "testConfigAliases",
+            "type": "string",
+            "label": "Test Config Aliases",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "general",
+            "helpMarkDown": "Comma-delimited list of Test Configuration aliases, specified as <alias>='<Configuration Name>'."
+        },
+        {
+            "name": "testResultFormat",
+            "type": "string",
+            "label": "Test Result Format",
+            "required": true,
+            "groupName": "general",
+            "options": {
+                "xUnit": "xUnit",
+                "jUnit": "jUnit"
+            },
+            "helpMarkDown": "Represents which compatible framework the test results are formatted in. (Currently JUnit, XUnit, but other formats are planned)"
+        },
+        {
+            "name": "testResultDirectory",
+            "type": "string",
+            "label": "Test Results Directory",
+            "required": false,
+            "groupName": "general",
+            "helpMarkDown": "Folder on the pipeline agent that contains the test results."
+        },
+        {
+            "name": "testResultFiles",
+            "type": "filePath",
+            "required": true,
+            "label": "Test Result Files",
+            "groupName": "general",
+            "helpMarkDown": "The relative file paths to the test results."
+        },
+        {
+            "name": "testCaseMatchStrategy",
+            "type": "string",
+            "required": false,
+            "label": "Test Case Matching Strategy",
+            "defaultValue": "auto",
+            "groupName": "processing",
+            "helpMarkDown": "Specifies how test cases are matched to test results (auto,name,regex,property,vsproperty). Default is 'auto'."
+        },
+        {
+            "name": "testCaseProperty",
+            "type": "string",
+            "required": false,
+            "label": "Test Case Property",
+            "defaultValue": "TestCase",
+            "groupName": "processing",
+            "helpMarkDown": "Indicates which meta-data property on the test framework result will contain the test case Id. Applicable when testCaseMatchStrategy is 'auto' or contains 'property'."
+        },
+        {
+            "name": "testCaseRegex",
+            "type": "string",
+            "required": false,
+            "label": "Test Case Regex",
+            "groupName": "processing",
+            "defaultValue": "(/d+)",
+            "helpMarkDown": "Regular expression used to find the test case id in the name of the test framework result. Applicable when testCaseMatchStrategy is 'auto' or contains 'regex'."
         }
     ],
     "execution": {
