@@ -93,13 +93,15 @@ Specifies which mapping strategy to use to correlate test automation results to 
 - **regex**: attempt to locate the test case id using a regex on the test automation result name.
 - **property**: locate the test case id from the meta-data in the test automation result.
 
-The default value is `auto`, which is equivalent to specifying `name,regex,property,vsprop`.
+The default value is `auto`, which is equivalent to specifying `name,regex,property`.
 
 ### `testCaseProperty` - Test Case Id Property
 
 `string`. Optional.
 
-Indiciates which meta-data property to use to locate the test case identifier. Defaults to `TestCase`.
+Indiciates which meta-data property on the test automation result will be used to locate the TestCase identifier. Defaults to `TestCase`.  Applicable when `testCaseMatchStrategy` is set to _'auto'_ or contains _'property'_.
+
+Each test framework has varying support for _Properties_.
 
 ### `testCaseRegex` - Test Case Id Regex
 
@@ -107,4 +109,21 @@ Indiciates which meta-data property to use to locate the test case identifier. D
 
 Specifies the regular expression used to locate the test case identifier in the name of the test automation result. Defaults to `(TestCase\d+)` where the first capture group is the test case id.
 
-###
+### `testConfigProperty` - Test Config Property
+
+`string`. Optional.
+
+Indicates which meta-data property on the test automation result will be used to loate the TestConfiguration id, name or alias. Defaults to `Config`. Applicable when `testConfigFilter` property is not specified and the test automation results contain outputs from multiple test configurations.
+
+### `dryRun` - Dry Run
+
+`boolean`. Optional.
+
+Enables or disables publishing results to the TestPlan. Useful for evaluating different test case match strategies.
+
+### `testRunTitle` - Test run title
+
+`string`. Optional.
+
+Specifies a name for the test run against which teh results will be reported.
+

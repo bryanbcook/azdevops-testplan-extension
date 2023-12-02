@@ -7,7 +7,7 @@ import { config } from "process";
 export class TestResultContext {
 
   static async create(parameters: TestResultContextParameters): Promise<TestResultContext> {
-    var builder = TestResultContextBuilder.setup(parameters);
+    var builder = await TestResultContextBuilder.setup(parameters);
     return await builder.build();
   }
 

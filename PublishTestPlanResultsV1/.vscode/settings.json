@@ -3,5 +3,16 @@
     "**/*.js": true,
     "**/node_modules": true,
     ".taskkey": true
-  }
+  },
+  "mochaExplorer.env": {
+    "SYSTEM_COLLECTIONURI": "https://dev.azure.com/ava-bcook",
+    "SYSTEM_ACCESSTOKEN": "<REPLACE>",
+    "SYSTEM_TEAMPROJECT": "ADO Test Automation",
+    "SYSTEM_TEAMPROJECTID": "b4696915-7e31-4b2c-8024-c20273cc6ae2",
+    "TESTPLANID": "156",
+    "TESTROOTSUITE": "165"
+  },
+  
+  "mochaExplorer.require": "source-map-support/register",
+  
 }

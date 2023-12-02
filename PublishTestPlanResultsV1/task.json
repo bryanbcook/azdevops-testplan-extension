@@ -41,6 +41,15 @@
             "helpMarkDown": "Access Token used to obtain Test Plan details and publish Test Results."
         },
         {
+            "name": "collectionUri",
+            "type": "string",
+            "label": "Azure DevOps Instance",
+            "defaultValue": "$(System.CollectionUri)",
+            "required": false,
+            "groupName": "advanced",
+            "helpMarkDown": "Url Azure DevOps instance, eg https://dev.azure.com/<your-org>"
+        },        
+        {
             "name": "projectName",
             "type": "string",
             "label": "Project Name",
@@ -128,8 +137,35 @@
             "required": false,
             "label": "Test Case Regex",
             "groupName": "processing",
-            "defaultValue": "(/d+)",
+            "defaultValue": "(\\d+)",
             "helpMarkDown": "Regular expression used to find the test case id in the name of the test framework result. Applicable when testCaseMatchStrategy is 'auto' or contains 'regex'."
+        },
+        {
+            "name": "testConfigProperty",
+            "type": "string",
+            "required": false,
+            "label": "Test Config Property",
+            "groupName": "processing",
+            "defaultValue": "Config",
+            "helpMarkDown": "Indicates which meta-data property on the test framework result will contain the Configuration name, id or alias. Applicable when testConfigFilter is not provided."
+        },
+        {
+            "name": "dryRun",
+            "type": "boolean",
+            "required": false,
+            "label": "Dry Run",
+            "groupName": "advanced",
+            "defaultValue": "false",
+            "helpMarkDown": "Enables or disables publishing results to the TestPlan. Useful for evaluating Test Case Match strategies."
+        },
+        {
+            "name": "testRunTitle",
+            "type": "string",
+            "required": false,
+            "label": "Test run title",
+            "groupName": "advanced",
+            "defaultValue": "PublishTestPlanResults",
+            "helpMarkDown": "Specifies a name for the test run against which teh results will be reported."
         }
     ],
     "execution": {

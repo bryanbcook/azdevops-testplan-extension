@@ -289,5 +289,50 @@ describe('TaskParameters', () => {
     })
   });
 
+  context('TestRunPublisherParameters', () => {
+    it('Should read user-supplied server and accesstoken', () => {
+      // arrange
+      util.setInput("collectionUri", "https://my");
+      util.setInput("accessToken", "myToken")
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getPublisherParameters();
+
+      // assert
+      expect(parameters.collectionUri).to.eq("https://my");
+      expect(parameters.accessToken).to.eq("myToken");
+    })
+
+    it('Should resolve default values', () => {
+      // arrange
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getPublisherParameters();
+
+      // assert
+      expect(parameters.collectionUri).to.eq("https://server");
+      expect(parameters.accessToken).to.eq("asdf");
+      expect(parameters.dryRun).to.be.false;
+      expect(parameters.testRunTitle).to.eq("PublishTestPlanResult");
+    });
+
+    it("Should allow testRun publishing to be disabled by enabling 'dryRun'", () => {
+      // arrange
+      util.setInput("dryRun", "true");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getPublisherParameters();
+
+      // assert
+      expect(parameters.dryRun).to.be.true;
+    })
+  });
+
 });
 

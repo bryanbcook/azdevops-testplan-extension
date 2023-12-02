@@ -5,13 +5,13 @@ import * as testUtil from './testUtil';
 import { TestResultContext } from "../context/TestResultContext";
 import { TestResultMatchStrategy } from "../processing/TestResultMatchStrategy";
 import { TestIdMatchStrategy } from "../processing/TestResultProcessorFactory";
-import { TestPoint } from "azure-devops-node-api/interfaces/TestInterfaces";
+import { TestPoint, TestPlan } from "azure-devops-node-api/interfaces/TestInterfaces";
 import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestResultProcessor } from "../processing/TestResultProcessor";
 
 describe('TestResultProcessor', () => {
 
-  var ctx : sinon.SinonStubbedInstance<TestResultContext>;;
+  var ctx : sinon.SinonStubbedInstance<TestResultContext>;
   var testresults : TestFrameworkResult[];
   var subject : TestResultProcessor;
 
@@ -21,6 +21,10 @@ describe('TestResultProcessor', () => {
     matchers.push( new TestIdMatchStrategy("TestCase") );
     ctx = sinon.createStubInstance(TestResultContext);
     subject = new TestResultProcessor(matchers, ctx);
+
+    // setup read-only properties on ctx
+    (ctx as any).testPlan = null;
+    (ctx as any).projectId = null;
 
     // setup test data
     var testResult1 = new TestFrameworkResult("First","PASS");
@@ -76,8 +80,30 @@ describe('TestResultProcessor', () => {
     // assert
     expect(result.matches.size).eq(3); // shouldn't be more matches than expected
     // map contains test POINT id
-    expect(result.matches.get("1")?.name).to.eq("Duplicate, but first in the list");
+    expect(result.matches.get(1)?.name).to.eq("Duplicate, but first in the list");
     expect(result.unmatched[0].name).to.eq("First"); // the original test result we displaced.
+  });
+
+  it("Should have details about TestPlan", async () => {
+    // arrange
+    sinon.stub(ctx, "testPlan").value(<TestPlan>{ id: 1})
+
+    // act
+    var result = await subject.process(testresults);
+
+    // assert
+    expect(result.testPlan).eq(ctx.testPlan);
+  });
+
+  it("Should have details about Project", async () => {
+    // arrange
+    sinon.stub(ctx, "projectId").value("1");
+
+    // act
+    var result = await subject.process(testresults);
+
+    // assert
+    expect(result.projectId).eq(ctx.projectId);
   });
 
   function setupTestPoints(points : TestPoint[]) {

@@ -3,6 +3,7 @@ import * as TaskParameters from "./TaskParameters";
 import { TestResultContext } from "./context/TestResultContext";
 import * as TestFrameworkResultReader from "./framework/TestFrameworkResultReader";
 import * as TestResultProcessorFactory from "./processing/TestResultProcessorFactory";
+import { TestRunPublisher } from "./publishing/TestRunPublisher";
 
 async function run() {
 
@@ -11,18 +12,21 @@ async function run() {
     const contextParameters = TaskParameters.getTestContextParameters();
     const context = await TestResultContext.create(contextParameters);
 
-    // read test framework result files
+    // read test framework result files by converting
+    // one or more test result files into a common format
     const frameworkParameters = TaskParameters.getFrameworkParameters();
     const frameworkResults = await TestFrameworkResultReader.readResults(frameworkParameters);
 
-    // process framework results,
-    // mapping test points in the test plan to the result
+    // process framework results by mapping them to test points
+    // in the test plan. also identify which test results could not be resolved
     const processorParameters = TaskParameters.getProcessorParameters();
     const resultProcessor = TestResultProcessorFactory.create(processorParameters, context);
-    const testRunData = resultProcessor.process(frameworkResults);
+    const testRunData = await resultProcessor.process(frameworkResults);
 
     // publish a new test run with the mapped outputs
-
+    const publisherParameters = TaskParameters.getPublisherParameters();
+    const publisher = await TestRunPublisher.create(publisherParameters);
+    await publisher.publishTestRun(testRunData);
 }
 
 run();

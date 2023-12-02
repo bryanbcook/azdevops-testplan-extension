@@ -1,6 +1,7 @@
 import im = require('azure-pipelines-task-lib/internal');
 import * as assert from 'assert'
 import { ShallowReference, TestPlan, TestConfiguration, TestPoint, WorkItemReference } from 'azure-devops-node-api/interfaces/TestInterfaces';
+import { TestFrameworkResult } from '../framework/TestFrameworkResult';
 
 export function setSystemVariable(name: string, val: string) {
   let key: string = im._getVariableKey(name);
@@ -85,5 +86,9 @@ export function newTestPoint(id : number = 0, name : string = "Test 1", configId
 
 export function newShallowReference(id : string, name : string) {
   return <ShallowReference>{ id: id, name: name};
+}
+
+export function newTestFrameworkResult(name : string = "Test1", outcome : string = "PASS") {
+  return new TestFrameworkResult(name, outcome);
 }
 

@@ -31,7 +31,7 @@ describe("TestResultContextBuilder", () => {
     subject.projectName = "dummy";
 
     // act
-    testUtil.shouldThrowAsync(async () => { return subject.build()}, "Could not resolve project name 'dummy'. Error: Not found");
+    await testUtil.shouldThrowAsync(async () => { return subject.build()}, "Could not resolve project name 'dummy'. Error: Not found");
   });
 
   context("Test Plan was not specified", () => {

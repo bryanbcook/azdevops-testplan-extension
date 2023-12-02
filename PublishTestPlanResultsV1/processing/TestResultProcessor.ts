@@ -1,11 +1,18 @@
-import { TestPoint } from "azure-devops-node-api/interfaces/TestInterfaces";
+import { TestPoint, TestPlan } from "azure-devops-node-api/interfaces/TestInterfaces";
 import { TestResultContext } from "../context/TestResultContext";
 import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestResultMatch, TestResultMatchStrategy } from "./TestResultMatchStrategy";
 
 export class TestResultProcessorResult {
-  matches = new Map<string,TestFrameworkResult>();
+  matches = new Map<number,TestFrameworkResult>();
   unmatched : TestFrameworkResult[] = [];
+  projectId : string;
+  testPlan : TestPlan;  
+
+  constructor(projectId : string, testPlan : TestPlan) {
+    this.projectId = projectId;
+    this.testPlan = testPlan;
+  }
 }
 
 export class TestResultProcessor {
@@ -20,7 +27,7 @@ export class TestResultProcessor {
 
   async process( frameworkResults : TestFrameworkResult[]) : Promise<TestResultProcessorResult> {
     
-    const result = new TestResultProcessorResult();
+    const result = new TestResultProcessorResult(this.context.projectId, this.context.testPlan);
 
     var testPoints = this.context.getTestPoints();
 
@@ -36,7 +43,7 @@ export class TestResultProcessor {
       // process matches
       if (matchingPoints && matchingPoints.length > 0) {
         if (matchingPoints.length == 1) {
-          result.matches.set( matchingPoints[0].id.toString(), frameworkResult );
+          result.matches.set( matchingPoints[0].id, frameworkResult );
 
           // strip matched points from subsequent evaluations
           var matchingPointIds = matchingPoints.map(p => p.id);

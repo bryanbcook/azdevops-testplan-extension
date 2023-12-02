@@ -51,6 +51,9 @@ export class Logger implements ILogger {
       return;
 
     switch (level) {
+      case LogLevel.Debug:
+        tl.debug(message);
+        break;
       case LogLevel.Info:
         console.log(message);
         break;
@@ -75,7 +78,12 @@ export class NullLogger implements ILogger {
 }
 
 export function getLogger(): ILogger {
-  const level: LogLevel = tl.getVariable("system.debug") == "true" ? LogLevel.Debug : LogLevel.Info;
+  let level = LogLevel.Info;
+
+  let debugEnabled = tl.getVariable("SYSTEM_DEBUG");
+  if (debugEnabled && debugEnabled.toLowerCase() == "true") {
+    level = LogLevel.Debug;
+  }
 
   return new Logger(level);
 }

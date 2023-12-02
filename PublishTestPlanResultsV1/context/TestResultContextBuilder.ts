@@ -7,10 +7,10 @@ import { configAlias } from "./configAlias";
 
 export class TestResultContextBuilder {
 
-  static setup(parameters: TestResultContextParameters): TestResultContextBuilder {
+  static async setup(parameters: TestResultContextParameters): Promise<TestResultContextBuilder> {
     // construct builder
     var log = getLogger();
-    var adoClientWrapper = new AdoWrapper(parameters.collectionUri, parameters.accessToken);
+    var adoClientWrapper = await AdoWrapper.createInstance(parameters.collectionUri, parameters.accessToken);
     var builder = new TestResultContextBuilder(log, adoClientWrapper);
 
     // configure 
@@ -55,7 +55,7 @@ export class TestResultContextBuilder {
 
     let testConfigFilterId = this.getAndValidateTestConfigFilter(ctx);    
 
-    let points = await this.getTestPoints(testPlan, testConfigFilterId);
+    let points = await this.getTestPoints(projectId, testPlan, testConfigFilterId);
     ctx.addTestPoints(points);
 
     return ctx;
@@ -133,10 +133,10 @@ export class TestResultContextBuilder {
     return undefined;
   }
 
-  private async getTestPoints(testPlan : TestPlan, testConfigFilterId : string | undefined): Promise<TestPoint[]> {
+  private async getTestPoints(projectId : string, testPlan : TestPlan, testConfigFilterId : string | undefined): Promise<TestPoint[]> {
     this.log.debug("locating test suites and test points");
     
-    let points = await this.ado.getTestPointsForSuite(testPlan.id.toString(), testPlan.rootSuite.id as string, true);
+    let points = await this.ado.getTestPointsForSuite(projectId, testPlan.id.toString(), testPlan.rootSuite.id as string, true);
 
     if (testConfigFilterId) {
       return points.filter(i => i.configuration.id == testConfigFilterId);

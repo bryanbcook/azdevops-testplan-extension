@@ -5,6 +5,7 @@ import { TestResultContextParameters } from "./context/TestResultContextParamete
 import { TestFrameworkParameters } from "./framework/TestFrameworkParameters";
 import { TestResultProcessorParameters } from './processing/TestResultProcessorParameters';
 import { TestCaseMatchingStrategy } from './processing/TestResultMatchStrategy';
+import { TestRunPublisherParameters } from './publishing/TestRunPublisherParameters';
 
 export function getTestContextParameters(): TestResultContextParameters {
 
@@ -67,4 +68,12 @@ export function getProcessorParameters() : TestResultProcessorParameters {
   parameters.testConfigProperty = tl.getInput("testConfigProperty", false) ?? "Config";
 
   return parameters;
+}
+
+export function getPublisherParameters() : TestRunPublisherParameters {
+  const accessToken = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
+  const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI");
+  const dryRun = tl.getBoolInput("dryRun", false);
+  const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
+  return new TestRunPublisherParameters(collectionUri as string, accessToken as string, dryRun, testRunTitle);
 }

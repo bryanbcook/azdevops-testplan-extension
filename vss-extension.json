@@ -1,0 +1,73 @@
+{
+  "manifestVersion": 1,
+  "id": "azdevops-testplan-extension",
+  "name": "Cross-Platform Test Result Publisher",
+  "version": "0.0.1",
+  "publisher": "bcook",
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "scopes": [
+    "vso.profile",
+    "vso.project",
+    "vso.test",
+    "vso.test_write"
+  ],
+  "description": "Updates Azure DevOps Test Plans using xUnit, jUnit and other test result formats",
+  "categories": [
+    "Azure Test Plans",
+    "Azure Pipelines"
+  ],
+  "tags": [
+    "TestPlan",
+    "Test Automation",
+    "Testing",
+    "Reporting",
+    "xUnit",
+    "jUnit",
+    "mstest",
+    "nunit",
+    "cucumber"
+  ],
+  "icons": {
+    "default": "icon-128x128.png"
+  },
+  "content": {
+    "details": {
+      "path": "README.md"
+    }
+  },
+  "links": {
+    "issues": {
+      "uri": "https://github.com/bryanbcook/azdevops-testplan-extension/issues"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/bryancook/azdevops-testplan-extension"
+  },
+  "files": [
+    {
+      "path": "PublishTestPlanResultsV1",
+      "addressable": "true"
+    },
+    {
+      "path": "docs/img",
+      "addressable": "true"
+    }
+  ],
+  "contributions": [
+    {
+      "id": "publishtestplanresults",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "PublishTestPlanResults"
+      }
+    }
+  ]
+}
