@@ -16,6 +16,7 @@
     "vso.test_write"
   ],
   "description": "Updates Azure DevOps Test Plans using xUnit, jUnit and other test result formats",
+  "public": false,
   "categories": [
     "Azure Test Plans",
     "Azure Pipelines"
@@ -50,8 +51,7 @@
   },
   "files": [
     {
-      "path": "PublishTestPlanResultsV1",
-      "addressable": "true"
+      "path": "PublishTestPlanResultsV1"
     },
     {
       "path": "docs/img",
@@ -66,7 +66,7 @@
         "ms.vss-distributed-task.tasks"
       ],
       "properties": {
-        "name": "PublishTestPlanResults"
+        "name": "PublishTestPlanResultsV1"
       }
     }
   ]
