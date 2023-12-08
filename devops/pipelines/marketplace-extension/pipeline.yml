@@ -21,9 +21,16 @@ jobs:
 
   # use node
   - task: UseNode@1
-    displayName: Use Node 18
+    displayName: Install Node 18
     inputs:
       version: 18.x
+
+  # mocha test runner
+  - task: Npm@1
+    displayName: Install Mocha
+    inputs:
+      command: custom
+      customCommand: install --global mocha
 
   # npm install
   - task: Npm@1
@@ -31,6 +38,7 @@ jobs:
     inputs:
       command: install
       workingDir: $(workingDir)
+
 
   # tsc
   - task: Npm@1
