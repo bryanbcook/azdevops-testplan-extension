@@ -34,11 +34,10 @@ jobs:
 
   # npm install
   - task: Npm@1
-    displayName: npm install
+    displayName: Install node_modules
     inputs:
       command: install
       workingDir: $(workingDir)
-
 
   # tsc
   - task: Npm@1
@@ -55,6 +54,8 @@ jobs:
       command: custom
       customCommand: run test
       workingDir: $(workingDir)
+    env:
+      SYSTEM_ACCESSTOKEN: $(SYSTEM.ACCESSTOKEN)
 
   # npm prune --omit=dev
   - task: Npm@1

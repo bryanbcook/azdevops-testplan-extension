@@ -152,10 +152,11 @@ describe('TaskParameters', () => {
       util.setInput("testResultFormat", "xUnit");     
       util.setInput("testResultFiles", invalidFiles[0]);
       util.loadData();
+      var separator = path.sep;
 
       // act / assert
       require(tp);
-      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), "Not found testResultFile(s): xunit\\invalidFile1.xml");
+      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), `Not found testResultFile(s): xunit${separator}invalidFile1.xml`);
     });
 
     it('Should allow glob paths to be specified', () => {
