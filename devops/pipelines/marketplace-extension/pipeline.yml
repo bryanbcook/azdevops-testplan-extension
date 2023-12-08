@@ -13,7 +13,7 @@ variables:
 - name: workingDir
   value: $(Build.SourcesDirectory)\PublishTestPlanResultsV1
 
-steps:
+jobs:
 - job: build
   displayName: 'Build + Package'
   steps:
