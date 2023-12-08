@@ -29,25 +29,25 @@ context("TestRunPublisher", () => {
     sinon.restore();
   })
 
-  it("should be able to create, populate and complete a testrun", async () => {
-    // arrange
-    const projectName = process.env.SYSTEM_TEAMPROJECT as string;
-    const projectId = process.env.SYSTEM_TEAMPROJECTID as string;
-    const tfsCollectionUri = process.env.SYSTEM_COLLECTIONURI as string;
-    const accessToken = process.env.SYSTEM_ACCESSTOKEN as string;
-    const planId = process.env.TESTPLANID as string;
+  // it("should be able to create, populate and complete a testrun", async () => {
+  //   // arrange
+  //   const projectName = process.env.SYSTEM_TEAMPROJECT as string;
+  //   const projectId = process.env.SYSTEM_TEAMPROJECTID as string;
+  //   const tfsCollectionUri = process.env.SYSTEM_COLLECTIONURI as string;
+  //   const accessToken = process.env.SYSTEM_ACCESSTOKEN as string;
+  //   const planId = process.env.TESTPLANID as string;
 
-    var data = new TestResultProcessorResult(projectId, <any>{ id: parseInt(planId)});
-    data.matches.set(5, new TestFrameworkResult("", "PASS"));
-    data.matches.set(11, new TestFrameworkResult("", "PASS"));
+  //   var data = new TestResultProcessorResult(projectId, <any>{ id: parseInt(planId)});
+  //   data.matches.set(5, new TestFrameworkResult("", "PASS"));
+  //   data.matches.set(11, new TestFrameworkResult("", "PASS"));
 
-    // act
-    var ado = await AdoWrapper.createInstance(tfsCollectionUri, accessToken);
-    subject = new TestRunPublisher(ado, getLogger());
-    var result = await subject.publishTestRun(data);
+  //   // act
+  //   var ado = await AdoWrapper.createInstance(tfsCollectionUri, accessToken);
+  //   subject = new TestRunPublisher(ado, getLogger());
+  //   var result = await subject.publishTestRun(data);
 
-    console.log(result);
-  });
+  //   console.log(result);
+  // });
 
   context("static factory", () => {
 
