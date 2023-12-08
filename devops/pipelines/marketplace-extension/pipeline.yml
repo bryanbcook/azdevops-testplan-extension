@@ -55,7 +55,7 @@ jobs:
       customCommand: run test
       workingDir: $(workingDir)
     env:
-      SYSTEM_ACCESSTOKEN: $(SYSTEM.ACCESSTOKEN)
+      SYSTEM_ACCESSTOKEN: $(TestPlanPAT)
       SYSTEM_TEAMPROJECT: 'ADO Test Automation'
       SYSTEM_TEAMPROJECTID: 'b4696915-7e31-4b2c-8024-c20273cc6ae2'
       TESTPLANID: '156'
