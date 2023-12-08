@@ -11,7 +11,7 @@ pool:
 variables:
 - group: pipeline-extension-settings
 - name: workingDir
-  value: $(Build.SourcesDirectory)\PublishTestPlanResultsV1
+  value: $(Build.SourcesDirectory)/PublishTestPlanResultsV1
 
 jobs:
 - job: build
@@ -21,11 +21,13 @@ jobs:
 
   # use node
   - task: UseNode@1
+    displayName: Use Node 18
     inputs:
       version: 18.x
 
   # npm install
   - task: Npm@1
+    displayName: npm install
     inputs:
       command: install
       workingDir: $(workingDir)
