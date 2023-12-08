@@ -46,6 +46,7 @@ jobs:
     inputs:
       command: custom
       customCommand: run test
+      workingDir: $(workingDir)
 
   # npm prune --omit=dev
   - task: Npm@1
@@ -53,6 +54,7 @@ jobs:
     inputs:
       command: custom
       customCommand: prune --omit=dev
+      workingDir: $(workingDir)
       
   # install the extension cli tool
   - task: TfxInstaller@3
