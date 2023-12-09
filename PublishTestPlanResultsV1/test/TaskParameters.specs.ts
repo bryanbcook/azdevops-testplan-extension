@@ -14,9 +14,9 @@ describe('TaskParameters', () => {
     tp = path.join(__dirname, '..', 'TaskParameters.js');
     util.clearData();
 
-    util.setSystemVariable("System.CollectionUri", "https://server");
-    util.setSystemVariable("System.AccessToken", "asdf");
-    util.setSystemVariable("System.TeamProject", "dummy");
+    util.setSystemVariable("System.CollectionUri", process.env.SYSTEM_COLLECTIONURI as string);
+    util.setSystemVariable("System.AccessToken", process.env.SYSTEM_ACCESSTOKEN as string);
+    util.setSystemVariable("System.TeamProject", process.env.SYSTEM_TEAMPROJECT as string);
 
   });
 
@@ -54,9 +54,9 @@ describe('TaskParameters', () => {
       var parameters = TaskParameters.getTestContextParameters();
 
       // assert
-      expect(parameters.collectionUri).to.eq("https://server");
-      expect(parameters.accessToken).to.eq("asdf");
-      expect(parameters.projectName).to.eq("dummy");
+      expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
+      expect(parameters.accessToken).to.eq(process.env.SYSTEM_ACCESSTOKEN as string);
+      expect(parameters.projectName).to.eq(process.env.SYSTEM_TEAMPROJECT as string);
     });
 
     it('Should resolve config aliases', () => {
@@ -315,8 +315,8 @@ describe('TaskParameters', () => {
       var parameters = TaskParameters.getPublisherParameters();
 
       // assert
-      expect(parameters.collectionUri).to.eq("https://server");
-      expect(parameters.accessToken).to.eq("asdf");
+      expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
+      expect(parameters.accessToken).to.eq(process.env.SYSTEM_ACCESSTOKEN as string);
       expect(parameters.dryRun).to.be.false;
       expect(parameters.testRunTitle).to.eq("PublishTestPlanResult");
     });

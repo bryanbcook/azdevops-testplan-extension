@@ -58,6 +58,7 @@ context("TestRunPublisher", () => {
       this.timeout(10000);
       const serverUrl = process.env.SYSTEM_COLLECTIONURI as string;
       const accessToken = process.env.SYSTEM_ACCESSTOKEN as string;
+      console.log(serverUrl);
       var parameters = new TestRunPublisherParameters(serverUrl, accessToken, false, "Dummy");
 
       // act

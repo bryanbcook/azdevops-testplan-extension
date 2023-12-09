@@ -28,6 +28,13 @@ describe("AdoWrapper", () => {
     planId = process.env.TESTPLANID as string;
     rootSuite = process.env.TESTROOTSUITE as string;
 
+    console.log(`Project Name: ${projectName}`);
+    console.log(`Project Id: ${projectId}`);
+    console.log(`Collection Uri: ${tfsCollectionUri}`);
+    console.log(`Access Token: ${accessToken}`);
+    console.log(`Plan ID: ${planId}`);
+    console.log(`Root Suite: ${rootSuite}`);
+
   })
 
   beforeEach(async () => {
