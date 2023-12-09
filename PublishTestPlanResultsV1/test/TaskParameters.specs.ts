@@ -16,7 +16,7 @@ describe('TaskParameters', () => {
 
     util.setSystemVariable("System.CollectionUri", process.env.SYSTEM_COLLECTIONURI as string);
     util.setSystemVariable("System.AccessToken", process.env.SYSTEM_ACCESSTOKEN as string);
-    util.setSystemVariable("System.TeamProject", process.env.SYSTEM_TEAMPROJECT as string);
+    util.setSystemVariable("System.TeamProject", process.env.TEAMPROJECT as string);
 
   });
 
@@ -56,7 +56,7 @@ describe('TaskParameters', () => {
       // assert
       expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
       expect(parameters.accessToken).to.eq(process.env.SYSTEM_ACCESSTOKEN as string);
-      expect(parameters.projectName).to.eq(process.env.SYSTEM_TEAMPROJECT as string);
+      expect(parameters.projectName).to.eq(process.env.TEAMPROJECT as string);
     });
 
     it('Should resolve config aliases', () => {

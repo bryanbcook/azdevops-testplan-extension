@@ -6,8 +6,8 @@
   },
   "mochaExplorer.env": {
     "SYSTEM_COLLECTIONURI": "https://dev.azure.com/ava-bcook",
-    "SYSTEM_TEAMPROJECT": "ADO Test Automation",
-    "SYSTEM_TEAMPROJECTID": "b4696915-7e31-4b2c-8024-c20273cc6ae2",
+    "TEAMPROJECT": "ADO Test Automation",
+    "TEAMPROJECTID": "b4696915-7e31-4b2c-8024-c20273cc6ae2",
     "TESTPLANID": "156",
     "TESTROOTSUITE": "165"
   },

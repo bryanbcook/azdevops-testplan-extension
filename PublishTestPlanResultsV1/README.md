@@ -125,5 +125,4 @@ Enables or disables publishing results to the TestPlan. Useful for evaluating di
 
 `string`. Optional.
 
-Specifies a name for the test run against which teh results will be reported.
-
+Specifies a name for the test run against which the results will be reported.

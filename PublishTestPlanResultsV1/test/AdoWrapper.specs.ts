@@ -21,8 +21,8 @@ describe("AdoWrapper", () => {
   before(async function() {
 
     // fetch integration test parameters from build pipeline or vscode settings.json "mochaExplorer.env"
-    projectName = process.env.SYSTEM_TEAMPROJECT as string;
-    projectId = process.env.SYSTEM_TEAMPROJECTID as string;
+    projectName = process.env.TEAMPROJECT as string;
+    projectId = process.env.TEAMPROJECTID as string;
     tfsCollectionUri = process.env.SYSTEM_COLLECTIONURI as string;
     accessToken = process.env.SYSTEM_ACCESSTOKEN as string;
     planId = process.env.TESTPLANID as string;
