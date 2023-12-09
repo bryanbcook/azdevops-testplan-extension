@@ -1,0 +1,118 @@
+###############################################################################
+# Marketplace Extension 
+#
+# Packages and publishes the testplan-extension to the marketplace
+###############################################################################
+trigger: none
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+- group: pipeline-extension-settings
+- name: workingDir
+  value: $(Build.SourcesDirectory)/PublishTestPlanResultsV1
+
+jobs:
+- job: build
+  displayName: 'Build + Package'
+  steps:
+  - checkout: self
+
+  # use node
+  - task: UseNode@1
+    displayName: Install Node 18
+    inputs:
+      version: 18.x
+
+  # mocha test runner
+  - task: Npm@1
+    displayName: Install Mocha
+    inputs:
+      command: custom
+      customCommand: install --global mocha
+
+  # npm install
+  - task: Npm@1
+    displayName: Install node_modules
+    inputs:
+      command: install
+      workingDir: $(workingDir)
+
+  # tsc
+  - task: Npm@1
+    displayName: "Compile"
+    inputs:
+      command: custom
+      customCommand: run build
+      workingDir: $(workingDir)
+
+  # run tests
+  - task: Npm@1
+    displayName: "Test"
+    inputs:
+      command: custom
+      customCommand: run test
+      workingDir: $(workingDir)
+    env:
+      SYSTEM_ACCESSTOKEN: $(TestPlanPAT)
+      TEAMPROJECT: 'ADO Test Automation'
+      TEAMPROJECTID: 'b4696915-7e31-4b2c-8024-c20273cc6ae2'
+      TESTPLANID: '156'
+      TESTROOTSUITE: '165'
+
+  # npm prune --omit=dev
+  - task: Npm@1
+    displayName: "Prune dependencies"
+    inputs:
+      command: custom
+      customCommand: prune --omit=dev
+      workingDir: $(workingDir)
+      
+  # install the extension cli tool
+  - task: TfxInstaller@3
+    displayName: Use Tfx
+    inputs:
+      version: "v0.7.x"
+
+  # fetch the current extension version
+  #   You must build and upload manually for the first execution
+  - task: QueryAzureDevOpsExtensionVersion@3
+    displayName: Fetch Current Extension Version
+    inputs:
+      connectTo: 'VsTeam'
+      connectedServiceName: 'AzureDevOpsMarketplace'
+      publisherId: '$(PublisherID)'
+      extensionId: '$(ExtensionID)'
+      versionAction: 'Patch'
+      outputVariable: 'Task.Extension.Version'
+  
+  # Create the vsix package
+  - task: PackageAzureDevOpsExtension@3
+    displayName: Package Extension
+    inputs:
+      rootFolder: '$(Build.SourcesDirectory)'
+      publisherId: '$(PublisherID)'
+      extensionId: '$(ExtensionID)'
+      extensionName: '$(ExtensionName)'
+      extensionVersion: '$(Task.Extension.Version)'
+      updateTasksVersion: true
+      updateTasksVersionType: 'patch'
+      extensionVisibility: 'private' 
+      extensionPricing: 'free'
+
+  # Upload and publish the extension
+  - task: PublishAzureDevOpsExtension@3
+    displayName: Publish Extension
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    inputs:
+      connectTo: 'VsTeam'
+      connectedServiceName: 'AzureDevOpsMarketplace' 
+      fileType: 'vsix'
+      vsixFile: '$(workingDir)/*.vsix'
+      publisherId: '$(PublisherID)'
+      extensionId: '$(ExtensionID)'
+      extensionName: '$(ExtensionName)'
+      updateTasksVersion: false
+      extensionVisibility: 'private'
+      extensionPricing: 'free'

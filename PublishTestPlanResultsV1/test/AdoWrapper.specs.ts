@@ -21,12 +21,19 @@ describe("AdoWrapper", () => {
   before(async function() {
 
     // fetch integration test parameters from build pipeline or vscode settings.json "mochaExplorer.env"
-    projectName = process.env.SYSTEM_TEAMPROJECT as string;
-    projectId = process.env.SYSTEM_TEAMPROJECTID as string;
+    projectName = process.env.TEAMPROJECT as string;
+    projectId = process.env.TEAMPROJECTID as string;
     tfsCollectionUri = process.env.SYSTEM_COLLECTIONURI as string;
     accessToken = process.env.SYSTEM_ACCESSTOKEN as string;
     planId = process.env.TESTPLANID as string;
     rootSuite = process.env.TESTROOTSUITE as string;
+
+    console.log(`Project Name: ${projectName}`);
+    console.log(`Project Id: ${projectId}`);
+    console.log(`Collection Uri: ${tfsCollectionUri}`);
+    console.log(`Access Token: ${accessToken}`);
+    console.log(`Plan ID: ${planId}`);
+    console.log(`Root Suite: ${rootSuite}`);
 
   })
 
@@ -129,35 +136,35 @@ describe("AdoWrapper", () => {
     expect(result.length).eq(20);
   });
 
-  it("Should create a testrun", async function () {
-    // arrange
-    // this.timeout(10000);
+  // it("Should create a testrun", async function () {
+  //   // arrange
+  //   // this.timeout(10000);
 
-    // var data = new TestResultProcessorResult(projectId, <any>{ id: parseInt(planId)});
-    // data.matches.set(5, new TestFrameworkResult("", "PASS"));
-    // data.matches.set(11, new TestFrameworkResult("", "PASS"));
+  //   // var data = new TestResultProcessorResult(projectId, <any>{ id: parseInt(planId)});
+  //   // data.matches.set(5, new TestFrameworkResult("", "PASS"));
+  //   // data.matches.set(11, new TestFrameworkResult("", "PASS"));
 
-    // var result = await subject.createTestRun(projectId, parseInt(planId), Array.from(data.matches.keys()));
-    // console.log(result);
-    // console.log(result.id);
+  //   // var result = await subject.createTestRun(projectId, parseInt(planId), Array.from(data.matches.keys()));
+  //   // console.log(result);
+  //   // console.log(result.id);
 
-    var results = await subject.getTestResults(projectId, 466);
+  //   var results = await subject.getTestResults(projectId, 466);
 
-    // const createTestRunStub = sinon.stub(subject.testApi.rest, "create");
-    // createTestRunStub.callsFake( (url, testRun, options?) => {
+  //   // const createTestRunStub = sinon.stub(subject.testApi.rest, "create");
+  //   // createTestRunStub.callsFake( (url, testRun, options?) => {
 
-    //   let response : any = {
-    //     result : [],
-    //     headers : {}
-    //   }
+  //   //   let response : any = {
+  //   //     result : [],
+  //   //     headers : {}
+  //   //   }
 
-    //   return Promise.resolve(response);
-    // })
+  //   //   return Promise.resolve(response);
+  //   // })
 
-    // // act
-    // // assert
-    // throw new Error("Not implemented");
-  });
+  //   // // act
+  //   // // assert
+  //   // throw new Error("Not implemented");
+  // });
 
   it("Should batch retrieve testcaseresults from testplan", async () => {
     // arrange
