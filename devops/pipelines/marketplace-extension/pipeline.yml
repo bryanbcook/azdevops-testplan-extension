@@ -104,7 +104,7 @@ jobs:
   # Upload and publish the extension
   - task: PublishAzureDevOpsExtension@3
     displayName: Publish Extension
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    #condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     inputs:
       connectTo: 'VsTeam'
       connectedServiceName: 'AzureDevOpsMarketplace' 
