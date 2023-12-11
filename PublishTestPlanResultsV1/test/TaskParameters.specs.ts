@@ -192,6 +192,30 @@ describe('TaskParameters', () => {
       expect(parameters.testFiles[1]).to.eq(validFiles[1]);
     });
 
+    it('Should complain if testResultFormat is not a supported type.', () => {
+      // arrange
+      util.setInput("testResultFormat","yomamma");
+      util.setInput("testResultFiles", validFiles.join(","));
+      util.loadData();
+
+      // act / assert
+      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), /testResultformat 'yomamma' is not supported. Please specify one of the following values: xunit, .*/);
+    })
+
+    it('Should allow mixed case on testResultFormat', () => {
+      // arrange
+      util.setInput("testResultFormat","XuNiT");
+      util.setInput("testResultFiles", validFiles.join(","));
+      util.loadData();
+      
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.testFormat).to.eq("xunit");
+    })
+
   });
 
   context('TestResultProcessorParameters', () => {

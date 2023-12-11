@@ -52,7 +52,7 @@ export function getFrameworkParameters(): TestFrameworkParameters {
       return true;
     });
 
-  return new TestFrameworkParameters(testResultFiles, testResultFormat as string);
+  return new TestFrameworkParameters(testResultFiles, testResultFormat!.toLowerCase()); 
 }
 
 export function getProcessorParameters() : TestResultProcessorParameters {

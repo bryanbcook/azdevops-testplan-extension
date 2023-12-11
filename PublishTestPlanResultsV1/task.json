@@ -87,15 +87,19 @@
         },
         {
             "name": "testResultFormat",
-            "type": "string",
+            "type": "pickList",
             "label": "Test Result Format",
             "required": true,
             "groupName": "general",
             "options": {
                 "xUnit": "xUnit",
-                "jUnit": "jUnit"
+                "jUnit": "jUnit",
+                "cucumber": "cucumber",
+                "nUnit": "nUnit",
+                "testng": "testng",
+                "mocha": "mocha"
             },
-            "helpMarkDown": "Represents which compatible framework the test results are formatted in. (Currently JUnit, XUnit, but other formats are planned)"
+            "helpMarkDown": "Represents which compatible framework the test results are formatted in. (JUnit, XUnit, TestNG, Mocha, Cucumber, etc)"
         },
         {
             "name": "testResultDirectory",

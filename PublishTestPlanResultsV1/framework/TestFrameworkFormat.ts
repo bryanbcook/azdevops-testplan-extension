@@ -1,4 +1,9 @@
 export enum TestFrameworkFormat {
-  xUnit = "xunit",
-  jUnit = "junit"
+  xunit = "xunit",
+  junit = "junit",
+  cucumber = "cucumber",
+  mocha = "mocha",
+  nunit = "nunit",
+  testng = "testng"
+  //mstest = "mstest"
 }

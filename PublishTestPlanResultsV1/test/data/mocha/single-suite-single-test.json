@@ -1,0 +1,36 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2022-06-11T05:24:09.223Z",
+    "end": "2022-06-11T05:24:09.226Z",
+    "duration": 3
+  },
+  "tests": [
+    {
+      "title": "Simple suite test",
+      "fullTitle": "Simple Suite Simple suite test",
+      "file": "D:\\tests\\test.mocha.spec.js",
+      "duration": 1,
+      "currentRetry": 0,
+      "speed": "fast",
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "Simple suite test",
+      "fullTitle": "Simple Suite Simple suite test",
+      "file": "D:\\tests\\test.mocha.spec.js",
+      "duration": 1,
+      "currentRetry": 0,
+      "speed": "fast",
+      "err": {}
+    }
+  ]
+}
