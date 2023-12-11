@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="413d0867-f074-4fe6-ab37-b766b82cd97c" name="bryan.b.cook@MYCOMPUTER 2023-11-12 19:21:51" runUser="DOMAIN\bryan.b.cook"
+    xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+    <Times creation="2023-11-12T19:21:51.7813392-05:00" queuing="2023-11-12T19:21:51.7813396-05:00" start="2023-11-12T19:21:50.8694867-05:00" finish="2023-11-12T19:21:51.8154544-05:00" />
+    <TestSettings name="default" id="155de8f5-30de-41da-bf8d-1c03eb63e978">
+        <Deployment runDeploymentRoot="bryan.b.cook_MYCOMPUTER_2023-11-12_19_21_51" />
+    </TestSettings>
+    <Results>
+        <UnitTestResult executionId="e01a54d8-305c-4828-9bc0-8c935270dafe" testId="5370a586-74b0-a647-4839-100eef3a4188" testName="FailingTest" computerName="MYCOMPUTER" duration="00:00:00.0259239" startTime="2023-11-12T19:21:51.6583003-05:00" endTime="2023-11-12T19:21:51.6978162-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e01a54d8-305c-4828-9bc0-8c935270dafe">
+            <Output>
+                <ErrorInfo>
+                    <Message>Assert.Fail failed. </Message>
+                    <StackTrace>   at MSTestSample.MockTestFixture.FailingTest() in C:\dev\code\_Experiments\MSTestSample\UnitTest1.cs:line 12&#xD;
+                    </StackTrace>
+                </ErrorInfo>
+            </Output>
+        </UnitTestResult>
+        <UnitTestResult executionId="9915e227-fac8-4f88-b86c-a456bc7031a3" testId="2edb0741-aaff-135c-69bb-02a2e6d737cd" testName="InconclusiveTest" computerName="MYCOMPUTER" duration="00:00:00.0006505" startTime="2023-11-12T19:21:51.7029151-05:00" endTime="2023-11-12T19:21:51.7036802-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9915e227-fac8-4f88-b86c-a456bc7031a3">
+            <Output>
+                <ErrorInfo>
+                    <Message>Assert.Inconclusive failed. </Message>
+                    <StackTrace>   at MSTestSample.MockTestFixture.InconclusiveTest() in C:\dev\code\_Experiments\MSTestSample\UnitTest1.cs:line 19&#xD;
+                    </StackTrace>
+                </ErrorInfo>
+            </Output>
+        </UnitTestResult>
+        <UnitTestResult executionId="a02c1a7d-98d2-4829-aacf-b818d4fd6e3e" testId="8ed1bf6e-f1d2-7450-caab-53e4f5a4dd2c" testName="MockTest1" computerName="MYCOMPUTER" duration="00:00:00.0000387" startTime="2023-11-12T19:21:51.7037282-05:00" endTime="2023-11-12T19:21:51.7038253-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a02c1a7d-98d2-4829-aacf-b818d4fd6e3e" />
+        <UnitTestResult executionId="01f88d1f-7d8d-402d-9c18-bf81649b3296" testId="9475a122-272d-f5ef-87e4-fe7d1a7f0418" testName="MockTest2" computerName="MYCOMPUTER" duration="00:00:00.0000219" startTime="2023-11-12T19:21:51.7038450-05:00" endTime="2023-11-12T19:21:51.7039074-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="01f88d1f-7d8d-402d-9c18-bf81649b3296" />
+        <UnitTestResult executionId="4db5da11-faef-4e70-98d1-39ee00d6ed00" testId="6b0e8fc2-5324-dbeb-0c5f-0479cd14f351" testName="MockTest3" computerName="MYCOMPUTER" duration="00:00:00.0000196" startTime="2023-11-12T19:21:51.7039180-05:00" endTime="2023-11-12T19:21:51.7039706-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4db5da11-faef-4e70-98d1-39ee00d6ed00" />
+        <UnitTestResult executionId="68e29212-0297-4843-8f1e-cad3dfe2dd06" testId="0b5c3ebb-3086-951a-1724-1821d30aef04" testName="MockTest4" computerName="MYCOMPUTER" startTime="2023-11-12T19:21:51.7039815-05:00" endTime="2023-11-12T19:21:51.7041817-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="68e29212-0297-4843-8f1e-cad3dfe2dd06">
+            <Output></Output>
+        </UnitTestResult>
+        <UnitTestResult executionId="685aeaf1-023c-4eb1-8727-fc6516eb1b61" testId="20aced79-1a63-4e66-d444-ee4575c65515" testName="NotRunnableTest" computerName="MYCOMPUTER" duration="00:00:00.0019388" startTime="2023-11-12T19:21:51.7042017-05:00" endTime="2023-11-12T19:21:51.7061961-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="685aeaf1-023c-4eb1-8727-fc6516eb1b61">
+            <Output>
+                <ErrorInfo>
+                    <Message>Test method MSTestSample.MockTestFixture.NotRunnableTest threw exception: &#xD;
+Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.ObjectModel.TestFailedException: Only data driven test methods can have parameters. Did you intend to use [DataRow] or [DynamicData]?</Message>
+                </ErrorInfo>
+            </Output>
+        </UnitTestResult>
+        <UnitTestResult executionId="5dbc8cb9-4c3f-4b65-a138-30dcf8afd30e" testId="529a01f5-6c96-4f46-49f3-aa90b9f061b6" testName="TestWithException" computerName="MYCOMPUTER" duration="00:00:00.0005719" startTime="2023-11-12T19:21:51.7062325-05:00" endTime="2023-11-12T19:21:51.7068761-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5dbc8cb9-4c3f-4b65-a138-30dcf8afd30e">
+            <Output>
+                <ErrorInfo>
+                    <Message>Test method MSTestSample.MockTestFixture.TestWithException threw exception: &#xD;
+System.NotImplementedException: The method or operation is not implemented.</Message>
+                    <StackTrace>    at MSTestSample.MockTestFixture.TestWithException() in C:\dev\code\_Experiments\MSTestSample\UnitTest1.cs:line 70&#xD;
+                    </StackTrace>
+                </ErrorInfo>
+            </Output>
+        </UnitTestResult>
+        <UnitTestResult executionId="05c69927-e30b-4b5c-a5b8-2e44e9a88785" testId="c09170d3-a997-9a92-b6d5-9a86a4225591" testName="TestWithManyProperties" computerName="MYCOMPUTER" duration="00:00:00.0000490" startTime="2023-11-12T19:21:51.7069158-05:00" endTime="2023-11-12T19:21:51.7071317-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="05c69927-e30b-4b5c-a5b8-2e44e9a88785" />
+        
+        <UnitTestResult executionId="0942eb3b-2633-4c82-aa3a-374236dc6dab" testId="dac0f7bf-eced-b506-706a-66ed33c7be60" testName="TestWithArg (1)" computerName="MYCOMPUTER" duration="00:00:00.0000574" startTime="2023-11-12T19:21:51.7314236-05:00" endTime="2023-11-12T19:21:51.7362844-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0942eb3b-2633-4c82-aa3a-374236dc6dab" />
+        
+        
+    </Results>
+    <TestDefinitions>
+        <UnitTest name="FailingTest" storage="c:\dev\code\_experiments\nunitsample\mstestsample\bin\debug\net6.0\mstestsample.dll" id="5370a586-74b0-a647-4839-100eef3a4188">
+            <TestCategory>
+                <TestCategoryItem TestCategory="FixtureCategory" />
+            </TestCategory>
+            <Execution id="e01a54d8-305c-4828-9bc0-8c935270dafe" />
+            <TestMethod codeBase="C:\dev\code\_Experiments\MSTestSample\bin\Debug\net6.0\MSTestSample.dll" adapterTypeName="executor://mstestadapter/v2" className="MSTestSample.MockTestFixture" name="FailingTest" />
+        </UnitTest>
+        <UnitTest name="InconclusiveTest" storage="c:\dev\code\_experiments\nunitsample\mstestsample\bin\debug\net6.0\mstestsample.dll" id="2edb0741-aaff-135c-69bb-02a2e6d737cd">
+            <TestCategory>
+                <TestCategoryItem TestCategory="FixtureCategory" />
+            </TestCategory>
+            <Execution id="9915e227-fac8-4f88-b86c-a456bc7031a3" />
+            <TestMethod codeBase="C:\dev\code\_Experiments\MSTestSample\bin\Debug\net6.0\MSTestSample.dll" adapterTypeName="executor://mstestadapter/v2" className="MSTestSample.MockTestFixture" name="InconclusiveTest" />
+        </UnitTest>
+        <UnitTest name="MockTest1" storage="c:\dev\code\_experiments\nunitsample\mstestsample\bin\debug\net6.0\mstestsample.dll" id="8ed1bf6e-f1d2-7450-caab-53e4f5a4dd2c">
+            <TestCategory>
+                <TestCategoryItem TestCategory="FixtureCategory" />
+            </TestCategory>
+            <Execution id="a02c1a7d-98d2-4829-aacf-b818d4fd6e3e" />
+            <TestMethod codeBase="C:\dev\code\_Experiments\MSTestSample\bin\Debug\net6.0\MSTestSample.dll" adapterTypeName="executor://mstestadapter/v2" className="MSTestSample.MockTestFixture" name="MockTest1" />
+        </UnitTest>
+        <UnitTest name="MockTest2" storage="c:\dev\code\_experiments\nunitsample\mstestsample\bin\debug\net6.0\mstestsample.dll" priority="1" id="9475a122-272d-f5ef-87e4-fe7d1a7f0418">
+            <TestCategory>
+                <TestCategoryItem TestCategory="FixtureCategory" />
+                <TestCategoryItem TestCategory="MockCategory" />
+            </TestCategory>
+            <Execution id="01f88d1f-7d8d-402d-9c18-bf81649b3296" />
+            <TestMethod codeBase="C:\dev\code\_Experiments\MSTestSample\bin\Debug\net6.0\MSTestSample.dll" adapterTypeName="executor://mstestadapter/v2" className="MSTestSample.MockTestFixture" name="MockTest2" />
+        </UnitTest>
+        <UnitTest name="MockTest3" storage="c:\dev\code\_experiments\nunitsample\mstestsample\bin\debug\net6.0\mstestsample.dll" id="6b0e8fc2-5324-dbeb-0c5f-0479cd14f351">
+            <TestCategory>
+                <TestCategoryItem TestCategory="MockCategory" />
+                <TestCategoryItem TestCategory="FixtureCategory" />
+                <TestCategoryItem TestCategory="AnotherCategory" />
+            </TestCategory>
+            <Execution id="4db5da11-faef-4e70-98d1-39ee00d6ed00" />
+            <TestMethod codeBase="C:\dev\code\_Experiments\MSTestSample\bin\Debug\net6.0\MSTestSample.dll" adapterTypeName="executor://mstestadapter/v2" className="MSTestSample.MockTestFixture" name="MockTest3" />
+        </UnitTest>
+        <UnitTest name="MockTest4" storage="c:\dev\code\_experiments\nunitsample\mstestsample\bin\debug\net6.0\mstestsample.dll" id="0b5c3ebb-3086-951a-1724-1821d30aef04">
+            <TestCategory>
+                <TestCategoryItem TestCategory="Foo" />
+                <TestCategoryItem TestCategory="FixtureCategory" />
+            </TestCategory>
+            <Execution id="68e29212-0297-4843-8f1e-cad3dfe2dd06" />
+            <TestMethod codeBase="C:\dev\code\_Experiments\MSTestSample\bin\Debug\net6.0\MSTestSample.dll" adapterTypeName="executor://mstestadapter/v2" className="MSTestSample.MockTestFixture" name="MockTest4" />
+        </UnitTest>
+        <UnitTest name="NotRunnableTest" storage="c:\dev\code\_experiments\nunitsample\mstestsample\bin\debug\net6.0\mstestsample.dll" id="20aced79-1a63-4e66-d444-ee4575c65515">
+            <TestCategory>
+                <TestCategoryItem TestCategory="FixtureCategory" />
+            </TestCategory>
+            <Execution id="685aeaf1-023c-4eb1-8727-fc6516eb1b61" />
+            <TestMethod codeBase="C:\dev\code\_Experiments\MSTestSample\bin\Debug\net6.0\MSTestSample.dll" adapterTypeName="executor://mstestadapter/v2" className="MSTestSample.MockTestFixture" name="NotRunnableTest" />
+        </UnitTest>        
+        <UnitTest name="TestWithException" storage="c:\dev\code\_experiments\nunitsample\mstestsample\bin\debug\net6.0\mstestsample.dll" id="529a01f5-6c96-4f46-49f3-aa90b9f061b6">
+            <TestCategory>
+                <TestCategoryItem TestCategory="FixtureCategory" />
+            </TestCategory>
+            <Execution id="5dbc8cb9-4c3f-4b65-a138-30dcf8afd30e" />
+            <TestMethod codeBase="C:\dev\code\_Experiments\MSTestSample\bin\Debug\net6.0\MSTestSample.dll" adapterTypeName="executor://mstestadapter/v2" className="MSTestSample.MockTestFixture" name="TestWithException" />
+        </UnitTest>
+        <UnitTest name="TestWithManyProperties" storage="c:\dev\code\_experiments\nunitsample\mstestsample\bin\debug\net6.0\mstestsample.dll" id="c09170d3-a997-9a92-b6d5-9a86a4225591">
+            <TestCategory>
+                <TestCategoryItem TestCategory="FixtureCategory" />
+            </TestCategory>
+            <Execution id="05c69927-e30b-4b5c-a5b8-2e44e9a88785" />
+            <TestMethod codeBase="C:\dev\code\_Experiments\MSTestSample\bin\Debug\net6.0\MSTestSample.dll" adapterTypeName="executor://mstestadapter/v2" className="MSTestSample.MockTestFixture" name="TestWithManyProperties" />
+        </UnitTest>
+        <UnitTest name="TestWithArg (1)" storage="c:\dev\code\_experiments\nunitsample\mstestsample\bin\debug\net6.0\mstestsample.dll" id="dac0f7bf-eced-b506-706a-66ed33c7be60">
+            <Execution id="0942eb3b-2633-4c82-aa3a-374236dc6dab" />
+            <TestMethod codeBase="C:\dev\code\_Experiments\MSTestSample\bin\Debug\net6.0\MSTestSample.dll" adapterTypeName="executor://mstestadapter/v2" className="MSTestSample.FixtureWithTestCases" name="TestWithArg" />
+        </UnitTest>
+    </TestDefinitions>
+    <TestEntries>
+        <TestEntry testId="c09170d3-a997-9a92-b6d5-9a86a4225591" executionId="05c69927-e30b-4b5c-a5b8-2e44e9a88785" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+        <TestEntry testId="529a01f5-6c96-4f46-49f3-aa90b9f061b6" executionId="5dbc8cb9-4c3f-4b65-a138-30dcf8afd30e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+        <TestEntry testId="9475a122-272d-f5ef-87e4-fe7d1a7f0418" executionId="01f88d1f-7d8d-402d-9c18-bf81649b3296" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+        <TestEntry testId="8ed1bf6e-f1d2-7450-caab-53e4f5a4dd2c" executionId="a02c1a7d-98d2-4829-aacf-b818d4fd6e3e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+        <TestEntry testId="2edb0741-aaff-135c-69bb-02a2e6d737cd" executionId="9915e227-fac8-4f88-b86c-a456bc7031a3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+        <TestEntry testId="dac0f7bf-eced-b506-706a-66ed33c7be60" executionId="0942eb3b-2633-4c82-aa3a-374236dc6dab" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+        <TestEntry testId="5370a586-74b0-a647-4839-100eef3a4188" executionId="e01a54d8-305c-4828-9bc0-8c935270dafe" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+        <TestEntry testId="0b5c3ebb-3086-951a-1724-1821d30aef04" executionId="68e29212-0297-4843-8f1e-cad3dfe2dd06" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+        <TestEntry testId="20aced79-1a63-4e66-d444-ee4575c65515" executionId="685aeaf1-023c-4eb1-8727-fc6516eb1b61" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+        <TestEntry testId="6b0e8fc2-5324-dbeb-0c5f-0479cd14f351" executionId="4db5da11-faef-4e70-98d1-39ee00d6ed00" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    </TestEntries>
+    <TestLists>
+        <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+        <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+    </TestLists>
+    <ResultSummary outcome="Failed">
+        <Counters total="10" executed="8" passed="5" failed="3" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+        <Output>
+            <StdOut>Test 'InconclusiveTest' was skipped in the test run.&#xD;
+Test 'MockTest4' was skipped in the test run.&#xD;
+            </StdOut>
+        </Output>
+        <RunInfos>
+            <RunInfo computerName="MYCOMPUTER" outcome="Warning" timestamp="2023-11-12T19:21:51.6401483-05:00">
+                <Text>[MSTest][Discovery][C:\dev\code\_Experiments\MSTestSample\bin\Debug\net6.0\MSTestSample.dll] UTA007: Method MockTest5 defined in class MSTestSample.MockTestFixture does not have correct signature. Test method marked with the [TestMethod] attribute must be non-static, public, return-type as void  and should not take any parameter. Example: public void Test.Class1.Test(). Additionally, if you are using async-await in test method then return-type must be Task. Example: public async Task Test.Class1.Test2()</Text>
+            </RunInfo>
+        </RunInfos>
+    </ResultSummary>
+</TestRun>
