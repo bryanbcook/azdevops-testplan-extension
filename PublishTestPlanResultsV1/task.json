@@ -173,8 +173,9 @@
         }
     ],
     "execution": {
-        "Node": {
-            "target": "index.js"
+        "Node16": {
+            "target": "index.js",
+            "argumentFormat": ""
         }
     }
 }
