@@ -27,9 +27,9 @@ jobs:
 
   # use node
   - task: UseNode@1
-    displayName: Install Node 18
+    displayName: Install Node 16
     inputs:
-      version: 18.x
+      version: 16.x
 
   # mocha test runner
   - task: Npm@1
