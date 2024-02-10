@@ -7,6 +7,8 @@ import { TestRunPublisher } from "./publishing/TestRunPublisher";
 
 async function run() {
 
+  try {
+
     // construct the context by locating the test plan,
     // populating the test points and supported configurations
     const contextParameters = TaskParameters.getTestContextParameters();
@@ -27,6 +29,16 @@ async function run() {
     const publisherParameters = TaskParameters.getPublisherParameters();
     const publisher = await TestRunPublisher.create(publisherParameters);
     await publisher.publishTestRun(testRunData);
+
+    tl.setResult(tl.TaskResult.Succeeded,'');
+
+  } catch (err) {
+    if (err instanceof Error) {
+      tl.setResult(tl.TaskResult.Failed, err.message);
+    } else {
+      tl.setResult(tl.TaskResult.Failed, 'An unhandled error occurred.');
+    }
+  }
 }
 
 run();
