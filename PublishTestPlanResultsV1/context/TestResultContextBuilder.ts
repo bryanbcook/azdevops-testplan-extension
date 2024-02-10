@@ -44,12 +44,15 @@ export class TestResultContextBuilder {
     let ctx = new TestResultContext(projectId, (this.projectName as string), testPlan);
     let configs = await this.getTestConfigurations();
     if (configs) {
+      this.log.debug(`${configs.length} test configurations available.`);
       configs.forEach((config: any) => {
+        this.log.debug(`config : ${config.name}`);
         ctx.addConfig(config)
       });
     }
 
     this.testConfigAlises?.forEach(alias => {
+      this.log.debug(`config alias: ${alias.alias}=${alias.config}`);
       ctx.addConfigAlias(alias);
     });
 
@@ -57,6 +60,7 @@ export class TestResultContextBuilder {
 
     let points = await this.getTestPoints(projectId, testPlan, testConfigFilterId);
     ctx.addTestPoints(points);
+    this.log.info(`Available Test Points: ${points.length}`);
 
     return ctx;
   }
@@ -120,14 +124,18 @@ export class TestResultContextBuilder {
 
     return await this.ado.getTestConfigurations((this.projectName as string));
   }
+
   private getAndValidateTestConfigFilter(ctx : TestResultContext) : string | undefined {
     // validate that the testConfigFilter refers to a valid config
     if (this.testConfig) {
+      this.log.debug("validating testConfigFilter");
       if (!ctx.hasConfig(this.testConfig)) {
         throw new Error(`Test config filter refers to an unrecognized configuration '${this.testConfig}'.`);
       }
       
-      return ctx.getTestConfig(this.testConfig).id.toString();
+      let configId = ctx.getTestConfig(this.testConfig).id.toString();
+      this.log.info(`Using Test Config: ${this.testConfig} (${configId})`);
+      return configId;
     }
 
     return undefined;
