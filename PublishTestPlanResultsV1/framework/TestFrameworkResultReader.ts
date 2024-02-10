@@ -2,11 +2,18 @@ import { TestFrameworkFormat } from "./TestFrameworkFormat";
 import { TestFrameworkParameters } from "./TestFrameworkParameters";
 import { TestFrameworkResult } from "./TestFrameworkResult";
 import { parse, ParseOptions } from 'test-results-parser';
+import { ILogger, getLogger } from "../services/Logger"
+import { stringify } from "querystring";
 
 export async function readResults(parameters: TestFrameworkParameters): Promise<TestFrameworkResult[]> {
 
+
+  let logger = getLogger();
+
   // read test files
+  logger.debug("converting test framework results into unified format");
   let testResult = parse({ type: parameters.testFormat.toString(), files: parameters.testFiles });
+  logger.debug(JSON.stringify(testResult));
 
   var results: TestFrameworkResult[] = [];
 
