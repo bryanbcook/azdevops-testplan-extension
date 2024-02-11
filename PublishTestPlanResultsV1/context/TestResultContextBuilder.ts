@@ -10,6 +10,7 @@ export class TestResultContextBuilder {
   static async setup(parameters: TestResultContextParameters): Promise<TestResultContextBuilder> {
     // construct builder
     var log = getLogger();
+    log.debug(`Initializing connection to ${parameters.collectionUri} ...`);
     var adoClientWrapper = await AdoWrapper.createInstance(parameters.collectionUri, parameters.accessToken);
     var builder = new TestResultContextBuilder(log, adoClientWrapper);
 
@@ -46,7 +47,7 @@ export class TestResultContextBuilder {
     if (configs) {
       this.log.debug(`${configs.length} test configurations available.`);
       configs.forEach((config: any) => {
-        this.log.debug(`config : ${config.name}`);
+        this.log.debug(`config : ${config.name} (${config.id})`);
         ctx.addConfig(config)
       });
     }
@@ -66,7 +67,7 @@ export class TestResultContextBuilder {
   }
 
   private async getAndValidateProjectName(): Promise<string> {
-    this.log.debug("validating ado connection");
+    this.log.debug("validating ado connection by resolving project name");
     try {
       return await this.ado.getProjectId(this.projectName as string);
     }

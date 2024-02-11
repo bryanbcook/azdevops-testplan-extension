@@ -185,6 +185,7 @@ export class AdoWrapper {
    * @returns the updated TestRun object
    */
   async updateTestRun(projectId : string, testRun : Contracts.TestRun) : Promise<Contracts.TestRun> {
+    this.logger.debug(`updating TestRun (state=${testRun.state})`);
     let updateModel = <Contracts.RunUpdateModel>{ 
       build: testRun.build,
       comment: testRun.comment,

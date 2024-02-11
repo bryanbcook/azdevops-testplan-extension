@@ -37,6 +37,8 @@ export class TestRunPublisher {
       return Promise.resolve(undefined);
     }
 
+    this.logger.debug("Publishing test results...");
+
     if (results.matches.size > 0) {
 
       const testPlanId = results.testPlan.id;

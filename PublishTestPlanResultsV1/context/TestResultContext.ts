@@ -68,6 +68,7 @@ export class TestResultContext {
     }
     return this.supportedTestConfigs.get(alias) as TestConfiguration;
   }
+
   getTestConfigs(alias : string | undefined) : Map<string,TestConfiguration> {
     if (alias) {
       if (! this.hasConfig(alias)) {
@@ -86,8 +87,6 @@ export class TestResultContext {
     } else {
       return this.supportedTestConfigs;
     }
-    
-    
   }
 
   hasConfig(name: string): boolean {
