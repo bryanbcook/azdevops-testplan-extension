@@ -52,7 +52,7 @@ export class TestConfigMatchStrategy implements TestResultMatchStrategy {
 
     // comparing the test point should not be necessary if a 
     // defaultConfigFilter has been set, but we should safe-guard this value
-    if (!this.allowedConfigs.has(point.configuration.id as string)) {
+    if (!this.allowedConfigs.has(point.configuration.id?.toString() as string)) {
       return TestResultMatch.Fail;
     }
       
