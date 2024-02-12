@@ -212,8 +212,8 @@ describe("TestResultContextBuilder", () => {
         // assert
         let points = result.getTestPoints();
         expect(points.length).to.eq(2);
-        expect(points[0].testCase.name).to.eq("Test Case 1");
-        expect(points[1].testCase.name).to.eq("Test Case 4");
+        expect((points[0] as any).testCaseReference.name).to.eq("Test Case 1");
+        expect((points[1] as any).testCaseReference.name).to.eq("Test Case 4");
       });
 
       it("Should recognize when test config filter is not a valid config", async () =>{
@@ -250,10 +250,10 @@ describe("TestResultContextBuilder", () => {
         // assert
         let points = result.getTestPoints();
         expect(points.length).to.eq(4);
-        expect(points[0].testCase.name).to.eq("Test Case 1");
-        expect(points[1].testCase.name).to.eq("Test Case 2");
-        expect(points[2].testCase.name).to.eq("Test Case 3");
-        expect(points[3].testCase.name).to.eq("Test Case 4");
+        expect((points[0] as any).testCaseReference.name).to.eq("Test Case 1");
+        expect((points[1] as any).testCaseReference.name).to.eq("Test Case 2");
+        expect((points[2] as any).testCaseReference.name).to.eq("Test Case 3");
+        expect((points[3] as any).testCaseReference.name).to.eq("Test Case 4");
       });
     });
   })  

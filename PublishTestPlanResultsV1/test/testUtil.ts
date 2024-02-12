@@ -74,9 +74,9 @@ export function newTestPlan(id : number = 0, name? : string, endDate? : Date) : 
 }
 
 export function newTestPoint(id : number = 0, name : string = "Test 1", configId : string = "0", testCaseId : string = "0" ) {
-  return <TestPoint>{ 
+  return <any>{ 
     id: id, 
-    testCase: <WorkItemReference>{
+    testCaseReference: <WorkItemReference>{ /*TestPoint has testCase, but it should be testCaseReference*/
       id: testCaseId,
       name: name
     },

@@ -6,9 +6,6 @@ import { TestConfigMatchStrategy, TestIdMatchStrategy, TestNameMatchStrategy, Te
 import { TestResultMatch } from "../processing/TestResultMatchStrategy";
 import * as util from './testUtil';
 
-
-
-
 describe("TestCaseMatchStrategy", () => {
 
   var test : TestFrameworkResult;
@@ -91,7 +88,7 @@ describe("TestCaseMatchStrategy", () => {
     var subject : TestNameMatchStrategy = new TestNameMatchStrategy();
     
     before(() => {
-      point = <TestPoint>{ id: 1000, testCase: <WorkItemReference>{ name: "The Name of The Test"}};
+      point = <any>{ id: 1000, testCaseReference: <WorkItemReference>{ name: "The Name of The Test"}};
     })
 
     it("Should match test result name that contains spaces", () => {
@@ -155,7 +152,7 @@ describe("TestCaseMatchStrategy", () => {
     var subject : TestRegexMatchStrategy;
 
     before(() => {
-      point = <TestPoint>{ id: 1000, testCase: <WorkItemReference>{ id:"1234"}};
+      point = <any>{ id: 1000, testCaseReference: <WorkItemReference>{ id:"1234"}};
     })
 
     it("Should  find test case id at end of test name", () => {
@@ -246,7 +243,7 @@ describe("TestCaseMatchStrategy", () => {
 
     beforeEach(() => {
       test = new TestFrameworkResult("MyAutomatedTest","FAIL");
-      point = <TestPoint>{ id: 1000, testCase: <WorkItemReference>{ id: "1" }};
+      point = <any>{ id: 1000, testCaseReference: <WorkItemReference>{ id: "1" }};
       subject = new TestIdMatchStrategy("TestCase");
     })
     
