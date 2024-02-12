@@ -3,3 +3,4 @@ coverage
 *.js
 *.js.map
 .taskkey
+results.xml
