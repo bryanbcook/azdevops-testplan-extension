@@ -39,7 +39,7 @@ export class TestResultProcessor {
     for (const frameworkResult of frameworkResults) {
 
       if (testPoints.length == 0) {
-        this.logger.warn("No test points were found.");
+        this.logger.debug(`Skipping '${frameworkResult.name}' because no test points are available to match against.`);
         result.unmatched.push(frameworkResult);
         break;
       }
