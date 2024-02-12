@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as testUtil from './testUtil';
 import { newShallowReference, newTestConfig, newTestPlan, newTestPoint } from './testUtil';
-import { TestPlan, TestConfiguration, TestPoint, ShallowReference, WorkItemReference } from 'azure-devops-node-api/interfaces/TestInterfaces';
-import { AdoWrapper } from '../services/AdoWrapper';
+import { TestPlan, TestConfiguration, TestPoint } from 'azure-devops-node-api/interfaces/TestInterfaces';
+import { AdoWrapper, TestPoint2 } from '../services/AdoWrapper';
 import { ILogger, NullLogger } from '../services/Logger';
 import { TestResultContextBuilder } from '../context/TestResultContextBuilder';
 import { configAlias } from '../context/configAlias';
@@ -212,8 +212,8 @@ describe("TestResultContextBuilder", () => {
         // assert
         let points = result.getTestPoints();
         expect(points.length).to.eq(2);
-        expect((points[0] as any).testCaseReference.name).to.eq("Test Case 1");
-        expect((points[1] as any).testCaseReference.name).to.eq("Test Case 4");
+        expect((points[0] as TestPoint2).testCaseReference.name).to.eq("Test Case 1");
+        expect((points[1] as TestPoint2).testCaseReference.name).to.eq("Test Case 4");
       });
 
       it("Should recognize when test config filter is not a valid config", async () =>{
@@ -250,10 +250,10 @@ describe("TestResultContextBuilder", () => {
         // assert
         let points = result.getTestPoints();
         expect(points.length).to.eq(4);
-        expect((points[0] as any).testCaseReference.name).to.eq("Test Case 1");
-        expect((points[1] as any).testCaseReference.name).to.eq("Test Case 2");
-        expect((points[2] as any).testCaseReference.name).to.eq("Test Case 3");
-        expect((points[3] as any).testCaseReference.name).to.eq("Test Case 4");
+        expect((points[0] as TestPoint2).testCaseReference.name).to.eq("Test Case 1");
+        expect((points[1] as TestPoint2).testCaseReference.name).to.eq("Test Case 2");
+        expect((points[2] as TestPoint2).testCaseReference.name).to.eq("Test Case 3");
+        expect((points[3] as TestPoint2).testCaseReference.name).to.eq("Test Case 4");
       });
     });
   })  
