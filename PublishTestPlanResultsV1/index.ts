@@ -9,6 +9,11 @@ async function run() {
 
   try {
 
+    if (process.execArgv.includes("--inspect")) {
+      console.log(`Waiting for debugger. Process ${process.pid}`);
+      await new Promise( resolve => setTimeout(resolve, 30000));
+    }
+
     // construct the context by locating the test plan,
     // populating the test points and supported configurations
     const contextParameters = TaskParameters.getTestContextParameters();
