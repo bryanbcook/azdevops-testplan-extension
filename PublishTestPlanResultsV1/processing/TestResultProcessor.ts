@@ -2,6 +2,7 @@ import { TestPoint, TestPlan } from "azure-devops-node-api/interfaces/TestInterf
 import { TestResultContext } from "../context/TestResultContext";
 import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestResultMatch, TestResultMatchStrategy } from "./TestResultMatchStrategy";
+import { ILogger, getLogger } from "../services/Logger"
 
 export class TestResultProcessorResult {
   matches = new Map<number,TestFrameworkResult>();
@@ -19,13 +20,17 @@ export class TestResultProcessor {
 
   public matchers : TestResultMatchStrategy[];
   context : TestResultContext;
+  logger: ILogger;
 
   constructor( matchers : TestResultMatchStrategy[], context : TestResultContext) {
     this.matchers = matchers;
     this.context = context;
+    this.logger = getLogger();
   }
 
   async process( frameworkResults : TestFrameworkResult[]) : Promise<TestResultProcessorResult> {
+
+    this.logger.debug("Mapping framework results to testpoints...");
     
     const result = new TestResultProcessorResult(this.context.projectId, this.context.testPlan);
 
@@ -34,9 +39,12 @@ export class TestResultProcessor {
     for (const frameworkResult of frameworkResults) {
 
       if (testPoints.length == 0) {
+        this.logger.warn("No test points were found.");
         result.unmatched.push(frameworkResult);
         break;
       }
+
+      this.logger.debug(`evaluating '${frameworkResult.name}' (${JSON.stringify(frameworkResult)})`);
 
       let matchingPoints = testPoints.filter(point => this.compare(frameworkResult, point));
 
@@ -65,9 +73,11 @@ export class TestResultProcessor {
     let match = false;
 
     this.matchers.some( matcher => {
-      let matchResult = matcher.isMatch( testResult, testPoint);
-      if (matchResult == TestResultMatch.Fail) {
+      
+      let matchResult = matcher.isMatch( testResult, testPoint );
+      this.logger.debug(` ${matcher.constructor.name}: ${matchResult.toString()}`);
 
+      if (matchResult == TestResultMatch.Fail) {
         match = false;
 
         return true; // exit some

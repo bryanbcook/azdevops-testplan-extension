@@ -1,6 +1,7 @@
 import im = require('azure-pipelines-task-lib/internal');
 import * as assert from 'assert'
-import { ShallowReference, TestPlan, TestConfiguration, TestPoint, WorkItemReference } from 'azure-devops-node-api/interfaces/TestInterfaces';
+import { ShallowReference, TestPlan, TestConfiguration, WorkItemReference } from 'azure-devops-node-api/interfaces/TestInterfaces';
+import { TestPoint2 } from '../services/AdoWrapper';
 import { TestFrameworkResult } from '../framework/TestFrameworkResult';
 
 export function setSystemVariable(name: string, val: string) {
@@ -74,9 +75,9 @@ export function newTestPlan(id : number = 0, name? : string, endDate? : Date) : 
 }
 
 export function newTestPoint(id : number = 0, name : string = "Test 1", configId : string = "0", testCaseId : string = "0" ) {
-  return <TestPoint>{ 
+  return <TestPoint2>{ 
     id: id, 
-    testCase: <WorkItemReference>{
+    testCaseReference: <WorkItemReference>{ /*TestPoint has testCase, but it should be testCaseReference*/
       id: testCaseId,
       name: name
     },

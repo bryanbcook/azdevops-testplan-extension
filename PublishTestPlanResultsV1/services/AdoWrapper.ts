@@ -10,6 +10,14 @@ interface AdoResponseHeaders {
   "x-ms-continuationtoken"? : string;
 }
 
+/* 
+  there is a bug in the azure-devops-node-api that defines a testCase, but it's actually testCaseReference.
+  this is a temporary workaround until this issue is corrected in the node api
+*/
+export interface TestPoint2 extends Contracts.TestPoint {
+  testCaseReference : Contracts.WorkItemReference
+}
+
 export class AdoWrapper {
 
   static async createInstance(server : string, accessToken : string) : Promise<AdoWrapper> {
@@ -185,6 +193,7 @@ export class AdoWrapper {
    * @returns the updated TestRun object
    */
   async updateTestRun(projectId : string, testRun : Contracts.TestRun) : Promise<Contracts.TestRun> {
+    this.logger.debug(`updating TestRun (state=${testRun.state})`);
     let updateModel = <Contracts.RunUpdateModel>{ 
       build: testRun.build,
       comment: testRun.comment,

@@ -3,6 +3,7 @@ import { TestResultProcessorParameters } from "./TestResultProcessorParameters";
 import { TestResultMatchStrategy, TestResultMatch, TestCaseMatchingStrategy } from "./TestResultMatchStrategy";
 import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestConfiguration, TestPoint } from "azure-devops-node-api/interfaces/TestInterfaces";
+import { TestPoint2 } from '../services/AdoWrapper';
 import { TestResultContext } from "../context/TestResultContext";
 
 export function create( parameters : TestResultProcessorParameters, context : TestResultContext ) : TestResultProcessor {
@@ -52,7 +53,7 @@ export class TestConfigMatchStrategy implements TestResultMatchStrategy {
 
     // comparing the test point should not be necessary if a 
     // defaultConfigFilter has been set, but we should safe-guard this value
-    if (!this.allowedConfigs.has(point.configuration.id as string)) {
+    if (!this.allowedConfigs.has(point.configuration.id?.toString() as string)) {
       return TestResultMatch.Fail;
     }
       
@@ -86,7 +87,7 @@ export class TestNameMatchStrategy implements TestResultMatchStrategy {
 
   isMatch( result : TestFrameworkResult, point : TestPoint) : TestResultMatch {
     
-    if (this.simplify(result.name) == this.simplify(point.testCase.name!)) {
+    if (this.simplify(result.name) == this.simplify((point as TestPoint2).testCaseReference.name!)) {
       return TestResultMatch.Exact;
     }
 
@@ -113,7 +114,7 @@ export class TestRegexMatchStrategy implements TestResultMatchStrategy {
       let match : RegExpExecArray | null;
       if ((match = this.regex.exec(result.name)) !== null) {
         let testCaseId = match[0];
-        return testCaseId == point.testCase.id ?
+        return testCaseId == (point as TestPoint2).testCaseReference.id ?
           TestResultMatch.Exact : TestResultMatch.Fail;
       }
     }
@@ -152,7 +153,7 @@ export class TestIdMatchStrategy implements TestResultMatchStrategy {
     if (result.properties.has(this.testCaseIdProperty)) {
       let testCaseId = result.properties.get(this.testCaseIdProperty);
 
-      return (testCaseId && testCaseId == point.testCase.id) ?
+      return (testCaseId && testCaseId == (point as TestPoint2).testCaseReference.id) ?
         TestResultMatch.Exact : TestResultMatch.Fail;
     }
 

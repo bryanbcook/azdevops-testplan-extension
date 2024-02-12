@@ -10,6 +10,7 @@ export class TestResultContextBuilder {
   static async setup(parameters: TestResultContextParameters): Promise<TestResultContextBuilder> {
     // construct builder
     var log = getLogger();
+    log.debug(`Initializing connection to ${parameters.collectionUri} ...`);
     var adoClientWrapper = await AdoWrapper.createInstance(parameters.collectionUri, parameters.accessToken);
     var builder = new TestResultContextBuilder(log, adoClientWrapper);
 
@@ -44,12 +45,15 @@ export class TestResultContextBuilder {
     let ctx = new TestResultContext(projectId, (this.projectName as string), testPlan);
     let configs = await this.getTestConfigurations();
     if (configs) {
+      this.log.debug(`${configs.length} test configurations available.`);
       configs.forEach((config: any) => {
+        this.log.debug(`config : ${config.name} (${config.id})`);
         ctx.addConfig(config)
       });
     }
 
     this.testConfigAlises?.forEach(alias => {
+      this.log.debug(`config alias: ${alias.alias}=${alias.config}`);
       ctx.addConfigAlias(alias);
     });
 
@@ -57,12 +61,13 @@ export class TestResultContextBuilder {
 
     let points = await this.getTestPoints(projectId, testPlan, testConfigFilterId);
     ctx.addTestPoints(points);
+    this.log.info(`Available Test Points: ${points.length}`);
 
     return ctx;
   }
 
   private async getAndValidateProjectName(): Promise<string> {
-    this.log.debug("validating ado connection");
+    this.log.debug("validating ado connection by resolving project name");
     try {
       return await this.ado.getProjectId(this.projectName as string);
     }
@@ -120,14 +125,18 @@ export class TestResultContextBuilder {
 
     return await this.ado.getTestConfigurations((this.projectName as string));
   }
+
   private getAndValidateTestConfigFilter(ctx : TestResultContext) : string | undefined {
     // validate that the testConfigFilter refers to a valid config
     if (this.testConfig) {
+      this.log.debug("validating testConfigFilter");
       if (!ctx.hasConfig(this.testConfig)) {
         throw new Error(`Test config filter refers to an unrecognized configuration '${this.testConfig}'.`);
       }
       
-      return ctx.getTestConfig(this.testConfig).id.toString();
+      let configId = ctx.getTestConfig(this.testConfig).id.toString();
+      this.log.info(`Using Test Config: ${this.testConfig} (${configId})`);
+      return configId;
     }
 
     return undefined;
