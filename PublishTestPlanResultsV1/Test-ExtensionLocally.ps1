@@ -62,9 +62,18 @@ param(
   [AllowEmptyString()]
   [string]$TestRunTitle,
 
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$DryRun,
+
   [switch]$DebugMode
 
 )
+
+if ($DryRun -ne "") {
+  $DryRun = "true"
+}
+
 $PSBoundParameters.GetEnumerator() | ForEach-Object {
   if ($_.Value -ne $null) {
     $key = "INPUT_$($_.Key)"
@@ -73,6 +82,7 @@ $PSBoundParameters.GetEnumerator() | ForEach-Object {
 }
 
 if ($DebugMode.IsPresent) {
+  [System.Environment]::SetEnvironmentVariable("SYSTEM_DEBUG", "true");
   node --inspect index.js 
 } else {
   node index.js

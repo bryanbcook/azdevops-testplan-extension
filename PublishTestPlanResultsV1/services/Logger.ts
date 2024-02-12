@@ -16,6 +16,7 @@ export interface ILogger {
 }
 
 export class Logger implements ILogger {
+  public static Level : LogLevel | undefined;
   private _level: LogLevel;
 
   constructor(level: LogLevel) {
@@ -39,10 +40,6 @@ export class Logger implements ILogger {
   }
 
   private log(level: LogLevel, message: string): void {
-    // always log debug to system debug
-    if (level === LogLevel.Debug)
-      tl.debug(message);
-
     // always set task result on error
     if (level === LogLevel.Error)
       tl.setResult(tl.TaskResult.Failed, message);
@@ -51,9 +48,12 @@ export class Logger implements ILogger {
       return;
 
     switch (level) {
+
       case LogLevel.Debug:
+        if (level === LogLevel.Debug)
         tl.debug(message);
-        break;
+        break;    
+
       case LogLevel.Info:
         console.log(message);
         break;
@@ -78,12 +78,15 @@ export class NullLogger implements ILogger {
 }
 
 export function getLogger(): ILogger {
-  let level = LogLevel.Info;
 
-  let debugEnabled = tl.getVariable("SYSTEM_DEBUG");
-  if (debugEnabled && debugEnabled.toLowerCase() == "true") {
-    level = LogLevel.Debug;
+  if (Logger.Level === undefined) {
+    let debugEnabled = tl.getVariable("SYSTEM_DEBUG");
+    if (debugEnabled && debugEnabled.toLowerCase() == "true") {
+      Logger.Level = LogLevel.Debug;
+    } else {
+      Logger.Level = LogLevel.Info;
+    }
   }
 
-  return new Logger(level);
+  return new Logger(Logger.Level as LogLevel);
 }
