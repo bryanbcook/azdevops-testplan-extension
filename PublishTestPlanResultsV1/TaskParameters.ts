@@ -4,7 +4,6 @@ import { configAlias } from "./context/configAlias";
 import { TestResultContextParameters } from "./context/TestResultContextParameters";
 import { TestFrameworkParameters } from "./framework/TestFrameworkParameters";
 import { TestResultProcessorParameters } from './processing/TestResultProcessorParameters';
-import { TestCaseMatchingStrategy } from './processing/TestResultMatchStrategy';
 import { TestRunPublisherParameters } from './publishing/TestRunPublisherParameters';
 
 export function getTestContextParameters(): TestResultContextParameters {

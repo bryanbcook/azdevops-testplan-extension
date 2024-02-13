@@ -23,7 +23,7 @@ tsc
 
 To execute the mocha tests:
 
-1. Create an environment variable `SYSTEM_ACCESSTOKEN` with a PAT token to your Azure DevOps Organization.
+1. Create an environment variable `ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN` with a PAT token to your Azure DevOps Organization.
 1. Open VSCode from the `\PublishTestPlanResultsV1` folder
 1. Install the "Mocha Test Explorer" extension
 1. Modify the .vscode settings file and adjust the `mochaExplorer.env` with variables that reflect your environment:
