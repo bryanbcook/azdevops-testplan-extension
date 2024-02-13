@@ -57,7 +57,7 @@ context("TestRunPublisher", () => {
       // this resolves endpoint information from the server, so values must be present
       this.timeout(10000);
       const serverUrl = process.env.SYSTEM_COLLECTIONURI as string;
-      const accessToken = process.env.SYSTEM_ACCESSTOKEN as string;
+      const accessToken = (process.env.SYSTEM_ACCESSTOKEN ?? process.env.ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN) as string;
       console.log(serverUrl);
       var parameters = new TestRunPublisherParameters(serverUrl, accessToken, false, "Dummy");
 
