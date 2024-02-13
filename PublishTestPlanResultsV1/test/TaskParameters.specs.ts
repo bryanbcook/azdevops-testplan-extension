@@ -19,7 +19,8 @@ describe('TaskParameters', () => {
     accessToken = (process.env.SYSTEM_ACCESSTOKEN ?? process.env.ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN) as string;
 
     util.setSystemVariable("System.CollectionUri", process.env.SYSTEM_COLLECTIONURI as string);
-    util.setSystemVariable("ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN", accessToken);
+    util.setSystemVariable("System.AccessToken", process.env.SYSTEM_ACCESSTOKEN as string);
+    util.setSystemVariable("ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN", process.env.SYSTEM_ACCESSTOKEN as string);
     util.setSystemVariable("System.TeamProject", process.env.TEAMPROJECT as string);
 
   });
