@@ -4,15 +4,19 @@ import { should, expect } from 'chai';
 import * as util from './testUtil';
 import * as TaskParameters from '../TaskParameters';
 import { TestCaseMatchingStrategy } from '../processing/TestResultMatchStrategy';
+import { access } from 'fs';
 
 describe('TaskParameters', () => {
 
   var tp: any;
+  var accessToken: string;
 
   beforeEach(() => {
     //
     tp = path.join(__dirname, '..', 'TaskParameters.js');
     util.clearData();
+
+    accessToken = (process.env.SYSTEM_ACCESSTOKEN ?? process.env.ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN) as string;
 
     util.setSystemVariable("System.CollectionUri", process.env.SYSTEM_COLLECTIONURI as string);
     util.setSystemVariable("System.AccessToken", process.env.SYSTEM_ACCESSTOKEN as string);
@@ -56,7 +60,7 @@ describe('TaskParameters', () => {
 
       // assert
       expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
-      expect(parameters.accessToken).to.eq(process.env.SYSTEM_ACCESSTOKEN as string);
+      expect(parameters.accessToken).to.eq(accessToken);
       expect(parameters.projectName).to.eq(process.env.TEAMPROJECT as string);
     });
 

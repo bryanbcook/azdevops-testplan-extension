@@ -24,7 +24,7 @@ describe("AdoWrapper", () => {
     projectName = process.env.TEAMPROJECT as string;
     projectId = process.env.TEAMPROJECTID as string;
     tfsCollectionUri = process.env.SYSTEM_COLLECTIONURI as string;
-    accessToken = process.env.SYSTEM_ACCESSTOKEN as string;
+    accessToken = (process.env.ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN ?? process.env.SYSTEM_ACCESSTOKEN) as string;
     planId = process.env.TESTPLANID as string;
     rootSuite = process.env.TESTROOTSUITE as string;
 
