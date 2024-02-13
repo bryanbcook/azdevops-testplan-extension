@@ -35,7 +35,7 @@
             "name": "accessToken",
             "type": "string",
             "label": "Access Token",
-            "defaultValue": "$(System.AccessToken)",
+            "defaultValue": "",
             "required": false,
             "groupName": "advanced",
             "helpMarkDown": "Access Token used to obtain Test Plan details and publish Test Results."
