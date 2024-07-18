@@ -97,7 +97,8 @@
                 "cucumber": "cucumber",
                 "nUnit": "nUnit",
                 "testng": "testng",
-                "mocha": "mocha"
+                "mocha": "mocha",
+                "mstest": "mstest"
             },
             "helpMarkDown": "Represents which compatible framework the test results are formatted in. (JUnit, XUnit, TestNG, Mocha, Cucumber, etc)"
         },

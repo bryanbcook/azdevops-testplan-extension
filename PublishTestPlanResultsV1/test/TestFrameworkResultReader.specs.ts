@@ -22,6 +22,9 @@ describe("TestFramework Results Reader", () => {
 
     // assert
     expect(results.length).to.eq(1);
+    expect(String(results[0].properties.get("TestID"))).to.equal('1234');
+    expect(results[0].properties.get("TestLevel")).to.equal('Regression');
+    expect(results[0].properties.get("TestProduct")).to.equal('TestProductExample');
   });
  
  
@@ -90,20 +93,18 @@ describe("TestFramework Results Reader", () => {
     expect(results.length).to.be.greaterThan(1);
   });
 
-
-  // waiting for 0.1.7 that includes this
-  // it("Can read MStests results", async () => {
-  //   // arrange
-  //   var files = [];
-  //   files.push(path.join(baseDir, "mstest", "testresults.trx"));
-  //   var parameters = new TestFrameworkParameters(files, "mstest");
+  it("Can read MStests results", async () => {
+    // arrange
+    var files = [];
+    files.push(path.join(baseDir, "mstest", "testresults.trx"));
+    var parameters = new TestFrameworkParameters(files, "mstest");
     
-  //   // act
-  //   var results = await TestFrameworkResultReader.readResults(parameters);
+    // act
+    var results = await TestFrameworkResultReader.readResults(parameters);
 
-  //   // assert
-  //   expect(results.length).to.eq(1);
-  // });
+    // assert
+    expect(results.length).to.eq(10);
+  });
 
 
 })
