@@ -22,6 +22,9 @@ describe("TestFramework Results Reader", () => {
 
     // assert
     expect(results.length).to.eq(1);
+    expect(String(results[0].properties.get("TestID"))).to.equal('1234');
+    expect(results[0].properties.get("TestLevel")).to.equal('Regression');
+    expect(results[0].properties.get("TestProduct")).to.equal('TestProductExample');
   });
  
  
