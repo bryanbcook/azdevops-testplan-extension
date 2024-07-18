@@ -23,7 +23,8 @@ export async function readResults(parameters: TestFrameworkParameters): Promise<
       let result = new TestFrameworkResult(test.name, test.status);
       result.failure = test.failure;
       result.stacktrace = test.stack_trace;
-      result.properties = test.meta_data;
+      // 0.1.19 separated tags from metadata
+      result.properties = new Map<string,string>(Object.entries(test.metadata));
 
       results.push(result);
     })
