@@ -4,6 +4,6 @@ export enum TestFrameworkFormat {
   cucumber = "cucumber",
   mocha = "mocha",
   nunit = "nunit",
-  testng = "testng"
-  //mstest = "mstest"
+  testng = "testng",
+  mstest = "mstest"
 }
