@@ -1,0 +1,1999 @@
+<?xml version="1.0"?>
+<testsuites>
+
+
+<testsuite name="HMI Test Tool Summary Tests" timestamp="2024-07-23T02:56:19" time="167.228" tests="5" failures="2" errors="2" skipped="2">
+  
+  <properties>
+    
+    <property name="specId" value="0"/>
+    
+    <property name="suiteName" value="HMI Test Tool - Summary  Tests"/>
+    
+    <property name="capabilities" value="emulator-5554.android.12.terra-hmi-test-tool-emulator-0_1_0-33-b60bb424_apk"/>
+    
+    <property name="file" value="./specs/hmiTestTool/summaryTests.specs.ts"/>
+    
+  </properties>
+  
+  <testcase classname="emulator-5554.android.12.terra-hmi-test-tool-emulator-0_1_0-33-b60bb424_apk.HMI_Test_Tool_-_Summary__Tests" name="174 Verify the Summary page success elements when all previous modules were successful (skipped)" time="40.196">
+    
+    <skipped/>
+    
+    <system-out><![CDATA[COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/appium/start_recording_screen - {"options":{"timeLimit":"300"}}
+RESULT: {"options":{"timeLimit":"300"}}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-001e00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-002200000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-000d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-000d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-000d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-000d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.one\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-010000000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.two\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-010f00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-012300000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-012300000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-012300000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-012300000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-012300000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-012300000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-012300000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-012300000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-015700000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-015700000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-015700000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-015700000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-015700000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-015700000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-015700000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-015700000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-017000000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-017000000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-017000000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-017000000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-017000000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-017000000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-017000000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-017000000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-019800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-019800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-019800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-019800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-019800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-019800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-019800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/element/00000000-0000-00e6-0000-019800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/screenshot - {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/screenshot - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/appium/stop_recording_screen - {}
+RESULT: {}
+RESULT: {}]]></system-out>
+    
+    <system-err><![CDATA[Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: true
+Received: false
+    at AmbientLightTestPage.verifyArrowNextStepIsVisible (/Users/qa/Documents/Azure/Agent/_work/13/s/pages/hmiTestTool/ambientLightTest.page.ts:73:51)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async HmiTestToolPageBase.passAmbientLightTest (/Users/qa/Documents/Azure/Agent/_work/13/s/pages/hmiTestTool/hmiTestTool.base.page.ts:394:3)
+    at async HmiTestToolPageBase.navigateToTemperatureTestPage (/Users/qa/Documents/Azure/Agent/_work/13/s/pages/hmiTestTool/hmiTestTool.base.page.ts:133:3)
+    at async HmiTestToolPageBase.navigateToSummaryTestPage (/Users/qa/Documents/Azure/Agent/_work/13/s/pages/hmiTestTool/hmiTestTool.base.page.ts:144:32)
+    at async Context.<anonymous> (/Users/qa/Documents/Azure/Agent/_work/13/s/specs/hmiTestTool/summaryTests.specs.ts:13:21)]]></system-err>
+    
+  </testcase>
+  
+  <testcase classname="emulator-5554.android.12.terra-hmi-test-tool-emulator-0_1_0-33-b60bb424_apk.HMI_Test_Tool_-_Summary__Tests" name="174 Verify the Summary page success elements when all previous modules were successful (failed)" time="13.057">
+    
+    <failure/>
+    
+    <error message="element (&quot;xpath://*[@content-desc=&quot;testConnectionTest.success.one&quot;]&quot;) still not displayed after 10000ms"/>
+    
+    <system-out><![CDATA[COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/appium/start_recording_screen - {"options":{"timeLimit":"300"}}
+RESULT: {"options":{"timeLimit":"300"}}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/screenshot - {}
+COMMAND: GET /session/df59c603-6b6a-4752-ab67-2656401eea59/screenshot - {}
+RESULT: {}
+COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/appium/stop_recording_screen - {}
+RESULT: {}
+RESULT: {}]]></system-out>
+    
+    <system-err><![CDATA[Error: element ("xpath://*[@content-desc="testConnectionTest.success.one"]") still not displayed after 10000ms
+    at async ConnectionTestPage.verifyAllChecksAreGreen (/Users/qa/Documents/Azure/Agent/_work/13/s/pages/hmiTestTool/connectionTest.page.ts:32:3)
+    at async HmiTestToolPageBase.passConnectionTest (/Users/qa/Documents/Azure/Agent/_work/13/s/pages/hmiTestTool/hmiTestTool.base.page.ts:242:3)
+    at async HmiTestToolPageBase.navigateToButtonTestPage (/Users/qa/Documents/Azure/Agent/_work/13/s/pages/hmiTestTool/hmiTestTool.base.page.ts:44:3)]]></system-err>
+    
+  </testcase>
+  
+  <testcase classname="emulator-5554.android.12.terra-hmi-test-tool-emulator-0_1_0-33-b60bb424_apk.HMI_Test_Tool_-_Summary__Tests" name="167 Verify the Summary page error elements when all of the previous modules was unsuccessful" time="38.523">
+    
+    <system-out><![CDATA[COMMAND: POST /session/df59c603-6b6a-4752-ab67-2656401eea59/appium/start_recording_screen - {"options":{"timeLimit":"300"}}
+RESULT: {"options":{"timeLimit":"300"}}
+COMMAND: DELETE /session/df59c603-6b6a-4752-ab67-2656401eea59 - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-001e00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-002200000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-000d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-000d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-000d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-000d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-019600000004/displayed - {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01b800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.two\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.three\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.three\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.four\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.four\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.five\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.five\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.six\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.six\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.seven\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.seven\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.eight\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.eight\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.nine\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.nine\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.ten\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.ten\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.three\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.three\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.four\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.four\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.five\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.five\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.six\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.six\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.seven\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.seven\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.eight\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.eight\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.nine\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.nine\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.ten\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.ten\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01f800000004/displayed - {}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.one\"]"}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01f800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01f800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01f800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.summary\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.summary\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.summary\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.summary\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.summary\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.summary\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01fc00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.arrow.finish\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.arrow.finish\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01f500000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-01ff00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-020300000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-020700000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.three\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.three\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-020b00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.four\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.four\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-020f00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.five\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.five\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-021300000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.six\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.six\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-021700000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.seven\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.seven\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-021b00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.eight\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.eight\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-021f00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.nine\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.nine\"]"}
+COMMAND: GET /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element/00000000-0000-00f1-0000-022300000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.ten\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.ten\"]"}
+COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/appium/stop_recording_screen - {}
+RESULT: {}]]></system-out>
+    
+  </testcase>
+  
+  <testcase classname="emulator-5554.android.12.terra-hmi-test-tool-emulator-0_1_0-33-b60bb424_apk.HMI_Test_Tool_-_Summary__Tests" name="175 Verify the Summary page error elements when a random previous module was unsuccessful" time="37.004">
+    
+    <skipped/>
+    
+    <system-out><![CDATA[COMMAND: POST /session/8614e0f7-56c1-45c3-a471-8fb391279d82/appium/start_recording_screen - {"options":{"timeLimit":"300"}}
+RESULT: {"options":{"timeLimit":"300"}}
+COMMAND: DELETE /session/8614e0f7-56c1-45c3-a471-8fb391279d82 - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-001e00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-002200000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-000d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-000d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-000d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-000d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.one\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-010000000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.two\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.two\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-010d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-019600000004/displayed - {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01b800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.two\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.three\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.three\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.four\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.four\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.five\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.five\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.six\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.six\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.seven\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.seven\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.eight\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.eight\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.nine\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.nine\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.ten\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.ten\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.three\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.three\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.four\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.four\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.five\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.five\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.six\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.six\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.seven\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.seven\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.eight\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.eight\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.nine\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.nine\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.ten\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.ten\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01f800000004/displayed - {}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.one\"]"}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01f800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01f800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01f800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.summary\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.summary\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01fc00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.arrow.finish\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.arrow.finish\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01f500000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-01ff00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element/00000000-0000-00fc-0000-020300000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.three\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.three\"]"}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/screenshot - {}
+COMMAND: GET /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/screenshot - {}
+RESULT: {}
+COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/appium/stop_recording_screen - {}
+RESULT: {}
+RESULT: {}]]></system-out>
+    
+    <system-err><![CDATA[Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: true
+Received: false
+    at SummaryTestPage.verifyCorrectCheckIsVisible (/Users/qa/Documents/Azure/Agent/_work/13/s/pages/hmiTestTool/summaryTest.page.ts:195:47)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Context.<anonymous> (/Users/qa/Documents/Azure/Agent/_work/13/s/specs/hmiTestTool/summaryTests.specs.ts:62:3)]]></system-err>
+    
+  </testcase>
+  
+  <testcase classname="emulator-5554.android.12.terra-hmi-test-tool-emulator-0_1_0-33-b60bb424_apk.HMI_Test_Tool_-_Summary__Tests" name="176 Verify the Summary page error elements when a random previous module was unsuccessful" time="38.396">
+    
+    <failure/>
+    
+    <error message="expect(received).toBe(expected) // Object.is equality
+
+Expected: true
+Received: false"/>
+    
+    <system-out><![CDATA[COMMAND: POST /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c/appium/start_recording_screen - {"options":{"timeLimit":"300"}}
+RESULT: {"options":{"timeLimit":"300"}}
+COMMAND: DELETE /session/4f5351dd-0b2b-49ce-a32b-3e2df92f491c - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.one\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-001e00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.success.two\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-002200000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-000d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"testConnectionTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-000d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-000d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-000d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-003800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"buttonLedTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-006d00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"ledTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-009e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.one\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.one\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-010000000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.two\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.icon.arrow.plugIn.two\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-010d00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"connectorTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-00ed00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"paymentTerminalTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-012100000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-012100000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidLight.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-015500000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-015500000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"rfidTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-016e00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-016e00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-019600000004/displayed - {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-019600000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-019600000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"lightSensorTest.icon.arrow.nextStep\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01b800000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"temperatureTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01ca00000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01ca00000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.two\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.three\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.three\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.four\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.four\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.five\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.five\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.six\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.six\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.seven\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.seven\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.eight\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.eight\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.nine\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.nine\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.ten\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.ten\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.three\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.three\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.four\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.four\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.five\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.five\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.six\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.six\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.seven\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.seven\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.eight\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.eight\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.nine\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.nine\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.ten\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.ten\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01f800000004/displayed - {}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.one\"]"}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.label.title\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01f800000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01f800000004/text - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01f800000004/text - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.summary\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.summary\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01fc00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.arrow.finish\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.arrow.finish\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01f500000004/displayed - {}
+RESULT: {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-01ff00000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.one\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element/00000000-0000-0107-0000-020300000004/displayed - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.error.two\"]"}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/element - {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.three\"]"}
+RESULT: {"using":"xpath","value":"//*[@content-desc=\"summaryTest.icon.success.three\"]"}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/screenshot - {}
+COMMAND: GET /session/ca667d1c-be7e-48dc-8846-44370d41f14b/screenshot - {}
+RESULT: {}
+COMMAND: POST /session/ca667d1c-be7e-48dc-8846-44370d41f14b/appium/stop_recording_screen - {}
+RESULT: {}
+RESULT: {}
+COMMAND: DELETE /session/ca667d1c-be7e-48dc-8846-44370d41f14b - {}
+RESULT: {}]]></system-out>
+    
+    <system-err><![CDATA[Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: true
+Received: false
+    at SummaryTestPage.verifyCorrectCheckIsVisible (/Users/qa/Documents/Azure/Agent/_work/13/s/pages/hmiTestTool/summaryTest.page.ts:195:47)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Context.<anonymous> (/Users/qa/Documents/Azure/Agent/_work/13/s/specs/hmiTestTool/summaryTests.specs.ts:62:3)]]></system-err>
+    
+  </testcase>
+  
+</testsuite>
+
+
+</testsuites>
