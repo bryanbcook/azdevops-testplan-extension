@@ -58,7 +58,7 @@ export class TestRunPublisher {
         let pointId = r.testPoint?.id;
         if (pointId) {
           let frameworkResult = results.matches.get(parseInt(pointId)) as TestFrameworkResult;
-          r.outcome = frameworkResult.outcome.toString(); // wrong, need to map int to key and then to string
+          r.outcome = frameworkResult.outcome.toString(); // sends integer value to API which is supported
           r.errorMessage = frameworkResult.failure;
           r.stackTrace = frameworkResult.stacktrace;
           r.state = "Completed";

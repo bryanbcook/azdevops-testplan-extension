@@ -65,6 +65,23 @@ export class TestResultProcessor {
       }
     }
 
+    // log the mapping of test cases to test points
+    if (result.matches.size > 0) {
+      this.logger.info(`\nMapped ${result.matches.size} test cases to test points:`);
+      this.logger.info(`| Test Point | Automated Test | TestOutcome |`);
+      this.logger.info('|------------|----------------|-------------|');
+      result.matches.forEach( (value, key) => {
+        this.logger.info(`| ${key} | ${value.name} | ${value.outcome} |`);
+      });
+    }
+    if (result.unmatched.length > 0) {
+      this.logger.info(`\nUnmatched test cases:`);
+
+      result.unmatched.forEach( result => {
+        this.logger.info(`No matching test point found for '${result.name}'`);
+      });
+    }
+
     return result;
   }
 
@@ -75,7 +92,7 @@ export class TestResultProcessor {
     this.matchers.some( matcher => {
       
       let matchResult = matcher.isMatch( testResult, testPoint );
-      this.logger.debug(` ${matcher.constructor.name}: ${matchResult.toString()}`);
+      this.logger.debug(`Strategy: ${matcher.constructor.name} | TestPoint: ${testPoint.id} | MatchResult: ${matchResult.toString()} `);
 
       if (matchResult == TestResultMatch.Fail) {
         match = false;
