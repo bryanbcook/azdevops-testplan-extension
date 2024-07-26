@@ -30,7 +30,9 @@
     "jUnit",
     "mstest",
     "nunit",
-    "cucumber"
+    "cucumber",
+    "mocha",
+    "jest"
   ],
   "icons": {
     "default": "icon-128x128.png"
