@@ -58,8 +58,9 @@ context("TestRunPublisher", () => {
       this.timeout(10000);
       const serverUrl = process.env.SYSTEM_COLLECTIONURI as string;
       const accessToken = (process.env.SYSTEM_ACCESSTOKEN ?? process.env.ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN) as string;
+      const buildId = "123";
       console.log(serverUrl);
-      var parameters = new TestRunPublisherParameters(serverUrl, accessToken, false, "Dummy");
+      var parameters = new TestRunPublisherParameters(serverUrl, accessToken, false, "Dummy", buildId);
 
       // act
       var subject = await TestRunPublisher.create(parameters);
@@ -67,6 +68,8 @@ context("TestRunPublisher", () => {
       // assert
       expect(subject).not.to.be.undefined;
       expect(subject.dryRun).eq(false);
+      expect(subject.testRunTitle).eq("Dummy");
+      expect(subject.buildId).eq("123");
     })
 
   })

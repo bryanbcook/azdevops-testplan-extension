@@ -22,7 +22,6 @@ describe('TaskParameters', () => {
     util.setSystemVariable("System.AccessToken", process.env.SYSTEM_ACCESSTOKEN as string);
     util.setSystemVariable("ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN", process.env.SYSTEM_ACCESSTOKEN as string);
     util.setSystemVariable("System.TeamProject", process.env.TEAMPROJECT as string);
-
   });
 
   afterEach(() => {
@@ -349,6 +348,22 @@ describe('TaskParameters', () => {
       expect(parameters.dryRun).to.be.false;
       expect(parameters.testRunTitle).to.eq("PublishTestPlanResult");
     });
+
+    it('Should resolve build id from build pipeline', () => {
+      // arrange
+      // BUILD_BUILDID is available in build and classic release pipelines.
+      // for release pipelines, if there are multiple build artifacts, the build id is 
+      // based on the primary artifact.
+      util.setSystemVariable("BUILD_BUILDID", "1234")
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getPublisherParameters();
+
+      // assert
+      expect(parameters.buildId).to.eq("1234");
+    })
 
     it("Should allow testRun publishing to be disabled by enabling 'dryRun'", () => {
       // arrange

@@ -111,16 +111,20 @@ export class AdoWrapper {
    * @param projectId project name or identifier
    * @param testPlanId test plan id
    * @param testPoints array of testpoint ids
+   * @param buildId build identifier
    * @returns returns the resulting TestRun from the operation
    */
-  async createTestRun(projectId : string, testPlanId : number, testPoints : number[]) : Promise<Contracts.TestRun> {
-    this.logger.debug(`createTestRun projectId:${projectId} testPlanId:${testPlanId} testPoints: (${testPoints.length} items)`);
-    
+  async createTestRun(projectId : string, testPlanId : number, testPoints : number[], buildId : string) : Promise<Contracts.TestRun> {
+    this.logger.debug(`createTestRun projectId:${projectId} testPlanId:${testPlanId} testPoints: (${testPoints.length} items) - buildId:${buildId}`);
+
     let testRun : Contracts.RunCreateModel = {
       automated: true,
       name: "PublishTestPlanResults",
       plan: <Contracts.ShallowReference>{
         id: testPlanId.toString()
+      },
+      build: <Contracts.ShallowReference>{
+        id: buildId,
       },
       pointIds: testPoints,
       /* this property is required because it's not optional in the typescript def */
