@@ -44,7 +44,7 @@ Specifies the Azure DevOps Project name that contains the Test Plan to update. D
 
 `string`. Required.
 
-Specifes the format of the `testResultFiles`. Supported values: xUnit, jUnit
+Specifes the format of the `testResultFiles`. Supported values: xUnit, jUnit, cucmber, mocha, nunit, testng, mstest.
 
 ### `testResultFiles` - Test Result Files
 
