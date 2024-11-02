@@ -71,8 +71,9 @@ export function getProcessorParameters() : TestResultProcessorParameters {
 
 export function getPublisherParameters() : TestRunPublisherParameters {
   const accessToken = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
+  const buildId = tl.getVariable("BUILD_BUILDID"); // available in build and release pipelines
   const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI");
   const dryRun = tl.getBoolInput("dryRun", false);
   const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
-  return new TestRunPublisherParameters(collectionUri as string, accessToken as string, dryRun, testRunTitle);
+  return new TestRunPublisherParameters(collectionUri as string, accessToken as string, dryRun, testRunTitle, buildId as string);
 }

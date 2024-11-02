@@ -10,15 +10,15 @@
 #>
 [CmdletBinding()]
 param(
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory, HelpMessage="Defaults to $\(System.CollectionUri\), set SYSTEM_COLLECTIONURI to override")]
   [AllowEmptyString()]
   [string]$CollectionUri,
 
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory, HelpMessage="Defaults to $\(System.ProjectName\) set SYSTEM_PROJECTNAME to override")]
   [AllowEmptyString()]
   [string]$ProjectName,
 
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory, HelpMessage="Defaults to $\(System.AccessToken\), set SYSTEM_ACCESSTOKEN to override")]
   [AllowEmptyString()]
   [string]$AccessToken,
 
@@ -63,6 +63,9 @@ param(
   [string]$TestRunTitle,
 
   [Parameter(Mandatory)]
+  [string]$BuildId,
+
+  [Parameter(Mandatory)]
   [AllowEmptyString()]
   [string]$DryRun,
 
@@ -75,11 +78,14 @@ if ($DryRun -ne "") {
 }
 
 $PSBoundParameters.GetEnumerator() | ForEach-Object {
-  if ($_.Value -ne $null) {
+  if (($_.Value -ne $null) -or $_.Value -ne "") {
     $key = "INPUT_$($_.Key)"
     [System.Environment]::SetEnvironmentVariable($key, $_.Value)
   }  
 }
+
+# BuildId isn't an input parameter.
+[System.Environment]::SetEnvironmentVariable("BUILD_BUILDID", $BuildId)
 
 if ($DebugMode.IsPresent) {
   [System.Environment]::SetEnvironmentVariable("SYSTEM_DEBUG", "true");

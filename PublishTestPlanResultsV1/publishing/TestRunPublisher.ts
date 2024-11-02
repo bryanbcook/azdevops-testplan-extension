@@ -8,10 +8,11 @@ import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 export class TestRunPublisher {
 
   static async create( parameters : TestRunPublisherParameters) : Promise<TestRunPublisher> {
-    var ado = await AdoWrapper.createInstance(parameters.collectionUri,parameters.accessToken);
+    var ado = await AdoWrapper.createInstance(parameters.collectionUri, parameters.accessToken);
     var logger = getLogger();
 
     var publisher = new TestRunPublisher(ado, logger);
+    publisher.buildId = parameters.buildId;
     publisher.dryRun = parameters.dryRun;
     publisher.testRunTitle = parameters.testRunTitle;
 
@@ -20,12 +21,14 @@ export class TestRunPublisher {
 
   private ado : AdoWrapper;
   private logger : ILogger;
+  public buildId : string;
   public dryRun : boolean;
   public testRunTitle : string;
 
   constructor(ado : AdoWrapper, logger : ILogger) {
     this.ado = ado;
     this.logger = logger;
+    this.buildId = "";
     this.dryRun = false;
     this.testRunTitle = "PublishTestPlanResults"
   }
@@ -48,7 +51,7 @@ export class TestRunPublisher {
 
       // create a test run for the project + testPlan using testPoint ids
       const points = Array.from(results.matches.keys());
-      const testRun = await this.ado.createTestRun(projectId, testPlanId, points);
+      const testRun = await this.ado.createTestRun(projectId, testPlanId, points, this.buildId);
       
       // obtain the testcaseresult definitions
       var testCaseResults = await this.ado.getTestResults(projectId, testRun.id);

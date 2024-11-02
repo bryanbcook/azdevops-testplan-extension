@@ -24,7 +24,7 @@ tsc
 To execute the mocha tests:
 
 1. Open VSCode from the `\PublishTestPlanResultsV1` folder
-1. Install the "Mocha Test Explorer" extension
+1. Install the "[Mocha Test Explorer](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-mocha-test-adapter)" extension
 1. Modify the .vscode settings file and adjust the `mochaExplorer.env` with variables that reflect your environment:
    - SYSTEM_COLLECTIONURI: the URL to your Azure DevOps Organization
    - SYSTEM_ACCESSTOKEN: PAT token to your Azure DevOps Organization
@@ -47,5 +47,5 @@ Prior to checking the changes in, please test out your changes locally:
    .\Test-ExtensionLocally.ps1 -DebugMode
    ```
 
-1. Provide the necessary values when prompted or press `enter` to accept default values. To provide default values, create environment variables `INPUT_<variable-name-in-prompt>`
+1. Provide the necessary values when prompted or press `enter` to accept default values. To provide prepopulated answers for these prompts, create environment variables `INPUT_<variable-name-in-prompt>`.
 1. In VSCode, use `> Attach to NodeJs process`. Provide the PID that appears in the command-output.

@@ -22,7 +22,8 @@ export function clearData() {
   Object.keys(process.env)
     .filter(key => (key.startsWith('INPUT_') ||
       key.startsWith("SECRET_") ||
-      key.startsWith("VSTS_TASKVARIABLE_")
+      key.startsWith("VSTS_TASKVARIABLE_") ||
+      key.startsWith("BUILD_")
     )
     ).forEach(key => delete process.env[key]);
 }
