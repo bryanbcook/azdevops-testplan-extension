@@ -113,7 +113,7 @@ export class TestRegexMatchStrategy implements TestResultMatchStrategy {
     if (this.regex) {
       let match : RegExpExecArray | null;
       if ((match = this.regex.exec(result.name)) !== null) {
-        let testCaseId = match[0];
+        let testCaseId = match[1]; // use first capture group result
         return testCaseId == (point as TestPoint2).testCaseReference.id ?
           TestResultMatch.Exact : TestResultMatch.Fail;
       }
