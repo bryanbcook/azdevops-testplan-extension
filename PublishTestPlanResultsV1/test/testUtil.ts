@@ -91,6 +91,8 @@ export function newShallowReference(id : string, name : string) {
 }
 
 export function newTestFrameworkResult(name : string = "Test1", outcome : string = "PASS") {
-  return new TestFrameworkResult(name, outcome);
+  let result = new TestFrameworkResult(name, outcome);
+  result.duration = 1000;
+  return result;
 }
 
