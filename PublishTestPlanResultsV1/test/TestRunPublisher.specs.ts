@@ -128,7 +128,8 @@ context("TestRunPublisher", () => {
             outcome: "2" /* VERIFY */,
             state: "Completed",
             stackTrace: undefined,
-            errorMessage: undefined
+            errorMessage: undefined,
+            durationInMs: 1000,
           },
           <Contracts.TestCaseResult>{
             id: 100002,
@@ -138,11 +139,12 @@ context("TestRunPublisher", () => {
             outcome: "2" /* VERIFY */,
             state: "Completed",
             stackTrace: undefined,
-            errorMessage: undefined
+            errorMessage: undefined,
+            durationInMs: 1000,
           },
         ]
       )).eq(true);
-    })
+    });
   
     it("Should mark the TestRun as completed", async function() {
       // arrange

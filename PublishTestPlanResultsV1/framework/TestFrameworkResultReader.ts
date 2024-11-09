@@ -19,10 +19,10 @@ export async function readResults(parameters: TestFrameworkParameters): Promise<
 
   testResult.suites.forEach(suite => {
     suite.cases.forEach(test => {
-
       let result = new TestFrameworkResult(test.name, test.status);
       result.failure = test.failure;
       result.stacktrace = test.stack_trace;
+      result.duration = test.duration;
       // 0.1.19 separated tags from metadata
       result.properties = new Map<string,string>(Object.entries(test.metadata));
 

@@ -27,6 +27,20 @@ describe("TestFramework Results Reader", () => {
     expect(results[0].properties.get("TestLevel")).to.equal('Regression');
     expect(results[0].properties.get("TestProduct")).to.equal('TestProductExample');
   });
+
+  // https://github.com/bryanbcook/azdevops-testplan-extension/issues/48
+  it("Can read xUnit time", async () => {
+    // arrange
+    var files = [];
+    files.push(path.join(baseDir, "xunit", "xunit-1.xml"));
+    var parameters = new TestFrameworkParameters(files, "xunit");
+    
+    // act
+    var results = await TestFrameworkResultReader.readResults(parameters);
+
+    // assert
+    expect(results[0].duration).to.eq(86006.5);
+  });
  
  
   it("Can read jUnit results", async () => {
@@ -58,6 +72,20 @@ describe("TestFramework Results Reader", () => {
     expect(results[2].outcome).to.eq(TestOutcome.Passed);
     expect(results[3].outcome).to.eq(TestOutcome.NotExecuted);
     expect(results[4].outcome).to.eq(TestOutcome.Failed);
+  });
+
+  // https://github.com/bryanbcook/azdevops-testplan-extension/issues/48
+  it("Can read JUnit time", async () => {
+    // arrange
+    var files = [];
+    files.push(path.join(baseDir, "junit", "single-suite.xml"));
+    var parameters = new TestFrameworkParameters(files, "junit");
+    
+    // act
+    var results = await TestFrameworkResultReader.readResults(parameters);
+
+    // assert
+    expect(results[0].duration).to.eq(10000);
   });
 
   it("Can read Cucumber results", async () => {

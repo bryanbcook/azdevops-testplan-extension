@@ -63,9 +63,10 @@ param(
   [string]$TestRunTitle,
 
   [Parameter(Mandatory)]
+  [AllowEmptyString()]
   [string]$BuildId,
 
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory)]  
   [AllowEmptyString()]
   [string]$DryRun,
 
@@ -85,7 +86,10 @@ $PSBoundParameters.GetEnumerator() | ForEach-Object {
 }
 
 # BuildId isn't an input parameter.
-[System.Environment]::SetEnvironmentVariable("BUILD_BUILDID", $BuildId)
+if ($BuildId) {
+  [System.Environment]::SetEnvironmentVariable("BUILD_BUILDID", $BuildId)
+}
+
 
 if ($DebugMode.IsPresent) {
   [System.Environment]::SetEnvironmentVariable("SYSTEM_DEBUG", "true");
