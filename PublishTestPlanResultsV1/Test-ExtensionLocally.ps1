@@ -90,6 +90,10 @@ if ($BuildId) {
   [System.Environment]::SetEnvironmentVariable("BUILD_BUILDID", $BuildId)
 }
 
+if (!$env:SYSTEM_DEFAULTWORKINGDIRECTORY) {
+  [System.Environment]::SetEnvironmentVariable("SYSTEM_DEFAULTWORKINGDIRECTORY", (Resolve-Path .))
+}
+
 
 if ($DebugMode.IsPresent) {
   [System.Environment]::SetEnvironmentVariable("SYSTEM_DEBUG", "true");

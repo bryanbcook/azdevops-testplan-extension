@@ -96,6 +96,10 @@ describe('TaskParameters', () => {
       invalidFiles.push( path.join("xunit", "invalidFile1.xml") );
     });
 
+    beforeEach(() => {
+      util.setSystemVariable("System.DefaultWorkingDirectory", __dirname);
+    })
+
     it('Should require testResultFormat to be provided', () => {
       // arrange
       // leave testResultFormat empty
@@ -121,7 +125,7 @@ describe('TaskParameters', () => {
       util.shouldThrow( () => TaskParameters.getFrameworkParameters(), "Input required: testResultFiles");
     });
 
-    it('Should verify that result files are valid', () => {
+    it('Should verify that absolute result files are valid', () => {
       // arrange
       util.setInput("testResultFormat", "xUnit");     
       util.setInput("testResultFiles", validFiles[0]);
@@ -151,16 +155,30 @@ describe('TaskParameters', () => {
       expect(parameters.testFiles[0]).to.eq(validFiles[0]);
     })
 
+    it('Should use default working directory as base results folder when relative path is provided', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");
+      util.setInput("testResultFiles", "data/xunit/xunit-1.xml");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.testFiles[0]).to.eq(validFiles[0]);
+    })
+
     it('Should complain if testResultFiles refers to invalid file', () => {
       // arrange
       util.setInput("testResultFormat", "xUnit");     
       util.setInput("testResultFiles", invalidFiles[0]);
       util.loadData();
-      var separator = path.sep;
+      var messageRegex = new RegExp(`Not found testResultFile\\(s\\): .+invalidFile1.xml`);
 
       // act / assert
       require(tp);
-      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), `Not found testResultFile(s): xunit${separator}invalidFile1.xml`);
+      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), messageRegex);
     });
 
     it('Should allow glob paths to be specified', () => {
@@ -177,7 +195,8 @@ describe('TaskParameters', () => {
       // assert
       expect(parameters.testFormat).to.eq("xunit");
       expect(parameters.testFiles.length).to.eq(1);
-
+      // future: make sure that the glob pattern was resolved
+      //expect(parameters.testFiles[0].indexOf("*")).to.eq(-1);
     });
 
     it('Should allow multiple test result files to be specified', () => {

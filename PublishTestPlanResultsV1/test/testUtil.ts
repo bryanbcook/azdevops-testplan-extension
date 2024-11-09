@@ -25,6 +25,7 @@ export function clearData() {
       key.startsWith("VSTS_TASKVARIABLE_") ||
       key.startsWith("BUILD_")
     )
+    // caution: System_* variables should not be deleted
     ).forEach(key => delete process.env[key]);
 }
 

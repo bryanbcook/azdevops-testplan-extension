@@ -112,7 +112,7 @@
         },
         {
             "name": "testResultFiles",
-            "type": "filePath",
+            "type": "string",
             "required": true,
             "label": "Test Result Files",
             "groupName": "general",

@@ -35,21 +35,7 @@ export function getFrameworkParameters(): TestFrameworkParameters {
   tl.debug("reading TestFrameworkParameters from task inputs.");
 
   let testResultFormat = tl.getInput("testResultFormat", true);
-  let testResultFolder = tl.getInput("testResultDirectory", false);
-  let testResultFiles = tl.getDelimitedInput("testResultFiles", ",", true)
-    .map(file => {
-      if (testResultFolder) {
-        return path.join(testResultFolder, file);
-      }
-      return file;
-    })
-    .filter(file => {
-      // verify that file exists
-      if (file.indexOf('**') == -1) {
-        tl.checkPath(file, "testResultFile(s)");
-      }
-      return true;
-    });
+  let testResultFiles = getTestFiles();
 
   return new TestFrameworkParameters(testResultFiles, testResultFormat!.toLowerCase()); 
 }
@@ -76,4 +62,33 @@ export function getPublisherParameters() : TestRunPublisherParameters {
   const dryRun = tl.getBoolInput("dryRun", false);
   const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
   return new TestRunPublisherParameters(collectionUri as string, accessToken as string, dryRun, testRunTitle, buildId as string);
+}
+
+function getTestFiles() : string[] {
+  
+  let testResultFolder = tl.getInput("testResultDirectory", false);
+  if (testResultFolder == undefined) {
+    // System.DefaultWorkingDirectory:
+    // - build pipelines: "C:\agent\work\1\s" equivalent to "$(Build.SourcesDirectory)"
+    // - release pipelines: "C:\agent\work\r1\a" equivalent to "$(System.ArtifactsDirectory)"
+    testResultFolder = tl.getVariable("SYSTEM_DEFAULTWORKINGDIRECTORY") as string;
+  }
+
+  let testResultFiles = tl.getDelimitedInput("testResultFiles", ",", true)
+    .map(file => {
+      // merge relative paths with the testresult folder
+      if (!path.isAbsolute(file)) {
+        return path.join(testResultFolder, file);
+      }
+      return file;
+    })
+    .filter(file => {
+      // verify that file exists
+      if (file.indexOf('**') == -1) {
+        tl.checkPath(file, "testResultFile(s)");
+      }
+      return true;
+    });
+
+  return testResultFiles;
 }
