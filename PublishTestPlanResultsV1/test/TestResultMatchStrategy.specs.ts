@@ -178,6 +178,17 @@ describe("TestCaseMatchStrategy", () => {
       expect(result).to.eq(TestResultMatch.Exact);
     });
 
+    it("Should find test case id using regex capture group", () => {
+      subject = new TestRegexMatchStrategy("TestCase(\\d+)");
+      test = new TestFrameworkResult("TestProject1.UnitTest1.TestCase1234_SomeMethod", "FAIL");
+
+      // act
+      var result = subject.isMatch(test,point);
+
+      // assert
+      expect(result).to.eq(TestResultMatch.Exact);
+    })
+
     it("Should fail match if regex value does not match", () => {
       subject = new TestRegexMatchStrategy("(\\d+)");
       test = new TestFrameworkResult("MyMethod.Name.SomeMethod_5432", "FAIL");
