@@ -1,11 +1,9 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import * as testUtil from './testUtil';
+import path from "path";
 import * as Contracts from 'azure-devops-node-api/interfaces/TestInterfaces'
+import * as testUtil from './testUtil';
 import { AdoWrapper } from "../services/AdoWrapper";
-import { TestResultProcessorResult } from "../processing/TestResultProcessor";
-import { TestFrameworkResult } from "../framework/TestFrameworkResult";
-
 
 describe("AdoWrapper", () => {
 
@@ -38,12 +36,16 @@ describe("AdoWrapper", () => {
   })
 
   beforeEach(async () => {
+    // instantiating the ado api makes calls to the server,
+    // so the url + authentication values must be valid
     subject = await AdoWrapper.createInstance(tfsCollectionUri, accessToken);
   })
 
   afterEach(() => {
     sinon.restore();
   })
+
+  context('Integration Tests', () => {
 
   // integration test
   it("Should be able to resolve the project name", async function () {
@@ -86,6 +88,27 @@ describe("AdoWrapper", () => {
     expect(result[0].endDate).not.undefined;
   });
 
+    // integration test
+    it("Should fetch all test configuration objects", async function () {
+      // arrange
+      this.timeout(10000);
+      // act
+      var result = await subject.getTestConfigurations(projectName);
+      // assert
+      expect(result.length).greaterThan(0);
+    });
+
+    // integration test
+    it("Should fetch all test points in a testplan", async function () {
+      // arrange
+      this.timeout(10000);
+      // act
+      var result = await subject.getTestPointsForSuite(projectId, planId, rootSuite, true);
+      // assert
+      expect(result.length).greaterThan(0);
+    });
+  })  
+
   // unit test / stub out rest get
   it("Should paginate to get all test plans if needed", async function () {
     // arrange
@@ -96,16 +119,6 @@ describe("AdoWrapper", () => {
     expect(result.length).eq(20);
   });
 
-  // integration test
-  it("Should fetch all test configuration objects", async function () {
-    // arrange
-    this.timeout(10000);
-    // act
-    var result = await subject.getTestConfigurations(projectName);
-    // assert
-    expect(result.length).greaterThan(0);
-  });
-
   // unit test / stub out rest get
   it("Should paginiate to get all test configurations if needed", async function () {
     // arrange
@@ -114,16 +127,6 @@ describe("AdoWrapper", () => {
     var result = await subject.getTestConfigurations(projectName);
     // assert
     expect(result.length).eq(20);
-  });
-
-  // integration test
-  it("Should fetch all test points in a testplan", async function () {
-    // arrange
-    this.timeout(10000);
-    // act
-    var result = await subject.getTestPointsForSuite(projectId, planId, rootSuite, true);
-    // assert
-    expect(result.length).greaterThan(0);
   });
 
   // unit test / stub out rest get
@@ -166,6 +169,7 @@ describe("AdoWrapper", () => {
   //   // throw new Error("Not implemented");
   // });
 
+  // unit / stub out testApi
   it("Should batch retrieve testcaseresults from testplan", async () => {
     // arrange
     const getTestResultsStub = sinon.stub(subject.testApi, "getTestResults");
