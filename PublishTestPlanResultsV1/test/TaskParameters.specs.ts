@@ -1,10 +1,8 @@
+import { expect } from 'chai';
 import * as path from 'path';
-import * as assert from 'assert';
-import { should, expect } from 'chai';
-import * as util from './testUtil';
-import * as TaskParameters from '../TaskParameters';
 import { TestCaseMatchingStrategy } from '../processing/TestResultMatchStrategy';
-import { access } from 'fs';
+import * as TaskParameters from '../TaskParameters';
+import * as util from './testUtil';
 
 describe('TaskParameters', () => {
 
@@ -342,6 +340,7 @@ describe('TaskParameters', () => {
       // arrange
       util.setInput("collectionUri", "https://my");
       util.setInput("accessToken", "myToken")
+      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
       util.loadData();
 
       // act
@@ -355,6 +354,7 @@ describe('TaskParameters', () => {
 
     it('Should resolve default values', () => {
       // arrange
+      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
       util.loadData();
 
       // act
@@ -370,6 +370,7 @@ describe('TaskParameters', () => {
 
     it('Should resolve build id from build pipeline', () => {
       // arrange
+      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
       // BUILD_BUILDID is available in build and classic release pipelines.
       // for release pipelines, if there are multiple build artifacts, the build id is 
       // based on the primary artifact.
@@ -386,6 +387,7 @@ describe('TaskParameters', () => {
 
     it("Should allow testRun publishing to be disabled by enabling 'dryRun'", () => {
       // arrange
+      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
       util.setInput("dryRun", "true");
       util.loadData();
 

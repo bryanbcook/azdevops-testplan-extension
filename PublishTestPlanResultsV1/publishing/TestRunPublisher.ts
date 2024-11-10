@@ -1,9 +1,9 @@
 import * as Contracts from "azure-devops-node-api/interfaces/TestInterfaces";
-import { TestResultProcessorResult } from "../processing/TestResultProcessor";
+import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestRunPublisherParameters } from "./TestRunPublisherParameters";
+import { TestResultProcessorResult } from "../processing/TestResultProcessor";
 import { AdoWrapper } from "../services/AdoWrapper";
 import { ILogger, getLogger } from "../services/Logger";
-import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 
 export class TestRunPublisher {
 
@@ -15,6 +15,7 @@ export class TestRunPublisher {
     publisher.buildId = parameters.buildId;
     publisher.dryRun = parameters.dryRun;
     publisher.testRunTitle = parameters.testRunTitle;
+    publisher.testFiles = parameters.testFiles;
 
     return publisher;
   }
@@ -24,6 +25,7 @@ export class TestRunPublisher {
   public buildId : string;
   public dryRun : boolean;
   public testRunTitle : string;
+  public testFiles : string[];
 
   constructor(ado : AdoWrapper, logger : ILogger) {
     this.ado = ado;
@@ -31,6 +33,7 @@ export class TestRunPublisher {
     this.buildId = "";
     this.dryRun = false;
     this.testRunTitle = "PublishTestPlanResults"
+    this.testFiles = [];
   }
 
   async publishTestRun( results : TestResultProcessorResult) : Promise<Contracts.TestRun | undefined> {

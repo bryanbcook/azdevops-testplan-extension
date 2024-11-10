@@ -1,13 +1,13 @@
-import { expect } from "chai";
-import sinon from "sinon";
-import * as testUtil from './testUtil';
 import * as Contracts from 'azure-devops-node-api/interfaces/TestInterfaces';
-import { TestRunPublisher } from "../publishing/TestRunPublisher";
+import { expect } from "chai";
+import path from "path";
+import sinon from "sinon";
 import { TestResultProcessorResult } from "../processing/TestResultProcessor";
-import { AdoWrapper } from "../services/AdoWrapper";
-import { ILogger, NullLogger, getLogger } from "../services/Logger";
+import { TestRunPublisher } from "../publishing/TestRunPublisher";
 import { TestRunPublisherParameters } from "../publishing/TestRunPublisherParameters";
-import { TestFrameworkResult } from "../framework/TestFrameworkResult";
+import { ILogger, NullLogger, getLogger } from "../services/Logger";
+import { AdoWrapper } from "../services/AdoWrapper";
+import * as testUtil from './testUtil';
 
 context("TestRunPublisher", () => {
 
@@ -59,8 +59,9 @@ context("TestRunPublisher", () => {
       const serverUrl = process.env.SYSTEM_COLLECTIONURI as string;
       const accessToken = (process.env.SYSTEM_ACCESSTOKEN ?? process.env.ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN) as string;
       const buildId = "123";
+      const testFiles = ["file1", "file2"];
       console.log(serverUrl);
-      var parameters = new TestRunPublisherParameters(serverUrl, accessToken, false, "Dummy", buildId);
+      var parameters = new TestRunPublisherParameters(serverUrl, accessToken, false, "Dummy", buildId, testFiles);
 
       // act
       var subject = await TestRunPublisher.create(parameters);
@@ -70,6 +71,7 @@ context("TestRunPublisher", () => {
       expect(subject.dryRun).eq(false);
       expect(subject.testRunTitle).eq("Dummy");
       expect(subject.buildId).eq("123");
+      expect(subject.testFiles.length).eq(2);
     })
 
   })
