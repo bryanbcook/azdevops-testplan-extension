@@ -4,6 +4,8 @@ import * as Contracts from 'azure-devops-node-api/interfaces/TestInterfaces'
 import { ClientApiBase } from "azure-devops-node-api/ClientApiBases";
 import { ICoreApi } from "azure-devops-node-api/CoreApi";
 import { ITestApi } from "azure-devops-node-api/TestApi";
+import * as fs from "fs";
+import path from "path";
 import { ILogger, getLogger } from "./Logger";
 
 interface AdoResponseHeaders {
@@ -32,7 +34,6 @@ export class AdoWrapper {
   coreApi : ICoreApi;
   testApi : ITestApi;
   logger : ILogger;
-
   
   constructor(coreApi : ICoreApi, testApi : ITestApi, logger : ILogger) {
     this.coreApi = coreApi;
@@ -135,6 +136,27 @@ export class AdoWrapper {
   }
 
   /**
+   * Attaches files to a TestRun
+   * 
+   * @param projectId project identifier
+   * @param testRunId test plan id
+   * @param files array of files to attach to the test run
+   */
+  async attachTestRunFiles(projectId : string, testRunId : number, files : string[]) : Promise<void> {
+    this.logger.debug(`attachTestRunFiles projectId:${projectId} testRunId:${testRunId} files: (${files.length} items)`);
+
+    for (let file of files) {
+      this.logger.debug(`attaching file: ${file}`);
+      try {
+        let attachment = await this.createAttachment(file);
+        await this.testApi.createTestRunAttachment(attachment, projectId, testRunId);
+      } catch (error) {
+        this.logger.warn(`failed to attach testrun attachment: ${file} - ${error}`);
+      }      
+    }
+  }
+
+  /**
    * Resolve the TestResults for a given TestRun
    * 
    * node api can retrieve 1000 items at a time when no options specified, 200 otherwise.
@@ -226,5 +248,16 @@ export class AdoWrapper {
     } while(continuationToken !== undefined)
 
     return results;
+  }
+
+  private async createAttachment(filePath : string) : Promise<Contracts.TestAttachmentRequestModel> {
+    let fileName = path.basename(filePath);
+    const data = await fs.promises.readFile(filePath);
+    let fileContent = Buffer.from(data).toString("base64");
+    return {
+      fileName: fileName,
+      stream: fileContent,
+      attachmentType: Contracts.AttachmentType.GeneralAttachment.toString()
+    } as Contracts.TestAttachmentRequestModel;
   }
 }
