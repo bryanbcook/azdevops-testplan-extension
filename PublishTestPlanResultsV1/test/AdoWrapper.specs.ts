@@ -1,11 +1,9 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import * as testUtil from './testUtil';
+import path from "path";
 import * as Contracts from 'azure-devops-node-api/interfaces/TestInterfaces'
+import * as testUtil from './testUtil';
 import { AdoWrapper } from "../services/AdoWrapper";
-import { TestResultProcessorResult } from "../processing/TestResultProcessor";
-import { TestFrameworkResult } from "../framework/TestFrameworkResult";
-
 
 describe("AdoWrapper", () => {
 
@@ -38,6 +36,8 @@ describe("AdoWrapper", () => {
   })
 
   beforeEach(async () => {
+    // instantiating the ado api makes calls to the server,
+    // so the url + authentication values must be valid
     subject = await AdoWrapper.createInstance(tfsCollectionUri, accessToken);
   })
 
@@ -45,46 +45,69 @@ describe("AdoWrapper", () => {
     sinon.restore();
   })
 
-  // integration test
-  it("Should be able to resolve the project name", async function () {
-    // arrange
-    this.timeout(10000);
+  context('Integration Tests', () => {
 
-    // act
-    let projectId = await subject.getProjectId(projectName);
+    // integration test
+    it("Should be able to resolve the project name", async function () {
+      // arrange
+      this.timeout(10000);
 
-    // assert
-    expect(projectId).eq(projectId);
-  })
+      // act
+      let projectId = await subject.getProjectId(projectName);
 
-  // integration test
-  it("Should throw error if project name does not exist", async function () {
-    // arrange
-    this.timeout(10000);
-    // act / assert
-    await testUtil.shouldThrowAsync(async () => { return subject.getProjectId("asdasdf")}, "Project 'asdasdf' was not found.");
-  });
+      // assert
+      expect(projectId).eq(projectId);
+    })
 
-  // integration test
-  it("Should fetch all available test plans", async function () {
-    // arrange
-    this.timeout(10000);
-    var result = await subject.getTestPlans(projectName);
+    // integration test
+    it("Should throw error if project name does not exist", async function () {
+      // arrange
+      this.timeout(10000);
+      // act / assert
+      await testUtil.shouldThrowAsync(async () => { return subject.getProjectId("asdasdf")}, "Project 'asdasdf' was not found.");
+    });
 
-    // assert
-    expect(result.length).greaterThan(0);
-  });
+    // integration test
+    it("Should fetch all available test plans", async function () {
+      // arrange
+      this.timeout(10000);
+      var result = await subject.getTestPlans(projectName);
 
-  // integration test
-  it("Should should include dates for test plans", async function () {
-    // arrange
-    this.timeout(10000);
-    var result = await subject.getTestPlans(projectName);
+      // assert
+      expect(result.length).greaterThan(0);
+    });
 
-    // assert
-    expect(result[0].startDate).not.undefined;
-    expect(result[0].endDate).not.undefined;
-  });
+    // integration test
+    it("Should should include dates for test plans", async function () {
+      // arrange
+      this.timeout(10000);
+      var result = await subject.getTestPlans(projectName);
+
+      // assert
+      expect(result[0].startDate).not.undefined;
+      expect(result[0].endDate).not.undefined;
+    });
+
+    // integration test
+    it("Should fetch all test configuration objects", async function () {
+      // arrange
+      this.timeout(10000);
+      // act
+      var result = await subject.getTestConfigurations(projectName);
+      // assert
+      expect(result.length).greaterThan(0);
+    });
+
+    // integration test
+    it("Should fetch all test points in a testplan", async function () {
+      // arrange
+      this.timeout(10000);
+      // act
+      var result = await subject.getTestPointsForSuite(projectId, planId, rootSuite, true);
+      // assert
+      expect(result.length).greaterThan(0);
+    });
+  })  
 
   // unit test / stub out rest get
   it("Should paginate to get all test plans if needed", async function () {
@@ -96,16 +119,6 @@ describe("AdoWrapper", () => {
     expect(result.length).eq(20);
   });
 
-  // integration test
-  it("Should fetch all test configuration objects", async function () {
-    // arrange
-    this.timeout(10000);
-    // act
-    var result = await subject.getTestConfigurations(projectName);
-    // assert
-    expect(result.length).greaterThan(0);
-  });
-
   // unit test / stub out rest get
   it("Should paginiate to get all test configurations if needed", async function () {
     // arrange
@@ -114,16 +127,6 @@ describe("AdoWrapper", () => {
     var result = await subject.getTestConfigurations(projectName);
     // assert
     expect(result.length).eq(20);
-  });
-
-  // integration test
-  it("Should fetch all test points in a testplan", async function () {
-    // arrange
-    this.timeout(10000);
-    // act
-    var result = await subject.getTestPointsForSuite(projectId, planId, rootSuite, true);
-    // assert
-    expect(result.length).greaterThan(0);
   });
 
   // unit test / stub out rest get
@@ -166,6 +169,7 @@ describe("AdoWrapper", () => {
   //   // throw new Error("Not implemented");
   // });
 
+  // unit / stub out testApi
   it("Should batch retrieve testcaseresults from testplan", async () => {
     // arrange
     const getTestResultsStub = sinon.stub(subject.testApi, "getTestResults");
@@ -201,6 +205,74 @@ describe("AdoWrapper", () => {
   //   // assert
   //   throw new Error("Not implemented");
   // });
+
+  context("TestRun Attachments", () => {
+
+    const basePath = path.join(__dirname, "data/xunit");
+    let files : Array<string> = [];
+
+    beforeEach(() => {
+      files = [];
+      files.push(path.join(basePath, "xunit-1.xml"));
+    })
+
+    // unit test / stub out testApi
+    it("Should send base64 encoded file contents when attaching testrun files", async () => {
+      // arrange
+      const createAttachmentStub = sinon.stub(subject.testApi, "createTestRunAttachment");
+      
+      // act
+      await subject.attachTestRunFiles(projectId, 400, files);
+  
+      // assert
+      // verify that attachment stream is base64 encoded
+      let callArgs = createAttachmentStub.getCall(0).args;
+      expect(callArgs[0].stream).not.to.be.empty;
+    })
+
+    // unit test / stub out testApi
+    it("Should allow multiple testRun attachments", async () => {
+      // arrange
+      files.push(path.join(basePath, "xunit-2.xml"));
+      const createAttachmentStub = sinon.stub(subject.testApi, "createTestRunAttachment");
+
+      // act
+      await subject.attachTestRunFiles(projectId, 400, files);
+
+      // assert
+      expect(createAttachmentStub.getCalls().length).to.be.eq(2);
+    })
+
+    // unit test / stub out testApi
+    it("Should send file name when attaching testrun files", async () => {
+      // arrange
+      const createAttachmentStub = sinon.stub(subject.testApi, "createTestRunAttachment");
+      
+      // act
+      await subject.attachTestRunFiles(projectId, 400, files);
+  
+      // assert
+      // verify that attachment stream is base64 encoded
+      let callArgs = createAttachmentStub.getCall(0).args;
+      expect(callArgs[0].fileName).to.be.eq("xunit-1.xml");
+    })
+
+    it("Should log failures if attachment fails", async () => {
+      // arrange
+      const createAttachmentStub = sinon.stub(subject.testApi, "createTestRunAttachment");
+      const loggerWarningStub = sinon.stub(subject.logger, "warn");
+
+      createAttachmentStub.throws(new Error("Attachment failed"));
+
+      // act
+      await subject.attachTestRunFiles(projectId, 400, files);
+
+      // assert
+      expect(loggerWarningStub.calledOnce).to.be.true;
+    })
+
+  })
+
 
   function stubGetRequestWithContinuationToken(nameFormat : string) {
     const getRequestStub = sinon.stub(subject.testApi.rest, "get");

@@ -1,12 +1,9 @@
-import { TestFrameworkFormat } from "./TestFrameworkFormat";
+import { parse } from 'test-results-parser';
 import { TestFrameworkParameters } from "./TestFrameworkParameters";
 import { TestFrameworkResult } from "./TestFrameworkResult";
-import { parse, ParseOptions } from 'test-results-parser';
-import { ILogger, getLogger } from "../services/Logger"
-import { stringify } from "querystring";
+import { getLogger } from "../services/Logger"
 
 export async function readResults(parameters: TestFrameworkParameters): Promise<TestFrameworkResult[]> {
-
 
   let logger = getLogger();
 

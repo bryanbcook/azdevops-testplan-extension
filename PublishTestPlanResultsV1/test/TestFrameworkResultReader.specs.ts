@@ -1,21 +1,25 @@
-import * as path from 'path';
-import { expect } from 'chai';
 import { TestOutcome } from 'azure-devops-node-api/interfaces/TestInterfaces';
+import { expect } from 'chai';
+import * as path from 'path';
 import { TestFrameworkParameters } from '../framework/TestFrameworkParameters';
 import * as TestFrameworkResultReader from '../framework/TestFrameworkResultReader';
 
 describe("TestFramework Results Reader", () => {
 
   var baseDir : string;
+  var files : string[];
 
   before(() => {
     baseDir = path.join(__dirname, "data");
   })
 
+  beforeEach(() => {
+    files = [];
+  })
+
   it("Can read xUnit results", async () => {
     // arrange
-    var files = [];
-    files.push(path.join(baseDir, "xunit", "xunit-1.xml"));
+    files.push(path.join(baseDir, "xunit/xunit-1.xml"));
     var parameters = new TestFrameworkParameters(files, "xunit");
     
     // act
@@ -31,8 +35,7 @@ describe("TestFramework Results Reader", () => {
   // https://github.com/bryanbcook/azdevops-testplan-extension/issues/48
   it("Can read xUnit time", async () => {
     // arrange
-    var files = [];
-    files.push(path.join(baseDir, "xunit", "xunit-1.xml"));
+    files.push(path.join(baseDir, "xunit/xunit-1.xml"));
     var parameters = new TestFrameworkParameters(files, "xunit");
     
     // act
@@ -45,8 +48,7 @@ describe("TestFramework Results Reader", () => {
  
   it("Can read jUnit results", async () => {
     // arrange
-    var files = [];
-    files.push(path.join(baseDir, "junit", "single-suite.xml"));
+    files.push(path.join(baseDir, "junit/single-suite.xml"));
     var parameters = new TestFrameworkParameters(files, "junit");
     
     // act
@@ -59,8 +61,7 @@ describe("TestFramework Results Reader", () => {
   // https://github.com/bryanbcook/azdevops-testplan-extension/issues/31
   it("Can read JUnit test outcomes", async () => {
     // arrange
-    var files = [];
-    files.push(path.join(baseDir, "junit", "test-cleansed.xml"));
+    files.push(path.join(baseDir, "junit/test-cleansed.xml"));
     var parameters = new TestFrameworkParameters(files, "junit");
     
     // act
@@ -77,8 +78,7 @@ describe("TestFramework Results Reader", () => {
   // https://github.com/bryanbcook/azdevops-testplan-extension/issues/48
   it("Can read JUnit time", async () => {
     // arrange
-    var files = [];
-    files.push(path.join(baseDir, "junit", "single-suite.xml"));
+    files.push(path.join(baseDir, "junit/single-suite.xml"));
     var parameters = new TestFrameworkParameters(files, "junit");
     
     // act
@@ -90,8 +90,7 @@ describe("TestFramework Results Reader", () => {
 
   it("Can read Cucumber results", async () => {
     // arrange
-    var files = [];
-    files.push(path.join(baseDir, "cucumber", "single-suite-single-test.json"));
+    files.push(path.join(baseDir, "cucumber/single-suite-single-test.json"));
     var parameters = new TestFrameworkParameters(files, "cucumber");
     
     // act
@@ -103,8 +102,7 @@ describe("TestFramework Results Reader", () => {
 
   it("Can read Mocha results", async () => {
     // arrange
-    var files = [];
-    files.push(path.join(baseDir, "mocha", "single-suite-single-test.json"));
+    files.push(path.join(baseDir, "mocha/single-suite-single-test.json"));
     var parameters = new TestFrameworkParameters(files, "mocha");
     
     // act
@@ -116,8 +114,7 @@ describe("TestFramework Results Reader", () => {
 
   it("Can read NUnit results", async () => {
     // arrange
-    var files = [];
-    files.push(path.join(baseDir, "nunit", "nunit_v3.xml"));
+    files.push(path.join(baseDir, "nunit/nunit_v3.xml"));
     var parameters = new TestFrameworkParameters(files, "nunit");
     
     // act
@@ -129,8 +126,7 @@ describe("TestFramework Results Reader", () => {
 
   it("Can read TestNG results", async () => {
     // arrange
-    var files = [];
-    files.push(path.join(baseDir, "testng", "single-suite.xml"));
+    files.push(path.join(baseDir, "testng/single-suite.xml"));
     var parameters = new TestFrameworkParameters(files, "testng");
     
     // act
@@ -142,7 +138,6 @@ describe("TestFramework Results Reader", () => {
 
   it("Can read MStests results", async () => {
     // arrange
-    var files = [];
     files.push(path.join(baseDir, "mstest", "testresults.trx"));
     var parameters = new TestFrameworkParameters(files, "mstest");
     
@@ -152,6 +147,4 @@ describe("TestFramework Results Reader", () => {
     // assert
     expect(results.length).to.eq(10);
   });
-
-
 })

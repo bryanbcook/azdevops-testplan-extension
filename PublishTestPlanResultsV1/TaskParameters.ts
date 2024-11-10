@@ -61,7 +61,8 @@ export function getPublisherParameters() : TestRunPublisherParameters {
   const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI");
   const dryRun = tl.getBoolInput("dryRun", false);
   const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
-  return new TestRunPublisherParameters(collectionUri as string, accessToken as string, dryRun, testRunTitle, buildId as string);
+  const testFiles = getTestFiles().filter(file => file.indexOf('**') == -1);
+  return new TestRunPublisherParameters(collectionUri as string, accessToken as string, dryRun, testRunTitle, buildId as string, testFiles);
 }
 
 function getTestFiles() : string[] {
