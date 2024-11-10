@@ -179,6 +179,26 @@ context("TestRunPublisher", () => {
     })
   })
 
+  it("Should attach testrun files to the testRun", async () => {
+    // arrange
+    let file = path.join(__dirname, "data/xunit/xunit-1.xml");
+    subject.testFiles = [ file ];
+    
+     // setup testdata
+     testData.matches.set(/*testpoint*/ 1, testUtil.newTestFrameworkResult());
+     testData.matches.set(/*testpoint*/ 2, testUtil.newTestFrameworkResult());
+
+    // expect that a test run will be created and returns objects for our testdata
+    setupTestRun( /*runid*/ 400);
+    setupTestCaseResults( [1,2] );    
+
+    // act
+    var result = await subject.publishTestRun(testData);
+
+    // assert
+    expect(ado.attachTestRunFiles.calledOnce);
+  })
+
   it("Should fail if there were not any matched testcases", async function() {
     // arrange
     // act / assert

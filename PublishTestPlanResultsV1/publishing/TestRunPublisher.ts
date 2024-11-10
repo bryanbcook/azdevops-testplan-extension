@@ -78,6 +78,9 @@ export class TestRunPublisher {
       // update the testcaseresults
       var updatedResults = await this.ado.updateTestResults(projectId, testRun.id, testCaseResults);
 
+      // add testRun attachments
+      await this.ado.attachTestRunFiles(projectId, testRun.id, this.testFiles)
+
       // finalize the testrun
       testRun.state = "Completed";
       testRun.name = this.testRunTitle;
