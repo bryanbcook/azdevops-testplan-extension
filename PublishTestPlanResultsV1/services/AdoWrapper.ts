@@ -80,7 +80,7 @@ export class AdoWrapper {
   async getTestConfigurations(projectName: string): Promise<Contracts.TestConfiguration[]> {
     this.logger.debug(`getTestConfigurations projectName:${projectName}`);
 
-    const url = `${this.testApi.vsoClient.baseUrl}/${projectName}/_apis/testplan/configurations?api-version=7.2-preview.1`;
+    const url = `${this.testApi.vsoClient.baseUrl}/${projectName}/_apis/testplan/configurations?api-version=7.2`;
     return this.fetchWithPagination<Contracts.TestConfiguration>(this.testApi, url, Contracts.TypeInfo.TestConfiguration);
   }
 
@@ -102,7 +102,7 @@ export class AdoWrapper {
     this.logger.debug(`getTestPointsForSuite projectId:${projectId} testPlanId:${testPlanId} testSuiteId:${testSuiteId} recursive:${recursive}`);
 
     // testApi.getPoints() does not pass recursive flag
-    var url = `${this.testApi.vsoClient.baseUrl}/${projectId}/_apis/testplan/Plans/${testPlanId}/Suites/${testSuiteId}/TestPoint?api-version=7.2-preview.2&includePointDetails=true&isRecursive=${recursive.toString()}`
+    var url = `${this.testApi.vsoClient.baseUrl}/${projectId}/_apis/testplan/Plans/${testPlanId}/Suites/${testSuiteId}/TestPoint?api-version=7.2&includePointDetails=true&isRecursive=${recursive.toString()}`
     return this.fetchWithPagination<Contracts.TestPoint>(this.testApi, url, Contracts.TypeInfo.TestPoint);
   }
 
