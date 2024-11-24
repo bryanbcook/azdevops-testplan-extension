@@ -145,10 +145,29 @@ export class TestResultContextBuilder {
   private async getTestPoints(projectId : string, testPlan : TestPlan, testConfigFilterId : string | undefined): Promise<TestPoint[]> {
     this.log.debug("locating test suites and test points");
     
-    let points = await this.ado.getTestPointsForSuite(projectId, testPlan.id.toString(), testPlan.rootSuite.id as string, true);
+    let testPlanId = testPlan.id.toString();
+    let testPlanRootSuiteId = testPlan.rootSuite.id as string;
+    let points = await this.ado.getTestPointsForSuite(projectId, testPlanId, testPlanRootSuiteId, true);
 
     if (testConfigFilterId) {
       return points.filter(i => i.configuration.id == testConfigFilterId);
+    }
+
+    // test case workItemProperties are not included in the testplan/suite/point data
+    this.log.debug("fetching additional testcase meta data")
+    let testCases = await this.ado.getTestCasesForSuite(projectId, testPlanId, testPlanRootSuiteId, true);
+    if (testCases && testCases.length > 0) {
+      let testCaseMap = new Map<string, any>();
+      testCases.forEach(tc => {
+        testCaseMap.set(tc.workItem.id, tc);
+      });
+
+      points.forEach(p => {
+        let tc = testCaseMap.get(p.testCaseReference.id as string);
+        if (tc) {
+          p.workItemProperties = tc.workItem.workItemFields;
+        }
+      });
     }
 
     return points;

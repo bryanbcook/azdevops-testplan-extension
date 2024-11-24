@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as testUtil from './testUtil';
-import { newShallowReference, newTestConfig, newTestPlan, newTestPoint } from './testUtil';
-import { TestPlan, TestConfiguration, TestPoint } from 'azure-devops-node-api/interfaces/TestInterfaces';
+import { newTestConfig, newTestPlan, newTestPoint, newTestCase } from './testUtil';
+import { TestPlan, TestConfiguration, TestPoint, SuiteTestCase } from 'azure-devops-node-api/interfaces/TestInterfaces';
 import { AdoWrapper, TestPoint2 } from '../services/AdoWrapper';
 import { ILogger, NullLogger } from '../services/Logger';
 import { TestResultContextBuilder } from '../context/TestResultContextBuilder';
@@ -256,7 +256,57 @@ describe("TestResultContextBuilder", () => {
         expect((points[3] as TestPoint2).testCaseReference.name).to.eq("Test Case 4");
       });
     });
-  })  
+  })
+
+  context("Load Test Case Meta", () => {
+    beforeEach(() => {
+      setupProject("1234");
+      setupTestPlans([
+        newTestPlan(1, "ValidPlan")
+      ]);
+      setupTestConfigurations([
+        newTestConfig(1, "Config 1"),
+        newTestConfig(2, "Config 2")
+      ]);
+      setupTestPoints([
+        newTestPoint(1, "Test Case 1", "1", "150"),
+        newTestPoint(2, "Test Case 2", "2", "151"),
+        newTestPoint(3, "Test Case 3", "2", "152"),
+        newTestPoint(4, "Test Case 4", "1", "153"),
+      ])
+    })
+
+    it("Should populate test points with test case meta", async () => {
+      // arrange
+      setupTestCases([
+        newTestCase("150", [ 
+          new testUtil.workItemField("Microsoft.VSTS.TCM.AutomationStatus", "Automated")
+        ]),
+        newTestCase("151", [ 
+          new testUtil.workItemField("Microsoft.VSTS.TCM.AutomationStatus", "Not Automated")
+        ]),
+        newTestCase("152", [ 
+          new testUtil.workItemField("Microsoft.VSTS.TCM.AutomationStatus", "Automated")
+        ]),
+        newTestCase("153", [ 
+          new testUtil.workItemField("Microsoft.VSTS.TCM.AutomationStatus", "Not Automated"),
+          new testUtil.workItemField("Microsoft.VSTS.TCM.AutomatedTestName", "foo")
+        ])
+      ])
+
+      // act
+      var result = await subject.build();
+
+      // assert
+      var testPoints = result.getTestPoints();
+
+      expect(testPoints.length).to.eq(4);
+      expect(testPoints[0].workItemProperties[0]["Microsoft.VSTS.TCM.AutomationStatus"]).to.eq("Automated");
+      expect(testPoints[1].workItemProperties[0]["Microsoft.VSTS.TCM.AutomationStatus"]).to.eq("Not Automated");
+      expect(testPoints[2].workItemProperties[0]["Microsoft.VSTS.TCM.AutomationStatus"]).to.eq("Automated");
+      expect(testPoints[3].workItemProperties[1]["Microsoft.VSTS.TCM.AutomatedTestName"]).to.eq("foo");
+    })
+  })
 
   function setupProject(projectId : string) {
     ado.getProjectId.returns(new Promise((resolve) => {
@@ -270,7 +320,7 @@ describe("TestResultContextBuilder", () => {
     }));
   }
 
-  function setupTestPoints(points : TestPoint[]) {
+  function setupTestPoints(points : TestPoint2[]) {
     ado.getTestPointsForSuite.returns(new Promise((resolve) => {
       resolve(points);
     }));
@@ -282,5 +332,9 @@ describe("TestResultContextBuilder", () => {
     }));
   }
 
-  
+  function setupTestCases(testCases : any[]) {
+    ado.getTestCasesForSuite.returns(new Promise((resolve) => {
+      resolve(testCases);
+    }))
+  }
 });

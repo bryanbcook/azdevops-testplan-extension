@@ -1,6 +1,6 @@
 import im = require('azure-pipelines-task-lib/internal');
 import * as assert from 'assert'
-import { ShallowReference, TestPlan, TestConfiguration, WorkItemReference } from 'azure-devops-node-api/interfaces/TestInterfaces';
+import { ShallowReference, TestPlan, TestConfiguration, WorkItemReference, SuiteTestCase } from 'azure-devops-node-api/interfaces/TestInterfaces';
 import { TestPoint2 } from '../services/AdoWrapper';
 import { TestFrameworkResult } from '../framework/TestFrameworkResult';
 
@@ -85,6 +85,33 @@ export function newTestPoint(id : number = 0, name : string = "Test 1", configId
     },
     configuration: newShallowReference(configId, configId)
   };
+}
+
+export function newTestCase(testCaseId: string, fields: workItemField[]) {
+  let testCase = {
+    // only return the fields that are needed
+    workItem: {
+      id: testCaseId,
+      workItemFields: <any>[]
+    }
+  }
+  fields.forEach(field => {
+    let item = <any>{ };
+    item[field.referenceName] = field.value;
+
+    testCase.workItem.workItemFields.push(item);
+  })
+  return testCase;
+}
+
+export class workItemField {
+  referenceName: string;
+  value: string;
+
+  constructor(referenceName: string, value: string) {
+    this.referenceName = referenceName;
+    this.value = value;
+  }
 }
 
 export function newShallowReference(id : string, name : string) {

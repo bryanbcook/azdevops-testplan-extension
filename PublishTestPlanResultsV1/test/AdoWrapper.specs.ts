@@ -107,6 +107,16 @@ describe("AdoWrapper", () => {
       // assert
       expect(result.length).greaterThan(0);
     });
+
+    it("Should fetch all test cases in a testplan", async function () {
+      // arrange
+      this.timeout(10000);
+      // act
+      var result = await subject.getTestCasesForSuite(projectId, planId, rootSuite, true);
+
+      // assert
+      expect(result.length).greaterThan(0);
+    })
   })  
 
   // unit test / stub out rest get
@@ -138,6 +148,15 @@ describe("AdoWrapper", () => {
     // assert
     expect(result.length).eq(20);
   });
+
+  it("Should paginate to fetch all test cases", async function () {
+    // arrange
+    stubGetRequestWithContinuationToken("Test Case"); // paginate 10 results x2
+    // act
+    var result = await subject.getTestCasesForSuite(projectId, planId, rootSuite, true);
+    // assert
+    expect(result.length).eq(20);
+  })
 
   // it("Should create a testrun", async function () {
   //   // arrange
