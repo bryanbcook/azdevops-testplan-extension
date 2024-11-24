@@ -22,9 +22,9 @@ export function create( parameters : TestResultProcessorParameters, context : Te
   }
 
   // match if the test automation property is present, allow pass thru
-  // if (parameters.testCaseMatchStrategy & TestCaseMatchingStrategy.vsproperty) {
-  //   matchers.push(new TestAutomationPropertyMatchStrategy());
-  // }
+  if (parameters.testCaseMatchStrategy & TestCaseMatchingStrategy.vsproperty) {
+    matchers.push(new TestAutomationPropertyMatchStrategy());
+  }
 
   // match if the test id appears in a regex, allow pass thru
   if (parameters.testCaseMatchStrategy & TestCaseMatchingStrategy.regex) {
@@ -87,7 +87,7 @@ export class TestNameMatchStrategy implements TestResultMatchStrategy {
 
   isMatch( result : TestFrameworkResult, point : TestPoint) : TestResultMatch {
     
-    if (this.simplify(result.name) == this.simplify((point as TestPoint2).testCaseReference.name!)) {
+    if (this.simplify(result.name).endsWith(this.simplify((point as TestPoint2).testCaseReference.name!))) {
       return TestResultMatch.Exact;
     }
 
@@ -125,20 +125,28 @@ export class TestRegexMatchStrategy implements TestResultMatchStrategy {
 
 export const TestCaseAutomationProperty : string = "Microsoft.VSTS.TCM.AutomatedTestName";
 
-// export class TestAutomationPropertyMatchStrategy implements TestResultMatchStrategy {
+export class TestAutomationPropertyMatchStrategy implements TestResultMatchStrategy {
 
-//   isMatch(result: TestFrameworkResult, point: TestPoint): TestResultMatch {
-//     // get test automation property from testpoint
-//     point.workItemProperties
-//     // if automation property is present
-//       // do fuzzy match on framework result
-//       // if no match, fail
-//     // if not present
-//     // allow pass-thru
-//     throw new Error("Method not implemented");
-//   }
+  isMatch(result: TestFrameworkResult, point: TestPoint): TestResultMatch {
 
-// }
+    // get test automation property from testpoint
+    if (point.workItemProperties && point.workItemProperties.length > 0) {
+      let automatedTestName = this.getAutomationProperty(point);
+      if (automatedTestName) {
+        return result.name.toLowerCase() == automatedTestName.toLowerCase() ?
+          TestResultMatch.Exact : TestResultMatch.Fail;
+      }
+    }
+    // if not present, pass-thru
+    return TestResultMatch.None;
+  }
+
+  private getAutomationProperty(point : TestPoint) : string | undefined {
+    let property = point.workItemProperties.find( i => i[TestCaseAutomationProperty] != undefined);
+    return property ? property[TestCaseAutomationProperty] : undefined;
+  }
+
+}
 
 export class TestIdMatchStrategy implements TestResultMatchStrategy {
 
@@ -158,7 +166,7 @@ export class TestIdMatchStrategy implements TestResultMatchStrategy {
     }
 
     // this should be the end of the line if we haven't matched already
-    return TestResultMatch.Fail;
+    return TestResultMatch.Fail; // TODO: switch to None and introduce NonMatchStrategy
   }
 }
 

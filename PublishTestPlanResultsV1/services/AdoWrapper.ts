@@ -13,7 +13,8 @@ interface AdoResponseHeaders {
 }
 
 /* 
-  there is a bug in the azure-devops-node-api that defines a testCase, but it's actually testCaseReference.
+  azure-devops-node-api 2022.1 does not include the TestPlan interface.
+  TestPlanInterfaces.TestPoint includes a testCaseReference property instead of testCase.
   this is a temporary workaround until this issue is corrected in the node api
 */
 export interface TestPoint2 extends Contracts.TestPoint {
@@ -98,12 +99,24 @@ export class AdoWrapper {
    * @param recursive returns all points for contained sub-suites
    * @returns returns a list of TestPoint objects
    */
-  async getTestPointsForSuite(projectId : string, testPlanId : string, testSuiteId : string, recursive : boolean = false) : Promise<Contracts.TestPoint[]> {
+  async getTestPointsForSuite(projectId : string, testPlanId : string, testSuiteId : string, recursive : boolean = false) : Promise<TestPoint2[]> {
     this.logger.debug(`getTestPointsForSuite projectId:${projectId} testPlanId:${testPlanId} testSuiteId:${testSuiteId} recursive:${recursive}`);
 
-    // testApi.getPoints() does not pass recursive flag
+    // 2022.1 does not yet include the TestPlan interface
+    // testPlan api supports a recursive query
     var url = `${this.testApi.vsoClient.baseUrl}/${projectId}/_apis/testplan/Plans/${testPlanId}/Suites/${testSuiteId}/TestPoint?api-version=7.1&includePointDetails=true&isRecursive=${recursive.toString()}`
-    return this.fetchWithPagination<Contracts.TestPoint>(this.testApi, url, Contracts.TypeInfo.TestPoint);
+    return this.fetchWithPagination<TestPoint2>(this.testApi, url, Contracts.TypeInfo.TestCaseReference2);
+  }
+
+  async getTestCasesForSuite(projectId : string, testPlanId : string, testSuiteId : string, recursive : boolean = false) : Promise<any[]> {
+    this.logger.debug(`getTestCasesForSuite projectId:${projectId} testPlanId:${testPlanId} testSuiteId:${testSuiteId} recursive:${recursive}`);
+
+    var witFields = "Microsoft.VSTS.TCM.AutomationStatus,Microsoft.VSTS.TCM.AutomatedTestName";
+
+    // 2022.1 does not yet include the TestPlan interface
+    // testPlan api supports a recursive query
+    var url = `${this.testApi.vsoClient.baseUrl}/${projectId}/_apis/testplan/Plans/${testPlanId}/Suites/${testSuiteId}/TestCase?api-version=7.1&expand=false&isRecursive=${recursive.toString()}&witFields=${witFields}`;
+    return this.fetchWithPagination<any>(this.testApi, url, Contracts.TypeInfo.TestCaseReference2);    
   }
 
   /**

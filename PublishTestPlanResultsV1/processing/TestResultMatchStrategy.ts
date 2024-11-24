@@ -6,9 +6,9 @@ export enum TestCaseMatchingStrategy {
   name = 2,
   regex = 4,
   property = 8,
-  //vsproperty = 16,
+  vsproperty = 16,
 
-  auto = 2 + 4 + 8
+  auto = 2 + 4 + 8 + 16
 }
 
 export enum TestResultMatch {
