@@ -72,7 +72,7 @@ namespace xUnitExample
     // The `testCaseProperty` input is set to 'TestCaseId'
     #region Match Strategy: property
     [Fact]
-    [Trait("TestCaseId", "1234")]
+    [Trait("TestCaseId", "4831")]
     public void xUnit_TestMethod_AssociatedToTestCase_Using_Trait()
     {
     }
