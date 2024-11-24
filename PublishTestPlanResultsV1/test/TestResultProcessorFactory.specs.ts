@@ -24,7 +24,7 @@ describe('TestResultProcessorFactory', () => {
     var result = subject.create(parameters, ctx);
 
     // assert
-    expect(result.matchers.length).to.eq(4);
+    expect(result.matchers.length).to.eq(5);
   });
 
   it('Should configure only name matcher when set to name', async () => {
@@ -60,16 +60,14 @@ describe('TestResultProcessorFactory', () => {
     expect(result.matchers.length).to.eq(2); /* config filter is always present */
   });
 
-  // it('Should configure only vsprop matcher when set to vsproperty', async () => {
-  //   // arrange
-  //   parameters = new TestResultProcessorParameters("vsproperty");
+  it('Should configure only vsprop matcher when set to vsproperty', async () => {
+    // arrange
+    parameters = new TestResultProcessorParameters("vsproperty");
 
-  //   // act
-  //   var result = subject.create(parameters, ctx);
+    // act
+    var result = subject.create(parameters, ctx);
 
-  //   // assert
-  //   expect(result.matchers.length).to.eq(2); /* config filter is always present */
-  // });
-  
-
+    // assert
+    expect(result.matchers.length).to.eq(2); /* config filter is always present */
+  });
 })

@@ -2,7 +2,7 @@ import { expect } from "chai";
 
 import { ShallowReference, TestConfiguration, TestPoint, WorkItemReference } from "azure-devops-node-api/interfaces/TestInterfaces";
 import { TestFrameworkResult } from "../framework/TestFrameworkResult";
-import { TestConfigMatchStrategy, TestIdMatchStrategy, TestNameMatchStrategy, TestRegexMatchStrategy } from "../processing/TestResultProcessorFactory";
+import { TestAutomationPropertyMatchStrategy, TestConfigMatchStrategy, TestIdMatchStrategy, TestNameMatchStrategy, TestRegexMatchStrategy } from "../processing/TestResultProcessorFactory";
 import { TestResultMatch } from "../processing/TestResultMatchStrategy";
 import * as util from './testUtil';
 
@@ -223,41 +223,67 @@ describe("TestCaseMatchStrategy", () => {
     });
   });
 
-  // context("TestCase VisualStudio Automation Property Matcher", () => {
+  context("VisualStudio Automation Property Matcher", () => {
 
-  //   // Microsoft.VSTS.TCM.AutomatedTestName
+    var subject : TestAutomationPropertyMatchStrategy = new TestAutomationPropertyMatchStrategy();
 
-  //   var subject : TestAutomationPropertyMatchStrategy = new TestAutomationPropertyMatchStrategy();
+    before(() => {
+      point = <any>{ 
+        id: 1000, 
+        testCaseReference: <WorkItemReference>{ id: "1234"},
+        workItemProperties: [
+          {
+            "Microsoft.VSTS.TCM.AutomatedTestName": "MyNamespace.MyClass.MyMethod"
+          }
+        ]
+      }
+    })
 
-  //   it("Should match if test case automation property matches testcase name", () => {
-  //     // arrange
-  //     // act
-  //     // assert
-  //     throw new Error("Not implemented");
-  //   });
+    it("Should match if test case automation property matches testcase name", () => {
+      // arrange
+      test = new TestFrameworkResult("MyNamespace.MyClass.MyMethod", "FAIL");
 
-  //   it("Should fail match if test automation property does not match", () => {
-  //     // arrange
-  //     // act
-  //     // assert
-  //     throw new Error("Not implemented");
-  //   });
+      // act
+      var result = subject.isMatch(test, point);
 
-  //   it("Should fail match if test automation property is present on test result but not available on test case", () => {
-  //     // arrange
-  //     // act
-  //     // assert
-  //     throw new Error("Not implemented");
-  //   });
+      // assert
+      expect(result).to.eq(TestResultMatch.Exact);
+    });
 
-  //   it("Should return inconclusive result if test automation property is not present", () => {
-  //     // arrange
-  //     // act
-  //     // assert
-  //     throw new Error("Not implemented");
-  //   });
+    it("Should match test case automation even if values have different case", () => {
+      // arrange
+      test = new TestFrameworkResult("mynamespace.myclass.mymethod", "FAIL");
 
-  // });
+      // act
+      var result = subject.isMatch(test, point);
+
+      // assert
+      expect(result).to.eq(TestResultMatch.Exact);
+    });
+
+    it("Should fail match if test automation property does not match", () => {
+      // arrange
+      test = new TestFrameworkResult("Not the same name", "FAIL");
+
+      // act
+      var result = subject.isMatch(test, point);
+
+      // assert
+      expect(result).to.eq(TestResultMatch.Fail);
+    });
+
+    it("Should not match if test automation property is not available on test case", () => {
+      // arrange
+      point.workItemProperties = [];
+
+      // act
+      var result = subject.isMatch(test, point);
+
+      // assert
+      expect(result).to.eq(TestResultMatch.None);
+    });
+
+  });
 
   context("Test Id Matcher", () => {
 
