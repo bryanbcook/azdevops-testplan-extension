@@ -135,6 +135,17 @@ describe("TestCaseMatchStrategy", () => {
       expect(result).to.eq(TestResultMatch.Exact);
     });
 
+    it("Should compare the test method to the testcase name", () => {
+      // arrange
+      test = new TestFrameworkResult("Namespace.ClassName.The_Name_Of_The_Test", "FAIL");
+
+      // act
+      var result = subject.isMatch(test, point);
+
+      // assert
+      expect(result).to.eq(TestResultMatch.Exact);  
+    })
+
     it("Should treat non-matches as neutral matches to allow further filtering", () => {
       // arrange
       test = new TestFrameworkResult("Not the same name", "FAIL");

@@ -87,7 +87,7 @@ export class TestNameMatchStrategy implements TestResultMatchStrategy {
 
   isMatch( result : TestFrameworkResult, point : TestPoint) : TestResultMatch {
     
-    if (this.simplify(result.name) == this.simplify((point as TestPoint2).testCaseReference.name!)) {
+    if (this.simplify(result.name).endsWith(this.simplify((point as TestPoint2).testCaseReference.name!))) {
       return TestResultMatch.Exact;
     }
 
