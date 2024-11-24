@@ -1,0 +1,43 @@
+<assemblies timestamp="11/24/2024 02:27:13">
+  <assembly name="C:\dev\code\_Personal\testplan-extension\examples\dotnet\xUnitExample\bin\Debug\net8.0\xUnitExample.dll" run-date="2024-11-24" run-time="02:27:13" total="9" passed="7" failed="1" skipped="1" time="2.996" errors="0">
+    <errors />
+    <collection total="9" passed="7" failed="1" skipped="1" name="Test collection for xUnitExample.MatchStrategyExamples" time="0.225">
+      <test name="Match Test Case by Display Name" type="xUnitExample.MatchStrategyExamples" method="Match_TestCaseByDisplayNameInsteadOfMethodName" time="0.0016537" result="Pass">
+        <traits />
+      </test>
+      <test name="xUnitExample.MatchStrategyExamples.xUnit_TestMethod_AssociatedToTestCase_Using_Microsoft_VSTS_TCM_TestAutomatedName2" type="xUnitExample.MatchStrategyExamples" method="xUnit_TestMethod_AssociatedToTestCase_Using_Microsoft_VSTS_TCM_TestAutomatedName2" time="0.0000412" result="Pass">
+        <traits />
+      </test>
+      <test name="xUnitExample.MatchStrategyExamples.Match_Test_Case_By_Exact_Name" type="xUnitExample.MatchStrategyExamples" method="Match_Test_Case_By_Exact_Name" time="0.0000230" result="Pass">
+        <traits />
+      </test>
+      <test name="xUnitExample.MatchStrategyExamples.xUnit_TestMethod_AssociatedToTestCase_Using_Trait" type="xUnitExample.MatchStrategyExamples" method="xUnit_TestMethod_AssociatedToTestCase_Using_Trait" time="0.0000195" result="Pass">
+        <traits>
+          <trait name="TestCaseId" value="1234" />
+        </traits>
+      </test>
+      <test name="xUnitExample.MatchStrategyExamples.xUnit_TestMethod_AssociatedToTestCase_Using_Microsoft_VSTS_TCM_TestAutomatedName1" type="xUnitExample.MatchStrategyExamples" method="xUnit_TestMethod_AssociatedToTestCase_Using_Microsoft_VSTS_TCM_TestAutomatedName1" time="0.0000183" result="Pass">
+        <traits />
+      </test>
+      <test name="xUnitExample.MatchStrategyExamples.xUnit_FailingTest_TestCase4824" type="xUnitExample.MatchStrategyExamples" method="xUnit_FailingTest_TestCase4824" time="0.2216918" result="Fail">
+        <failure>
+          <message>This test failed intentionally</message>
+          <stack-trace>   at xUnitExample.MatchStrategyExamples.xUnit_FailingTest_TestCase4824() in C:\dev\code\_Personal\testplan-extension\examples\dotnet\xUnitExample\UnitTest1.cs:line 19
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</stack-trace>
+        </failure>
+        <traits />
+      </test>
+      <test name="xUnitExample.MatchStrategyExamples.match_TEST_case_By_Exact_Name_CaSe_iNsEnSiTiVe" type="xUnitExample.MatchStrategyExamples" method="match_TEST_case_By_Exact_Name_CaSe_iNsEnSiTiVe" time="0.0000500" result="Pass">
+        <traits />
+      </test>
+      <test name="xUnitExample.MatchStrategyExamples.xUnit_PassingTest_TestCase4823" type="xUnitExample.MatchStrategyExamples" method="xUnit_PassingTest_TestCase4823" time="0.0000266" result="Pass">
+        <traits />
+      </test>
+      <test name="xUnitExample.MatchStrategyExamples.xUnit_SkippedTest_TestCase4825" type="xUnitExample.MatchStrategyExamples" method="xUnit_SkippedTest_TestCase4825" time="0.0010000" result="Skip">
+        <reason><![CDATA[This test is skipped and is recorded as 'NotExecuted' in the Test Run]]></reason>
+        <traits />
+      </test>
+    </collection>
+  </assembly>
+</assemblies>
