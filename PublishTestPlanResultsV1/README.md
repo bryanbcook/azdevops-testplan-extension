@@ -5,7 +5,7 @@ Publishes test results to your Azure DevOps Test Plan.
 ## Syntax
 
 ```yaml
-- task: PublishTestPlanResults@1
+- task: PublishTestPlanResults@0
   inputs:
     #accessToken: # string. Optional. PAT token
     #collectionUri: # string. Optional. Azure DevOps instance
@@ -92,8 +92,9 @@ Specifies which mapping strategy to use to correlate test automation results to 
 - **name**: attempt to match the test case name to the test automation name
 - **regex**: attempt to locate the test case id using a regex on the test automation result name.
 - **property**: locate the test case id from the meta-data in the test automation result.
+- **vsproperty**: match the test automation name to the test case _Automated Test Name_ property.
 
-The default value is `auto`, which is equivalent to specifying `name,regex,property`.
+The default value is `auto`, which is equivalent to specifying `name,regex,property,vsproperty`.
 
 ### `testCaseProperty` - Test Case Id Property
 
