@@ -68,17 +68,20 @@ export function getPublisherParameters() : TestRunPublisherParameters {
 function getTestFiles() : string[] {
   
   let testResultFolder = tl.getInput("testResultDirectory", false);
-  if (testResultFolder == undefined) {
+  if (testResultFolder == undefined) {    
     // System.DefaultWorkingDirectory:
     // - build pipelines: "C:\agent\work\1\s" equivalent to "$(Build.SourcesDirectory)"
     // - release pipelines: "C:\agent\work\r1\a" equivalent to "$(System.ArtifactsDirectory)"
     testResultFolder = tl.getVariable("SYSTEM_DEFAULTWORKINGDIRECTORY") as string;
+
+    tl.debug(`testResultDirectory was not specified. Using default working directory: ${testResultFolder}`);
   }
 
   let testResultFiles = tl.getDelimitedInput("testResultFiles", ",", true)
     .map(file => {
       // merge relative paths with the testresult folder
       if (!path.isAbsolute(file)) {
+        tl.debug(`joining relative path '${file}' with testResultDirectory '${testResultFolder}'`);
         return path.join(testResultFolder, file);
       }
       return file;
