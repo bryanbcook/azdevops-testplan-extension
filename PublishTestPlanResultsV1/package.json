@@ -20,9 +20,9 @@
     "@types/mocha": "^10.0.3",
     "@types/node": "^20.8.10",
     "@types/q": "^1.5.7",
-    "@types/sinon": "^10.0.20",
+    "@types/sinon": "^17.0.3",
     "chai": "^4.3.10",
-    "sinon": "^17.0.1",
+    "sinon": "^19.0.2",
     "sync-request": "^6.1.0"
   }
 }
