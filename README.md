@@ -115,6 +115,7 @@ The following strategies are used to match the test automation result to individ
    it('Add Two Numbers @TestCase=1234', () => {})
    it('Add Two Numbers #TestCase=1234', () => {})
    ```
+- `VsProperty`: matches the automated test result using the [_Associate to a Test Case_](https://learn.microsoft.com/en-us/azure/devops/test/associate-automated-test-with-test-case?view=azure-devops) feature of Visual Studio. This matching strategy is [limited to specific frameworks](https://learn.microsoft.com/en-us/azure/devops/test/associate-automated-test-with-test-case?view=azure-devops#test-types).
 
 ### Test Config Mapping Strategies
 
