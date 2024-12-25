@@ -73,7 +73,7 @@ namespace NUnitExample
     #region Match Strategy: property
     [Test]
     [Property("TestCaseId", "4841")]
-    public void xUnit_TestMethod_AssociatedToTestCase_Using_Trait()
+    public void NUnit_TestMethod_AssociatedToTestCase_Using_Property()
     {
     }
     #endregion

@@ -20,7 +20,7 @@ To run the tests and produce the Xml output:
 
 ```shell
 dotnet restore
-dotnet test --logger:nunit
+dotnet test --logger:nunit -- NUnit.ShowInternalProperties=true
 ```
 
 To publish xUnit results to a test plan, the following pipeline syntax matches the referenced examples:
