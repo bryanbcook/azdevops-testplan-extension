@@ -19,8 +19,8 @@ export class TestResultProcessorResult {
 export class TestResultProcessor {
 
   public matchers : TestResultMatchStrategy[];
-  context : TestResultContext;
-  logger: ILogger;
+  public context : TestResultContext;
+  public logger: ILogger;
 
   constructor( matchers : TestResultMatchStrategy[], context : TestResultContext) {
     this.matchers = matchers;
@@ -57,7 +57,9 @@ export class TestResultProcessor {
           var matchingPointIds = matchingPoints.map(p => p.id);
           testPoints = testPoints.filter(i => matchingPointIds.indexOf(i.id) === -1);
         } else {
-          // TODO: log warning that there were too many matches
+            const testCaseNames = matchingPoints.map(item => JSON.stringify(item)).join("\n");
+            this.logger.warn(`Multiple matches were found for test case: ${frameworkResult.name}. Matches:\n${testCaseNames}`);
+            this.logger.info("To prevent this warning, adjust the duplicates or the testCaseMatchStrategy to be more specific.");
         }
         
       } else {

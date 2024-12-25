@@ -3,11 +3,12 @@ import { expect } from "chai";
 import * as testUtil from './testUtil';
 
 import { TestResultContext } from "../context/TestResultContext";
-import { TestResultMatchStrategy } from "../processing/TestResultMatchStrategy";
+import { TestResultMatch, TestResultMatchStrategy } from "../processing/TestResultMatchStrategy";
 import { TestIdMatchStrategy } from "../processing/TestResultProcessorFactory";
 import { TestPoint, TestPlan } from "azure-devops-node-api/interfaces/TestInterfaces";
 import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestResultProcessor } from "../processing/TestResultProcessor";
+import { Logger } from "../services/Logger";
 
 describe('TestResultProcessor', () => {
 
@@ -110,4 +111,27 @@ describe('TestResultProcessor', () => {
     ctx.getTestPoints.returns(points);
   }
 
+  context("Multiple Matches", () => {
+
+    it("Should log an issue when multiple matches are found", async () => {
+      // arrange
+      subject = new TestResultProcessor( [ new AlwaysMatch() ], ctx);
+      subject.logger = sinon.createStubInstance(Logger);
+
+      // act
+      var result = await subject.process(testresults);
+
+      // assert
+      sinon.assert.called(subject.logger.warn as sinon.SinonSpy);
+      expect(result.matches.size).to.eq(0);
+    })
+
+  })
+
 })
+
+class AlwaysMatch implements TestResultMatchStrategy {
+  isMatch(result: TestFrameworkResult, point: TestPoint): TestResultMatch {
+    return TestResultMatch.Exact;
+  }
+}

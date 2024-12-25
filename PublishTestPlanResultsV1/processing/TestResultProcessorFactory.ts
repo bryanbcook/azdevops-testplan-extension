@@ -86,12 +86,26 @@ export class TestConfigMatchStrategy implements TestResultMatchStrategy {
 export class TestNameMatchStrategy implements TestResultMatchStrategy {
 
   isMatch( result : TestFrameworkResult, point : TestPoint) : TestResultMatch {
-    
-    if (this.simplify(result.name).endsWith(this.simplify((point as TestPoint2).testCaseReference.name!))) {
+
+    const testCaseName = this.simplify((point as TestPoint2).testCaseReference.name!);
+    const testResultName = this.simplify(this.testResultName(result));
+    if (testResultName == testCaseName) {
       return TestResultMatch.Exact;
     }
 
     return TestResultMatch.None;
+  }
+
+  private testResultName(result: TestFrameworkResult) : string {
+    if (result.properties.has("Description")) {
+      return result.properties.get("Description") as string;
+    } else {
+      if (result.name.indexOf(".") > 0) {
+        let parts = result.name.split(".");
+        return parts[parts.length-1];
+      }
+      return result.name
+    }    
   }
 
   private simplify(name: string) : string {
