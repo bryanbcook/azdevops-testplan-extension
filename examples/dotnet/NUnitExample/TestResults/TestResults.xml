@@ -1,0 +1,34 @@
+<test-run id="2" duration="0.047843000000000004" testcasecount="9" total="9" passed="7" failed="1" inconclusive="0" skipped="1" result="Failed" start-time="2024-12-25T18:30:12Z" end-time="2024-12-25T18:30:13Z">
+  <test-suite type="Assembly" name="NUnitExample.dll" fullname="C:\dev\code\_Personal\testplan-extension\examples\dotnet\NUnitExample\bin\Debug\net8.0\NUnitExample.dll" total="9" passed="7" failed="1" inconclusive="0" skipped="1" result="Failed" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="0.047843">
+    <test-suite type="TestSuite" name="NUnitExample" fullname="NUnitExample" total="9" passed="7" failed="1" inconclusive="0" skipped="1" result="Failed" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="0.047843">
+      <test-suite type="TestFixture" name="Tests" fullname="NUnitExample.Tests" classname="NUnitExample.Tests" total="9" passed="7" failed="1" inconclusive="0" skipped="1" result="Failed" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="0.047843">
+        <test-case name="Match_TestCaseByDisplayNameInsteadOfMethodName" fullname="NUnitExample.Tests.Match_TestCaseByDisplayNameInsteadOfMethodName" methodname="Match_TestCaseByDisplayNameInsteadOfMethodName" classname="Tests" result="Passed" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="0.005288" asserts="0" seed="1593234009" />
+        <test-case name="NUnit_FailingTest_TestCase4834" fullname="NUnitExample.Tests.NUnit_FailingTest_TestCase4834" methodname="NUnit_FailingTest_TestCase4834" classname="Tests" result="Failed" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="0.042236" asserts="0" seed="538058262">
+          <failure>
+            <message>This test failed intentionally</message>
+            <stack-trace>   at NUnitExample.Tests.NUnit_FailingTest_TestCase4834() in C:\dev\code\_Personal\testplan-extension\examples\dotnet\NUnitExample\UnitTest1.cs:line 18
+
+1)    at NUnitExample.Tests.NUnit_FailingTest_TestCase4834() in C:\dev\code\_Personal\testplan-extension\examples\dotnet\NUnitExample\UnitTest1.cs:line 18
+
+</stack-trace>
+          </failure>
+        </test-case>
+        <test-case name="NUnit_Match_Test_Case_By_Exact_Name" fullname="NUnitExample.Tests.NUnit_Match_Test_Case_By_Exact_Name" methodname="NUnit_Match_Test_Case_By_Exact_Name" classname="Tests" result="Passed" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="5.4E-05" asserts="0" seed="366790720" />
+        <test-case name="nunit_match_TEST_case_By_Exact_Name_CaSe_iNsEnSiTiVe" fullname="NUnitExample.Tests.nunit_match_TEST_case_By_Exact_Name_CaSe_iNsEnSiTiVe" methodname="nunit_match_TEST_case_By_Exact_Name_CaSe_iNsEnSiTiVe" classname="Tests" result="Passed" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="2.3E-05" asserts="0" seed="1889205749" />
+        <test-case name="NUnit_PassingTest_TestCase4833" fullname="NUnitExample.Tests.NUnit_PassingTest_TestCase4833" methodname="NUnit_PassingTest_TestCase4833" classname="Tests" result="Passed" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="1.9E-05" asserts="0" seed="1390169726" />
+        <test-case name="NUnit_SkippedTest_TestCase4835" fullname="NUnitExample.Tests.NUnit_SkippedTest_TestCase4835" methodname="NUnit_SkippedTest_TestCase4835" classname="Tests" result="Skipped" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="0.000153" asserts="0" seed="1460667789">
+          <output><![CDATA[Disabled
+]]></output>
+        </test-case>
+        <test-case name="NUnit_TestMethod_AssociatedToTestCase_Using_Microsoft_VSTS_TCM_TestAutomatedName1" fullname="NUnitExample.Tests.NUnit_TestMethod_AssociatedToTestCase_Using_Microsoft_VSTS_TCM_TestAutomatedName1" methodname="NUnit_TestMethod_AssociatedToTestCase_Using_Microsoft_VSTS_TCM_TestAutomatedName1" classname="Tests" result="Passed" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="3E-05" asserts="0" seed="607676457" />
+        <test-case name="NUnit_TestMethod_AssociatedToTestCase_Using_Microsoft_VSTS_TCM_TestAutomatedName2" fullname="NUnitExample.Tests.NUnit_TestMethod_AssociatedToTestCase_Using_Microsoft_VSTS_TCM_TestAutomatedName2" methodname="NUnit_TestMethod_AssociatedToTestCase_Using_Microsoft_VSTS_TCM_TestAutomatedName2" classname="Tests" result="Passed" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="2E-05" asserts="0" seed="1066905439" />
+        <test-case name="xUnit_TestMethod_AssociatedToTestCase_Using_Trait" fullname="NUnitExample.Tests.xUnit_TestMethod_AssociatedToTestCase_Using_Trait" methodname="xUnit_TestMethod_AssociatedToTestCase_Using_Trait" classname="Tests" result="Passed" start-time="2024-12-25T18:30:13Z" end-time="2024-12-25T18:30:13Z" duration="2E-05" asserts="0" seed="842461514">
+          <properties>
+            <property name="TestCaseId" value="4841" />
+          </properties>
+        </test-case>
+      </test-suite>
+    </test-suite>
+    <errors />
+  </test-suite>
+</test-run>
