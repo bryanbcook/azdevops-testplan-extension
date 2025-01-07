@@ -23,7 +23,8 @@ export function clearData() {
     .filter(key => (key.startsWith('INPUT_') ||
       key.startsWith("SECRET_") ||
       key.startsWith("VSTS_TASKVARIABLE_") ||
-      key.startsWith("BUILD_")
+      key.startsWith("BUILD_") ||
+      key.startsWith("RELEASE_")
     )
     // caution: System_* variables should not be deleted
     ).forEach(key => delete process.env[key]);

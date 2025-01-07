@@ -398,6 +398,39 @@ describe('TaskParameters', () => {
       // assert
       expect(parameters.dryRun).to.be.true;
     })
+
+    it("Should resolve empty values for release variables if not present", () => {
+      // arrange
+      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getPublisherParameters();
+
+      // assert
+      expect(parameters.releaseUri).to.be.undefined;
+      expect(parameters.releaseEnvironmentUri).to.be.undefined;
+    })
+
+    context("For Release Pipeline", () => {
+
+      it("Should resolve release uri and environment uri from release pipeline", () => {
+        // arrange
+        util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
+        util.setSystemVariable("RELEASE_RELEASEURI", "vstfs://ReleaseManagement/Release/1234");
+        util.setSystemVariable("RELEASE_ENVIRONMENTURI", "vstfs://ReleaseManagement/Environment/5678");
+        util.loadData();
+
+        // act
+        require(tp);
+        var parameters = TaskParameters.getPublisherParameters();
+
+        // assert
+        expect(parameters.releaseUri).to.satisfy( (x: string) => x.startsWith("vstfs://ReleaseManagement"));
+        expect(parameters.releaseEnvironmentUri).to.satisfy( (x: string) => x.startsWith("vstfs://ReleaseManagement"));
+      });
+    })
   });
 
 });
