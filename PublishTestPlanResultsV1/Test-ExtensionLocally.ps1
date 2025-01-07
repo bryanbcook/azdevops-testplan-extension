@@ -66,6 +66,14 @@ param(
   [AllowEmptyString()]
   [string]$BuildId,
 
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$ReleaseId,
+
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$ReleaseEnvironmentId,
+
   [Parameter(Mandatory)]  
   [AllowEmptyString()]
   [string]$DryRun,
@@ -88,6 +96,16 @@ $PSBoundParameters.GetEnumerator() | ForEach-Object {
 # BuildId isn't an input parameter.
 if ($BuildId) {
   [System.Environment]::SetEnvironmentVariable("BUILD_BUILDID", $BuildId)
+} else {
+  [System.Environment]::SetEnvironmentVariable("BUILD_BUILDID", "")
+}
+
+if ($ReleaseId -and $ReleaseEnvironmentId) {
+  [System.Environment]::SetEnvironmentVariable("RELEASE_RELEASEURI", "vstfs:///ReleaseManagement/Release/$ReleaseId")
+  [System.Environment]::SetEnvironmentVariable("RELEASE_ENVIRONMENTURI", "vstfs:///ReleaseManagement/Environment/$ReleaseEnvironmentId")
+} else {
+  [System.Environment]::SetEnvironmentVariable("RELEASE_RELEASEURI", "")
+  [System.Environment]::SetEnvironmentVariable("RELEASE_ENVIRONMENTURI", "")
 }
 
 if (!$env:SYSTEM_DEFAULTWORKINGDIRECTORY) {

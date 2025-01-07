@@ -14,6 +14,8 @@ export class TestRunPublisher {
     var publisher = new TestRunPublisher(ado, logger);
     publisher.buildId = parameters.buildId;
     publisher.dryRun = parameters.dryRun;
+    publisher.releaseUri = parameters.releaseUri;
+    publisher.releaseEnvironmentUri = parameters.releaseEnvironmentUri;
     publisher.testRunTitle = parameters.testRunTitle;
     publisher.testFiles = parameters.testFiles;
 
@@ -24,6 +26,8 @@ export class TestRunPublisher {
   private logger : ILogger;
   public buildId : string;
   public dryRun : boolean;
+  public releaseUri? : string;
+  public releaseEnvironmentUri? : string;
   public testRunTitle : string;
   public testFiles : string[];
 
@@ -54,7 +58,7 @@ export class TestRunPublisher {
 
       // create a test run for the project + testPlan using testPoint ids
       const points = Array.from(results.matches.keys());
-      const testRun = await this.ado.createTestRun(projectId, testPlanId, points, this.buildId);
+      const testRun = await this.ado.createTestRun(projectId, testPlanId, points, this.buildId, this.releaseUri, this.releaseEnvironmentUri);
       
       // obtain the testcaseresult definitions
       var testCaseResults = await this.ado.getTestResults(projectId, testRun.id);

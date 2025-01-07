@@ -3,6 +3,8 @@ export class TestRunPublisherParameters {
   public buildId : string;
   public collectionUri: string;
   public dryRun : boolean;
+  public releaseUri?: string;
+  public releaseEnvironmentUri?: string;
   public testRunTitle : string;
   public testFiles : string[];
 
