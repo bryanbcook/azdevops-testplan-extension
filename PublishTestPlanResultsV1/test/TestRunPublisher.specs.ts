@@ -23,6 +23,7 @@ context("TestRunPublisher", () => {
     testData = new TestResultProcessorResult("project1", <Contracts.TestPlan>{ id: 1});
 
     subject = new TestRunPublisher(ado, logger);
+    subject.buildId = "123";
   })
 
   afterEach(() => {
@@ -59,9 +60,13 @@ context("TestRunPublisher", () => {
       const serverUrl = process.env.SYSTEM_COLLECTIONURI as string;
       const accessToken = (process.env.SYSTEM_ACCESSTOKEN ?? process.env.ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN) as string;
       const buildId = "123";
+      const rUri = "vstfs://ReleaseManagement/Release/1";
+      const eUri = "vstfs://ReleaseManagement/Environment/1";
       const testFiles = ["file1", "file2"];
       console.log(serverUrl);
       var parameters = new TestRunPublisherParameters(serverUrl, accessToken, false, "Dummy", buildId, testFiles);
+      parameters.releaseUri = rUri;
+      parameters.releaseEnvironmentUri = eUri;
 
       // act
       var subject = await TestRunPublisher.create(parameters);
@@ -72,6 +77,8 @@ context("TestRunPublisher", () => {
       expect(subject.testRunTitle).eq("Dummy");
       expect(subject.buildId).eq("123");
       expect(subject.testFiles.length).eq(2);
+      expect(subject.releaseUri).eq(rUri);
+      expect(subject.releaseEnvironmentUri).eq(eUri);
     })
 
   })
@@ -108,7 +115,7 @@ context("TestRunPublisher", () => {
       var result = await subject.publishTestRun(testData);
       
       // assert
-      expect(ado.createTestRun.calledWith( "project1", 1, [1,2])).eq(true);
+      expect(ado.createTestRun.calledWith( "project1", 1, [1,2], "123")).eq(true);
       expect(ado.updateTestResults.calledOnce).eq(true);
     })
 
@@ -167,7 +174,7 @@ context("TestRunPublisher", () => {
       subject.testRunTitle = "MyTestRun";
 
       // act
-      var assert = await subject.publishTestRun(testData);
+      var result = await subject.publishTestRun(testData);
 
       // assert
       expect(ado.updateTestRun.calledWithMatch(
@@ -177,7 +184,26 @@ context("TestRunPublisher", () => {
         })
       )).eq(true);
     })
-  })
+
+    context("With Classic Release Information available", () => {
+
+      it("Should include release information in the test run", async () => {
+        // arrange
+        let buildId = "123";
+        let rUri = "vstfs://ReleaseManagement/Release/1";
+        let eUri = "vstfs://ReleaseManagement/Environment/1";
+        subject.buildId = buildId;
+        subject.releaseUri = rUri;
+        subject.releaseEnvironmentUri = eUri;
+  
+        // act
+        var result = await subject.publishTestRun(testData);
+
+        // assert
+        expect(ado.createTestRun.calledWith( "project1", 1, [1,2], buildId, rUri, eUri )).eq(true);
+      })
+    })
+  })  
 
   it("Should attach testrun files to the testRun", async () => {
     // arrange
@@ -209,7 +235,7 @@ context("TestRunPublisher", () => {
     ado.createTestRun.callsFake( (prjId, plnId, points) => {
 
       let testRun = <Contracts.TestRun>{
-        id: 400
+        id: runId
       };
 
       return Promise.resolve(testRun);
