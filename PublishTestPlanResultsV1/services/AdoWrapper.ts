@@ -126,9 +126,11 @@ export class AdoWrapper {
    * @param testPlanId test plan id
    * @param testPoints array of testpoint ids
    * @param buildId build identifier
+   * @param releaseUri url to the release
+   * @param releaseEnvironmentUri url to the release environment
    * @returns returns the resulting TestRun from the operation
    */
-  async createTestRun(projectId : string, testPlanId : number, testPoints : number[], buildId : string) : Promise<Contracts.TestRun> {
+  async createTestRun(projectId : string, testPlanId : number, testPoints : number[], buildId : string, releaseUri? : string, releaseEnvironmentUri? : string) : Promise<Contracts.TestRun> {
     this.logger.debug(`createTestRun projectId:${projectId} testPlanId:${testPlanId} testPoints: (${testPoints.length} items) - buildId:${buildId}`);
 
     let testRun : Contracts.RunCreateModel = {
@@ -140,6 +142,8 @@ export class AdoWrapper {
       build: <Contracts.ShallowReference>{
         id: buildId,
       },
+      releaseUri: releaseUri,
+      releaseEnvironmentUri: releaseEnvironmentUri,
       pointIds: testPoints,
       /* this property is required because it's not optional in the typescript def */
       configurationIds: []
