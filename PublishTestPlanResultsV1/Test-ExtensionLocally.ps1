@@ -96,14 +96,16 @@ $PSBoundParameters.GetEnumerator() | ForEach-Object {
 # BuildId isn't an input parameter.
 if ($BuildId) {
   [System.Environment]::SetEnvironmentVariable("BUILD_BUILDID", $BuildId)
+} else {
+  [System.Environment]::SetEnvironmentVariable("BUILD_BUILDID", "")
 }
 
-if ($ReleaseId) {
+if ($ReleaseId -and $ReleaseEnvironmentId) {
   [System.Environment]::SetEnvironmentVariable("RELEASE_RELEASEURI", "vstfs:///ReleaseManagement/Release/$ReleaseId")
-}
-if ($ReleaseEnvironmentId)
-{
   [System.Environment]::SetEnvironmentVariable("RELEASE_ENVIRONMENTURI", "vstfs:///ReleaseManagement/Environment/$ReleaseEnvironmentId")
+} else {
+  [System.Environment]::SetEnvironmentVariable("RELEASE_RELEASEURI", "")
+  [System.Environment]::SetEnvironmentVariable("RELEASE_ENVIRONMENTURI", "")
 }
 
 if (!$env:SYSTEM_DEFAULTWORKINGDIRECTORY) {
