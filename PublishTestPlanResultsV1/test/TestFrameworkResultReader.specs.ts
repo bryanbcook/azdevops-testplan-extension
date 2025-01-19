@@ -184,6 +184,19 @@ describe("TestFramework Results Reader", () => {
     expect(results.length).to.eq(10);
   });
 
+  it("Can read MStest results (with attachments)", async () => {
+    // arrange
+    files.push(path.join(baseDir, "mstest", "testresults_with_attachments.trx"));
+    var parameters = new TestFrameworkParameters(files, "mstest");
+
+    // act
+    var results = await TestFrameworkResultReader.readResults(parameters);
+
+    // assert
+    expect(results.length).to.eq(2);
+    expect(results[0].attachments.length).to.be.greaterThan(0);
+  })
+
   async function fixLocalPaths(file: string) {
     let repositoryRoot = path.join(__dirname, "..", "..");
     let pathToChange = "C:\\dev\\code\\_Personal\\testplan-extension";
