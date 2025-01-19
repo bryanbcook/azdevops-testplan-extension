@@ -225,6 +225,26 @@ context("TestRunPublisher", () => {
     expect(ado.attachTestRunFiles.calledOnce);
   })
 
+  it("Should attach test attachments to testcase results", async () => {
+    // arrange
+    for(var i = 1; i <= 2; i++) {
+      let testResult = testUtil.newTestFrameworkResult();
+      testResult.attachments.push( { name: "attachment" + i, path: "path" + i });
+      testData.matches.set(i, testResult);
+    }
+
+    // expect that a test run will be created and returns objects for our testdata
+    setupTestRun( /*runid*/ 400);
+    setupTestCaseResults( [1,2] );   
+
+    // act
+    var result = await subject.publishTestRun(testData);
+
+    // assert
+    expect(ado.attachTestResultFiles.calledWith("project1", 400, 100001, "attachment1", "path1")).eq(true);
+    expect(ado.attachTestResultFiles.calledWith("project1", 400, 100002, "attachment2", "path2")).eq(true);
+  })
+
   it("Should fail if there were not any matched testcases", async function() {
     // arrange
     // act / assert
