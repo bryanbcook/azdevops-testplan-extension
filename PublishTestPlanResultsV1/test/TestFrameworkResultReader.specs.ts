@@ -201,7 +201,7 @@ describe("TestFramework Results Reader", () => {
     let repositoryRoot = path.join(__dirname, "..", "..");
     let pathToChange = "C:\\dev\\code\\_Personal\\testplan-extension";
     let buffer = await fs.promises.readFile(file);
-    let data = buffer.toString().replaceAll(pathToChange, repositoryRoot);
+    let data = buffer.toString().replaceAll(pathToChange, repositoryRoot).replaceAll("\\",path.sep);
     await fs.promises.writeFile(file, data);
   }
 })
