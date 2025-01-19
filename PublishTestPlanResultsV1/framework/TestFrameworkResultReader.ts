@@ -34,9 +34,10 @@ export async function readResults(parameters: TestFrameworkParameters): Promise<
             logger.debug(`attachment name not provided. Defaulting to file name: '${a.name}'.`);
           }
           // some test frameworks represent attachment paths as relative
+          let found = false;
           if (!path.isAbsolute(a.path)) {
             logger.debug(`attachment ${a.name} has a relative path: '${a.path}'. Attempting to resolve path relative to test files...`);
-            let found = baseFolders.some(base => {
+            found = baseFolders.some(base => {
               let fullPath = path.join(base, a.path);
               logger.debug(`checking: ${fullPath}`);
               if (fs.existsSync(fullPath)) {
@@ -46,10 +47,13 @@ export async function readResults(parameters: TestFrameworkParameters): Promise<
               }
               return false;
             });
+          } else {
+            // ensure absolute path exists
+            found = fs.existsSync(a.path);
+          }
             if (!found) {
               logger.info(`##[warn]test attachment not found: '${a.path}'. Excluding attachment from results.`);
               return; // continue to next attachment
-            }
           }
           result.attachments.push(new TestAttachment(a.name, a.path));
         });

@@ -1,0 +1,48 @@
+<test-run id="2" duration="0.015345999999999999" testcasecount="3" total="3" passed="3" failed="0" inconclusive="0" skipped="0" result="Passed" start-time="2025-01-13T18:32:43Z" end-time="2025-01-13T18:32:47Z">
+  <test-suite type="Assembly" name="NUnitExample-Attachments.dll" fullname="C:\dev\code\_Personal\testplan-extension\examples\dotnet\NUnitExample-Attachments\bin\Debug\net8.0\NUnitExample-Attachments.dll" total="3" passed="3" failed="0" inconclusive="0" skipped="0" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.015346">
+    <test-suite type="TestSuite" name="NUnitExample" fullname="NUnitExample" total="3" passed="3" failed="0" inconclusive="0" skipped="0" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.015346">
+      <test-suite type="TestSuite" name="Attachments" fullname="NUnitExample.Attachments" total="3" passed="3" failed="0" inconclusive="0" skipped="0" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.015346">
+        <test-suite type="TestFixture" name="Tests" fullname="NUnitExample.Attachments.Tests" classname="NUnitExample.Attachments.Tests" total="3" passed="3" failed="0" inconclusive="0" skipped="0" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.015346">
+          <test-case name="NUnit_AttachmentsWithDescription" fullname="NUnitExample.Attachments.Tests.NUnit_AttachmentsWithDescription" methodname="NUnit_AttachmentsWithDescription" classname="Tests" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.009804" asserts="0" seed="1522705933">
+            <properties>
+              <property name="TestCaseId" value="4845" />
+            </properties>
+            <attachments>
+              <attachment>
+                <filePath>C:\dev\code\_Personal\testplan-extension\examples\dotnet\NUnitExample-Attachments\bin\Debug\net8.0\Attachment-4845.txt</filePath>
+                <description><![CDATA[Test Case 4845]]></description>
+              </attachment>
+            </attachments>
+          </test-case>
+          <test-case name="NUnit_MultipleAttachments" fullname="NUnitExample.Attachments.Tests.NUnit_MultipleAttachments" methodname="NUnit_MultipleAttachments" classname="Tests" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.004037" asserts="0" seed="1806980587">
+            <properties>
+              <property name="TestCaseId" value="4844" />
+            </properties>
+            <attachments>
+              <attachment>
+                <filePath>C:\dev\code\_Personal\testplan-extension\examples\dotnet\NUnitExample-Attachments\bin\Debug\net8.0\Attachment-4844-1.txt</filePath>
+              </attachment>
+              <attachment>
+                <filePath>C:\dev\code\_Personal\testplan-extension\examples\dotnet\NUnitExample-Attachments\bin\Debug\net8.0\Attachment-4844-2.txt</filePath>
+              </attachment>
+            </attachments>
+          </test-case>
+          <test-case name="NUnit_SingleAttachment" fullname="NUnitExample.Attachments.Tests.NUnit_SingleAttachment" methodname="NUnit_SingleAttachment" classname="Tests" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.001505" asserts="0" seed="1938625613">
+            <properties>
+              <property name="TestCaseId" value="4843" />
+            </properties>
+            <output><![CDATA[Working directory: C:\dev\code\_Personal\testplan-extension\examples\dotnet\NUnitExample-Attachments\bin\Debug\net8.0
+
+]]></output>
+            <attachments>
+              <attachment>
+                <filePath>C:\dev\code\_Personal\testplan-extension\examples\dotnet\NUnitExample-Attachments\bin\Debug\net8.0\test.txt</filePath>
+              </attachment>
+            </attachments>
+          </test-case>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <errors />
+  </test-suite>
+</test-run>
