@@ -1,5 +1,5 @@
 import * as Contracts from "azure-devops-node-api/interfaces/TestInterfaces";
-import { TestFrameworkResult } from "../framework/TestFrameworkResult";
+import { TestAttachment, TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestRunPublisherParameters } from "./TestRunPublisherParameters";
 import { TestResultProcessorResult } from "../processing/TestResultProcessor";
 import { AdoWrapper } from "../services/AdoWrapper";
@@ -63,6 +63,8 @@ export class TestRunPublisher {
       // obtain the testcaseresult definitions
       var testCaseResults = await this.ado.getTestResults(projectId, testRun.id);
 
+      const testAttachments = new Map<number, TestAttachment[]>();
+
       // update the testcaseresults from our test data
       testCaseResults.forEach( (r)=> {
         let pointId = r.testPoint?.id;
@@ -73,6 +75,10 @@ export class TestRunPublisher {
           r.errorMessage = frameworkResult.failure;
           r.stackTrace = frameworkResult.stacktrace;
           r.state = "Completed";
+
+          if (frameworkResult.hasAttachments()) {
+            testAttachments.set(r.id!, frameworkResult.attachments);
+          }
         } else {
           // should never happen because we created the testrun with test points
           this.logger.warn(`TestCaseResult id  '${r.id}' does not have a valid test point.`);
@@ -84,6 +90,7 @@ export class TestRunPublisher {
 
       // add testRun attachments
       await this.ado.attachTestRunFiles(projectId, testRun.id, this.testFiles)
+      await this.uploadAttachments(projectId, testRun.id, testAttachments);
 
       // finalize the testrun
       testRun.state = "Completed";
@@ -93,6 +100,18 @@ export class TestRunPublisher {
       return finalRun;
     } else {
       throw new Error("Couldn't create a TestRun for this TestPlan because the test results could not be correlated to any known TestCases.");
+    }
+  }
+
+  private async uploadAttachments(projectId: string, testRunId: number, attachments: Map<number, TestAttachment[]>): Promise<void> {
+    if (attachments.size > 0) {
+      this.logger.info(`Identified ${attachments.size} test results with attachments.`);
+    
+      attachments.forEach( async (attachments, testCaseResultId) => {
+        attachments.forEach( async (attachment) => {
+          await this.ado.attachTestResultFiles(projectId, testRunId, testCaseResultId, attachment.name, attachment.path);
+        })
+      });
     }
   }
 }

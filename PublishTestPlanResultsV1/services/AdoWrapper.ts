@@ -174,6 +174,25 @@ export class AdoWrapper {
   }
 
   /**
+   * Attaches files to a TestCaseResult within a TestRun
+   * @param projectId 
+   * @param testRunId 
+   * @param testCaseResultId 
+   * @param fileName 
+   * @param filePath 
+   */
+  async attachTestResultFiles(projectId : string, testRunId : number, testCaseResultId : number, fileName : string, filePath : string) : Promise<void> {
+    this.logger.debug(`attachTestResultFiles projectId:${projectId} testRunId:${testRunId} testCaseResultId:${testCaseResultId} fileName:${fileName} filePath:${filePath}`);
+
+    try {
+      let attachment = await this.createAttachment(filePath, fileName);
+      await this.testApi.createTestResultAttachment(attachment, projectId, testRunId, testCaseResultId);
+    } catch (error) {
+      this.logger.warn(`failed to attach testresult attachment: ${fileName} - ${error}`);
+    }
+  }
+
+  /**
    * Resolve the TestResults for a given TestRun
    * 
    * node api can retrieve 1000 items at a time when no options specified, 200 otherwise.
@@ -267,8 +286,11 @@ export class AdoWrapper {
     return results;
   }
 
-  private async createAttachment(filePath : string) : Promise<Contracts.TestAttachmentRequestModel> {
-    let fileName = path.basename(filePath);
+  private async createAttachment(filePath : string, fileName? : string) : Promise<Contracts.TestAttachmentRequestModel> {
+    // ensure testfile or testattachment has filename
+    if (fileName == undefined || fileName.length == 0){
+      fileName = path.basename(filePath);
+    }    
     const data = await fs.promises.readFile(filePath);
     let fileContent = Buffer.from(data).toString("base64");
     return {

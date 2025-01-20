@@ -1,0 +1,21 @@
+<test-run id="2" duration="0.015345999999999999" testcasecount="1" total="1" passed="1" failed="0" inconclusive="0" skipped="0" result="Passed" start-time="2025-01-13T18:32:43Z" end-time="2025-01-13T18:32:47Z">
+  <test-suite type="Assembly" name="NUnitExample-Attachments.dll" fullname="C:\dev\code\_Personal\testplan-extension\examples\dotnet\NUnitExample-Attachments\bin\Debug\net8.0\NUnitExample-Attachments.dll" total="3" passed="3" failed="0" inconclusive="0" skipped="0" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.015346">
+    <test-suite type="TestSuite" name="NUnitExample" fullname="NUnitExample" total="1" passed="1" failed="0" inconclusive="0" skipped="0" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.015346">
+      <test-suite type="TestSuite" name="Attachments" fullname="NUnitExample.Attachments" total="1" passed="1" failed="0" inconclusive="0" skipped="0" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.015346">
+        <test-suite type="TestFixture" name="Tests" fullname="NUnitExample.Attachments.Tests" classname="NUnitExample.Attachments.Tests" total="1" passed="1" failed="0" inconclusive="0" skipped="0" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.015346">
+          <test-case name="NUnit_SingleAttachment" fullname="NUnitExample.Attachments.Tests.NUnit_SingleAttachment" methodname="NUnit_SingleAttachment" classname="Tests" result="Passed" start-time="2025-01-13T18:32:47Z" end-time="2025-01-13T18:32:47Z" duration="0.001505" asserts="0" seed="1938625613">
+            <properties>
+              <property name="TestCaseId" value="4843" />
+            </properties>
+            <attachments>
+              <attachment>
+                <filePath>C:\dev\code\_Personal\testplan-extension\missing-attachment.txt</filePath>
+              </attachment>
+            </attachments>
+          </test-case>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <errors />
+  </test-suite>
+</test-run>

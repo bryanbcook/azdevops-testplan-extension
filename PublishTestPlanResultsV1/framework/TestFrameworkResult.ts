@@ -14,10 +14,26 @@ export class TestFrameworkResult {
   failure: string | undefined;
   outcome: TestOutcome = TestOutcome.None;
   properties: Map<string,string>;
+  attachments: TestAttachment[];
 
   constructor(name: string, outcome: string) {
     this.name = name;
     this.outcome = TestParserMapping[outcome as keyof typeof TestParserMapping];
     this.properties = new Map<string,string>();
+    this.attachments = [];
+  }
+
+  hasAttachments(): boolean {
+    return this.attachments.length > 0;
+  }
+}
+
+export class TestAttachment {
+  name: string;
+  path: string;
+
+  constructor(name: string, path: string) {
+    this.name = name;
+    this.path = path;
   }
 }

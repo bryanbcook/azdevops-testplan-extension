@@ -1,6 +1,7 @@
 import { TestOutcome } from 'azure-devops-node-api/interfaces/TestInterfaces';
 import { expect } from 'chai';
 import * as path from 'path';
+import * as fs from 'fs';
 import { TestFrameworkParameters } from '../framework/TestFrameworkParameters';
 import * as TestFrameworkResultReader from '../framework/TestFrameworkResultReader';
 
@@ -124,6 +125,41 @@ describe("TestFramework Results Reader", () => {
     expect(results.length).to.be.greaterThan(0);
   });
 
+  it("Can read NUnit results (with attachments)", async () => {
+    // arrange
+    // adjust file paths in xml to match this environments to
+    // emulate that the xml result files were generated on this environment
+    let file = path.join(baseDir, "nunit/nunit_v3_attachments.xml");
+    await fixLocalPaths(file);
+    
+    files.push(file);
+    var parameters = new TestFrameworkParameters(files, "nunit");
+
+    // act
+    var results = await TestFrameworkResultReader.readResults(parameters);
+
+    // assert
+    expect(results[0].attachments.length).to.be.greaterThan(0);
+  })
+
+  it("Can read NUnit results (with missing attachments)", async () => {
+    // arrange
+    // adjust file paths in xml to match this environments to
+    // emulate that the xml result files were generated on this environment
+    let file = path.join(baseDir, "nunit/nunit_v3_attachments_missing.xml");
+    await fixLocalPaths(file);
+    
+    files.push(file);
+    var parameters = new TestFrameworkParameters(files, "nunit");
+
+    // act
+    var results = await TestFrameworkResultReader.readResults(parameters);
+
+    // assert
+    expect(results.length).to.be.eq(1); // results should be present
+    expect(results[0].attachments.length).to.be.eq(0); // missing attachments should not.
+  })
+
   it("Can read TestNG results", async () => {
     // arrange
     files.push(path.join(baseDir, "testng/single-suite.xml"));
@@ -147,4 +183,25 @@ describe("TestFramework Results Reader", () => {
     // assert
     expect(results.length).to.eq(10);
   });
+
+  it("Can read MStest results (with attachments)", async () => {
+    // arrange
+    files.push(path.join(baseDir, "mstest", "testresults_with_attachments.trx"));
+    var parameters = new TestFrameworkParameters(files, "mstest");
+
+    // act
+    var results = await TestFrameworkResultReader.readResults(parameters);
+
+    // assert
+    expect(results.length).to.eq(2);
+    expect(results[0].attachments.length).to.be.greaterThan(0);
+  })
+
+  async function fixLocalPaths(file: string) {
+    let repositoryRoot = path.join(__dirname, "..", "..");
+    let pathToChange = "C:\\dev\\code\\_Personal\\testplan-extension";
+    let buffer = await fs.promises.readFile(file);
+    let data = buffer.toString().replaceAll(pathToChange, repositoryRoot).replaceAll("\\",path.sep);
+    await fs.promises.writeFile(file, data);
+  }
 })
