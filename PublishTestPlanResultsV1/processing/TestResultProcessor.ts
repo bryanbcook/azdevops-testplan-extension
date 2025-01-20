@@ -30,8 +30,7 @@ export class TestResultProcessor {
 
   async process( frameworkResults : TestFrameworkResult[]) : Promise<TestResultProcessorResult> {
 
-    this.logger.debug("Mapping framework results to testpoints...");
-    
+    this.logger.debug("Processing test results...");
     const result = new TestResultProcessorResult(this.context.projectId, this.context.testPlan);
 
     var testPoints = this.context.getTestPoints();
@@ -69,7 +68,7 @@ export class TestResultProcessor {
 
     // log the mapping of test cases to test points
     if (result.matches.size > 0) {
-      this.logger.info(`\nMapped ${result.matches.size} test cases to test points:`);
+      this.logger.info(`\nMapped ${result.matches.size} automated tests to test points:`);
       this.logger.info(`| Test Point | Automated Test | TestOutcome |`);
       this.logger.info('|------------|----------------|-------------|');
       result.matches.forEach( (value, key) => {

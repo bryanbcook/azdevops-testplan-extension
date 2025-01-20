@@ -54,7 +54,7 @@ export class TestRunPublisher {
       const testPlanId = results.testPlan.id;
       const projectId = results.projectId;
 
-      this.logger.info(`Creating TestRun for Project: '${projectId}' TestPlan: '${testPlanId}'.`);
+      this.logger.debug(`Creating TestRun for Project: '${projectId}' TestPlan: '${testPlanId}'.`);
 
       // create a test run for the project + testPlan using testPoint ids
       const points = Array.from(results.matches.keys());
@@ -86,6 +86,7 @@ export class TestRunPublisher {
       });
 
       // update the testcaseresults
+      this.logger.info(`Publishing test results to test run '${testRun.id}'`);
       var updatedResults = await this.ado.updateTestResults(projectId, testRun.id, testCaseResults);
 
       // add testRun attachments
@@ -96,6 +97,8 @@ export class TestRunPublisher {
       testRun.state = "Completed";
       testRun.name = this.testRunTitle;
       var finalRun = await this.ado.updateTestRun(projectId, testRun);
+
+      this.logger.info(`Published Test Run: ${testRun.webAccessUrl}`)
 
       return finalRun;
     } else {

@@ -5,6 +5,10 @@
     ".taskkey": true
   },
   "mochaExplorer.env": {
+    
+    // suppress system.debug logs in unit tests
+    "DISTRIBUTEDTASK_TASKS_NODE_SKIPDEBUGLOGSWHENDEBUGMODEOFF": "true",
+
     "SYSTEM_COLLECTIONURI": "https://dev.azure.com/ava-bcook",
     "TEAMPROJECT": "ADO Test Automation",
     "TEAMPROJECTID": "b4696915-7e31-4b2c-8024-c20273cc6ae2",

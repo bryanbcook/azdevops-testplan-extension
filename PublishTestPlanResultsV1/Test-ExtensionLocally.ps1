@@ -3,10 +3,31 @@
   This script is intended to support local development efforts by testing the extension outside of a pipeline.
 
 .NOTES
-  To run:
-  - compile the extension 'tsc'
-  - set any frequently used task parameters as environment variables in advance $env:INPUT_<variable>="<value>"
-  - run this script without parameters. supply values or press enter to continue
+  - To run:
+    1. compile the extension 'tsc'
+    2. run this script without parameters. supply values or press enter to continue
+
+  - To suppress all debug log output set the environment variable DISTRIBUTEDTASK_TASKS_NODE_SKIPDEBUGLOGSWHENDEBUGMODEOFF to "true"
+
+
+.EXAMPLE
+
+  Run the extension locally, but supress prompting for common inputs
+
+  ```
+  $env:DISTRIBUTEDTASK_TASKS_NODE_SKIPDEBUGLOGSWHENDEBUGMODEOFF = "true"
+  $testParams = @{
+    CollectionUri = "https://dev.azure.com/yourorg"
+    ProjectName = "yourproject"
+    TestPlan="Your Test Plan"
+    AccessToken = "<PAT>"
+    TestResultFormat = "mstest"
+    TestResultFiles = "path/to/testresults.xml"
+    TestCaseProperty = "TestCaseId"
+    TestCaseRegex = "TestCase(\d+)"
+  }
+  .\Test-ExtensionLocally.ps1 @testParams
+  ```
 #>
 [CmdletBinding()]
 param(

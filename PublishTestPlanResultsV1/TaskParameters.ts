@@ -7,7 +7,6 @@ import { TestResultProcessorParameters } from './processing/TestResultProcessorP
 import { TestRunPublisherParameters } from './publishing/TestRunPublisherParameters';
 
 export function getTestContextParameters(): TestResultContextParameters {
-
   tl.debug("reading TestContextParameters from task inputs.");
 
   const accessToken = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
@@ -56,6 +55,8 @@ export function getProcessorParameters() : TestResultProcessorParameters {
 }
 
 export function getPublisherParameters() : TestRunPublisherParameters {
+  tl.debug("reading TestRunPublisherParameters from task inputs.");
+  
   const accessToken = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
   const buildId = tl.getVariable("BUILD_BUILDID")!; // available in build and release pipelines
   const releaseUri = tl.getVariable("RELEASE_RELEASEURI"); // only in release pipelines

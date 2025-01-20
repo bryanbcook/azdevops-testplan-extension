@@ -2,13 +2,14 @@ import { TestOutcome } from 'azure-devops-node-api/interfaces/TestInterfaces';
 import { expect } from 'chai';
 import * as path from 'path';
 import * as fs from 'fs';
-import { TestFrameworkParameters } from '../framework/TestFrameworkParameters';
-import * as TestFrameworkResultReader from '../framework/TestFrameworkResultReader';
+import { TestFrameworkResultReader } from '../framework/TestFrameworkResultReader';
+import { NullLogger } from '../services/Logger';
 
 describe("TestFramework Results Reader", () => {
 
   var baseDir : string;
   var files : string[];
+  var subject : TestFrameworkResultReader;
 
   before(() => {
     baseDir = path.join(__dirname, "data");
@@ -16,15 +17,15 @@ describe("TestFramework Results Reader", () => {
 
   beforeEach(() => {
     files = [];
+    subject = new TestFrameworkResultReader(new NullLogger());
   })
 
   it("Can read xUnit results", async () => {
     // arrange
     files.push(path.join(baseDir, "xunit/xunit-1.xml"));
-    var parameters = new TestFrameworkParameters(files, "xunit");
     
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("xunit", files);
 
     // assert
     expect(results.length).to.eq(1);
@@ -37,10 +38,9 @@ describe("TestFramework Results Reader", () => {
   it("Can read xUnit time", async () => {
     // arrange
     files.push(path.join(baseDir, "xunit/xunit-1.xml"));
-    var parameters = new TestFrameworkParameters(files, "xunit");
     
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("xunit", files);
 
     // assert
     expect(results[0].duration).to.eq(86006.5);
@@ -50,10 +50,9 @@ describe("TestFramework Results Reader", () => {
   it("Can read jUnit results", async () => {
     // arrange
     files.push(path.join(baseDir, "junit/single-suite.xml"));
-    var parameters = new TestFrameworkParameters(files, "junit");
     
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("junit", files);
 
     // assert
     expect(results.length).to.eq(1);
@@ -63,10 +62,9 @@ describe("TestFramework Results Reader", () => {
   it("Can read JUnit test outcomes", async () => {
     // arrange
     files.push(path.join(baseDir, "junit/test-cleansed.xml"));
-    var parameters = new TestFrameworkParameters(files, "junit");
     
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("junit", files);
 
     // assert
     expect(results[0].outcome).to.eq(TestOutcome.NotExecuted);
@@ -76,14 +74,30 @@ describe("TestFramework Results Reader", () => {
     expect(results[4].outcome).to.eq(TestOutcome.Failed);
   });
 
+  // it("Can read JUnit attachments", async () => {
+  //   throw new Error("Need JUnit example with attachments");
+  //   // arrange
+  //   // todo: adjust file paths in xml to match this environments
+  //   //       to emulate that the xml result files were generated
+  //   //       on this environment
+  //   files.push(path.join(baseDir, "junit/junit_attachments.xml"));
+  //   var parameters = new TestFrameworkParameters(files, "junit");
+
+  //   // act
+  //   var results = await TestFrameworkResultReader.readResults(parameters);
+
+  //   // assert
+  //   // todo: assert that the attachments are present in the results
+  //   // todo: assert that the file paths point to actual files
+  // });
+
   // https://github.com/bryanbcook/azdevops-testplan-extension/issues/48
   it("Can read JUnit time", async () => {
     // arrange
     files.push(path.join(baseDir, "junit/single-suite.xml"));
-    var parameters = new TestFrameworkParameters(files, "junit");
     
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("junit", files);
 
     // assert
     expect(results[0].duration).to.eq(10000);
@@ -92,10 +106,9 @@ describe("TestFramework Results Reader", () => {
   it("Can read Cucumber results", async () => {
     // arrange
     files.push(path.join(baseDir, "cucumber/single-suite-single-test.json"));
-    var parameters = new TestFrameworkParameters(files, "cucumber");
     
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("cucumber", files);
 
     // assert
     expect(results.length).to.eq(1);
@@ -104,10 +117,9 @@ describe("TestFramework Results Reader", () => {
   it("Can read Mocha results", async () => {
     // arrange
     files.push(path.join(baseDir, "mocha/single-suite-single-test.json"));
-    var parameters = new TestFrameworkParameters(files, "mocha");
     
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("mocha", files);
 
     // assert
     expect(results.length).to.eq(1);
@@ -116,10 +128,9 @@ describe("TestFramework Results Reader", () => {
   it("Can read NUnit results", async () => {
     // arrange
     files.push(path.join(baseDir, "nunit/nunit_v3.xml"));
-    var parameters = new TestFrameworkParameters(files, "nunit");
     
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("nunit", files);
 
     // assert
     expect(results.length).to.be.greaterThan(0);
@@ -133,10 +144,9 @@ describe("TestFramework Results Reader", () => {
     await fixLocalPaths(file);
     
     files.push(file);
-    var parameters = new TestFrameworkParameters(files, "nunit");
 
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("nunit", files);
 
     // assert
     expect(results[0].attachments.length).to.be.greaterThan(0);
@@ -150,10 +160,9 @@ describe("TestFramework Results Reader", () => {
     await fixLocalPaths(file);
     
     files.push(file);
-    var parameters = new TestFrameworkParameters(files, "nunit");
 
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("nunit", files);
 
     // assert
     expect(results.length).to.be.eq(1); // results should be present
@@ -163,10 +172,9 @@ describe("TestFramework Results Reader", () => {
   it("Can read TestNG results", async () => {
     // arrange
     files.push(path.join(baseDir, "testng/single-suite.xml"));
-    var parameters = new TestFrameworkParameters(files, "testng");
     
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("testng", files);
 
     // assert
     expect(results.length).to.be.greaterThan(1);
@@ -175,10 +183,9 @@ describe("TestFramework Results Reader", () => {
   it("Can read MStests results", async () => {
     // arrange
     files.push(path.join(baseDir, "mstest", "testresults.trx"));
-    var parameters = new TestFrameworkParameters(files, "mstest");
     
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("mstest", files);
 
     // assert
     expect(results.length).to.eq(10);
@@ -187,10 +194,9 @@ describe("TestFramework Results Reader", () => {
   it("Can read MStest results (with attachments)", async () => {
     // arrange
     files.push(path.join(baseDir, "mstest", "testresults_with_attachments.trx"));
-    var parameters = new TestFrameworkParameters(files, "mstest");
 
     // act
-    var results = await TestFrameworkResultReader.readResults(parameters);
+    var results = await subject.read("mstest", files);
 
     // assert
     expect(results.length).to.eq(2);

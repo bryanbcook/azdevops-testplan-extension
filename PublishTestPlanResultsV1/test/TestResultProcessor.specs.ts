@@ -8,7 +8,7 @@ import { TestIdMatchStrategy } from "../processing/TestResultProcessorFactory";
 import { TestPoint, TestPlan } from "azure-devops-node-api/interfaces/TestInterfaces";
 import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestResultProcessor } from "../processing/TestResultProcessor";
-import { Logger } from "../services/Logger";
+import { Logger, NullLogger } from "../services/Logger";
 
 describe('TestResultProcessor', () => {
 
@@ -22,6 +22,7 @@ describe('TestResultProcessor', () => {
     matchers.push( new TestIdMatchStrategy("TestCase") );
     ctx = sinon.createStubInstance(TestResultContext);
     subject = new TestResultProcessor(matchers, ctx);
+    subject.logger = new NullLogger();
 
     // setup read-only properties on ctx
     (ctx as any).testPlan = null;
