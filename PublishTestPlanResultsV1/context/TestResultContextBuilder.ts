@@ -37,10 +37,12 @@ export class TestResultContextBuilder {
   }
 
   async build(): Promise<TestResultContext> {
+    this.log.debug("locating test plan details...");
+
     let projectId = await this.getAndValidateProjectName();
     let testPlan = await this.getAndValidateTestPlan();
-
-    this.log.info(`Using Test Plan: ${testPlan.name}`)
+    
+    this.log.info(`Using Test Plan: ${testPlan.name}`);
 
     let ctx = new TestResultContext(projectId, (this.projectName as string), testPlan);
     let configs = await this.getTestConfigurations();

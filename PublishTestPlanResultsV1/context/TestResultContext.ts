@@ -2,7 +2,6 @@ import { TestConfiguration, TestPlan, TestPoint } from "azure-devops-node-api/in
 import { TestResultContextParameters } from "./TestResultContextParameters";
 import { TestResultContextBuilder } from "./TestResultContextBuilder";
 import { configAlias } from "./configAlias";
-import { config } from "process";
 
 export class TestResultContext {
 
