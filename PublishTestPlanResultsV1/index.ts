@@ -1,7 +1,7 @@
 import tl = require("azure-pipelines-task-lib/task");
 import * as TaskParameters from "./TaskParameters";
 import { TestResultContext } from "./context/TestResultContext";
-import * as TestFrameworkResultReader from "./framework/TestFrameworkResultReader";
+import { TestFrameworkResultReader } from "./framework/TestFrameworkResultReader";
 import * as TestResultProcessorFactory from "./processing/TestResultProcessorFactory";
 import { TestRunPublisher } from "./publishing/TestRunPublisher";
 

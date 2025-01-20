@@ -3,65 +3,80 @@ import fs from 'fs';
 import { parse } from 'test-results-parser';
 import { TestFrameworkParameters } from "./TestFrameworkParameters";
 import { TestAttachment, TestFrameworkResult } from "./TestFrameworkResult";
-import { getLogger } from "../services/Logger"
+import { ILogger, getLogger } from "../services/Logger"
 
-export async function readResults(parameters: TestFrameworkParameters): Promise<TestFrameworkResult[]> {
+export class TestFrameworkResultReader {
+  public logger : ILogger;
 
-  let logger = getLogger();
+  constructor(logger : ILogger) {
+    this.logger = logger;
+  }
 
-  // read test files
-  logger.debug("converting test framework results into unified format");
-  let testResult = parse({ type: parameters.testFormat.toString(), files: parameters.testFiles });
-  logger.debug(JSON.stringify(testResult));
+  public static async readResults(parameters: TestFrameworkParameters): Promise<TestFrameworkResult[]> {
+    const reader = new TestFrameworkResultReader(getLogger());
+    return await reader.read(parameters.testFormat, parameters.testFiles);
+  }
+  
+  public async read(testFormat : string, testFiles : string[]) : Promise<TestFrameworkResult[]> {
 
-  var results: TestFrameworkResult[] = [];
+    // read test files
+    this.logger.info('Test format: ' + testFormat);
+    this.logger.info('Test files:');
+    this.logger.info(testFiles.map(f => `- ${f}`).join('\n'));
+    this.logger.debug("converting test framework results into unified format");
+    let testResult = parse({ type: testFormat, files: testFiles });
+    this.logger.debug(JSON.stringify(testResult));
+    this.logger.info(`Total: ${testResult.total}\tPassed: ${testResult.passed}\tFailed: ${testResult.failed}\tSkipped: ${testResult.skipped}`);
 
-  testResult.suites.forEach(suite => {
-    suite.cases.forEach(test => {
-      let result = new TestFrameworkResult(test.name, test.status);
-      result.failure = test.failure;
-      result.stacktrace = test.stack_trace;
-      result.duration = test.duration;
-      // 0.1.19 separated tags from metadata
-      result.properties = new Map<string,string>(Object.entries(test.metadata));
+    var results: TestFrameworkResult[] = [];
 
-      if (test.attachments && test.attachments.length > 0) {
-        let baseFolders = parameters.testFiles.map(f => path.dirname(f));
-        test.attachments.forEach(a => {
-          // name is required but not all test frameworks provide one
-          if (a.name == undefined || a.name == '') {
-            a.name = path.basename(a.path);
-            logger.debug(`attachment name not provided. Defaulting to file name: '${a.name}'.`);
-          }
-          // some test frameworks represent attachment paths as relative
-          let found = false;
-          if (!path.isAbsolute(a.path)) {
-            logger.debug(`attachment ${a.name} has a relative path: '${a.path}'. Attempting to resolve path relative to test files...`);
-            found = baseFolders.some(base => {
-              let fullPath = path.join(base, a.path);
-              logger.debug(`checking: ${fullPath}`);
-              if (fs.existsSync(fullPath)) {
-                logger.debug(`found attachment '${fullPath}'.`);
-                a.path = fullPath;
-                return true; // exit some
-              }
-              return false;
-            });
-          } else {
-            // ensure absolute path exists
-            found = fs.existsSync(a.path);
-          }
+    testResult.suites.forEach(suite => {
+      suite.cases.forEach(test => {
+        let result = new TestFrameworkResult(test.name, test.status);
+        result.failure = test.failure;
+        result.stacktrace = test.stack_trace;
+        result.duration = test.duration;
+        // 0.1.19 separated tags from metadata
+        result.properties = new Map<string,string>(Object.entries(test.metadata));
+
+        if (test.attachments && test.attachments.length > 0) {
+          let baseFolders = testFiles.map(f => path.dirname(f));
+          test.attachments.forEach(a => {
+            // name is required but not all test frameworks provide one
+            if (a.name == undefined || a.name == '') {
+              a.name = path.basename(a.path);
+              this.logger.debug(`attachment name not provided. Defaulting to file name: '${a.name}'.`);
+            }
+            // some test frameworks represent attachment paths as relative
+            let found = false;
+            if (!path.isAbsolute(a.path)) {
+              this.logger.debug(`attachment ${a.name} has a relative path: '${a.path}'. Attempting to resolve path relative to test files...`);
+              found = baseFolders.some(base => {
+                let fullPath = path.join(base, a.path);
+                this.logger.debug(`checking: ${fullPath}`);
+                if (fs.existsSync(fullPath)) {
+                  this.logger.debug(`found attachment '${fullPath}'.`);
+                  a.path = fullPath;
+                  return true; // exit some
+                }
+                return false;
+              }); 
+            } else {
+              // ensure absolute path exists
+              found = fs.existsSync(a.path);
+            }
             if (!found) {
-              logger.info(`##[warn]test attachment not found: '${a.path}'. Excluding attachment from results.`);
+              this.logger.info(`##[warn]test attachment not found: '${a.path}'. Excluding attachment from results.`);
               return; // continue to next attachment
-          }
-          result.attachments.push(new TestAttachment(a.name, a.path));
-        });
-      }
+            }
+            result.attachments.push(new TestAttachment(a.name, a.path));
+          });
+        }
 
-      results.push(result);
-    })
-  });
+        results.push(result);
+      })
+    });
 
-  return results;
+    return results;
+  }
 }
