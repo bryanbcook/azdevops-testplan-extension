@@ -27,9 +27,9 @@ jobs:
 
   # use node
   - task: UseNode@1
-    displayName: Install Node 16
+    displayName: Install Node 20
     inputs:
-      version: 16.x
+      version: 20.x
 
   # mocha test runner
   - task: Npm@1
@@ -76,39 +76,40 @@ jobs:
       workingDir: $(workingDir)
       
   # install the extension cli tool
-  - task: TfxInstaller@3
+  - task: TfxInstaller@5
     displayName: Use Tfx
     inputs:
-      version: "v0.7.x"
+      version: 'v0.x'
+      checkLatest: true
 
   # fetch the current extension version
   #   You must build and upload manually for the first execution
-  - task: QueryAzureDevOpsExtensionVersion@3
+  - task: QueryAzureDevOpsExtensionVersion@5
     displayName: Fetch Current Extension Version
+    name: Query
     inputs:
       connectTo: 'VsTeam'
       connectedServiceName: 'AzureDevOpsMarketplace'
       publisherId: '$(PublisherID)'
       extensionId: '$(ExtensionID)'
       versionAction: 'Patch'
-      outputVariable: 'Task.Extension.Version'
   
   # Create the vsix package
-  - task: PackageAzureDevOpsExtension@3
+  - task: PackageAzureDevOpsExtension@5
     displayName: Package Extension
     inputs:
       rootFolder: '$(Build.SourcesDirectory)'
       publisherId: '$(PublisherID)'
       extensionId: '$(ExtensionID)'
       extensionName: '$(ExtensionName)'
-      extensionVersion: '$(Task.Extension.Version)'
+      extensionVersion: '$(Query.Extension.Version)'
       updateTasksVersion: true
       updateTasksVersionType: 'patch'
       extensionVisibility: 'private' 
       extensionPricing: 'free'
 
   # Upload and publish the extension
-  - task: PublishAzureDevOpsExtension@3
+  - task: PublishAzureDevOpsExtension@5
     displayName: Publish Extension
     condition: eq('${{ parameters.publishExtension}}', 'true')
     inputs:
