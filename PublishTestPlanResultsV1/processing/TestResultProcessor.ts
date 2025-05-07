@@ -2,6 +2,7 @@ import { TestPoint, TestPlan } from "azure-devops-node-api/interfaces/TestInterf
 import { TestResultContext } from "../context/TestResultContext";
 import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestResultMatch, TestResultMatchStrategy } from "./TestResultMatchStrategy";
+import { JSONStringify } from "../services/JsonUtil";
 import { ILogger, getLogger } from "../services/Logger"
 
 export class TestResultProcessorResult {
@@ -43,7 +44,7 @@ export class TestResultProcessor {
         break;
       }
 
-      this.logger.debug(`evaluating '${frameworkResult.name}' (${JSON.stringify(frameworkResult)})`);
+      this.logger.debug(`evaluating '${frameworkResult.name}' (${JSONStringify(frameworkResult)})`);
 
       let matchingPoints = testPoints.filter(point => this.compare(frameworkResult, point));
 

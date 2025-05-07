@@ -1,10 +1,8 @@
 import { expect } from "chai";
-
 import { ShallowReference, TestConfiguration, TestPoint, WorkItemReference } from "azure-devops-node-api/interfaces/TestInterfaces";
 import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestAutomationPropertyMatchStrategy, TestConfigMatchStrategy, TestIdMatchStrategy, TestNameMatchStrategy, TestRegexMatchStrategy } from "../processing/TestResultProcessorFactory";
 import { TestResultMatch } from "../processing/TestResultMatchStrategy";
-import * as util from './testUtil';
 
 describe("TestCaseMatchStrategy", () => {
 
@@ -28,21 +26,22 @@ describe("TestCaseMatchStrategy", () => {
       point = <TestPoint>{ id: 1, configuration: <ShallowReference>{ id: "1", name:"Config1"} };       
 
       // setup subject
-      subject = new TestConfigMatchStrategy(allowedConfigs,"Config");
+      // The default testConfigProperty is "Config"
+      subject = new TestConfigMatchStrategy(allowedConfigs, "Config");
     })
 
-    it('Should match if testpoint has the same category as filter', async () => {
+    it('Should match if testpoint has a supported configuration', async () => {
       // arrange
-
+      test.properties.set("Config","Config1"); // dummy
       // act
       var result = subject.isMatch(test, point);
 
       // assert
-      expect( result).eq(TestResultMatch.None);
+      expect(result).eq(TestResultMatch.None);
     });
 
-    // test point does not have same category
-    it('Should not match if testpoint does not have the same category as filter', async() => {
+    // test point does not have same configuration as allowed configurations
+    it('Should not match if testpoint does not have supported configuration', async() => {
       // arrange
       point.configuration = <ShallowReference>{ id: "2", name: "Different Config"};
 
@@ -51,6 +50,35 @@ describe("TestCaseMatchStrategy", () => {
 
       // assert
       expect(result).eq(TestResultMatch.Fail);
+    });
+
+    // assuming that testConfigProperty is opt-in and the majority of TestPoints won't have configurations
+    // could translate into a bug if a TestPoint has multiple configurations but the TestFramework result doesn't
+    it('Should match even if TestFramework result does not have a defined testConfigProperty', () => {
+      // arrange
+      test.properties.clear(); // no config property
+
+      // act
+      var result = subject.isMatch(test, point);
+
+      // assert
+      expect(result).eq(TestResultMatch.None);
+    });
+
+    // https://github.com/bryanbcook/azdevops-testplan-extension/issues/92
+    // looks like the API is returning a number for the id instead of a string in the shallowreference
+    it('Should match if config id in shallow reference is not a string', async () => {
+      // arrange
+      test.properties.set("Config", "Config1")
+
+      // emulate API response as number by using <unknown> cast
+      point.configuration = <ShallowReference><unknown>{ id: 1, name: "Config1" };
+
+      // act
+      var result = subject.isMatch(test, point);
+
+      // assert
+      expect(result).eq(TestResultMatch.None);
     });
 
     it('Should match if test result has matching config', async () => {
@@ -74,13 +102,6 @@ describe("TestCaseMatchStrategy", () => {
       // assert
       expect(result).eq(TestResultMatch.None);
     });
-      // // arrange
-      // // act
-      // // assert
-      // throw new Error("Not implemented");
-
-
-
   });
 
   context("TestCase Name Matcher", () => {

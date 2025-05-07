@@ -103,6 +103,18 @@ describe("TestFramework Results Reader", () => {
     expect(results[0].duration).to.eq(10000);
   });
 
+  // https://github.com/bryanbcook/azdevops-testplan-extension/issues/92
+  it("Can read JUnit properties", async () => {
+    // arrange
+    files.push(path.join(baseDir, "junit/bug-92.xml"));
+    
+    // act
+    var results = await subject.read("junit", files);
+
+    // assert
+    expect(results[0].properties.size).to.eq(3);
+  });
+
   it("Can read Cucumber results", async () => {
     // arrange
     files.push(path.join(baseDir, "cucumber/single-suite-single-test.json"));

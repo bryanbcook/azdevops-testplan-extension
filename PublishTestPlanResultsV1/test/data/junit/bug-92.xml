@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+  <testsuite name="pytest" errors="0" failures="0" skipped="0" tests="6" time="271.885" timestamp="2025-05-06T17:11:00.804626-04:00" hostname="ROM-1GLRCX3">
+    <testcase classname="tests.test_menu_elements" name="Test Menu Elements" time="11.656">
+      <properties>
+        <property name="TestConfig" value="chromium" />
+        <property name="TestId" value="8207" />
+      </properties>
+    </testcase>
+    <testcase classname="tests.test_menu_elements" name="Test Menu Elements" time="235.515">
+      <properties>
+        <property name="TestConfig" value="firefox" />
+        <property name="TestId" value="8207" />
+      </properties>
+    </testcase>
+    <testcase classname="tests.test_menu_elements" name="Test Menu Elements" time="5.432">
+      <properties>
+        <property name="TestConfig" value="edge" />
+        <property name="TestId" value="8207" />
+      </properties>
+    </testcase>
+    <testcase classname="tests.test_admin_tab" name="Test Admin Tab" time="5.243">
+      <properties>
+        <property name="TestConfig" value="chromium" />
+        <property name="TestId" value="8173" />
+      </properties>
+    </testcase>
+    <testcase classname="tests.test_admin_tab" name="Test Admin Tab" time="8.711">
+      <properties>
+        <property name="TestConfig" value="firefox" />
+        <property name="TestId" value="8173" />
+      </properties>
+    </testcase>
+    <testcase classname="tests.test_admin_tab" name="Test Admin Tab" time="5.310">
+      <properties>
+        <property name="TestConfig" value="edge" />
+        <property name="TestId" value="8173" />
+      </properties>
+    </testcase>
+  </testsuite>
+</testsuites>
