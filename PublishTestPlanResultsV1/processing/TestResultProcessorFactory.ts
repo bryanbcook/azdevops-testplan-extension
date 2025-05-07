@@ -72,7 +72,7 @@ export class TestConfigMatchStrategy implements TestResultMatchStrategy {
       let configIdToCompare = this.allowedConfigs.get(testResultConfig)?.id?.toString();
 
       // compare against the test point
-      if (configIdToCompare !== point.configuration.id) {
+      if (configIdToCompare !== point.configuration.id?.toString()) {
         return TestResultMatch.Fail;
       }
     }
