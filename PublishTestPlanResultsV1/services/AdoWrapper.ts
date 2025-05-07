@@ -113,8 +113,10 @@ export class AdoWrapper {
 
     var witFields = "Microsoft.VSTS.TCM.AutomationStatus,Microsoft.VSTS.TCM.AutomatedTestName";
 
-    // 2022.1 does not yet include the TestPlan interface
-    // testPlan api supports a recursive query
+    // https://github.com/bryanbcook/azdevops-testplan-extension/issues/83
+    // Version azure-devops-node-api 12.1.0 does not have the TestPlan interface
+    // Version 12.1.1 supports ITestPlanApi.getTestCaseList(project, planId, suiteId, witFields?, recursive?)
+    // current implementation uses the rest api and custom pagination.
     var url = `${this.testApi.vsoClient.baseUrl}/${projectId}/_apis/testplan/Plans/${testPlanId}/Suites/${testSuiteId}/TestCase?api-version=7.1&expand=false&isRecursive=${recursive.toString()}&witFields=${witFields}`;
     return this.fetchWithPagination<any>(this.testApi, url, Contracts.TypeInfo.TestCaseReference2);    
   }
