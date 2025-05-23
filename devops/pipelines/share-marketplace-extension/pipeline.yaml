@@ -27,12 +27,12 @@ steps:
     version: 'v0.x'
     checkLatest: true
 
-- task: TfxExtension@5
+- task: ShareAzureDevOpsExtension@5
   displayName: 'Share Extension with Organization'
   inputs:
-    command: 'share'
     connectTo: 'VsTeam'
     connectedServiceName: 'AzureDevOpsMarketplace'
-    publisherId: $(PublisherID)
-    extensionId: $(ExtensionID)
-    shareWith: ${{ parameters.orgName }}
+    method: 'id'
+    publisherId: '$(PublisherID)'
+    extensionId: '$(ExtensionID)'
+    accounts: '${{ parameters.orgName }}'
