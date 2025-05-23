@@ -1,0 +1,38 @@
+trigger: none
+
+
+parameters:
+- name: orgName
+  displayName: Organization Name to Add
+  type: string
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- group: pipeline-extension-settings
+
+steps:
+- checkout: self
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
+
+  # install the extension cli tool
+- task: TfxInstaller@5
+  displayName: Use Tfx
+  inputs:
+    version: 'v0.x'
+    checkLatest: true
+
+- task: TfxExtension@5
+  displayName: 'Share Extension with Organization'
+  inputs:
+    command: 'share'
+    connectTo: 'VsTeam'
+    connectedServiceName: 'AzureDevOpsMarketplace'
+    publisherId: $(PublisherID)
+    extensionId: $(ExtensionID)
+    shareWith: ${{ parameters.orgName }}

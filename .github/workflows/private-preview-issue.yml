@@ -1,0 +1,141 @@
+name: Private Preview Issue Handler
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  check-private-preview:
+    if: contains(github.event.issue.title, 'Include in private-preview')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Azure DevOps Organization Name
+        id: extract_org
+        shell: pwsh
+        run: |
+          # Find the line with 'Organization Name:' and extract the URL
+          $orgLine = $env:GITHUB_EVENT_ISSUE_BODY -split "`n" | Where-Object { $_ -match '^\s*-\s*(required)?\s*Organization Name:' }
+          if (-not $orgLine) {
+            Write-Host "No Azure DevOps organization line found in issue body."
+            exit 1
+          }
+          $orgUrl = ($orgLine -split ' ') | Where-Object { $_ -match '^https://dev\.azure\.com/' } | Select-Object -First 1
+          if (-not $orgUrl) {
+            Write-Host "No Azure DevOps organization URL found in Organization Name line."
+            exit 1
+          }
+          $orgName = $orgUrl -replace 'https://dev\.azure\.com/([^/]+).*', '$1'
+          Write-Output "ORG_NAME=$orgName" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          Write-Host "Extracted ORG_NAME: $orgName"
+        env:
+          GITHUB_EVENT_ISSUE_BODY: ${{ github.event.issue.body }}
+
+      - name: Trigger Azure DevOps Pipeline to Share Extension
+        id: trigger_pipeline
+        shell: pwsh
+        run: |
+          $orgName = "${{ steps.extract_org.outputs.ORG_NAME }}"
+          if ([string]::IsNullOrWhiteSpace($orgName)) {
+            Write-Host "ORG_NAME not found. Exiting."
+            exit 1
+          }
+          Write-Host "Triggering Azure DevOps pipeline for org: $orgName"
+
+          # Setup ADO pipeline
+          $adoUrl = "{0}/{1}" -f $env:AZDO_ORG_URL, $env:AZDO_PROJECT
+          $pipelineId = $env:AZDO_PIPELINE_ID
+          $pat = $env:AZDO_PIPELINE_PAT
+          $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":" + $pat))
+          $headers = @{ "Content-Type" = "application/json" }
+          $headers["Authorization"] = "Basic $base64AuthInfo"
+          $apiUrl = "$adoUrl/_apis/pipelines/$pipelineId/runs?api-version=7.0"
+          $body = @{ 
+            resources = @{}; 
+            templateParameters = @{ orgName = $orgName } 
+          } | ConvertTo-Json -Compress
+
+          # Trigger the pipeline
+          $response = Invoke-RestMethod -Uri $apiUrl -Method Post -Headers $headers -Body $body
+          $runId = $response.id
+          if (-not $runId) {
+            Write-Host "Failed to queue pipeline. No run ID returned."
+            exit 1
+          }
+          Write-Host "Pipeline triggered. Run ID: $runId"
+          Write-Output "RUN_ID=$runId" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        env:
+          AZDO_PIPELINE_PAT: ${{ secrets.AZDO_PIPELINE_PAT }}
+          AZDO_ORG_URL: ${{ secrets.AZDO_ORG_URL }}
+          AZDO_PROJECT: ${{ secrets.AZDO_PROJECT }}
+          AZDO_PIPELINE_ID: ${{ secrets.AZDO_PIPELINE_ID }}
+
+      - name: Wait for Azure DevOps Pipeline Completion
+        id: wait_for_pipeline_completion
+        shell: pwsh
+        run: |
+          $adoUrl = "{0}/{1}" -f $env:AZDO_ORG_URL, $env:AZDO_PROJECT
+          $pat = $env:AZDO_PIPELINE_PAT
+          $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":" + $pat))
+          $headers = @{ "Authorization" = "Basic $base64AuthInfo" }
+          $pipelineId = $env:AZDO_PIPELINE_ID
+          $runId = "${{ steps.trigger_pipeline.outputs.RUN_ID }}"
+          if (-not $runId) {
+            Write-Host "No pipeline run ID found to monitor."
+            exit 1
+          }
+
+          # wait for pipeline to complete
+          Write-Host "Waiting for pipeline run $runId to complete..."
+          $status = ""
+          $result = ""
+          do {
+            Start-Sleep -Seconds 10
+            $runUrl = "$adoUrl/_apis/pipelines/$pipelineId/runs/$runId?api-version=7.0"
+            $run = Invoke-RestMethod -Uri $runUrl -Headers $headers
+            $status = $run.state
+            $result = $run.result
+            Write-Host "Current status: $status, result: $result"
+          } while ($status -notin @('completed', 'canceled'))
+
+          if ($result -eq 'succeeded') {
+            Write-Host "Azure DevOps pipeline completed successfully."
+            Write-Output "outcome=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          } else {
+            Write-Host "Azure DevOps pipeline failed with result: $result"
+            Write-Output "outcome=failure" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            exit 1
+          }
+        env:
+          AZDO_PIPELINE_PAT: ${{ secrets.AZDO_PIPELINE_PAT }}
+          AZDO_ORG_URL: ${{ secrets.AZDO_ORG_URL }}
+          AZDO_PROJECT: ${{ secrets.AZDO_PROJECT }}
+          AZDO_PIPELINE_ID: ${{ secrets.AZDO_PIPELINE_ID }}
+
+      - name: Comment on Issue with Pipeline Result
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue_number = ${{ github.event.issue.number }};
+            const runId = "${{ steps.trigger_pipeline.outputs.RUN_ID }}";
+            const adoOrgUrl = process.env.AZDO_ORG_URL;
+            const adoProject = process.env.AZDO_PROJECT;
+            const adoPipelineId = process.env.AZDO_PIPELINE_ID;
+            const adoPipelineUrl = `${adoOrgUrl}/${adoProject}/_build/results?view=results&buildId=${runId}`;
+            const result = "${{ steps.wait_for_pipeline_completion.outputs.outcome }}";
+            let body;
+            if (result === 'success') {
+              body = `✅ Azure DevOps pipeline completed successfully for this request. [View pipeline run](${adoPipelineUrl})`;
+            } else {
+              body = `❌ Azure DevOps pipeline failed for this request. [View pipeline run](${adoPipelineUrl})`;
+            }
+            await github.rest.issues.createComment({
+              issue_number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
+        env:
+          AZDO_ORG_URL: ${{ secrets.AZDO_ORG_URL }}
+          AZDO_PROJECT: ${{ secrets.AZDO_PROJECT }}
+          AZDO_PIPELINE_ID: ${{ secrets.AZDO_PIPELINE_ID }}
