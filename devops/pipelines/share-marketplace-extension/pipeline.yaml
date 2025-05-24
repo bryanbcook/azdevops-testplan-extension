@@ -1,5 +1,7 @@
 trigger: none
 
+pr: none
+
 parameters:
 # Azure DevOps Organization name to share the extension with
 - name: orgName
