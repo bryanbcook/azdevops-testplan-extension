@@ -109,12 +109,12 @@ export class TestRunPublisher {
   private async uploadAttachments(projectId: string, testRunId: number, attachments: Map<number, TestAttachment[]>): Promise<void> {
     if (attachments.size > 0) {
       this.logger.info(`Identified ${attachments.size} test results with attachments.`);
-    
-      attachments.forEach( async (attachments, testCaseResultId) => {
-        attachments.forEach( async (attachment) => {
+      // sequentially upload attachments to prevent unsafe thread access
+      for (const [testCaseResultId, testAttachments] of attachments.entries()) {
+        for (const attachment of testAttachments) {
           await this.ado.attachTestResultFiles(projectId, testRunId, testCaseResultId, attachment.name, attachment.path);
-        })
-      });
+        }
+      }
     }
   }
 }
