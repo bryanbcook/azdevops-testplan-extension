@@ -1,7 +1,7 @@
 trigger: none
 
-
 parameters:
+# Azure DevOps Organization name to share the extension with
 - name: orgName
   displayName: Organization Name to Add
   type: string
@@ -15,18 +15,15 @@ variables:
 steps:
 - checkout: none
 
-#- task: NodeTool@0
-#  inputs:
-#    versionSpec: '18.x'
-#  displayName: 'Install Node.js'
-
-  # install the extension cli tool
+# install the extension cli tool
 - task: TfxInstaller@5
   displayName: Use Tfx
   inputs:
     version: 'v0.x'
     checkLatest: true
 
+# share the extension
+# --share-with only adds new organizations, existing orgs are untouched
 - task: ShareAzureDevOpsExtension@5
   displayName: 'Share Extension with Organization'
   inputs:
