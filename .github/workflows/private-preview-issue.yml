@@ -19,9 +19,9 @@ jobs:
             Write-Host "No Azure DevOps organization line found in issue body."
             exit 1
           }
-          $orgUrl = ($orgLine -split ' ') | Where-Object { $_ -match '^https://dev\.azure\.com/' } | Select-Object -First 1
+          $orgUrl = ($orgLine -split ' ') | Where-Object { $_ -match '^https://dev\.azure\.com/([A-Za-z0-9][A-Za-z0-9_-]*)$' } | Select-Object -First 1
           if (-not $orgUrl) {
-            Write-Host "No Azure DevOps organization URL found in Organization Name line."
+            Write-Host "Azure DevOps Organization name was not provided."
             exit 1
           }
           $orgName = $orgUrl -replace 'https://dev\.azure\.com/([^/]+).*', '$1'
