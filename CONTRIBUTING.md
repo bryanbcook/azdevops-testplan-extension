@@ -6,14 +6,14 @@ As an open-source project, community contributions are encouraged.
 
 The local development environment consist of the following:
 
-- node 16.x
-- TypeScript 4.6.3
+- node 20.x
+- TypeScript 5.6.3
 - Visual Studio Code
 - PowerShell Core 7.x
 
 ```shell
 # install typescript dependency
-npm install -g typescript@4.6.3
+npm install -g typescript@5.6.3
 
 # compile
 cd .\PublishTestPlanResultsV1
