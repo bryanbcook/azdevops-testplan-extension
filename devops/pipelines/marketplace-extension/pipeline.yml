@@ -21,7 +21,6 @@ variables:
 
 jobs:
 - job: build
-  condition: false
   displayName: 'Build + Package'
   steps:
   - checkout: self
@@ -75,7 +74,7 @@ jobs:
       command: custom
       customCommand: prune --omit=dev
       workingDir: $(workingDir)
-      
+
   # install the extension cli tool
   - task: TfxInstaller@5
     displayName: Use Tfx
@@ -125,9 +124,17 @@ jobs:
       extensionVisibility: 'private'
       extensionPricing: 'free'
 
+
+  # For pull requests, publish the build as an artifact for consumption by regression suite
+  #- ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+  - ${{ if (eq(true,true)) }}:
+    - publish: $(workingDir)
+      artifact: 'build'
+
 #- ${{ if or( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
 - ${{ if eq(true,true) }}:
   - job: regression_test
+    dependsOn: build
     displayName: 'Regression Test'
     strategy:
       matrix:
@@ -149,34 +156,17 @@ jobs:
       inputs:
         version: $(nodeVersion)
 
-    # mocha test runner
-    - task: Npm@1
-      displayName: Install Mocha
-      inputs:
-        command: custom
-        customCommand: install --global mocha
-
-    # npm install
-    - task: Npm@1
-      displayName: Install node_modules
-      inputs:
-        command: install
-        workingDir: $(workingDir)
-
-    # tsc
-    - task: Npm@1
-      displayName: "Compile"
-      inputs:
-        command: custom
-        customCommand: run build
-        workingDir: $(workingDir)
+    # download pre-built artifact
+    - download: current
+      displayName: 'Download Build Artifact'
+      artifact: 'build'
 
     # run tests
     - task: PowerShell@2
       displayName: 'Run extension against NUnit Example'
       inputs:
-        workingDirectory: $(workingDir)
-        filePath: '$(workingDir)/Test-ExtensionLocally.ps1'
+        workingDirectory: $(Pipeline.Workspace)/build
+        filePath: '$(Pipeline.Workspace)/build/Test-ExtensionLocally.ps1'
         arguments: >
           -CollectionUri $(System.CollectionUri)
           -ProjectName 'Test Plan Extension'
