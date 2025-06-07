@@ -174,8 +174,8 @@ jobs:
     - task: PowerShell@2
       displayName: 'Run extension against NUnit Example'
       inputs:
-        workingDirectory: # path to unit example
-        filePath: '$(workingDir)/Test-ExtensionLocally.ps1'
+        workingDirectory: $(workingDir)
+        filePath: 'Test-ExtensionLocally.ps1'
         arguments: >
           -CollectionUri $(System.CollectionUri)
           -ProjectName 'Test Plan Extension'
