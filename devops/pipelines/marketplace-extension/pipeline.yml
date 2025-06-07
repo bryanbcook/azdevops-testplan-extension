@@ -187,7 +187,7 @@ jobs:
           -TestConfigFilter ''
           -TestConfigAliases ''
           -TestCaseMatchStrategy ''
-          -TestCaseProperty ''
+          -TestCaseProperty 'TestCaseId'
           -TestCaseRegex ''
           -TestConfigProperty ''
           -TestRunTitle '$(Build.DefinitionName) - $(nodeVersion)'
