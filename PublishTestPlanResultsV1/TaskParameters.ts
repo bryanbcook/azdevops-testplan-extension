@@ -5,13 +5,14 @@ import { TestResultContextParameters } from "./context/TestResultContextParamete
 import { TestFrameworkParameters } from "./framework/TestFrameworkParameters";
 import { TestResultProcessorParameters } from './processing/TestResultProcessorParameters';
 import { TestRunPublisherParameters } from './publishing/TestRunPublisherParameters';
+import { coalesce } from './util';
 
 export function getTestContextParameters(): TestResultContextParameters {
   tl.debug("reading TestContextParameters from task inputs.");
 
-  const accessToken = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
-  const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI");
-  const projectName = tl.getInput("projectName", false) ?? tl.getVariable("SYSTEM_TEAMPROJECT");
+  const accessToken = coalesce(tl.getInput("accessToken", false), tl.getVariable("SYSTEM_ACCESSTOKEN") as string);
+  const collectionUri = coalesce(tl.getInput("collectionUri", false), tl.getVariable("SYSTEM_COLLECTIONURI") as string);;
+  const projectName = coalesce(tl.getInput("projectName", false), tl.getVariable("SYSTEM_TEAMPROJECT") as string);;
 
   var parameters = new TestResultContextParameters(
     (collectionUri as string),
@@ -42,14 +43,14 @@ export function getFrameworkParameters(): TestFrameworkParameters {
 export function getProcessorParameters() : TestResultProcessorParameters {
   tl.debug("reading TestResultProcessorParameters from task inputs.");
 
-  let matchingStrategy = tl.getInput("testCaseMatchStrategy", false) ?? "Auto";
+  let matchingStrategy = coalesce(tl.getInput("testCaseMatchStrategy", false), "Auto");
   var parameters = new TestResultProcessorParameters(matchingStrategy);
   
   // optional parameters
   parameters.testConfigFilter   = tl.getInput("testConfigFilter", false);
-  parameters.testCaseProperty   = tl.getInput("testCaseProperty", false) ?? "TestCase";
-  parameters.testCaseRegEx      = tl.getInput("testCaseRegex", false) ?? "(\\d+)";
-  parameters.testConfigProperty = tl.getInput("testConfigProperty", false) ?? "Config";
+  parameters.testCaseProperty   = coalesce(tl.getInput("testCaseProperty", false), "TestCase");
+  parameters.testCaseRegEx      = coalesce(tl.getInput("testCaseRegex", false), "(\\d+)");
+  parameters.testConfigProperty = coalesce(tl.getInput("testConfigProperty", false), "Config");
 
   return parameters;
 }
@@ -57,13 +58,13 @@ export function getProcessorParameters() : TestResultProcessorParameters {
 export function getPublisherParameters() : TestRunPublisherParameters {
   tl.debug("reading TestRunPublisherParameters from task inputs.");
   
-  const accessToken = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
+  const accessToken = coalesce(tl.getInput("accessToken", false), tl.getVariable("SYSTEM_ACCESSTOKEN") as string);;
   const buildId = tl.getVariable("BUILD_BUILDID")!; // available in build and release pipelines
   const releaseUri = tl.getVariable("RELEASE_RELEASEURI"); // only in release pipelines
   const releaseEnvironmentUri = tl.getVariable("RELEASE_ENVIRONMENTURI"); // only in release pipelines
-  const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI")!;
+  const collectionUri = coalesce(tl.getInput("collectionUri", false), tl.getVariable("SYSTEM_COLLECTIONURI")! as string);
   const dryRun = tl.getBoolInput("dryRun", false);
-  const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
+  const testRunTitle = coalesce(tl.getInput("testRunTitle", false), "PublishTestPlanResult");
   const testFiles = getTestFiles().filter(file => file.indexOf('**') == -1);
   let result = new TestRunPublisherParameters(
       collectionUri, 
