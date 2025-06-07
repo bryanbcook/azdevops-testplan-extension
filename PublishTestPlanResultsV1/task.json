@@ -173,12 +173,8 @@
             "helpMarkDown": "Specifies a name for the test run against which teh results will be reported."
         }
     ],
-    "minimumAgentVersion": "2.144.0",
+    "minimumAgentVersion": "2.209.0",
     "execution": {
-        "Node10": {
-            "target": "index.js",
-            "argumentFormat": ""
-        },
         "Node16": {
             "target": "index.js",
             "argumentFormat": ""
