@@ -175,7 +175,7 @@ jobs:
       displayName: 'Run extension against NUnit Example'
       inputs:
         workingDirectory: $(workingDir)
-        filePath: 'Test-ExtensionLocally.ps1'
+        filePath: '$(workingDir)\Test-ExtensionLocally.ps1'
         arguments: >
           -CollectionUri $(System.CollectionUri)
           -ProjectName 'Test Plan Extension'
