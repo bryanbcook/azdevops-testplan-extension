@@ -181,14 +181,16 @@ jobs:
           -ProjectName 'Test Plan Extension'
           -AccessToken $(System.AccessToken)
           -TestResultFormat 'nunit'
-          -TestResultFiles '$(Pipeline.Workspace)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
+          -TestResultFiles '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
           -TestPlan 'Primary Test Plan'
           -TestConfigFilter ''
           -TestConfigAliases ''
           -TestCaseMatchStrategy ''
           -TestCaseProperty ''
-          -TestCaseConfigProperty ''
+          -TestCaseRegex ''
+          -TestConfigProperty ''
           -TestRunTitle '$(Build.DefinitionName) - $(nodeVersion)'
           -BuildId $(Build.BuildId)
           -ReleaseId ''
           -ReleaseEnvironmentId ''
+          -DryRun ''
