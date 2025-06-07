@@ -21,6 +21,7 @@ variables:
 
 jobs:
 - job: build
+  condition: false
   displayName: 'Build + Package'
   steps:
   - checkout: self
@@ -175,7 +176,7 @@ jobs:
       displayName: 'Run extension against NUnit Example'
       inputs:
         workingDirectory: $(workingDir)
-        filePath: '$(workingDir)\Test-ExtensionLocally.ps1'
+        filePath: '$(workingDir)/Test-ExtensionLocally.ps1'
         arguments: >
           -CollectionUri $(System.CollectionUri)
           -ProjectName 'Test Plan Extension'
