@@ -123,3 +123,72 @@ jobs:
       updateTasksVersion: false
       extensionVisibility: 'private'
       extensionPricing: 'free'
+
+#- ${{ if or( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
+- ${{ if eq(true,true) }}:
+  - job: regression_test
+    displayName: 'Regression Test'
+    strategy:
+      matrix:
+        node10:
+          AGENT_USE_NODE10: true
+          nodeVersion: '10.x'
+        node16:
+          nodeVersion: '16.x'
+        node20:
+          AGENT_USE_NODE20: true
+          nodeVersion: '20.x'
+          
+    steps:
+    - checkout: self
+
+    # use node
+    - task: UseNode@1
+      displayName: Install Node ${{ variables.nodeVersion }}
+      inputs:
+        version: $(nodeVersion)
+
+    # mocha test runner
+    - task: Npm@1
+      displayName: Install Mocha
+      inputs:
+        command: custom
+        customCommand: install --global mocha
+
+    # npm install
+    - task: Npm@1
+      displayName: Install node_modules
+      inputs:
+        command: install
+        workingDir: $(workingDir)
+
+    # tsc
+    - task: Npm@1
+      displayName: "Compile"
+      inputs:
+        command: custom
+        customCommand: run build
+        workingDir: $(workingDir)
+
+    # run tests
+    - task: PowerShell@2
+      displayName: 'Run extension against NUnit Example'
+      inputs:
+        workingDirectory: # path to unit example
+        filePath: '$(workingDir)/Test-ExtensionLocally.ps1'
+        arguments: >
+          -CollectionUri $(System.CollectionUri)
+          -ProjectName 'Test Plan Extension'
+          -AccessToken $(System.AccessToken)
+          -TestResultFormat 'nunit'
+          -TestResultFiles '$(Pipeline.Workspace)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
+          -TestPlan 'Primary Test Plan'
+          -TestConfigFilter ''
+          -TestConfigAliases ''
+          -TestCaseMatchStrategy ''
+          -TestCaseProperty ''
+          -TestCaseConfigProperty ''
+          -TestRunTitle '$(Build.DefinitionName) - $(nodeVersion)'
+          -BuildId $(Build.BuildId)
+          -ReleaseId ''
+          -ReleaseEnvironmentId ''
