@@ -124,9 +124,8 @@ jobs:
       extensionVisibility: 'private'
       extensionPricing: 'free'
 
-
-# For pull requests, publish the build as an artifact for consumption by regression suite
-- ${{ if and( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
+  # For pull requests, publish the build as an artifact for consumption by regression suite
+  - ${{ if and( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
     - publish: $(workingDir)
       artifact: 'build'
 
