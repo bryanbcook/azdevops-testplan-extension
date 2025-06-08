@@ -125,14 +125,13 @@ jobs:
       extensionPricing: 'free'
 
 
-  # For pull requests, publish the build as an artifact for consumption by regression suite
-  #- ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-  - ${{ if eq(true,true) }}:
+# For pull requests, publish the build as an artifact for consumption by regression suite
+- ${{ if eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
     - publish: $(workingDir)
       artifact: 'build'
 
-#- ${{ if or( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
-- ${{ if eq(true,true) }}:
+# For pull requests or non-main branches, run the regression test suite
+- ${{ if or( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
   - job: regression_test
     dependsOn: build
     displayName: 'Regression Test'
