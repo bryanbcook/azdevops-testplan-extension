@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { TestFrameworkResultReader } from '../framework/TestFrameworkResultReader';
 import { NullLogger } from '../services/Logger';
+import * as util from './testUtil';
 
 describe("TestFramework Results Reader", () => {
 
@@ -33,6 +34,17 @@ describe("TestFramework Results Reader", () => {
     expect(results[0].properties.get("TestLevel")).to.equal('Regression');
     expect(results[0].properties.get("TestProduct")).to.equal('TestProductExample');
   });
+
+  // https://github.com/bryanbcook/azdevops-testplan-extension/issues/98
+  it("Can detect when wildcard files do not resolve to any files", async () => {
+    // arrange
+    files.push(path.join(baseDir, "**", "non-existing-file.xml"));
+
+    // act / assert
+    await util.shouldThrowAsync( async () => { await subject.read("xunit", files); }, 
+    /No test results found for format 'xunit' in files: .*[\\/]\*\*[\\/]+non-existing-file\.xml/
+  );
+  })
 
   // https://github.com/bryanbcook/azdevops-testplan-extension/issues/48
   it("Can read xUnit time", async () => {
