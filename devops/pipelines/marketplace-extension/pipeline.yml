@@ -126,7 +126,7 @@ jobs:
 
 
 # For pull requests, publish the build as an artifact for consumption by regression suite
-- ${{ if eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
+- ${{ if and( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
     - publish: $(workingDir)
       artifact: 'build'
 
