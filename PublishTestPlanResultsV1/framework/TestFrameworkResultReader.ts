@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { parse } from 'test-results-parser';
+import { parseV2 } from 'test-results-parser';
 import { TestFrameworkParameters } from "./TestFrameworkParameters";
 import { TestAttachment, TestFrameworkResult } from "./TestFrameworkResult";
 import { ILogger, getLogger } from "../services/Logger"
@@ -24,7 +24,22 @@ export class TestFrameworkResultReader {
     this.logger.info('Test files:');
     this.logger.info(testFiles.map(f => `- ${f}`).join('\n'));
     this.logger.debug("converting test framework results into unified format");
-    let testResult = parse({ type: testFormat, files: testFiles });
+    let testParserResult = parseV2({ type: testFormat, files: testFiles });
+    let testResult = testParserResult.result;
+
+    // log errors from the parser library
+    // these errors might not be fatal, or there could be tests available
+    if (testParserResult.errors && testParserResult.errors.length > 0) {
+      this.logger.debug(JSON.stringify(testParserResult.errors));
+      this.logger.warn('Test parser encountered errors while reading test framework results.");')
+    }
+
+    // handle scenario where wildcard files did not expand to valid files
+    // or when fatal errors resulted in no test results
+    if (testResult == null) {
+      throw new Error(`No test results found for format '${testFormat}' in files: ${testFiles.join(', ')}. Ensure the files exist and are in the correct format.`);
+    }    
+    
     this.logger.debug(JSON.stringify(testResult));
     this.logger.info(`Total: ${testResult.total}\tPassed: ${testResult.passed}\tFailed: ${testResult.failed}\tSkipped: ${testResult.skipped}`);
 

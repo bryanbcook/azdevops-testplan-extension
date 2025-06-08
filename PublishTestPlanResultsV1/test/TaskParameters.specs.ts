@@ -113,10 +113,10 @@ describe('TaskParameters', () => {
 
     it('Should require testResultFiles to be provided', () => {
       // arrange
-      util.setInput("testResultFormat", "xUnit");     
+      util.setInput("testResultFormat", "xUnit");
       util.loadData();
 
-      // act      
+      // act
       require(tp);
 
       // assert
