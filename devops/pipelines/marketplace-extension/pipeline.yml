@@ -74,7 +74,7 @@ jobs:
       command: custom
       customCommand: prune --omit=dev
       workingDir: $(workingDir)
-      
+
   # install the extension cli tool
   - task: TfxInstaller@5
     displayName: Use Tfx
@@ -123,3 +123,60 @@ jobs:
       updateTasksVersion: false
       extensionVisibility: 'private'
       extensionPricing: 'free'
+
+  # For pull requests, publish the build as an artifact for consumption by regression suite
+  - ${{ if or( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
+    - publish: $(workingDir)
+      artifact: 'build'
+
+# For pull requests or non-main branches, run the regression test suite
+- ${{ if or( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
+  - job: regression_test
+    dependsOn: build
+    displayName: 'Regression Test'
+    strategy:
+      matrix:
+        node16:
+          nodeVersion: '16.x'
+        node20:
+          AGENT_USE_NODE20: true
+          nodeVersion: '20.x'
+          
+    steps:
+    - checkout: self
+
+    # use node
+    - task: UseNode@1
+      displayName: Install Node ${{ variables.nodeVersion }}
+      inputs:
+        version: $(nodeVersion)
+
+    # download pre-built artifact
+    - download: current
+      displayName: 'Download Build Artifact'
+      artifact: 'build'
+
+    # run tests
+    - task: PowerShell@2
+      displayName: 'Run extension against NUnit Example'
+      inputs:
+        workingDirectory: $(Pipeline.Workspace)/build
+        filePath: '$(Pipeline.Workspace)/build/Test-ExtensionLocally.ps1'
+        arguments: >
+          -CollectionUri $(System.CollectionUri)
+          -ProjectName 'Test Plan Extension'
+          -AccessToken $(System.AccessToken)
+          -TestResultFormat 'nunit'
+          -TestResultFiles '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
+          -TestPlan 'Primary Test Plan'
+          -TestConfigFilter ''
+          -TestConfigAliases ''
+          -TestCaseMatchStrategy ''
+          -TestCaseProperty 'TestCaseId'
+          -TestCaseRegex ''
+          -TestConfigProperty ''
+          -TestRunTitle '$(Build.DefinitionName) - $(nodeVersion)'
+          -BuildId $(Build.BuildId)
+          -ReleaseId ''
+          -ReleaseEnvironmentId ''
+          -DryRun ''
