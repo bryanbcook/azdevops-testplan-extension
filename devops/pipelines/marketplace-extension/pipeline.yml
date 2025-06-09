@@ -26,9 +26,9 @@ parameters:
   - name: NUnitExample-Attachments
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample-Attachments/TestResults/TestResults.xml'
-  - name: XUnitExample
+  - name: xUnitExample
     format: xunit
-    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/XUnitExample/TestResults/TestResults.xml'
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitExample/TestResults/TestResults.xml'
 
 variables:
 - group: pipeline-extension-settings
@@ -144,6 +144,7 @@ jobs:
   - ${{ if or( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
     - publish: $(workingDir)
       artifact: 'build'
+      displayName: 'Publish compiled build for regression tests'
 
 # For pull requests or non-main branches, run the regression test suite
 - ${{ if or( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
