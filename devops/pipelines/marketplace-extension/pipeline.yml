@@ -19,7 +19,7 @@ parameters:
   default:
   - name: MSTestExample-Attachments
     format: mstest
-    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/MSTestExample-Attachments/TestResults/TestResults.xml'
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/MSTestExample-Attachments/TestResults/TestResults.trx'
   - name: NUnitExample
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
