@@ -157,7 +157,6 @@ jobs:
         node20:
           AGENT_USE_NODE20: true
           nodeVersion: '20.x'
-      
           
     steps:
     - checkout: self
@@ -191,7 +190,7 @@ jobs:
             -TestConfigAliases ''
             -TestCaseMatchStrategy ''
             -TestCaseProperty 'TestCaseId'
-            -TestCaseRegex ''
+            -TestCaseRegex 'TestCase(\d+)'
             -TestConfigProperty ''
             -TestRunTitle '$(Build.DefinitionName) - $(nodeVersion)'
             -BuildId $(Build.BuildId)
