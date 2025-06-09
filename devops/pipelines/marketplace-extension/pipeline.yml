@@ -14,6 +14,22 @@ parameters:
   displayName: 'Publish Extension'
   default: false
 
+- name: regressionTests
+  type: object
+  default:
+  - name: MSTestExample-Attachments
+    format: mstest
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/MSTestExample-Attachments/TestResults/TestResults.xml'
+  - name: NUnitExample
+    format: nunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
+  - name: NUnitExample-Attachments
+    format: nunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample-Attachments/TestResults/TestResults.xml'
+  - name: XUnitExample
+    format: xunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/XUnitExample/TestResults/TestResults.xml'
+
 variables:
 - group: pipeline-extension-settings
 - name: workingDir
@@ -141,6 +157,7 @@ jobs:
         node20:
           AGENT_USE_NODE20: true
           nodeVersion: '20.x'
+      
           
     steps:
     - checkout: self
@@ -157,26 +174,27 @@ jobs:
       artifact: 'build'
 
     # run tests
-    - task: PowerShell@2
-      displayName: 'Run extension against NUnit Example'
-      inputs:
-        workingDirectory: $(Pipeline.Workspace)/build
-        filePath: '$(Pipeline.Workspace)/build/Test-ExtensionLocally.ps1'
-        arguments: >
-          -CollectionUri $(System.CollectionUri)
-          -ProjectName 'Test Plan Extension'
-          -AccessToken $(System.AccessToken)
-          -TestResultFormat 'nunit'
-          -TestResultFiles '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
-          -TestPlan 'Primary Test Plan'
-          -TestConfigFilter ''
-          -TestConfigAliases ''
-          -TestCaseMatchStrategy ''
-          -TestCaseProperty 'TestCaseId'
-          -TestCaseRegex ''
-          -TestConfigProperty ''
-          -TestRunTitle '$(Build.DefinitionName) - $(nodeVersion)'
-          -BuildId $(Build.BuildId)
-          -ReleaseId ''
-          -ReleaseEnvironmentId ''
-          -DryRun ''
+    - ${{ each test in parameters.regressiontests }}:
+      - task: PowerShell@2
+        displayName: 'Run extension against ${{ test.name }}'
+        inputs:
+          workingDirectory: $(Pipeline.Workspace)/build
+          filePath: '$(Pipeline.Workspace)/build/Test-ExtensionLocally.ps1'
+          arguments: >
+            -CollectionUri $(System.CollectionUri)
+            -ProjectName 'Test Plan Extension'
+            -AccessToken $(System.AccessToken)
+            -TestResultFormat ${{ test.format }}
+            -TestResultFiles ${{ test.testResultsFile }}
+            -TestPlan 'Primary Test Plan'
+            -TestConfigFilter ''
+            -TestConfigAliases ''
+            -TestCaseMatchStrategy ''
+            -TestCaseProperty 'TestCaseId'
+            -TestCaseRegex ''
+            -TestConfigProperty ''
+            -TestRunTitle '$(Build.DefinitionName) - $(nodeVersion)'
+            -BuildId $(Build.BuildId)
+            -ReleaseId ''
+            -ReleaseEnvironmentId ''
+            -DryRun ''
