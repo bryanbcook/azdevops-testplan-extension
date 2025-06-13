@@ -107,14 +107,31 @@ export class TestRunPublisher {
   }
 
   private async uploadAttachments(projectId: string, testRunId: number, attachments: Map<number, TestAttachment[]>): Promise<void> {
+    // capture start time for performance measurement
+    var startTime = Date.now();
+    var attachmentsCount = 0;
+
     if (attachments.size > 0) {
       this.logger.info(`Identified ${attachments.size} test results with attachments.`);
-      // sequentially upload attachments to prevent unsafe thread access
+
+      // async upload of attachments
+      // TODO: Future enable via feature flag
+      // bug: does not await on main thread
+      // attachments.forEach( async (attachments, testCaseResultId) => {
+      //   attachments.forEach( async (attachment) => {
+      //     await this.ado.attachTestResultFiles(projectId, testRunId, testCaseResultId, attachment.name, attachment.path);
+      //   })
+      // });
+
+      // sequential upload attachments
       for (const [testCaseResultId, testAttachments] of attachments.entries()) {
         for (const attachment of testAttachments) {
+          attachmentsCount++;
           await this.ado.attachTestResultFiles(projectId, testRunId, testCaseResultId, attachment.name, attachment.path);
         }
       }
     }
+    var elapsed = Date.now() - startTime;
+    this.logger.debug(`Uploaded ${attachmentsCount} attachments in ${elapsed} ms.`);
   }
 }
