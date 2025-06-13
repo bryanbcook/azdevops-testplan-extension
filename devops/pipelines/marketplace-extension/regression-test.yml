@@ -11,11 +11,44 @@ parameters:
   - name: NUnitExample-Attachments
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample-Attachments/TestResults/TestResults.xml'
+  - name: NUnitExample-1MB-Attachments
+    format: nunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/generated/NUnit-1MB/TestResults/TestResults.xml'
+  - name: NUnitExample-5MB-Attachments
+    format: nunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/generated/NUnit-5MB/TestResults/TestResults.xml'
+  - name: NUnitExample-10MB-Attachments
+    format: nunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/generated/NUnit-10MB/TestResults/TestResults.xml'
   - name: xUnitExample
     format: xunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitExample/TestResults/TestResults.xml'
 
 steps:
+- pwsh: |
+    Import-Module $(Build.SourcesDirectory)/examples/helpers/TestGenerator/TestGenerator.psm1
+    $items = @(
+      @{ Folder = "NUnit-1MB"; TestCases = @( "4852", "4861", "4862"); AttachmentCount = 5; AttachmentSize = (1024*1024)}
+      @{ Folder = "NUnit-5MB"; TestCases = @( "4859", "4863", "4864"); AttachmentCount = 5; AttachmentSize = (1024*1024*5)}
+      @{ Folder = "NUnit-10MB"; TestCases =@( "4860", "4865", "4866"); AttachmentCount = 5; AttachmentSize = (1024*1024*10)}
+    )
+
+    foreach ($item in $items) {
+      $invokeArgs = @{
+        TestResultsDirectory = "c:/dev/code/_personal/testplan-extension/examples/generated/$($item.Folder)"
+        TestResultsFile = "TestResults.xml"
+        TestFramework = "NUnit"
+        TestCaseIds = $item.TestCases
+        AttachmentsCount = $item.AttachmentCount
+        AttachmentSizeInBytes = $item.AttachmentSize
+      }
+
+      Build-TestResults @invokeArgs
+    }
+
+  displayName: 'Generate additional test data'
+
+
 - ${{ each test in parameters.regressiontests }}:
   - task: PowerShell@2
     displayName: 'Run extension against ${{ test.name }}'
