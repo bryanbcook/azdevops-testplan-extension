@@ -130,8 +130,9 @@ export class TestRunPublisher {
           await this.ado.attachTestResultFiles(projectId, testRunId, testCaseResultId, attachment.name, attachment.path);
         }
       }
+
+      var elapsed = Date.now() - startTime;
+      this.logger.info(`Uploaded ${attachmentsCount} attachments in ${elapsed} ms.`);
     }
-    var elapsed = Date.now() - startTime;
-    this.logger.debug(`Uploaded ${attachmentsCount} attachments in ${elapsed} ms.`);
   }
 }
