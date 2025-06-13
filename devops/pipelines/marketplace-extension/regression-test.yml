@@ -35,7 +35,7 @@ steps:
 
     foreach ($item in $items) {
       $invokeArgs = @{
-        TestResultsDirectory = "c:/dev/code/_personal/testplan-extension/examples/generated/$($item.Folder)"
+        TestResultsDirectory = "$(Build.SourcesDirectory)/examples/generated/$($item.Folder)"
         TestResultsFile = "TestResults.xml"
         TestFramework = "NUnit"
         TestCaseIds = $item.TestCases
