@@ -13,16 +13,7 @@ parameters:
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample-Attachments/TestResults/TestResults.xml'
   - name: NUnitExample-1MB-Attachments
     format: nunit
-    testResultsFile: '$(Build.SourcesDirectory)/examples/generated/NUnit-1MB/TestResults.xml'
-  - name: NUnitExample-5MB-Attachments
-    format: nunit
-    testResultsFile: '$(Build.SourcesDirectory)/examples/generated/NUnit-5MB/TestResults.xml'
-  - name: NUnitExample-10MB-Attachments
-    format: nunit
-    testResultsFile: '$(Build.SourcesDirectory)/examples/generated/NUnit-10MB/TestResults.xml'
-  - name: xUnitExample
-    format: xunit
-    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitExample/TestResults/TestResults.xml'
+    testResultsFile: '$(Build.SourcesDirectory)/examples/generated*/TestResults.xml'
 
 steps:
 - pwsh: |

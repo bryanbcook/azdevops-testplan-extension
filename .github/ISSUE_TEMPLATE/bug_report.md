@@ -21,9 +21,10 @@ _provide sample usage of the task, if applicable_
 _provide details about your pipeline environment_
 
 - build-agent: self-hosted / microsoft-hosted
+- build-agent-os: windows / linux
 - test-format: xUnit / jUnit / Cucumber
 - test-lanugage: C# / Java / JavaScript / Other ___
-- pipeline-format: yaml / Designer-based (Classic)
+- pipeline-format: yaml / Designer-based (Classic) / Release Pipeline
 
 **Pipeline Output**
 
