@@ -84,6 +84,7 @@ jobs:
 
   # fetch the current extension version
   #   You must build and upload manually for the first execution
+  #   specify the Extension.VersionOverride variable at queue time to override this value
   - task: QueryAzureDevOpsExtensionVersion@5
     displayName: Fetch Current Extension Version
     name: Query
