@@ -13,7 +13,7 @@ parameters:
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample-Attachments/TestResults/TestResults.xml'
   - name: NUnitExample-Attachments-Wildcard
     format: nunit
-    testResultsFile: '$(Build.SourcesDirectory)/examples/generated/*/TestResults.xml'
+    testResultsFile: '$(Build.SourcesDirectory)/examples/generated/**/TestResults.xml'
 
 steps:
 - pwsh: |
