@@ -135,6 +135,8 @@ jobs:
   - job: regression_test
     dependsOn: build
     displayName: 'Regression Test'
+    pool:
+      vmImage: $(pool)
     strategy:
       matrix:
         node16-linux:
