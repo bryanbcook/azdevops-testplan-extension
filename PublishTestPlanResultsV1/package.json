@@ -13,7 +13,7 @@
   "dependencies": {
     "azure-devops-node-api": "^12.5.0",
     "azure-pipelines-task-lib": "^4.17.1",
-    "test-results-parser": "0.2.6"
+    "test-results-parser": "0.2.7"
   },
   "devDependencies": {
     "@types/chai": "^5.2.2",
