@@ -124,6 +124,11 @@ jobs:
       extensionVisibility: 'private'
       extensionPricing: 'free'
 
+  # publish artifact for inspection
+  - publish: $(Build.SourcesDirectory)/*.vsix
+    artifact: 'vsix'
+    displayName: 'Publish vsix artifact'
+
   # For pull requests, publish the build as an artifact for consumption by regression suite
   - ${{ if or( eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.SourceBranchName'], 'main') ) }}:
     - publish: $(workingDir)
