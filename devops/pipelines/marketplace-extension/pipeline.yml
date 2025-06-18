@@ -135,13 +135,24 @@ jobs:
   - job: regression_test
     dependsOn: build
     displayName: 'Regression Test'
+    pool:
+      vmImage: $(pool)
     strategy:
       matrix:
-        node16:
+        node16-linux:
           nodeVersion: '16.x'
-        node20:
+          pool: ubuntu-latest
+        node16-windows:
+          nodeVersion: '16.x'
+          pool: windows-latest
+        node20-linux:
           AGENT_USE_NODE20: true
           nodeVersion: '20.x'
+          pool: ubuntu-latest
+        node20-windows:
+          AGENT_USE_NODE20: true
+          nodeVersion: '20.x'
+          pool: windows-latest
           
     steps:
     - checkout: self
