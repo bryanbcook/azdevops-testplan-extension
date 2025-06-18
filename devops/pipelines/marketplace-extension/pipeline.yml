@@ -107,6 +107,7 @@ jobs:
       updateTasksVersionType: 'patch'
       extensionVisibility: 'private' 
       extensionPricing: 'free'
+      outputPath: '$(Build.ArtifactStagingDirectory)'
 
   # Upload and publish the extension
   - task: PublishAzureDevOpsExtension@5
@@ -116,7 +117,7 @@ jobs:
       connectTo: 'VsTeam'
       connectedServiceName: 'AzureDevOpsMarketplace' 
       fileType: 'vsix'
-      vsixFile: '$(Build.SourcesDirectory)/*.vsix'
+      vsixFile: '$(Build.ArtifactStagingDirectory)/*.vsix'
       publisherId: '$(PublisherID)'
       extensionId: '$(ExtensionID)'
       extensionName: '$(ExtensionName)'
@@ -125,7 +126,7 @@ jobs:
       extensionPricing: 'free'
 
   # publish artifact for inspection
-  - publish: $(Build.SourcesDirectory)/*.vsix
+  - publish: $(Build.ArtifactStagingDirectory)
     artifact: 'vsix'
     displayName: 'Publish vsix artifact'
 
