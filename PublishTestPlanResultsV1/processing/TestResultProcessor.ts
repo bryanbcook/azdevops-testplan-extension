@@ -1,4 +1,4 @@
-import { TestPoint, TestPlan } from "azure-devops-node-api/interfaces/TestInterfaces";
+import { TestPoint, TestPlan, TestOutcome } from "azure-devops-node-api/interfaces/TestInterfaces";
 import { TestResultContext } from "../context/TestResultContext";
 import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestResultMatch, TestResultMatchStrategy } from "./TestResultMatchStrategy";
@@ -73,7 +73,7 @@ export class TestResultProcessor {
       this.logger.info(`| Test Point | Automated Test | TestOutcome |`);
       this.logger.info('|------------|----------------|-------------|');
       result.matches.forEach( (value, key) => {
-        this.logger.info(`| ${key} | ${value.name} | ${value.outcome} |`);
+        this.logger.info(`| ${key} | ${value.name} | ${TestOutcome[value.outcome]} |`);
       });
     }
     if (result.unmatched.length > 0) {
@@ -94,7 +94,7 @@ export class TestResultProcessor {
     this.matchers.some( matcher => {
       
       let matchResult = matcher.isMatch( testResult, testPoint );
-      this.logger.debug(`Strategy: ${matcher.constructor.name} | TestPoint: ${testPoint.id} | MatchResult: ${matchResult.toString()} `);
+      this.logger.debug(`Strategy: ${matcher.constructor.name} | TestPoint: ${testPoint.id} | MatchResult: ${TestResultMatch[matchResult]} `);
 
       if (matchResult == TestResultMatch.Fail) {
         match = false;
