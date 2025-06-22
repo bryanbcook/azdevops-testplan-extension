@@ -14,6 +14,9 @@ parameters:
   - name: NUnitExample-Attachments-Wildcard
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/generated/**/TestResults.xml'
+  - name: JUnitExample-Maven
+    format: junit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/java/JUnitExample-maven/TestResults.xml'
 
 steps:
 - pwsh: |
