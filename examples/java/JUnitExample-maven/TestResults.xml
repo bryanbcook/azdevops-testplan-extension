@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.SampleTests" time="0.19" tests="7" errors="0" skipped="1" failures="1">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="jUnit_passingTest_testCase4867" classname="com.example.SampleTests" time="0.062"/>
+  <testcase name="jUnit_associateTestCaseUsingTestProperty" classname="com.example.SampleTests" time="0.008">
+    <system-out><![CDATA[[[PROPERTY|TestCaseId=4876]]
+]]></system-out>
+  </testcase>
+  <testcase name="jUnit_skippedTest_testCase4869" classname="com.example.SampleTests" time="0.0">
+    <skipped message="This test is skipped"/>
+  </testcase>
+  <testcase name="JUnit Match Test Case by Display Name" classname="com.example.SampleTests" time="0.001"/>
+  <testcase name="jUnit_failingTest_testCase4868" classname="com.example.SampleTests" time="0.017">
+    <failure message="This test failed intentially" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: This test failed intentially
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:134)
+	at com.example.SampleTests.jUnit_failingTest_testCase4868(SampleTests.java:19)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+]]></failure>
+  </testcase>
+  <testcase name="jUnit_Match_TEST_case_By_Exact_Name_cAsE_iNsenSITive" classname="com.example.SampleTests" time="0.001"/>
+  <testcase name="jUnit_Match_Test_Case_By_Exact_Name" classname="com.example.SampleTests" time="0.001"/>
+</testsuite>
