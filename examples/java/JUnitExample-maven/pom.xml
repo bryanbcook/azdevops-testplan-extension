@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.example</groupId>
+  <artifactId>junit5-sample</artifactId>
+  <version>1.0</version>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.1.2</version>
+        <configuration>
+          <useModulePath>false</useModulePath>
+          <testFailureIgnore>true</testFailureIgnore> <!-- don't stop the build because tests failed -->
+
+          <!-- render @displayName in xml output-->
+          <statelessTestsetReporter
+            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+            <disable>false</disable>
+            <version>3.0</version>
+            <usePhrasedFileName>true</usePhrasedFileName>
+            <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
+            <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
+            <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
+        </statelessTestsetReporter>
+        </configuration>
+      </plugin>
+
+      <!-- copy test results to root directory, runs when 'verify' is included in mvn target-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>copy-test-result</id>
+            <phase>verify</phase>
+            <configuration>
+              <target>
+                <copy file="target/surefire-reports/TEST-com.example.SampleTests.xml"
+                      tofile="TestResults.xml" />
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+  </build>
+</project>
