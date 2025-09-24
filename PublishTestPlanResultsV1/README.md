@@ -1,4 +1,4 @@
-# PublishTestPlanResults@1
+# PublishTestPlanResults@0
 
 Publishes test results to your Azure DevOps Test Plan.
 
@@ -64,7 +64,21 @@ If a value is not specified, the task will attempt to locate the latest active T
 
 `string`. Optional.
 
-Specifies the Test Configuration name or identifier that will be associated to the test results.
+Limits the test result associations to Test Cases that have a specific Test Configuration name or identifier.
+
+Examples:
+
+```yaml
+testConfigFilter: 11 # id of a specific Test Configuration
+```
+
+```yaml
+testConfigFilter: 'Windows 11' # name of a Test Configuration
+```
+
+```yaml
+testConfigFilter: 'win11' # name of a config alias specified in the testConfigAliases
+```
 
 This value is optional if there is only a single Test Configuration available.
 
