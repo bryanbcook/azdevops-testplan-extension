@@ -108,7 +108,7 @@ Each test framework has varying support for _Properties_.
 
 `string`. Optional.
 
-Specifies the regular expression used to locate the test case identifier in the name of the test automation result. Defaults to `(TestCase\d+)` where the first capture group is the test case id.
+Specifies the regular expression used to locate the test case identifier in the name of the test automation result. Defaults to `(\d+)` where the first capture group is the test case id.
 
 ### `testConfigProperty` - Test Config Property
 
