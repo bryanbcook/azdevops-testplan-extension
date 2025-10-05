@@ -18,6 +18,10 @@ Publishes test results to your Azure DevOps Test Plan.
     #testCaseMatchStrategy: # string. Optional. Test Case Matching Strategy
     #testCaseProperty: # string. Optional. Test Case Id Property
     #testCaseRegex: # string. Optional. Test Case Id RegEx
+    #testConfigProperty: #string. Optional.
+    #testRunTitle: # string. Optional. 
+    #failTaskOnFailedTests: # boolean. Optional.
+    #dryRun: # boolean. Optional    
 ```
 
 ## Inputs
@@ -108,7 +112,7 @@ Each test framework has varying support for _Properties_.
 
 `string`. Optional.
 
-Specifies the regular expression used to locate the test case identifier in the name of the test automation result. Defaults to `(TestCase\d+)` where the first capture group is the test case id.
+Specifies the regular expression used to locate the test case identifier in the name of the test automation result. Defaults to `(\d+)` where the first capture group is the test case id.
 
 ### `testConfigProperty` - Test Config Property
 
@@ -116,14 +120,20 @@ Specifies the regular expression used to locate the test case identifier in the 
 
 Indicates which meta-data property on the test automation result will be used to loate the TestConfiguration id, name or alias. Defaults to `Config`. Applicable when `testConfigFilter` property is not specified and the test automation results contain outputs from multiple test configurations.
 
-### `dryRun` - Dry Run
-
-`boolean`. Optional.
-
-Enables or disables publishing results to the TestPlan. Useful for evaluating different test case match strategies.
-
 ### `testRunTitle` - Test run title
 
 `string`. Optional.
 
 Specifies a name for the test run against which the results will be reported.
+
+### `failTaskOnFailedTests` - Fail task when there are test failures
+
+`boolean`. Optional.
+
+When specified, the task reports a pipeline run failure if there are failed tests.
+
+### `dryRun` - Dry Run
+
+`boolean`. Optional.
+
+Enables or disables publishing results to the TestPlan. Useful for evaluating different test case match strategies.

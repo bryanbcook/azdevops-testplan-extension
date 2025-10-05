@@ -5,6 +5,7 @@ import { TestFrameworkResultReader } from "./framework/TestFrameworkResultReader
 import * as TestResultProcessorFactory from "./processing/TestResultProcessorFactory";
 import { TestRunPublisher } from "./publishing/TestRunPublisher";
 import { getLogger } from './services/Logger';
+import * as resultAnalyzer from './services/ResultAnalyzer';
 
 async function run() {
 
@@ -42,7 +43,11 @@ async function run() {
     const publisher = await TestRunPublisher.create(publisherParameters);
     await publisher.publishTestRun(testRunData);
 
-    tl.setResult(tl.TaskResult.Succeeded,'');
+    // finalize task outcome
+    resultAnalyzer.ensureNoFailingTests(frameworkResults);
+
+    // publish anonymous usage data
+    tl.setResult(tl.TaskResult.Succeeded,'');    
 
   } catch (err) {
     if (err instanceof Error) {

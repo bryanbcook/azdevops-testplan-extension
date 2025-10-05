@@ -95,6 +95,10 @@ param(
   [AllowEmptyString()]
   [string]$ReleaseEnvironmentId,
 
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$failTaskOnFailingTests,
+
   [Parameter(Mandatory)]  
   [AllowEmptyString()]
   [string]$DryRun,

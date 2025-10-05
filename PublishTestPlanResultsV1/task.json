@@ -171,6 +171,15 @@
             "groupName": "advanced",
             "defaultValue": "PublishTestPlanResults",
             "helpMarkDown": "Specifies a name for the test run against which teh results will be reported."
+        },
+        {
+            "name": "failTaskOnFailedTests",
+            "type": "boolean",
+            "required": false,
+            "label": "Fail if there are test failures",
+            "groupName": "advanced",
+            "defaultValue": "false",
+            "helpMarkDown": "Fail the task if there are any test failures. Check this option to fail the task if test failures are detected in the result files."
         }
     ],
     "minimumAgentVersion": "2.209.0",
