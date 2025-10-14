@@ -142,7 +142,7 @@ if ($DebugMode.IsPresent) {
   [System.Environment]::SetEnvironmentVariable("SYSTEM_DEBUG", "true");
   node --inspect index.js 
 } else {
-  node index.js
+  & node index.js
   if ($failTaskOnFailingTests -eq "true") {
     if ($LASTEXITCODE -ne 0) {
       Write-Host "Task failure was expected. Ignoring errors"
