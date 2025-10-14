@@ -143,4 +143,13 @@ if ($DebugMode.IsPresent) {
   node --inspect index.js 
 } else {
   node index.js
+  if ($failTaskOnFailingTests -eq "true") {
+    if ($LASTEXITCODE -ne 0) {
+      Write-Host "Task failure was expected. Ignoring errors"
+    } else {
+      Write-Host "Task was expected to fail if test failed. No failure was reported."
+      Write-Host "##vso[task.issue type=error]Task was expected to fail if test failed. However, no failure was reported."
+      Exit 1
+    }
+  }
 }
