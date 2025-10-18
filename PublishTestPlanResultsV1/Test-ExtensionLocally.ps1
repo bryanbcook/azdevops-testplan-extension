@@ -97,7 +97,11 @@ param(
 
   [Parameter(Mandatory)]
   [AllowEmptyString()]
-  [string]$failTaskOnFailingTests,
+  [string]$failTaskOnFailedTests,
+
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$failTaskOnSkippedTests,
 
   [Parameter(Mandatory)]  
   [AllowEmptyString()]
@@ -156,8 +160,10 @@ if ($DebugMode.IsPresent) {
     }
   }
   $outputString = $capturedOutput -join "`n"
+
+  $expectedFailures = $failTaskOnFailedTests -eq "true" -or $failTaskOnSkippedTests -eq "true"
   
-  if ($failTaskOnFailingTests -eq "true") {
+  if ($expectedFailures -eq "true") {
     # Check if the task explicitly set a failed result via Azure DevOps logging command
     $taskFailurePattern = "##vso\[task\.complete result=Failed;\].*"
     $taskFailureFound = $outputString -match $taskFailurePattern

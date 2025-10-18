@@ -21,6 +21,10 @@ parameters:
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
     failTaskOnFailedTests: true
+  - name: FailOnSkippedTests
+    format: nunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
+    failTaskOnSkippedTests: true
 
 steps:
 - pwsh: |
@@ -73,6 +77,7 @@ steps:
         -BuildId $(Build.BuildId)
         -ReleaseId ''
         -ReleaseEnvironmentId ''
-        -failTaskOnFailingTests '${{ iif( ne(test.failTaskOnFailedTests,''), test.failTaskOnFailedTests, 'false' ) }}'
+        -failTaskOnFailedTests '${{ iif( ne(test.failTaskOnFailedTests,''), test.failTaskOnFailedTests, 'false' ) }}'
+        -failTaskOnSkippedTests '${{ iif( ne(test.failTaskOnSkippedTests,''), test.failTaskOnSkippedTests, 'false' ) }}'
         -DryRun ''
 
