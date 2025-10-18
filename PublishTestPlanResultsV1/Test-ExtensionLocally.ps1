@@ -158,6 +158,7 @@ if ($DebugMode.IsPresent) {
     if ($taskFailureFound) {
       Write-Host "Task failure was detected via Azure DevOps logging command. This was expected."
       Write-Host "##vso[task.complete result=Succeeded;]Overriding expected error."
+      Exit 0
     } elseif ($LASTEXITCODE -ne 0) {
       Write-Host "Task failure was expected. Process exited with code $LASTEXITCODE"
     } else {
