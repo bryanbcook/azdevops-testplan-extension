@@ -179,7 +179,16 @@
             "label": "Fail if there are test failures",
             "groupName": "advanced",
             "defaultValue": "false",
-            "helpMarkDown": "Fail the task if there are any test failures. Check this option to fail the task if test failures are detected in the result files."
+            "helpMarkDown": "Fail the task if there are any test failures."
+        },
+                {
+            "name": "failTaskOnSkippedTests",
+            "type": "boolean",
+            "required": false,
+            "label": "Fail if there are skipped tests",
+            "groupName": "advanced",
+            "defaultValue": "false",
+            "helpMarkDown": "Fail the task if there are any skipped tests."
         }
     ],
     "minimumAgentVersion": "2.209.0",

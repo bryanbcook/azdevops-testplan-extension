@@ -21,6 +21,7 @@ Publishes test results to your Azure DevOps Test Plan.
     #testConfigProperty: #string. Optional.
     #testRunTitle: # string. Optional. 
     #failTaskOnFailedTests: # boolean. Optional.
+    #failTaskOnSkippedTests: # boolean. Optional.
     #dryRun: # boolean. Optional    
 ```
 
@@ -130,7 +131,13 @@ Specifies a name for the test run against which the results will be reported.
 
 `boolean`. Optional.
 
-When specified, the task reports a pipeline run failure if there are failed tests.
+When specified, the task reports a pipeline run failure if there are failed tests. Defaults to false.
+
+### `failTaskOnSkippedTests` - Fail task when there are skipped tests
+
+`boolean`. Optional.
+
+When specified, the task reports a pipeline run failure if there are skipped tests. Defaults to false.
 
 ### `dryRun` - Dry Run
 
