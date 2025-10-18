@@ -95,6 +95,14 @@ param(
   [AllowEmptyString()]
   [string]$ReleaseEnvironmentId,
 
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$failTaskOnFailedTests,
+
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$failTaskOnSkippedTests,
+
   [Parameter(Mandatory)]  
   [AllowEmptyString()]
   [string]$DryRun,
@@ -138,5 +146,35 @@ if ($DebugMode.IsPresent) {
   [System.Environment]::SetEnvironmentVariable("SYSTEM_DEBUG", "true");
   node --inspect index.js 
 } else {
-  node index.js
+  # Capture both stdout and Pstderr to analyze the output
+  $capturedOutput = @()
+  & node index.js 2>&1 | ForEach-Object {
+    $capturedOutput += $_
+
+    if ($_ -match "##vso\[task\.complete|##vso\[task\.issue") {
+      # Suppress errors and warnings from being interpreted by Azure DevOps
+      Write-Host $_.Replace("##vso[", "--vso[")
+    } else {
+      # Write all other output to the host
+      Write-Host $_
+    }
+  }
+  $outputString = $capturedOutput -join "`n"
+
+  $expectedFailures = $failTaskOnFailedTests -eq "true" -or $failTaskOnSkippedTests -eq "true"
+  
+  if ($expectedFailures -eq "true") {
+    # Check if the task explicitly set a failed result via Azure DevOps logging command
+    $taskFailurePattern = "##vso\[task\.complete result=Failed;\].*"
+    $taskFailureFound = $outputString -match $taskFailurePattern
+    
+    if ($taskFailureFound) {
+      Write-Host "Task failure was detected via Azure DevOps logging command. This was expected."
+    } elseif ($LASTEXITCODE -ne 0) {
+      Write-Host "Task failure was expected. Process exited with code $LASTEXITCODE"
+    } else {
+      Write-Host "Task was expected to fail if test failed. No failure was reported."
+      Write-Host "##vso[task.issue type=error]Task was expected to fail if test failed. However, no failure was reported."
+    }
+  }
 }

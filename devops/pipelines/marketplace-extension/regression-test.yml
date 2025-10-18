@@ -17,6 +17,14 @@ parameters:
   - name: JUnitExample-Maven
     format: junit
     testResultsFile: '$(Build.SourcesDirectory)/examples/java/JUnitExample-maven/TestResults.xml'
+  - name: FailOnFailedTests
+    format: nunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
+    failTaskOnFailedTests: true
+  - name: FailOnSkippedTests
+    format: nunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
+    failTaskOnSkippedTests: true
 
 steps:
 - pwsh: |
@@ -45,7 +53,10 @@ steps:
 
 - ${{ each test in parameters.regressiontests }}:
   - task: PowerShell@2
+    name: ${{ replace(lower(test.name), '-','_') }}
     displayName: 'Run extension against ${{ test.name }}'
+    ${{ if eq(test.failTaskOnFailedTests,'true') }}:
+      continueOnError: true
     inputs:
       workingDirectory: $(Pipeline.Workspace)/build
       filePath: '$(Pipeline.Workspace)/build/Test-ExtensionLocally.ps1'
@@ -66,4 +77,7 @@ steps:
         -BuildId $(Build.BuildId)
         -ReleaseId ''
         -ReleaseEnvironmentId ''
+        -failTaskOnFailedTests '${{ iif( ne(test.failTaskOnFailedTests,''), test.failTaskOnFailedTests, 'false' ) }}'
+        -failTaskOnSkippedTests '${{ iif( ne(test.failTaskOnSkippedTests,''), test.failTaskOnSkippedTests, 'false' ) }}'
         -DryRun ''
+

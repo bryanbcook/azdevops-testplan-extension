@@ -38,7 +38,7 @@ export function shouldThrow(callback : any, message : string | RegExp) {
   catch (err) {
     error = err;
   }
-  assert.notEqual(error,null);
+  assert.notEqual(error, null, "expected an exception but none was thrown");
   if (message instanceof RegExp) {
     assert.match((error as Error).message, message);
   } else {
@@ -55,7 +55,7 @@ export async function shouldThrowAsync(callback: any, message: string | RegExp) 
   catch (err) {
     error = err;
   }
-  assert.notEqual(error, null);
+  assert.notEqual(error, null, "expected an exception but none was thrown");
   if (message instanceof RegExp) {
     assert.match((error as Error).message, message);
   } else {
