@@ -17,7 +17,7 @@ describe('StatusFilter', () => {
   context('failTaskOnFailingTests is enabled', () => {
 
     beforeEach(() => {
-      util.setInput('failTaskOnFailingTests', 'true');
+      util.setInput('failTaskOnFailedTests', 'true');
       util.loadData();
     });
 
