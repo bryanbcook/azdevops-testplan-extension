@@ -146,7 +146,14 @@ if ($DebugMode.IsPresent) {
   $capturedOutput = @()
   & node index.js 2>&1 | ForEach-Object {
     $capturedOutput += $_
-    Write-Host $_
+
+    if ($_ -match "##vso\[task\.complete|##vso\[task\.issue") {
+      # Suppress errors and warnings from being interpreted by Azure DevOps
+      Write-Host $_.Replace("##vso[", "--vso[")
+    } else {
+      # Write all other output to the host
+      Write-Host $_
+    }
   }
   $outputString = $capturedOutput -join "`n"
   
@@ -157,8 +164,6 @@ if ($DebugMode.IsPresent) {
     
     if ($taskFailureFound) {
       Write-Host "Task failure was detected via Azure DevOps logging command. This was expected."
-      Write-Host "##vso[task.complete result=Succeeded;]Overriding expected error."
-      Exit 0
     } elseif ($LASTEXITCODE -ne 0) {
       Write-Host "Task failure was expected. Process exited with code $LASTEXITCODE"
     } else {
