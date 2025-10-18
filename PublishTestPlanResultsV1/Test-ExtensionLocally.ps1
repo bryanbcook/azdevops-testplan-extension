@@ -142,10 +142,24 @@ if ($DebugMode.IsPresent) {
   [System.Environment]::SetEnvironmentVariable("SYSTEM_DEBUG", "true");
   node --inspect index.js 
 } else {
-  & node index.js
+  # Capture both stdout and Pstderr to analyze the output
+  $capturedOutput = @()
+  & node index.js 2>&1 | ForEach-Object {
+    $capturedOutput += $_
+    Write-Host $_
+  }
+  $outputString = $capturedOutput -join "`n"
+  
   if ($failTaskOnFailingTests -eq "true") {
-    if ($LASTEXITCODE -ne 0) {
-      Write-Host "Task failure was expected. Ignoring errors"
+    # Check if the task explicitly set a failed result via Azure DevOps logging command
+    $taskFailurePattern = "##vso\[task\.complete result=Failed;\].*"
+    $taskFailureFound = $outputString -match $taskFailurePattern
+    
+    if ($taskFailureFound) {
+      Write-Host "Task failure was detected via Azure DevOps logging command. This was expected."
+      Write-Host "##vso[task.complete result=Succeeded;]Overriding expected error."
+    } elseif ($LASTEXITCODE -ne 0) {
+      Write-Host "Task failure was expected. Process exited with code $LASTEXITCODE"
     } else {
       Write-Host "Task was expected to fail if test failed. No failure was reported."
       Write-Host "##vso[task.issue type=error]Task was expected to fail if test failed. However, no failure was reported."
