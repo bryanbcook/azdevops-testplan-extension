@@ -17,6 +17,16 @@ parameters:
   - name: JUnitExample-Maven
     format: junit
     testResultsFile: '$(Build.SourcesDirectory)/examples/java/JUnitExample-maven/TestResults.xml'
+  - name: XUnitExample
+    format: xunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/XUnitExample/TestResults/TestResults.xml'
+    expectedResults:
+      - outcome: Passed
+        count: 6
+      - outcome: Failed
+        count: 1
+      - outcome: NotExecuted
+        count: 1
   - name: FailOnFailedTests
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
@@ -81,3 +91,34 @@ steps:
         -failTaskOnSkippedTests '${{ iif( ne(test.failTaskOnSkippedTests,''), test.failTaskOnSkippedTests, 'false' ) }}'
         -DryRun ''
 
+  - ${{ if ne(test.expectedResults, '') }}:
+    - task: PowerShell@2
+      displayName: 'Validate results for ${{ test.name }}'
+      inputs:
+        targetType: 'inline'
+        script: |
+          $expected = $env:expected | ConvertFrom-Json
+          $testRun = "$(${{ replace(lower(test.name), '-','_') }}.TestRunId)"
+
+          $auth64 = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$(System.AccessToken)"))
+          $headers = @{ Authorization = "Basic $auth64" }
+          $uri = "$(System.CollectionUri)/Test%20Plan%20Extension/_apis/test/runs/$($testRun)?api-version=7.1"
+
+          $response = Invoke-RestMethod -Uri $uri -Headers $headers -Method Get
+
+          foreach ($expect in $expected) {
+            $outcome = $expect.outcome
+            $count = $expect.count
+
+            $actualCount = ($response.runStatistics | Where-Object { $_.outcome -eq $outcome }).count
+
+            if ($actualCount -ne $count) {
+              Write-Error "Validation failed for outcome '$outcome'. Expected: $count, Actual: $actualCount"
+            }
+            else {
+              Write-Host "Validation succeeded for outcome '$outcome'. Count: $count"
+            }
+          }
+
+      env:
+        expected: ${{ convertToJson(test.expectedResults) }}
