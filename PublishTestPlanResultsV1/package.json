@@ -12,17 +12,17 @@
   "description": "",
   "dependencies": {
     "azure-devops-node-api": "^12.5.0",
-    "azure-pipelines-task-lib": "^4.17.1",
-    "test-results-parser": "0.2.8"
+    "azure-pipelines-task-lib": "^4.17.3",
+    "test-results-parser": "0.2.9"
   },
   "devDependencies": {
     "@types/chai": "^5.2.2",
     "@types/mocha": "^10.0.3",
-    "@types/node": "^20.17.44",
+    "@types/node": "^20.19.22",
     "@types/q": "^1.5.7",
     "@types/sinon": "^17.0.4",
-    "chai": "^4.5.0",
-    "sinon": "^20.0.0",
+    "chai": "^6.2.0",
+    "sinon": "^21.0.0",
     "sync-request": "^6.1.0"
   }
 }
