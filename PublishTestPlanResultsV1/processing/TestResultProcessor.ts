@@ -4,6 +4,7 @@ import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestResultMatch, TestResultMatchStrategy } from "./TestResultMatchStrategy";
 import { JSONStringify } from "../services/JsonUtil";
 import { ILogger, getLogger } from "../services/Logger"
+import { TestPoint2 } from "../services/AdoWrapper";
 
 export class TestResultProcessorResult {
   matches = new Map<number,TestFrameworkResult>();
@@ -35,6 +36,8 @@ export class TestResultProcessor {
     const result = new TestResultProcessorResult(this.context.projectId, this.context.testPlan);
 
     var testPoints = this.context.getTestPoints();
+    var testPointsMap = new Map<number, TestPoint2>();
+    testPoints.forEach(point => testPointsMap.set(point.id, point as TestPoint2));
 
     for (const frameworkResult of frameworkResults) {
 
@@ -70,10 +73,11 @@ export class TestResultProcessor {
     // log the mapping of test cases to test points
     if (result.matches.size > 0) {
       this.logger.info(`\nMapped ${result.matches.size} automated tests to test points:`);
-      this.logger.info(`| Test Point | Automated Test | TestOutcome |`);
-      this.logger.info('|------------|----------------|-------------|');
+      this.logger.info(`| Test Point | Test Case | Configuration | Automated Test | TestOutcome |`);
+      this.logger.info('|------------|-----------|---------------|----------------|-------------|');
       result.matches.forEach( (value, key) => {
-        this.logger.info(`| ${key} | ${value.name} | ${TestOutcome[value.outcome]} |`);
+        var testPoint = testPointsMap.get(key)!;
+        this.logger.info(`| ${key.toString().padStart(10)} | ${testPoint.testCaseReference.id?.toString().padStart(9)} | ${testPoint.configuration.name!.padStart(13) } | ${value.name} | ${TestOutcome[value.outcome]} |`);
       });
     }
     if (result.unmatched.length > 0) {
