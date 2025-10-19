@@ -105,7 +105,7 @@ jobs:
       extensionName: '$(ExtensionName)'
       extensionVersion: '$(Query.Extension.Version)'
       updateTasksVersion: true
-      updateTasksVersionType: 'patch'
+      updateTasksVersionType: 'major'
       extensionVisibility: 'private' 
       extensionPricing: 'free'
       outputPath: '$(Build.ArtifactStagingDirectory)'
