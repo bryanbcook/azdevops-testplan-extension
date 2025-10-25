@@ -98,7 +98,7 @@ steps:
         targetType: 'inline'
         script: |
           $expected = $env:expected | ConvertFrom-Json
-          $testRun = "$(${{ replace(lower(test.name), '-','_') }}.TestRunId)"
+          $testRun = $env:testrun
 
           $auth64 = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$(System.AccessToken)"))
           $headers = @{ Authorization = "Basic $auth64" }
@@ -122,3 +122,4 @@ steps:
 
       env:
         expected: ${{ convertToJson(test.expectedResults) }}
+        testrun: $[ variables['${{ replace(lower(test.name), '-','_') }}.TestRunId'] ]
