@@ -1,4 +1,5 @@
 import * as Contracts from "azure-devops-node-api/interfaces/TestInterfaces";
+import * as tl from 'azure-pipelines-task-lib/task';
 import { TestAttachment, TestFrameworkResult } from "../framework/TestFrameworkResult";
 import { TestRunPublisherParameters } from "./TestRunPublisherParameters";
 import { TestResultProcessorResult } from "../processing/TestResultProcessor";
@@ -99,6 +100,8 @@ export class TestRunPublisher {
       var finalRun = await this.ado.updateTestRun(projectId, testRun);
 
       this.logger.info(`Published Test Run: ${testRun.webAccessUrl}`)
+      tl.setVariable("TestRunId", finalRun.id!.toString(), /*secret*/false, /*output*/true);
+      tl.setVariable("TestRunUrl", finalRun.webAccessUrl!, /*secret*/false, /*output*/true);
 
       return finalRun;
     } else {

@@ -21,7 +21,7 @@
     "@types/node": "^20.19.22",
     "@types/q": "^1.5.7",
     "@types/sinon": "^17.0.4",
-    "chai": "^6.2.0",
+    "chai": "^4.5.0",
     "sinon": "^21.0.0",
     "sync-request": "^6.1.0"
   }

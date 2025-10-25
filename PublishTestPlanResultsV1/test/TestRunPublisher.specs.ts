@@ -2,6 +2,7 @@ import * as Contracts from 'azure-devops-node-api/interfaces/TestInterfaces';
 import { expect } from "chai";
 import path from "path";
 import sinon from "sinon";
+import * as tl from "azure-pipelines-task-lib/task";
 import { TestResultProcessorResult } from "../processing/TestResultProcessor";
 import { TestRunPublisher } from "../publishing/TestRunPublisher";
 import { TestRunPublisherParameters } from "../publishing/TestRunPublisherParameters";
@@ -15,10 +16,14 @@ context("TestRunPublisher", () => {
   var ado : sinon.SinonStubbedInstance<AdoWrapper>;
   var testData : TestResultProcessorResult;
   var subject : TestRunPublisher;
+  var tlStub : sinon.SinonStubbedInstance<typeof tl>;
 
   beforeEach(() => {
     logger = new NullLogger();
     ado = sinon.createStubInstance(AdoWrapper);
+
+    // mock task library
+    tlStub = sinon.stub(tl);
 
     testData = new TestResultProcessorResult("project1", <Contracts.TestPlan>{ id: 1});
 
@@ -251,6 +256,20 @@ context("TestRunPublisher", () => {
     await testUtil.shouldThrowAsync(async () => { return subject.publishTestRun(testData)}, "Couldn't create a TestRun for this TestPlan because the test results could not be correlated to any known TestCases.")
   });
 
+  it("Should set output variables when test run is published", async () => {
+    // arrange
+    testData.matches.set(/*testpoint*/ 1, testUtil.newTestFrameworkResult());
+    setupTestRun( /*runid*/ 400);
+    setupTestCaseResults( [1] );
+
+    // act
+    var result = await subject.publishTestRun(testData);
+
+    // assert
+    expect(tlStub.setVariable.calledWith("TestRunId", "400", false, true)).eq(true);
+    expect(tlStub.setVariable.calledWith("TestRunUrl", result?.webAccessUrl, false, true)).eq(true);
+  })
+
   function setupTestRun(runId: number) {
     ado.createTestRun.callsFake( (prjId, plnId, points) => {
 
@@ -260,6 +279,11 @@ context("TestRunPublisher", () => {
 
       return Promise.resolve(testRun);
     })
+
+    ado.updateTestRun.callsFake( (prjId, tr: Contracts.TestRun) => {
+      tr.webAccessUrl = `https://dev.azure.com/fake/${tr.id}`;
+      return Promise.resolve(tr);
+    });
   }
   function setupTestCaseResults(points: number[]) {
     ado.getTestResults.callsFake( (prjId, runId) => {
