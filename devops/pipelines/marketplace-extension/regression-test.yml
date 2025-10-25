@@ -22,7 +22,7 @@ parameters:
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitExample/TestResults/TestResults.xml'
     expectedResults:
       - outcome: Passed
-        count: 6
+        count: 7
       - outcome: Failed
         count: 1
       - outcome: NotExecuted
@@ -99,6 +99,10 @@ steps:
         script: |
           $expected = $env:expected | ConvertFrom-Json
           $testRun = $env:testrun
+          $testRunUrl = $env:testrunurl
+
+          Write-Host "Validating Test Run ID: $testRun"
+          Write-Host "Test Run URL: $testRunUrl"
 
           $auth64 = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$(System.AccessToken)"))
           $headers = @{ Authorization = "Basic $auth64" }
@@ -123,3 +127,4 @@ steps:
       env:
         expected: ${{ convertToJson(test.expectedResults) }}
         testrun: $(${{ replace(lower(test.name), '-','_') }}.TestRunId)
+        testrunurl: $(${{ replace(lower(test.name), '-','_') }}.TestRunUrl)
