@@ -17,9 +17,9 @@ parameters:
   - name: JUnitExample-Maven
     format: junit
     testResultsFile: '$(Build.SourcesDirectory)/examples/java/JUnitExample-maven/TestResults.xml'
-  - name: XUnitExample
+  - name: xUnitExample
     format: xunit
-    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/XUnitExample/TestResults/TestResults.xml'
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitExample/TestResults/TestResults.xml'
     expectedResults:
       - outcome: Passed
         count: 6
