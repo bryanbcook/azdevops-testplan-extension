@@ -101,6 +101,15 @@ steps:
           $testRun = $env:testrun
           $testRunUrl = $env:testrunurl
 
+          if (-not $testRun) {
+            Write-Error "Test Run ID is not available. Cannot validate results."
+            exit 0
+          }
+          if ( -not $testRunUrl) {
+            Write-Error "Test Run URL is not available. Cannot validate results."
+            exit 0
+          }
+
           Write-Host "Validating Test Run ID: $testRun"
           Write-Host "Test Run URL: $testRunUrl"
 
