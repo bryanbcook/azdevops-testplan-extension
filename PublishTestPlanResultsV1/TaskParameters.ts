@@ -34,9 +34,10 @@ export function getFrameworkParameters(): TestFrameworkParameters {
   tl.debug("reading TestFrameworkParameters from task inputs.");
 
   let testResultFormat = tl.getInput("testResultFormat", true);
-  let testResultFiles = getTestFiles();
+  let failTaskOnMissingResultsFile = getBoolInput("failTaskOnMissingResultsFile", /*default*/ true);
+  let testResultFiles = getTestFiles(failTaskOnMissingResultsFile);
 
-  return new TestFrameworkParameters(testResultFiles, testResultFormat!.toLowerCase()); 
+  return new TestFrameworkParameters(testResultFiles, testResultFormat!.toLowerCase(), failTaskOnMissingResultsFile);
 }
 
 export function getProcessorParameters() : TestResultProcessorParameters {
@@ -64,7 +65,8 @@ export function getPublisherParameters() : TestRunPublisherParameters {
   const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI")!;
   const dryRun = tl.getBoolInput("dryRun", false);
   const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
-  const testFiles = getTestFiles().filter(file => file.indexOf('**') == -1);
+  let verifyFiles = getBoolInput("failTaskOnMissingResultsFile", /*default*/ true);
+  const testFiles = getTestFiles(verifyFiles).filter(file => file.indexOf('**') == -1);
   let result = new TestRunPublisherParameters(
       collectionUri, 
       accessToken as string, 
@@ -78,7 +80,7 @@ export function getPublisherParameters() : TestRunPublisherParameters {
   return result;
 }
 
-function getTestFiles() : string[] {
+function getTestFiles(verifyFiles: boolean) : string[] {
   
   let testResultFolder = tl.getInput("testResultDirectory", false);
   if (testResultFolder == undefined) {    
@@ -100,12 +102,24 @@ function getTestFiles() : string[] {
       return file;
     })
     .filter(file => {
-      // verify that file exists
+      // if it's not a wildcard, verify that the file exists
       if (file.indexOf('**') == -1) {
-        tl.checkPath(file, "testResultFile(s)");
+        // either filter out missing files, or fail the task based on user-preference
+        if (verifyFiles) { 
+          // fail if the file does not exist
+          tl.checkPath(file, "testResultFile(s)");
+        } else {
+          // task supports missing files, so filter out missing files
+          return tl.exist(file);
+        }
       }
       return true;
     });
 
   return testResultFiles;
+}
+
+function getBoolInput(name: string, defaultValue: boolean) : boolean {
+  let input = tl.getInput(name, false);
+  return input ? tl.getBoolInput(name, false) : defaultValue;
 }

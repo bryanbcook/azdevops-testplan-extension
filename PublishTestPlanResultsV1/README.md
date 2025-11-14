@@ -22,6 +22,7 @@ Publishes test results to your Azure DevOps Test Plan.
     #testRunTitle: # string. Optional. 
     #failTaskOnFailedTests: # boolean. Optional.
     #failTaskOnSkippedTests: # boolean. Optional.
+    #failTaskOnMissingResultsFile: #boolean. Optional.
     #dryRun: # boolean. Optional    
 ```
 
@@ -138,6 +139,12 @@ When specified, the task reports a pipeline run failure if there are failed test
 `boolean`. Optional.
 
 When specified, the task reports a pipeline run failure if there are skipped tests. Defaults to false.
+
+### `failTaskOnMissingResultsFile` - Fail task when test files are not found
+
+`boolean`. Optional.
+
+When enabled, the task reports a pipeline run failure if no test files are found or if one or more specified `testResultFiles` refer to invalid files. Defaults to true.
 
 ### `dryRun` - Dry Run
 

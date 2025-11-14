@@ -181,7 +181,7 @@
             "defaultValue": "false",
             "helpMarkDown": "Fail the task if there are any test failures."
         },
-                {
+        {
             "name": "failTaskOnSkippedTests",
             "type": "boolean",
             "required": false,
@@ -189,6 +189,15 @@
             "groupName": "advanced",
             "defaultValue": "false",
             "helpMarkDown": "Fail the task if there are any skipped tests."
+        },
+        {
+            "name": "failTaskOnMissingResultsFile",
+            "type": "boolean",
+            "required": false,
+            "label": "Fail if test files are not found",
+            "groupName": "advanced",
+            "defaultValue": "true",
+            "helpMarkDown": "Fail the task if no test results are found."
         }
     ],
     "minimumAgentVersion": "2.209.0",

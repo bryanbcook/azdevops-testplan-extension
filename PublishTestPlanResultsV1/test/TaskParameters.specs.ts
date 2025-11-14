@@ -138,6 +138,21 @@ describe('TaskParameters', () => {
       expect(parameters.testFiles[0]).to.eq(validFiles[0]);
     });
 
+    it('Should allow absolute files to be missing when failTaskOnMissingResultsFile is false', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");     
+      util.setInput("testResultFiles", "not-a-valid-file.xml");
+      util.setInput("failTaskOnMissingResultsFile", "false");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.testFiles.length).to.eq(0);
+    });
+
     it('Should resolve relative paths to working directory', () => {
       // arrange
       util.setInput("testResultFormat", "xUnit");

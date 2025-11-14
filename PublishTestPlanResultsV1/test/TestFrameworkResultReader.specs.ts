@@ -21,6 +21,17 @@ describe("TestFramework Results Reader", () => {
     subject = new TestFrameworkResultReader(new NullLogger());
   })
 
+  context("Allow no test result files", () => {
+    it("Does not throw when no test result files are provided", async () => {
+      // arrange
+      files.push(path.join(baseDir, "non-existing-file.xml"));
+      subject.failOnMissingResultsFile = false;
+
+      // act / assert
+      await util.shouldNotThrowAsync( async () => { await subject.read("xunit", files); } );
+    });
+  })
+
   it("Can read xUnit results", async () => {
     // arrange
     files.push(path.join(baseDir, "xunit/xunit-1.xml"));

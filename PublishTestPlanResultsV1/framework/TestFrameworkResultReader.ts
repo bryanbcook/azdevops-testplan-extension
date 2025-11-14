@@ -7,6 +7,7 @@ import { ILogger, getLogger } from "../services/Logger"
 
 export class TestFrameworkResultReader {
   public logger : ILogger;
+  public failOnMissingResultsFile : boolean = true;
 
   constructor(logger : ILogger) {
     this.logger = logger;
@@ -14,6 +15,7 @@ export class TestFrameworkResultReader {
 
   public static async readResults(parameters: TestFrameworkParameters): Promise<TestFrameworkResult[]> {
     const reader = new TestFrameworkResultReader(getLogger());
+    reader.failOnMissingResultsFile = parameters.failOnMissingResultsFile;
     return await reader.read(parameters.testFormat, parameters.testFiles);
   }
   
@@ -37,8 +39,12 @@ export class TestFrameworkResultReader {
     // handle scenario where wildcard files did not expand to valid files
     // or when fatal errors resulted in no test results
     if (testResult == null) {
+      if (!this.failOnMissingResultsFile) {
+        this.logger.info(`No test results found for format '${testFormat}' in files: ${testFiles.join(', ')}. Continuing as 'failOnMissingResultsFile' is set to false.`);
+        return [];
+      }
       throw new Error(`No test results found for format '${testFormat}' in files: ${testFiles.join(', ')}. Ensure the files exist and are in the correct format.`);
-    }    
+    }  
     
     this.logger.debug(JSON.stringify(testResult));
     this.logger.info(`Total: ${testResult.total}\tPassed: ${testResult.passed}\tFailed: ${testResult.failed}\tSkipped: ${testResult.skipped}`);

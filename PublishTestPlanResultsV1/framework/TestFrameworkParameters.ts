@@ -4,10 +4,12 @@ export class TestFrameworkParameters {
 
   public testFiles: string[];
   public testFormat: TestFrameworkFormat;
+  public failOnMissingResultsFile: boolean;
 
-  constructor(files: string[], format: string) {
+  constructor(files: string[], format: string, failOnMissingResultsFile: boolean) {
     this.testFiles = files;
     this.testFormat = TestFrameworkFormat[format as keyof typeof TestFrameworkFormat];
+    this.failOnMissingResultsFile = failOnMissingResultsFile;
 
     if (this.testFormat === undefined) {
       let keys : string[] = Object.keys(TestFrameworkFormat);

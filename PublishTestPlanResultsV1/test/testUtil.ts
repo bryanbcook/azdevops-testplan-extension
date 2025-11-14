@@ -64,6 +64,16 @@ export async function shouldThrowAsync(callback: any, message: string | RegExp) 
 
 }
 
+export async function shouldNotThrowAsync(callback: any) {
+  try {
+    await callback();
+  }
+  catch (err) {
+    assert.fail("expected no exception but one was thrown");
+  }
+}
+
+
 export function newTestConfig(id : number = 0, name : string = "DefaultConfig") : TestConfiguration {
   return <TestConfiguration>{ id: id, name: name};
 }
