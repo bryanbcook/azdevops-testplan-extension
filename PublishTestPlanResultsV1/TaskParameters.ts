@@ -35,9 +35,10 @@ export function getFrameworkParameters(): TestFrameworkParameters {
 
   let testResultFormat = tl.getInput("testResultFormat", true);
   let failTaskOnMissingResultsFile = getBoolInput("failTaskOnMissingResultsFile", /*default*/ true);
+  let failTaskOnMissingTests = getBoolInput("failTaskOnMissingTests", /*default*/ false);
   let testResultFiles = getTestFiles(failTaskOnMissingResultsFile);
 
-  return new TestFrameworkParameters(testResultFiles, testResultFormat!.toLowerCase(), failTaskOnMissingResultsFile);
+  return new TestFrameworkParameters(testResultFiles, testResultFormat!.toLowerCase(), failTaskOnMissingResultsFile, failTaskOnMissingTests);
 }
 
 export function getProcessorParameters() : TestResultProcessorParameters {

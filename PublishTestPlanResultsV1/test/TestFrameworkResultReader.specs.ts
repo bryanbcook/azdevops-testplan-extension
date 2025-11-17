@@ -32,6 +32,29 @@ describe("TestFramework Results Reader", () => {
     });
   })
 
+  context("Prevent empty test list", () => {
+    it("Throws when no tests are found in test result files", async () => {
+      // arrange
+      files.push(path.join(baseDir, "mstest/empty-results.trx"));
+      subject.failOnMissingTests = true; // prevent empty test list
+
+      // act / assert
+      await util.shouldThrowAsync( async () => { await subject.read("mstest", files); }, /No test results found in the provided test result files/);
+    })
+
+    it("Returns an empty list of test results when no tests are found but failTaskOnMissingTests is false (default)", async () => {
+      // arrange
+      files.push(path.join(baseDir, "mstest/empty-results.trx"));
+      subject.failOnMissingTests = false; // default behaviour
+
+      // act
+      var result = await subject.read("xunit", files);
+
+      // assert
+      expect(result.length).to.eq(0);
+    })
+  })
+
   it("Can read xUnit results", async () => {
     // arrange
     files.push(path.join(baseDir, "xunit/xunit-1.xml"));

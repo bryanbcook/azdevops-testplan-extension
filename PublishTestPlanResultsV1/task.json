@@ -198,6 +198,15 @@
             "groupName": "advanced",
             "defaultValue": "true",
             "helpMarkDown": "Fail the task if no test results are found."
+        },
+        {
+            "name": "failTaskOnMissingTests",
+            "type": "boolean",
+            "required": false,
+            "label": "Fail if test results do not contain any tests",
+            "groupName": "advanced",
+            "defaultValue": "false",
+            "helpMarkDown": "Fail the task if no tests are found in the test results."
         }
     ],
     "minimumAgentVersion": "2.209.0",

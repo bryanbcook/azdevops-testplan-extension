@@ -8,6 +8,7 @@ import { ILogger, getLogger } from "../services/Logger"
 export class TestFrameworkResultReader {
   public logger : ILogger;
   public failOnMissingResultsFile : boolean = true;
+  public failOnMissingTests : boolean = false;
 
   constructor(logger : ILogger) {
     this.logger = logger;
@@ -44,10 +45,20 @@ export class TestFrameworkResultReader {
         return [];
       }
       throw new Error(`No test results found for format '${testFormat}' in files: ${testFiles.join(', ')}. Ensure the files exist and are in the correct format.`);
-    }  
+    }
     
     this.logger.debug(JSON.stringify(testResult));
     this.logger.info(`Total: ${testResult.total}\tPassed: ${testResult.passed}\tFailed: ${testResult.failed}\tSkipped: ${testResult.skipped}`);
+
+    // handle scenario where no tests were found
+    if (testResult.total == 0) {
+      if (!this.failOnMissingTests) {
+        this.logger.warn(`No tests found in the provided test result files. Continuing as 'failTaskOnMissingTests' is set to false.`);
+        return [];
+      } else {
+        throw new Error("No test results found in the provided test result files.");
+      }
+    }
 
     var results: TestFrameworkResult[] = [];
 
