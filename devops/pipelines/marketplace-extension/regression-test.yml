@@ -89,6 +89,9 @@ steps:
         -ReleaseEnvironmentId ''
         -failTaskOnFailedTests '${{ iif( ne(test.failTaskOnFailedTests,''), test.failTaskOnFailedTests, 'false' ) }}'
         -failTaskOnSkippedTests '${{ iif( ne(test.failTaskOnSkippedTests,''), test.failTaskOnSkippedTests, 'false' ) }}'
+        -failTaskOnMissingResultsFile ''
+        -failTaskOnMissingTests ''
+        -failTaskOnUnmatchedTestCases ''
         -DryRun ''
 
   - ${{ if ne(test.expectedResults, '') }}:
