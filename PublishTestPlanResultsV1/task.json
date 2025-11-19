@@ -181,7 +181,7 @@
             "defaultValue": "false",
             "helpMarkDown": "Fail the task if there are any test failures."
         },
-                {
+        {
             "name": "failTaskOnSkippedTests",
             "type": "boolean",
             "required": false,
@@ -189,6 +189,33 @@
             "groupName": "advanced",
             "defaultValue": "false",
             "helpMarkDown": "Fail the task if there are any skipped tests."
+        },
+        {
+            "name": "failTaskOnMissingResultsFile",
+            "type": "boolean",
+            "required": false,
+            "label": "Fail if test files are not found",
+            "groupName": "advanced",
+            "defaultValue": "true",
+            "helpMarkDown": "Fail the task if no test results are found."
+        },
+        {
+            "name": "failTaskOnMissingTests",
+            "type": "boolean",
+            "required": false,
+            "label": "Fail if test results do not contain any tests",
+            "groupName": "advanced",
+            "defaultValue": "false",
+            "helpMarkDown": "Fail the task if no tests are found in the test results."
+        },
+        {
+            "name": "failTaskOnUnmatchedTestCases",
+            "type": "boolean",
+            "required": false,
+            "label": "Fail if test results do not match any Test Cases",
+            "groupName": "advanced",
+            "defaultValue": "false",
+            "helpMarkDown": "Fail the task if no test cases are found in the test results."
         }
     ],
     "minimumAgentVersion": "2.209.0",

@@ -5,6 +5,7 @@ import { TestResultContextParameters } from "./context/TestResultContextParamete
 import { TestFrameworkParameters } from "./framework/TestFrameworkParameters";
 import { TestResultProcessorParameters } from './processing/TestResultProcessorParameters';
 import { TestRunPublisherParameters } from './publishing/TestRunPublisherParameters';
+import { StatusFilterParameters } from './services/StatusFilterParameters';
 
 export function getTestContextParameters(): TestResultContextParameters {
   tl.debug("reading TestContextParameters from task inputs.");
@@ -34,9 +35,11 @@ export function getFrameworkParameters(): TestFrameworkParameters {
   tl.debug("reading TestFrameworkParameters from task inputs.");
 
   let testResultFormat = tl.getInput("testResultFormat", true);
-  let testResultFiles = getTestFiles();
+  let failTaskOnMissingResultsFile = getBoolInput("failTaskOnMissingResultsFile", /*default*/ true);
+  let failTaskOnMissingTests = getBoolInput("failTaskOnMissingTests", /*default*/ false);
+  let testResultFiles = getTestFiles(failTaskOnMissingResultsFile);
 
-  return new TestFrameworkParameters(testResultFiles, testResultFormat!.toLowerCase()); 
+  return new TestFrameworkParameters(testResultFiles, testResultFormat!.toLowerCase(), failTaskOnMissingResultsFile, failTaskOnMissingTests);
 }
 
 export function getProcessorParameters() : TestResultProcessorParameters {
@@ -64,21 +67,34 @@ export function getPublisherParameters() : TestRunPublisherParameters {
   const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI")!;
   const dryRun = tl.getBoolInput("dryRun", false);
   const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
-  const testFiles = getTestFiles().filter(file => file.indexOf('**') == -1);
+  let verifyFiles = getBoolInput("failTaskOnMissingResultsFile", /*default*/ true);
+  let failTaskOnUnmatchedTestCases = getBoolInput("failTaskOnUnmatchedTestCases", /*default*/ true);
+  const testFiles = getTestFiles(verifyFiles).filter(file => file.indexOf('**') == -1);  
   let result = new TestRunPublisherParameters(
       collectionUri, 
       accessToken as string, 
       dryRun, 
       testRunTitle, 
       buildId,
-      testFiles
+      testFiles,
+      failTaskOnUnmatchedTestCases
       );
   result.releaseUri = releaseUri;
   result.releaseEnvironmentUri = releaseEnvironmentUri;
   return result;
 }
 
-function getTestFiles() : string[] {
+export function getStatusFilterParameters() : StatusFilterParameters {
+  tl.debug("reading StatusFilterParameters from task inputs.");
+
+  var parameters = new StatusFilterParameters();
+  parameters.failTaskOnFailedTests = getBoolInput("failTaskOnFailedTests", /*default*/ false);
+  parameters.failTaskOnSkippedTests = getBoolInput("failTaskOnSkippedTests", /*default*/ false);
+
+  return parameters;
+}
+
+function getTestFiles(verifyFiles: boolean) : string[] {
   
   let testResultFolder = tl.getInput("testResultDirectory", false);
   if (testResultFolder == undefined) {    
@@ -100,12 +116,24 @@ function getTestFiles() : string[] {
       return file;
     })
     .filter(file => {
-      // verify that file exists
+      // if it's not a wildcard, verify that the file exists
       if (file.indexOf('**') == -1) {
-        tl.checkPath(file, "testResultFile(s)");
+        // either filter out missing files, or fail the task based on user-preference
+        if (verifyFiles) { 
+          // fail if the file does not exist
+          tl.checkPath(file, "testResultFile(s)");
+        } else {
+          // task supports missing files, so filter out missing files
+          return tl.exist(file);
+        }
       }
       return true;
     });
 
   return testResultFiles;
+}
+
+function getBoolInput(name: string, defaultValue: boolean) : boolean {
+  let input = tl.getInput(name, false);
+  return input ? tl.getBoolInput(name, false) : defaultValue;
 }

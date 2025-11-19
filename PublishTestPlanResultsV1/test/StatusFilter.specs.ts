@@ -1,24 +1,18 @@
 import { TestFrameworkResult } from "../framework/TestFrameworkResult";
 import * as util from './testUtil';
 import * as StatusFilter from '../services/StatusFilter';
+import { StatusFilterParameters } from "../services/StatusFilterParameters";
 
 describe('StatusFilter', () => {
 
   let results: TestFrameworkResult[];
-
-  beforeEach(() => {
-    util.clearData();
-  })
-
-  afterEach(() => {
-    util.clearData();
-  })
+  let parameters: StatusFilterParameters;
 
   context('failTaskOnFailingTests is enabled', () => {
 
     beforeEach(() => {
-      util.setInput('failTaskOnFailedTests', 'true');
-      util.loadData();
+      parameters = new StatusFilterParameters();
+      parameters.failTaskOnFailedTests = true;
     });
 
     it('should throw an exception if there are failing tests', () => {
@@ -26,14 +20,14 @@ describe('StatusFilter', () => {
       results = [new TestFrameworkResult("Test1", "FAIL"), new TestFrameworkResult("Test2", "PASS")];
 
       // act / assert
-      util.shouldThrow(() => StatusFilter.analyzeTestResults(results), "Test framework results contain failing tests.");
+      util.shouldThrow(() => StatusFilter.analyzeTestResults(results, parameters), "Test framework results contain failing tests.");
     });
 
     it('should not throw an exception if there are no failing tests', () => {
       // arrange
       results = [new TestFrameworkResult("Test1", "PASS"), new TestFrameworkResult("Test2", "PASS")];
       // act
-      StatusFilter.analyzeTestResults(results);
+      StatusFilter.analyzeTestResults(results, parameters);
     });
 
   });
@@ -41,7 +35,7 @@ describe('StatusFilter', () => {
   context('failTaskOnFailingTests is not enabled', () => {
 
     beforeEach(() => {
-      util.loadData();
+      parameters = new StatusFilterParameters();
     });
     
     it('should not throw an exception if there are failing tests', () => {
@@ -49,15 +43,15 @@ describe('StatusFilter', () => {
       results = [new TestFrameworkResult("Test1", "FAIL"), new TestFrameworkResult("Test2", "PASS")];
 
       // act
-      StatusFilter.analyzeTestResults(results);
+      StatusFilter.analyzeTestResults(results, parameters);
     });
 
   });
 
   context('failTaskOnSkippedTests is enabled', () => {
     beforeEach(() => {
-      util.setInput('failTaskOnSkippedTests', 'true');
-      util.loadData();
+      parameters = new StatusFilterParameters();
+      parameters.failTaskOnSkippedTests = true;
     });
 
     it('should throw an exception if there are skipped tests', () => {
@@ -65,21 +59,21 @@ describe('StatusFilter', () => {
       results = [new TestFrameworkResult("Test1", "SKIP"), new TestFrameworkResult("Test2", "PASS")];
 
       // act / assert
-      util.shouldThrow(() => StatusFilter.analyzeTestResults(results), "Test framework results contain skipped tests.");
+      util.shouldThrow(() => StatusFilter.analyzeTestResults(results, parameters), "Test framework results contain skipped tests.");
     });
 
     it('should not throw an exception if there are no failing tests', () => {
       // arrange
       results = [new TestFrameworkResult("Test1", "PASS"), new TestFrameworkResult("Test2", "PASS")];
       // act
-      StatusFilter.analyzeTestResults(results);
+      StatusFilter.analyzeTestResults(results, parameters);
     });    
   })
 
   context('failTaskOnSkippedTests is not enabled', () => {
 
     beforeEach(() => {
-      util.loadData();
+      parameters = new StatusFilterParameters();
     });
     
     it('should not throw an exception if there are skipped tests', () => {
@@ -87,7 +81,7 @@ describe('StatusFilter', () => {
       results = [new TestFrameworkResult("Test1", "SKIP"), new TestFrameworkResult("Test2", "PASS")];
 
       // act
-      StatusFilter.analyzeTestResults(results);
+      StatusFilter.analyzeTestResults(results, parameters);
     });
 
   });

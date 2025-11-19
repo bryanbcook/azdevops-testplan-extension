@@ -103,6 +103,18 @@ param(
   [AllowEmptyString()]
   [string]$failTaskOnSkippedTests,
 
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$failTaskOnMissingResultsFile,
+
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$failTaskOnMissingTests,
+
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$failTaskOnUnmatchedTestCases,
+
   [Parameter(Mandatory)]  
   [AllowEmptyString()]
   [string]$DryRun,
@@ -140,7 +152,6 @@ if ($ReleaseId -and $ReleaseEnvironmentId) {
 if (!$env:SYSTEM_DEFAULTWORKINGDIRECTORY) {
   [System.Environment]::SetEnvironmentVariable("SYSTEM_DEFAULTWORKINGDIRECTORY", (Resolve-Path .))
 }
-
 
 if ($DebugMode.IsPresent) {
   [System.Environment]::SetEnvironmentVariable("SYSTEM_DEBUG", "true");

@@ -44,7 +44,8 @@ async function run() {
     await publisher.publishTestRun(testRunData);
 
     // finalize task outcome
-    statusFilter.analyzeTestResults(frameworkResults);
+    const statusFilterParameters = TaskParameters.getStatusFilterParameters();
+    statusFilter.analyzeTestResults(frameworkResults, statusFilterParameters);
 
     // publish anonymous usage data
     tl.setResult(tl.TaskResult.Succeeded,'');    

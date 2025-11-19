@@ -69,7 +69,7 @@ context("TestRunPublisher", () => {
       const eUri = "vstfs://ReleaseManagement/Environment/1";
       const testFiles = ["file1", "file2"];
       console.log(serverUrl);
-      var parameters = new TestRunPublisherParameters(serverUrl, accessToken, false, "Dummy", buildId, testFiles);
+      var parameters = new TestRunPublisherParameters(serverUrl, accessToken, false, "Dummy", buildId, testFiles, true);
       parameters.releaseUri = rUri;
       parameters.releaseEnvironmentUri = eUri;
 
@@ -84,6 +84,7 @@ context("TestRunPublisher", () => {
       expect(subject.testFiles.length).eq(2);
       expect(subject.releaseUri).eq(rUri);
       expect(subject.releaseEnvironmentUri).eq(eUri);
+      expect(subject.failTaskOnUnmatchedTestCases).eq(true);
     })
 
   })
@@ -254,6 +255,17 @@ context("TestRunPublisher", () => {
     // arrange
     // act / assert
     await testUtil.shouldThrowAsync(async () => { return subject.publishTestRun(testData)}, "Couldn't create a TestRun for this TestPlan because the test results could not be correlated to any known TestCases.")
+  });
+
+  it("Should allow no matched testcases if failTaskOnUnmatchedTestCases is false", async () => {
+    // arrange
+    subject.failTaskOnUnmatchedTestCases = false;
+
+    // act
+    let result = await subject.publishTestRun(testData);
+
+    // assert
+    expect(result).to.be.undefined;
   });
 
   it("Should set output variables when test run is published", async () => {

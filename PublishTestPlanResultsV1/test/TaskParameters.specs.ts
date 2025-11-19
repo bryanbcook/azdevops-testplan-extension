@@ -85,6 +85,7 @@ describe('TaskParameters', () => {
 
     var validFiles : string[] = [];
     var invalidFiles : string[] = [];
+    var emptyResults : string
 
     before(() => {
       var basePath = path.join(__dirname, "data");
@@ -92,6 +93,8 @@ describe('TaskParameters', () => {
       validFiles.push( path.join( basePath, "xunit","xunit-2.xml") );
 
       invalidFiles.push( path.join("xunit", "invalidFile1.xml") );
+
+      emptyResults = path.join( basePath, "xunit/empty-results.xml");
     });
 
     beforeEach(() => {
@@ -137,6 +140,49 @@ describe('TaskParameters', () => {
       expect(parameters.testFormat).to.eq("xunit");
       expect(parameters.testFiles[0]).to.eq(validFiles[0]);
     });
+
+    it('Should allow absolute files to be missing when failTaskOnMissingResultsFile is false', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");     
+      util.setInput("testResultFiles", "not-a-valid-file.xml");
+      util.setInput("failTaskOnMissingResultsFile", "false");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.testFiles.length).to.eq(0);
+    });
+
+    it('Should default failTaskOnMissingResultFiles to true', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");     
+      util.setInput("testResultFiles", emptyResults);
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.failOnMissingResultsFile).to.be.true;
+    });
+
+    it('Should default failTaskOnMissingTests to false', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");     
+      util.setInput("testResultFiles", emptyResults);
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.failOnMissingTests).to.be.false;
+    })
 
     it('Should resolve relative paths to working directory', () => {
       // arrange
@@ -399,6 +445,44 @@ describe('TaskParameters', () => {
       expect(parameters.dryRun).to.be.true;
     })
 
+    it("Should ignore invalid file references when failTaskOnMissingResultsFile is set to false", () => {
+      // arrange
+      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "not-a-file.xml"));
+      util.setInput("failTaskOnMissingResultsFile", "false");
+      util.loadData();
+
+      // act
+      require(tp);
+      util.shouldNotThrow( () => { TaskParameters.getPublisherParameters(); });
+    })
+
+    it("Should default failTaskOnUnmatchedTestCases to true", () => {
+      // arrange
+      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getPublisherParameters();
+
+      // assert
+      expect(parameters.failTaskOnUnmatchedTestCases).to.be.true;
+    })
+
+    it("Should resolve values for failTaskOnUnmatchedTestCases", () => {
+      // arrange
+      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
+      util.setInput("failTaskOnUnmatchedTestCases", "false");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getPublisherParameters();
+
+      // assert
+      expect(parameters.failTaskOnUnmatchedTestCases).to.be.false;
+    })
+
     it("Should resolve empty values for release variables if not present", () => {
       // arrange
       util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
@@ -433,5 +517,44 @@ describe('TaskParameters', () => {
     })
   });
 
+  context('StatusFilterParameters', () => {
+
+    it('Should use defaults if no inputs are provided', () => {
+      // arrange
+      // act
+      require(tp);
+      var parameters = TaskParameters.getStatusFilterParameters();
+
+      // assert
+      expect(parameters.failTaskOnFailedTests).to.be.false;
+      expect(parameters.failTaskOnSkippedTests).to.be.false;
+    });
+
+    it('Should resolve failTaskOnFailedTests input', () => {
+      // arrange
+      util.setInput("failTaskOnFailedTests", "true");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getStatusFilterParameters();
+
+      // assert
+      expect(parameters.failTaskOnFailedTests).to.be.true;
+    });
+
+    it('Should resolve failTaskOnSkippedTests input', () => {
+      // arrange
+      util.setInput("failTaskOnSkippedTests", "true");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getStatusFilterParameters();
+
+      // assert
+      expect(parameters.failTaskOnSkippedTests).to.be.true;
+    });
+  });
 });
 
