@@ -67,14 +67,16 @@ export function getPublisherParameters() : TestRunPublisherParameters {
   const dryRun = tl.getBoolInput("dryRun", false);
   const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
   let verifyFiles = getBoolInput("failTaskOnMissingResultsFile", /*default*/ true);
-  const testFiles = getTestFiles(verifyFiles).filter(file => file.indexOf('**') == -1);
+  let failTaskOnUnmatchedTestCases = getBoolInput("failTaskOnUnmatchedTestCases", /*default*/ true);
+  const testFiles = getTestFiles(verifyFiles).filter(file => file.indexOf('**') == -1);  
   let result = new TestRunPublisherParameters(
       collectionUri, 
       accessToken as string, 
       dryRun, 
       testRunTitle, 
       buildId,
-      testFiles
+      testFiles,
+      failTaskOnUnmatchedTestCases
       );
   result.releaseUri = releaseUri;
   result.releaseEnvironmentUri = releaseEnvironmentUri;

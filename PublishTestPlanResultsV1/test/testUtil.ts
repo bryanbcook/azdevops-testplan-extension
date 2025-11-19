@@ -46,6 +46,15 @@ export function shouldThrow(callback : any, message : string | RegExp) {
   }
 }
 
+export function shouldNotThrow(callback : any) {
+  try {
+    callback();
+  }
+  catch (err) {
+    assert.fail("expected no exception but one was thrown");
+  }
+}
+
 export async function shouldThrowAsync(callback: any, message: string | RegExp) {
   // act
   let error = null;

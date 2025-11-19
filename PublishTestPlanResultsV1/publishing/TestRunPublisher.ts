@@ -19,6 +19,7 @@ export class TestRunPublisher {
     publisher.releaseEnvironmentUri = parameters.releaseEnvironmentUri;
     publisher.testRunTitle = parameters.testRunTitle;
     publisher.testFiles = parameters.testFiles;
+    publisher.failTaskOnUnmatchedTestCases = parameters.failTaskOnUnmatchedTestCases;
 
     return publisher;
   }
@@ -31,6 +32,7 @@ export class TestRunPublisher {
   public releaseEnvironmentUri? : string;
   public testRunTitle : string;
   public testFiles : string[];
+  public failTaskOnUnmatchedTestCases : boolean = true;
 
   constructor(ado : AdoWrapper, logger : ILogger) {
     this.ado = ado;
@@ -105,7 +107,12 @@ export class TestRunPublisher {
 
       return finalRun;
     } else {
-      throw new Error("Couldn't create a TestRun for this TestPlan because the test results could not be correlated to any known TestCases.");
+      if (this.failTaskOnUnmatchedTestCases) {
+        throw new Error("Couldn't create a TestRun for this TestPlan because the test results could not be correlated to any known TestCases.");
+      } else {
+        this.logger.warn("No test results were matched to TestCases in the TestPlan. Skipping TestRun creation.");
+        return Promise.resolve(undefined);
+      }
     }
   }
 

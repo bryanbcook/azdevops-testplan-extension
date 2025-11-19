@@ -414,6 +414,44 @@ describe('TaskParameters', () => {
       expect(parameters.dryRun).to.be.true;
     })
 
+    it("Should ignore invalid file references when failTaskOnMissingResultsFile is set to false", () => {
+      // arrange
+      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "not-a-file.xml"));
+      util.setInput("failTaskOnMissingResultsFile", "false");
+      util.loadData();
+
+      // act
+      require(tp);
+      util.shouldNotThrow( () => { TaskParameters.getPublisherParameters(); });
+    })
+
+    it("Should default failTaskOnUnmatchedTestCases to true", () => {
+      // arrange
+      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getPublisherParameters();
+
+      // assert
+      expect(parameters.failTaskOnUnmatchedTestCases).to.be.true;
+    })
+
+    it("Should resolve values for failTaskOnUnmatchedTestCases", () => {
+      // arrange
+      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
+      util.setInput("failTaskOnUnmatchedTestCases", "false");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getPublisherParameters();
+
+      // assert
+      expect(parameters.failTaskOnUnmatchedTestCases).to.be.false;
+    })
+
     it("Should resolve empty values for release variables if not present", () => {
       // arrange
       util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
