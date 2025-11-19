@@ -517,5 +517,44 @@ describe('TaskParameters', () => {
     })
   });
 
+  context('StatusFilterParameters', () => {
+
+    it('Should use defaults if no inputs are provided', () => {
+      // arrange
+      // act
+      require(tp);
+      var parameters = TaskParameters.getStatusFilterParameters();
+
+      // assert
+      expect(parameters.failTaskOnFailedTests).to.be.false;
+      expect(parameters.failTaskOnSkippedTests).to.be.false;
+    });
+
+    it('Should resolve failTaskOnFailedTests input', () => {
+      // arrange
+      util.setInput("failTaskOnFailedTests", "true");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getStatusFilterParameters();
+
+      // assert
+      expect(parameters.failTaskOnFailedTests).to.be.true;
+    });
+
+    it('Should resolve failTaskOnSkippedTests input', () => {
+      // arrange
+      util.setInput("failTaskOnSkippedTests", "true");
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getStatusFilterParameters();
+
+      // assert
+      expect(parameters.failTaskOnSkippedTests).to.be.true;
+    });
+  });
 });
 

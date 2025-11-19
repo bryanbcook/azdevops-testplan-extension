@@ -5,7 +5,7 @@ import { TestResultContextParameters } from "./context/TestResultContextParamete
 import { TestFrameworkParameters } from "./framework/TestFrameworkParameters";
 import { TestResultProcessorParameters } from './processing/TestResultProcessorParameters';
 import { TestRunPublisherParameters } from './publishing/TestRunPublisherParameters';
-import { StatusFilterParameters } from './services/StatusFilter';
+import { StatusFilterParameters } from './services/StatusFilterParameters';
 
 export function getTestContextParameters(): TestResultContextParameters {
   tl.debug("reading TestContextParameters from task inputs.");
