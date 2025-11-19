@@ -158,7 +158,7 @@ When enabled, the task reports a pipeline run failure if the test results do not
 
 `boolean`. Optional.
 
-When enabled, the task reports a pipeline run failure if the test case match strategy does not match any automated tests to Test Cases in the Test Plan. Defaults to false.
+When enabled, the task reports a pipeline run failure if the test case match strategy does not match any automated tests to Test Cases in the Test Plan. Defaults to true.
 
 ### `dryRun` - Dry Run
 

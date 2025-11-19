@@ -85,6 +85,7 @@ describe('TaskParameters', () => {
 
     var validFiles : string[] = [];
     var invalidFiles : string[] = [];
+    var emptyResults : string
 
     before(() => {
       var basePath = path.join(__dirname, "data");
@@ -92,6 +93,8 @@ describe('TaskParameters', () => {
       validFiles.push( path.join( basePath, "xunit","xunit-2.xml") );
 
       invalidFiles.push( path.join("xunit", "invalidFile1.xml") );
+
+      emptyResults = path.join( basePath, "xunit/empty-results.xml");
     });
 
     beforeEach(() => {
@@ -152,6 +155,34 @@ describe('TaskParameters', () => {
       // assert
       expect(parameters.testFiles.length).to.eq(0);
     });
+
+    it('Should default failTaskOnMissingResultFiles to true', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");     
+      util.setInput("testResultFiles", emptyResults);
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.failOnMissingResultsFile).to.be.true;
+    });
+
+    it('Should default failTaskOnMissingTests to false', () => {
+      // arrange
+      util.setInput("testResultFormat", "xUnit");     
+      util.setInput("testResultFiles", emptyResults);
+      util.loadData();
+
+      // act
+      require(tp);
+      var parameters = TaskParameters.getFrameworkParameters();
+
+      // assert
+      expect(parameters.failOnMissingTests).to.be.false;
+    })
 
     it('Should resolve relative paths to working directory', () => {
       // arrange

@@ -5,6 +5,7 @@ import { TestResultContextParameters } from "./context/TestResultContextParamete
 import { TestFrameworkParameters } from "./framework/TestFrameworkParameters";
 import { TestResultProcessorParameters } from './processing/TestResultProcessorParameters';
 import { TestRunPublisherParameters } from './publishing/TestRunPublisherParameters';
+import { StatusFilterParameters } from './services/StatusFilter';
 
 export function getTestContextParameters(): TestResultContextParameters {
   tl.debug("reading TestContextParameters from task inputs.");
@@ -81,6 +82,16 @@ export function getPublisherParameters() : TestRunPublisherParameters {
   result.releaseUri = releaseUri;
   result.releaseEnvironmentUri = releaseEnvironmentUri;
   return result;
+}
+
+export function getStatusFilterParameters() : StatusFilterParameters {
+  tl.debug("reading StatusFilterParameters from task inputs.");
+
+  var parameters = new StatusFilterParameters();
+  parameters.failTaskOnFailedTests = getBoolInput("failTaskOnFailedTests", /*default*/ false);
+  parameters.failTaskOnSkippedTests = getBoolInput("failTaskOnSkippedTests", /*default*/ false);
+
+  return parameters;
 }
 
 function getTestFiles(verifyFiles: boolean) : string[] {

@@ -107,6 +107,14 @@ param(
   [AllowEmptyString()]
   [string]$failTaskOnMissingResultsFile,
 
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$failTaskOnMissingTests,
+
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$failTaskOnUnmatchedTestCases,
+
   [Parameter(Mandatory)]  
   [AllowEmptyString()]
   [string]$DryRun,
