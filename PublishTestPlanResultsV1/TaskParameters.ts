@@ -7,32 +7,36 @@ import { TestResultProcessorParameters } from './processing/TestResultProcessorP
 import { TestRunPublisherParameters } from './publishing/TestRunPublisherParameters';
 import { StatusFilterParameters } from './services/StatusFilterParameters';
 
-export function getTestContextParameters(): TestResultContextParameters {
-  tl.debug("reading TestContextParameters from task inputs.");
+class TaskParameters {
 
-  const accessToken = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
-  const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI");
-  const projectName = tl.getInput("projectName", false) ?? tl.getVariable("SYSTEM_TEAMPROJECT");
+  /* Fetch the parameters used to obtain the working details for the ADO Test Plan */
+  getTestContextParameters(): TestResultContextParameters {
+    tl.debug("reading TestContextParameters from task inputs.");
 
-  var parameters = new TestResultContextParameters(
-    (collectionUri as string),
-    (projectName as string),
-    (accessToken as string));
+    const accessToken = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
+    const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI");
+    const projectName = tl.getInput("projectName", false) ?? tl.getVariable("SYSTEM_TEAMPROJECT");
 
-  parameters.testPlan = tl.getInput("testPlan", false);
-  parameters.testConfigFilter = tl.getInput("testConfigFilter", false);
-  tl.getDelimitedInput("testConfigAliases", ",", false).forEach((alias: string) => {
-    let parts = alias.split("=");
-    if (parts.length > 1) {
-      parameters.testConfigAliases.push(new configAlias(parts[0], parts[1]));
-    }
-  });
+    var parameters = new TestResultContextParameters(
+      (collectionUri as string),
+      (projectName as string),
+      (accessToken as string));
 
-  return parameters;
-}
+    parameters.testPlan = tl.getInput("testPlan", false);
+    parameters.testConfigFilter = tl.getInput("testConfigFilter", false);
+    tl.getDelimitedInput("testConfigAliases", ",", false).forEach((alias: string) => {
+      let parts = alias.split("=");
+      if (parts.length > 1) {
+        parameters.testConfigAliases.push(new configAlias(parts[0], parts[1]));
+      }
+    });
 
-export function getFrameworkParameters(): TestFrameworkParameters {
-  tl.debug("reading TestFrameworkParameters from task inputs.");
+    return parameters;
+  }
+
+  /* Fetch the parameters used to parse through automated test results */
+  getFrameworkParameters(): TestFrameworkParameters {
+    tl.debug("reading TestFrameworkParameters from task inputs.");
 
   let testResultFormat = tl.getInput("testResultFormat", true);
   let failTaskOnMissingResultsFile = getBoolInput("failTaskOnMissingResultsFile", /*default*/ true);
@@ -42,57 +46,62 @@ export function getFrameworkParameters(): TestFrameworkParameters {
   return new TestFrameworkParameters(testResultFiles, testResultFormat!.toLowerCase(), failTaskOnMissingResultsFile, failTaskOnMissingTests);
 }
 
-export function getProcessorParameters() : TestResultProcessorParameters {
-  tl.debug("reading TestResultProcessorParameters from task inputs.");
+  /* Fetch the parameters used to process test results and match them to test cases */
+  getProcessorParameters() : TestResultProcessorParameters {
+    tl.debug("reading TestResultProcessorParameters from task inputs.");
 
-  let matchingStrategy = tl.getInput("testCaseMatchStrategy", false) ?? "Auto";
-  var parameters = new TestResultProcessorParameters(matchingStrategy);
-  
-  // optional parameters
-  parameters.testConfigFilter   = tl.getInput("testConfigFilter", false);
-  parameters.testCaseProperty   = tl.getInput("testCaseProperty", false) ?? "TestCase";
-  parameters.testCaseRegEx      = tl.getInput("testCaseRegex", false) ?? "(\\d+)";
-  parameters.testConfigProperty = tl.getInput("testConfigProperty", false) ?? "Config";
+    let matchingStrategy = tl.getInput("testCaseMatchStrategy", false) ?? "Auto";
+    var parameters = new TestResultProcessorParameters(matchingStrategy);
+    
+    // optional parameters
+    parameters.testConfigFilter   = tl.getInput("testConfigFilter", false);
+    parameters.testCaseProperty   = tl.getInput("testCaseProperty", false) ?? "TestCase";
+    parameters.testCaseRegEx      = tl.getInput("testCaseRegex", false) ?? "(\\d+)";
+    parameters.testConfigProperty = tl.getInput("testConfigProperty", false) ?? "Config";
 
-  return parameters;
+    return parameters;
+  }  
+
+  /* Fetch the parameters used to publish test results to ADO Test Plan */
+  getPublisherParameters() : TestRunPublisherParameters {
+    tl.debug("reading TestRunPublisherParameters from task inputs.");
+    
+    const accessToken = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
+    const buildId = tl.getVariable("BUILD_BUILDID")!; // available in build and release pipelines
+    const releaseUri = tl.getVariable("RELEASE_RELEASEURI"); // only in release pipelines
+    const releaseEnvironmentUri = tl.getVariable("RELEASE_ENVIRONMENTURI"); // only in release pipelines
+    const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI")!;
+    const dryRun = tl.getBoolInput("dryRun", false);
+    const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
+    let verifyFiles = getBoolInput("failTaskOnMissingResultsFile", /*default*/ true);
+    let failTaskOnUnmatchedTestCases = getBoolInput("failTaskOnUnmatchedTestCases", /*default*/ true);
+    const testFiles = getTestFiles(verifyFiles).filter(file => file.indexOf('**') == -1);  
+    let result = new TestRunPublisherParameters(
+        collectionUri, 
+        accessToken as string, 
+        dryRun, 
+        testRunTitle, 
+        buildId,
+        testFiles,
+        failTaskOnUnmatchedTestCases
+        );
+    result.releaseUri = releaseUri;
+    result.releaseEnvironmentUri = releaseEnvironmentUri;
+    return result;
+  }
+
+  getStatusFilterParameters() : StatusFilterParameters {
+    tl.debug("reading StatusFilterParameters from task inputs.");
+
+    var parameters = new StatusFilterParameters();
+    parameters.failTaskOnFailedTests = getBoolInput("failTaskOnFailedTests", /*default*/ false);
+    parameters.failTaskOnSkippedTests = getBoolInput("failTaskOnSkippedTests", /*default*/ false);
+
+    return parameters;
+  }
 }
 
-export function getPublisherParameters() : TestRunPublisherParameters {
-  tl.debug("reading TestRunPublisherParameters from task inputs.");
-  
-  const accessToken = tl.getInput("accessToken", false) ?? tl.getVariable("SYSTEM_ACCESSTOKEN");
-  const buildId = tl.getVariable("BUILD_BUILDID")!; // available in build and release pipelines
-  const releaseUri = tl.getVariable("RELEASE_RELEASEURI"); // only in release pipelines
-  const releaseEnvironmentUri = tl.getVariable("RELEASE_ENVIRONMENTURI"); // only in release pipelines
-  const collectionUri = tl.getInput("collectionUri", false) ?? tl.getVariable("SYSTEM_COLLECTIONURI")!;
-  const dryRun = tl.getBoolInput("dryRun", false);
-  const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
-  let verifyFiles = getBoolInput("failTaskOnMissingResultsFile", /*default*/ true);
-  let failTaskOnUnmatchedTestCases = getBoolInput("failTaskOnUnmatchedTestCases", /*default*/ true);
-  const testFiles = getTestFiles(verifyFiles).filter(file => file.indexOf('**') == -1);  
-  let result = new TestRunPublisherParameters(
-      collectionUri, 
-      accessToken as string, 
-      dryRun, 
-      testRunTitle, 
-      buildId,
-      testFiles,
-      failTaskOnUnmatchedTestCases
-      );
-  result.releaseUri = releaseUri;
-  result.releaseEnvironmentUri = releaseEnvironmentUri;
-  return result;
-}
-
-export function getStatusFilterParameters() : StatusFilterParameters {
-  tl.debug("reading StatusFilterParameters from task inputs.");
-
-  var parameters = new StatusFilterParameters();
-  parameters.failTaskOnFailedTests = getBoolInput("failTaskOnFailedTests", /*default*/ false);
-  parameters.failTaskOnSkippedTests = getBoolInput("failTaskOnSkippedTests", /*default*/ false);
-
-  return parameters;
-}
+export const taskParameters = new TaskParameters();
 
 function getTestFiles(verifyFiles: boolean) : string[] {
   
