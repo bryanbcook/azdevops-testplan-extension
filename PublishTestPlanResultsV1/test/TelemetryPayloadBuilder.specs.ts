@@ -86,6 +86,24 @@ describe('TelemetryPayloadBuilder', () => {
       let payload = subject.getPayload();
       expect(payload.errorMessage).to.eq("Something bad happened");
     });
+
+    it('should capture stack trace as array of strings', () => {
+      // arrange
+      const error = new Error("Something bad happened");
+      error.stack = "Error: Something bad happened\n    at Object.<anonymous> (C:\\dev\\code\\testplan-extension\\PublishTestPlanResultsV1\\test\\TelemetryPayloadBuilder.specs.ts:10:15)\n    at Module._compile (internal/modules/cjs/loader.js:999:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)";
+
+      // act
+      subject.recordError(error);
+
+      // assert
+      let payload = subject.getPayload();
+      expect(payload.errorStack).to.be.an('array');
+      expect(payload.errorStack.length).to.equal(4);
+      expect(payload.errorStack[0]).to.equal("Error: Something bad happened");
+      expect(payload.errorStack[1]).to.equal("at Object.<anonymous> (C:\\dev\\code\\testplan-extension\\PublishTestPlanResultsV1\\test\\TelemetryPayloadBuilder.specs.ts:10:15)");
+      expect(payload.errorStack[2]).to.equal("at Module._compile (internal/modules/cjs/loader.js:999:30)");
+      expect(payload.errorStack[3]).to.equal("at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)");
+    });
   })
 
 });

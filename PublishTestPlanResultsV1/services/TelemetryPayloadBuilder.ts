@@ -29,7 +29,7 @@ export class TelemetryPayloadBuilder {
     if (err) {
       if (err instanceof Error) {
         this.payload["errorMessage"] = err.message;
-        this.payload["errorStack"] = err.stack;
+        this.payload["errorStack"] = this.#formatStackTrace(err.stack);
       } else {
         this.payload["errorMessage"] = JSON.stringify(err);
       }
@@ -39,5 +39,12 @@ export class TelemetryPayloadBuilder {
   /* Fetch the contents of the constructed telemetry payload */
   getPayload() : any {
     return this.payload; // todo: combine payloads for different privacy levels
+  }
+
+  #formatStackTrace(stack: string | undefined) : string[] | undefined {
+    if (stack === undefined) {
+      return undefined;
+    }
+    return stack.split('\n').map(line => line.trim())
   }
 }
