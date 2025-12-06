@@ -165,3 +165,13 @@ When enabled, the task reports a pipeline run failure if the test case match str
 `boolean`. Optional.
 
 Enables or disables publishing results to the TestPlan. Useful for evaluating different test case match strategies.
+
+## Feature Flags
+
+Feature Flags are enabled through pipeline variables instead of task inputs. You can add the following pipeline variables at the global, stage, job or task (`env`) levels of your pipeline.
+
+Feature Flags are used for the following scenarios:
+
+- Opt-in support for preview or experimental features.
+- Short-term flags for support issues or temporary workarounds.
+- Operational switches to enable or disable features or to support troubleshooting efforts. These are typically long-lived and primarily used for internal use.
