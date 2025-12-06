@@ -92,6 +92,7 @@ steps:
         -failTaskOnMissingResultsFile ''
         -failTaskOnMissingTests ''
         -failTaskOnUnmatchedTestCases ''
+        -featureFlags 'DisplayTelemetry,DisplayTelemetryErrors'
         -DryRun ''
 
   - ${{ if ne(test.expectedResults, '') }}:

@@ -3,9 +3,15 @@ import * as assert from 'assert'
 import { ShallowReference, TestPlan, TestConfiguration, WorkItemReference, SuiteTestCase } from 'azure-devops-node-api/interfaces/TestInterfaces';
 import { TestPoint2 } from '../services/AdoWrapper';
 import { TestFrameworkResult } from '../framework/TestFrameworkResult';
+import FeatureFlags from '../services/FeatureFlags';
 
 export function setSystemVariable(name: string, val: string) {
   let key: string = im._getVariableKey(name);
+  process.env[key] = val;
+}
+
+export function setFeatureFlag(name: string, val: string) {
+  let key: string = "PUBLISHTESTPLANRESULTS_" + name.toUpperCase();
   process.env[key] = val;
 }
 
@@ -16,6 +22,7 @@ export function setInput(name: string, val: string) {
 
 export function loadData() {
   im._loadData();
+  FeatureFlags.reload();
 }
 
 export function clearData() {
@@ -24,7 +31,8 @@ export function clearData() {
       key.startsWith("SECRET_") ||
       key.startsWith("VSTS_TASKVARIABLE_") ||
       key.startsWith("BUILD_") ||
-      key.startsWith("RELEASE_")
+      key.startsWith("RELEASE_") ||
+      key.startsWith("PUBLISHTESTPLANRESULTS_")
     )
     // caution: System_* variables should not be deleted
     ).forEach(key => delete process.env[key]);

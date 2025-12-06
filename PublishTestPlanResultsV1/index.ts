@@ -1,11 +1,12 @@
 import tl = require("azure-pipelines-task-lib/task");
-import * as TaskParameters from "./TaskParameters";
+import TaskParameters from "./TaskParameters";
 import { TestResultContext } from "./context/TestResultContext";
 import { TestFrameworkResultReader } from "./framework/TestFrameworkResultReader";
 import * as TestResultProcessorFactory from "./processing/TestResultProcessorFactory";
 import { TestRunPublisher } from "./publishing/TestRunPublisher";
 import { getLogger } from './services/Logger';
 import * as statusFilter from './services/StatusFilter';
+import TelemetryPublisher from "./telemetry/TelemetryPublisher";
 
 async function run() {
 
@@ -44,13 +45,20 @@ async function run() {
     await publisher.publishTestRun(testRunData);
 
     // finalize task outcome
+    logger.info('##[section]Finalizing results...');
     const statusFilterParameters = TaskParameters.getStatusFilterParameters();
     statusFilter.analyzeTestResults(frameworkResults, statusFilterParameters);
 
     // publish anonymous usage data
-    tl.setResult(tl.TaskResult.Succeeded,'');    
+    const telemetryParameters = TaskParameters.getTelemetryParameters();
+    await TelemetryPublisher.publish(telemetryParameters)
+    tl.setResult(tl.TaskResult.Succeeded,'');
 
   } catch (err) {
+
+    const telemetryParameters = TaskParameters.getTelemetryParameters(err);
+    await TelemetryPublisher.publish(telemetryParameters)
+
     if (err instanceof Error) {
       tl.setResult(tl.TaskResult.Failed, err.message);
     } else {

@@ -115,6 +115,10 @@ param(
   [AllowEmptyString()]
   [string]$failTaskOnUnmatchedTestCases,
 
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$featureFlags,
+
   [Parameter(Mandatory)]  
   [AllowEmptyString()]
   [string]$DryRun,
@@ -132,6 +136,17 @@ $PSBoundParameters.GetEnumerator() | ForEach-Object {
     $key = "INPUT_$($_.Key)"
     [System.Environment]::SetEnvironmentVariable($key, $_.Value)
   }  
+}
+
+# Feature flags
+if ($featureFlags -ne "") {
+  $featureFlags.Split(",") | ForEach-Object {
+    $flag = $_.Trim().ToUpper()
+    if ($flag -ne "") {
+      $key = "PUBLISHTESTPLANRESULTS_$flag"
+      [System.Environment]::SetEnvironmentVariable($key, "true")
+    }
+  }
 }
 
 # BuildId isn't an input parameter.

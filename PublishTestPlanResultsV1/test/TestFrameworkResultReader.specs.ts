@@ -76,8 +76,8 @@ describe("TestFramework Results Reader", () => {
 
     // act / assert
     await util.shouldThrowAsync( async () => { await subject.read("xunit", files); }, 
-    /No test results found for format 'xunit' in files: .*[\\/]\*\*[\\/]+non-existing-file\.xml/
-  );
+      /No test results found for format 'xunit' in files: .*[\\/]\*\*[\\/]+non-existing-file\.xml/
+    );
   })
 
   // https://github.com/bryanbcook/azdevops-testplan-extension/issues/48

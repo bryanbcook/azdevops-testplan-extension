@@ -1,18 +1,18 @@
 import { expect } from 'chai';
 import * as path from 'path';
 import { TestCaseMatchingStrategy } from '../processing/TestResultMatchStrategy';
-import * as TaskParameters from '../TaskParameters';
+import { TaskParameters } from '../TaskParameters';
 import * as util from './testUtil';
+import FeatureFlags, { FeatureFlag } from '../services/FeatureFlags';
 
 describe('TaskParameters', () => {
 
-  var tp: any;
   var accessToken: string;
+  var subject: TaskParameters;
 
   beforeEach(() => {
-    //
-    tp = path.join(__dirname, '..', 'TaskParameters.js');
     util.clearData();
+    subject = TaskParameters.getInstance();
 
     accessToken = (process.env.SYSTEM_ACCESSTOKEN ?? process.env.ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN) as string;
 
@@ -36,9 +36,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-
-      var parameters = TaskParameters.getTestContextParameters();
+      var parameters = subject.getTestContextParameters();
 
       // assert
       expect(parameters.collectionUri).to.eq("https://my");
@@ -51,14 +49,12 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-
-      var parameters = TaskParameters.getTestContextParameters();
+      var parameters = subject.getTestContextParameters();
 
       // assert
-      expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
+      expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI);
       expect(parameters.accessToken).to.eq(accessToken);
-      expect(parameters.projectName).to.eq(process.env.TEAMPROJECT as string);
+      expect(parameters.projectName).to.eq(process.env.TEAMPROJECT);
     });
 
     it('Should resolve config aliases', () => {
@@ -67,8 +63,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getTestContextParameters();
+      var parameters = subject.getTestContextParameters();
 
       // assert
       expect(parameters.testConfigAliases.length).to.eq(3);
@@ -107,11 +102,8 @@ describe('TaskParameters', () => {
       util.setInput("testResultFiles", validFiles[0] );
       util.loadData();
 
-      // act
-      require(tp);
-
-      // assert
-      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), "Input required: testResultFormat");
+      // act / assert
+      util.shouldThrow( () => subject.getFrameworkParameters(), "Input required: testResultFormat");
     });
 
     it('Should require testResultFiles to be provided', () => {
@@ -119,11 +111,8 @@ describe('TaskParameters', () => {
       util.setInput("testResultFormat", "xUnit");
       util.loadData();
 
-      // act
-      require(tp);
-
-      // assert
-      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), "Input required: testResultFiles");
+      // act / assert
+      util.shouldThrow( () => subject.getFrameworkParameters(), "Input required: testResultFiles");
     });
 
     it('Should verify that absolute result files are valid', () => {
@@ -133,8 +122,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFormat).to.eq("xunit");
@@ -149,8 +137,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFiles.length).to.eq(0);
@@ -163,8 +150,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.failOnMissingResultsFile).to.be.true;
@@ -177,8 +163,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.failOnMissingTests).to.be.false;
@@ -192,8 +177,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFiles[0]).to.eq(validFiles[0]);
@@ -206,8 +190,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFiles[0]).to.eq(validFiles[0]);
@@ -221,8 +204,8 @@ describe('TaskParameters', () => {
       var messageRegex = new RegExp(`Not found testResultFile\\(s\\): .+invalidFile1.xml`);
 
       // act / assert
-      require(tp);
-      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), messageRegex);
+      //require(tp);
+      util.shouldThrow( () => subject.getFrameworkParameters(), messageRegex);
     });
 
     it('Should allow glob paths to be specified', () => {
@@ -233,8 +216,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFormat).to.eq("xunit");
@@ -250,8 +232,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFormat).to.eq("xunit");
@@ -266,7 +247,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act / assert
-      util.shouldThrow( () => TaskParameters.getFrameworkParameters(), /testResultformat 'yomamma' is not supported. Please specify one of the following values: xunit, .*/);
+      util.shouldThrow( () => subject.getFrameworkParameters(), /testResultformat 'yomamma' is not supported. Please specify one of the following values: xunit, .*/);
     })
 
     it('Should allow mixed case on testResultFormat', () => {
@@ -276,8 +257,7 @@ describe('TaskParameters', () => {
       util.loadData();
       
       // act
-      require(tp);
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFormat).to.eq("xunit");
@@ -290,8 +270,7 @@ describe('TaskParameters', () => {
     it('Should use defaults if no inputs are provided', () => {
       // arrange
       // act
-      require(tp);
-      var result = TaskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testConfigFilter).to.be.undefined;
@@ -307,8 +286,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = TaskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testConfigFilter).not.to.be.undefined;
@@ -320,8 +298,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = TaskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testCaseRegEx).to.be.eq("TestCase(\\d+)");
@@ -333,8 +310,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = TaskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testCaseProperty).to.be.eq("id");
@@ -346,8 +322,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = TaskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testConfigProperty).to.be.eq("Category");
@@ -359,8 +334,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = TaskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       let final = TestCaseMatchingStrategy.name | TestCaseMatchingStrategy.property;
@@ -373,8 +347,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = TaskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testConfigProperty).to.be.eq( "config" );
@@ -390,8 +363,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.collectionUri).to.eq("https://my");
@@ -404,8 +376,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
@@ -424,8 +395,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.buildId).to.eq("1234");
@@ -438,8 +408,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.dryRun).to.be.true;
@@ -452,8 +421,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      util.shouldNotThrow( () => { TaskParameters.getPublisherParameters(); });
+      util.shouldNotThrow( () => { subject.getPublisherParameters(); });
     })
 
     it("Should default failTaskOnUnmatchedTestCases to true", () => {
@@ -462,8 +430,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.failTaskOnUnmatchedTestCases).to.be.true;
@@ -476,8 +443,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.failTaskOnUnmatchedTestCases).to.be.false;
@@ -489,8 +455,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.releaseUri).to.be.undefined;
@@ -507,8 +472,7 @@ describe('TaskParameters', () => {
         util.loadData();
 
         // act
-        require(tp);
-        var parameters = TaskParameters.getPublisherParameters();
+        var parameters = subject.getPublisherParameters();
 
         // assert
         expect(parameters.releaseUri).to.satisfy( (x: string) => x.startsWith("vstfs://ReleaseManagement"));
@@ -517,13 +481,112 @@ describe('TaskParameters', () => {
     })
   });
 
+  context('TelemetryPublisherParameters', () => {
+
+    it('Should include telemetry payload', () => {
+      // arrange
+      // act
+      var parameters = subject.getTelemetryParameters();
+      // assert
+      expect(parameters.payload).to.not.be.undefined;
+    });
+
+    it('Should include feature flags in payload', () => {
+      // arrange
+      util.setFeatureFlag(FeatureFlag.DisplayTelemetry, "true");
+      util.setFeatureFlag(FeatureFlag.DisplayTelemetryErrors, "true");
+      util.loadData();
+      // act
+      var parameters = subject.getTelemetryParameters();
+      // assert
+      expect(parameters.payload.flags).to.have.lengthOf(2);
+    });
+
+    context(`FeatureFlag: ${FeatureFlag.DisplayTelemetry}`, () =>  {
+
+      it(`should populate ${FeatureFlag.DisplayTelemetry} from FeatureFlag`, () => {
+        // arrange
+        util.setFeatureFlag(FeatureFlag.DisplayTelemetry, "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTelemetryParameters();
+
+        // assert
+        expect(parameters.displayTelemetryPayload).to.be.true;
+      });
+
+      it(`should default ${FeatureFlag.DisplayTelemetry} to false`, () => {
+        // arrange
+        util.loadData();
+        // act
+        var parameters = subject.getTelemetryParameters();
+        // assert
+        expect(parameters.displayTelemetryPayload).to.be.false;
+      });
+
+    });
+    
+    context(`FeatureFlag: ${FeatureFlag.DisplayTelemetryErrors}`, () =>  {
+
+      it(`should populate ${FeatureFlag.DisplayTelemetryErrors} from FeatureFlag`, () => {
+        // arrange
+        util.setFeatureFlag(FeatureFlag.DisplayTelemetryErrors, "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTelemetryParameters();
+
+        // assert
+        expect(parameters.displayTelemetryErrors).to.be.true;
+      });
+
+      it(`should default ${FeatureFlag.DisplayTelemetryErrors} to false`, () => {
+        // arrange
+        util.loadData();
+        // act
+        var parameters = subject.getTelemetryParameters();
+        // assert
+        expect(parameters.displayTelemetryErrors).to.be.false;
+      });
+
+    });
+
+    context('When error is provided', () => {
+      it('Should populate telemetry payload with error (typed)', () => {
+        // arrange
+        let error : Error;
+        try {
+          throw new Error("Something bad happened");
+        }
+        catch (err: any) {
+          error = (err as Error);
+        }
+        // act
+        const parameters = subject.getTelemetryParameters(error);
+        // assert
+        expect(parameters.payload.errorMessage).to.eq("Something bad happened");
+        expect(parameters.payload.errorStack).to.not.be.undefined;
+      });
+
+      it('Should populate telemetry payload with error (untyped)', () => {
+        // arrange
+        const error = { message: "Something bad happened", code: 500 };
+        // act
+        const parameters = subject.getTelemetryParameters(error);
+        // assert
+        expect(parameters.payload.errorMessage).to.eq(JSON.stringify(error));
+        expect(parameters.payload.errorStack).to.be.undefined;
+      });
+    });
+  });
+
   context('StatusFilterParameters', () => {
 
     it('Should use defaults if no inputs are provided', () => {
       // arrange
       // act
-      require(tp);
-      var parameters = TaskParameters.getStatusFilterParameters();
+      var parameters = subject.getStatusFilterParameters();
 
       // assert
       expect(parameters.failTaskOnFailedTests).to.be.false;
@@ -536,8 +599,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getStatusFilterParameters();
+      var parameters = subject.getStatusFilterParameters();
 
       // assert
       expect(parameters.failTaskOnFailedTests).to.be.true;
@@ -549,8 +611,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = TaskParameters.getStatusFilterParameters();
+      var parameters = subject.getStatusFilterParameters();
 
       // assert
       expect(parameters.failTaskOnSkippedTests).to.be.true;
