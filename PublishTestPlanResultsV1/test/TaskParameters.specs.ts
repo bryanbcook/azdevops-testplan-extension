@@ -137,7 +137,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFiles.length).to.eq(0);
@@ -150,7 +150,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.failOnMissingResultsFile).to.be.true;
@@ -163,7 +163,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      var parameters = TaskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.failOnMissingTests).to.be.false;
@@ -421,7 +421,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      util.shouldNotThrow( () => { TaskParameters.getPublisherParameters(); });
+      util.shouldNotThrow( () => { subject.getPublisherParameters(); });
     })
 
     it("Should default failTaskOnUnmatchedTestCases to true", () => {
@@ -430,7 +430,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      var parameters = TaskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.failTaskOnUnmatchedTestCases).to.be.true;
@@ -443,7 +443,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      var parameters = TaskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.failTaskOnUnmatchedTestCases).to.be.false;
@@ -574,7 +574,7 @@ describe('TaskParameters', () => {
     it('Should use defaults if no inputs are provided', () => {
       // arrange
       // act
-      var parameters = TaskParameters.getStatusFilterParameters();
+      var parameters = subject.getStatusFilterParameters();
 
       // assert
       expect(parameters.failTaskOnFailedTests).to.be.false;
@@ -587,7 +587,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      var parameters = TaskParameters.getStatusFilterParameters();
+      var parameters = subject.getStatusFilterParameters();
 
       // assert
       expect(parameters.failTaskOnFailedTests).to.be.true;
@@ -599,7 +599,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      var parameters = TaskParameters.getStatusFilterParameters();
+      var parameters = subject.getStatusFilterParameters();
 
       // assert
       expect(parameters.failTaskOnSkippedTests).to.be.true;
