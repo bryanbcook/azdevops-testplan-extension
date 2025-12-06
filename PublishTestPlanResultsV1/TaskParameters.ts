@@ -105,6 +105,7 @@ class TaskParameters {
     return result;
   }
 
+  /* Fetch the parameters used to filter test results and finalize task outcome */
   getStatusFilterParameters() : StatusFilterParameters {
     tl.debug("reading StatusFilterParameters from task inputs.");
 
