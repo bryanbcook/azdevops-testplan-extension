@@ -482,12 +482,24 @@ describe('TaskParameters', () => {
   });
 
   context('TelemetryPublisherParameters', () => {
+
     it('Should include telemetry payload', () => {
       // arrange
       // act
       var parameters = subject.getTelemetryParameters();
       // assert
       expect(parameters.payload).to.not.be.undefined;
+    });
+
+    it('Should include feature flags in payload', () => {
+      // arrange
+      util.setFeatureFlag(FeatureFlag.DisplayTelemetry, "true");
+      util.setFeatureFlag(FeatureFlag.DisplayTelemetryErrors, "true");
+      util.loadData();
+      // act
+      var parameters = subject.getTelemetryParameters();
+      // assert
+      expect(parameters.payload.flags).to.have.lengthOf(2);
     });
 
     context(`FeatureFlag: ${FeatureFlag.DisplayTelemetry}`, () =>  {

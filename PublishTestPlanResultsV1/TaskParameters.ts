@@ -118,13 +118,16 @@ class TaskParameters {
 
   /* Fetch the telemetry payload for this task execution */
   getTelemetryParameters(err?: any) : TelemetryPublisherParameters {
-    let withErrorOrWithoutError = err !== undefined && err !== null ? "with error" : "without error";
+    const hasError = err !== undefined && err !== null;
+    const withErrorOrWithoutError = hasError ? "with error" : "without error";
     tl.debug(`reading TelemetryPublisherParameters from task inputs ${withErrorOrWithoutError}.`);
 
     const result = new TelemetryPublisherParameters();
     result.displayTelemetryPayload = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetry);
     result.displayTelemetryErrors = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetryErrors);
+
     result.payload = this.tph.getPayload(err); // todo: specify privacy level
+    result.payload["flags"] = FeatureFlags.getFlags();
     return result;
   }
 }
