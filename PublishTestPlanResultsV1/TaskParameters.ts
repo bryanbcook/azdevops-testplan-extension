@@ -5,9 +5,22 @@ import { TestResultContextParameters } from "./context/TestResultContextParamete
 import { TestFrameworkParameters } from "./framework/TestFrameworkParameters";
 import { TestResultProcessorParameters } from './processing/TestResultProcessorParameters';
 import { TestRunPublisherParameters } from './publishing/TestRunPublisherParameters';
+import { TaskParameterHelper } from './services/TaskParameterHelper';
+import { TelemetryPayloadBuilder } from './services/TelemetryPayloadBuilder';
 import { StatusFilterParameters } from './services/StatusFilterParameters';
 
 class TaskParameters {
+
+  tph: TaskParameterHelper
+  constructor(tph: TaskParameterHelper) {
+    this.tph = tph;
+  }
+
+  static getInstance() : TaskParameters {
+    const telemetryPayloadBuilder = new TelemetryPayloadBuilder();
+    const tph = new TaskParameterHelper(telemetryPayloadBuilder);
+    return new TaskParameters(tph);
+  }
 
   /* Fetch the parameters used to obtain the working details for the ADO Test Plan */
   getTestContextParameters(): TestResultContextParameters {
@@ -101,7 +114,8 @@ class TaskParameters {
   }
 }
 
-export const taskParameters = new TaskParameters();
+export default TaskParameters.getInstance();
+export { TaskParameters };
 
 function getTestFiles(verifyFiles: boolean) : string[] {
   

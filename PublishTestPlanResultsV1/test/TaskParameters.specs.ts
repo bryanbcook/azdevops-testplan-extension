@@ -1,18 +1,17 @@
 import { expect } from 'chai';
 import * as path from 'path';
 import { TestCaseMatchingStrategy } from '../processing/TestResultMatchStrategy';
-import { taskParameters } from '../TaskParameters';
+import { TaskParameters } from '../TaskParameters';
 import * as util from './testUtil';
 
 describe('TaskParameters', () => {
 
-  var tp: any;
   var accessToken: string;
+  var subject: TaskParameters;
 
   beforeEach(() => {
-    //
-    tp = path.join(__dirname, '..', 'TaskParameters.js');
     util.clearData();
+    subject = TaskParameters.getInstance();
 
     accessToken = (process.env.SYSTEM_ACCESSTOKEN ?? process.env.ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN) as string;
 
@@ -36,9 +35,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-
-      var parameters = taskParameters.getTestContextParameters();
+      var parameters = subject.getTestContextParameters();
 
       // assert
       expect(parameters.collectionUri).to.eq("https://my");
@@ -51,14 +48,12 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-
-      var parameters = taskParameters.getTestContextParameters();
+      var parameters = subject.getTestContextParameters();
 
       // assert
-      expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
+      expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI);
       expect(parameters.accessToken).to.eq(accessToken);
-      expect(parameters.projectName).to.eq(process.env.TEAMPROJECT as string);
+      expect(parameters.projectName).to.eq(process.env.TEAMPROJECT);
     });
 
     it('Should resolve config aliases', () => {
@@ -67,8 +62,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = taskParameters.getTestContextParameters();
+      var parameters = subject.getTestContextParameters();
 
       // assert
       expect(parameters.testConfigAliases.length).to.eq(3);
@@ -107,11 +101,8 @@ describe('TaskParameters', () => {
       util.setInput("testResultFiles", validFiles[0] );
       util.loadData();
 
-      // act
-      require(tp);
-
-      // assert
-      util.shouldThrow( () => taskParameters.getFrameworkParameters(), "Input required: testResultFormat");
+      // act / assert
+      util.shouldThrow( () => subject.getFrameworkParameters(), "Input required: testResultFormat");
     });
 
     it('Should require testResultFiles to be provided', () => {
@@ -119,11 +110,8 @@ describe('TaskParameters', () => {
       util.setInput("testResultFormat", "xUnit");
       util.loadData();
 
-      // act
-      require(tp);
-
-      // assert
-      util.shouldThrow( () => taskParameters.getFrameworkParameters(), "Input required: testResultFiles");
+      // act / assert
+      util.shouldThrow( () => subject.getFrameworkParameters(), "Input required: testResultFiles");
     });
 
     it('Should verify that absolute result files are valid', () => {
@@ -133,8 +121,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = taskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFormat).to.eq("xunit");
@@ -192,8 +179,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = taskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFiles[0]).to.eq(validFiles[0]);
@@ -206,8 +192,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = taskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFiles[0]).to.eq(validFiles[0]);
@@ -221,8 +206,8 @@ describe('TaskParameters', () => {
       var messageRegex = new RegExp(`Not found testResultFile\\(s\\): .+invalidFile1.xml`);
 
       // act / assert
-      require(tp);
-      util.shouldThrow( () => taskParameters.getFrameworkParameters(), messageRegex);
+      //require(tp);
+      util.shouldThrow( () => subject.getFrameworkParameters(), messageRegex);
     });
 
     it('Should allow glob paths to be specified', () => {
@@ -233,8 +218,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = taskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFormat).to.eq("xunit");
@@ -250,8 +234,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = taskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFormat).to.eq("xunit");
@@ -266,7 +249,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act / assert
-      util.shouldThrow( () => taskParameters.getFrameworkParameters(), /testResultformat 'yomamma' is not supported. Please specify one of the following values: xunit, .*/);
+      util.shouldThrow( () => subject.getFrameworkParameters(), /testResultformat 'yomamma' is not supported. Please specify one of the following values: xunit, .*/);
     })
 
     it('Should allow mixed case on testResultFormat', () => {
@@ -276,8 +259,7 @@ describe('TaskParameters', () => {
       util.loadData();
       
       // act
-      require(tp);
-      var parameters = taskParameters.getFrameworkParameters();
+      var parameters = subject.getFrameworkParameters();
 
       // assert
       expect(parameters.testFormat).to.eq("xunit");
@@ -290,8 +272,7 @@ describe('TaskParameters', () => {
     it('Should use defaults if no inputs are provided', () => {
       // arrange
       // act
-      require(tp);
-      var result = taskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testConfigFilter).to.be.undefined;
@@ -307,8 +288,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = taskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testConfigFilter).not.to.be.undefined;
@@ -320,8 +300,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = taskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testCaseRegEx).to.be.eq("TestCase(\\d+)");
@@ -333,8 +312,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = taskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testCaseProperty).to.be.eq("id");
@@ -346,8 +324,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = taskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testConfigProperty).to.be.eq("Category");
@@ -359,8 +336,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = taskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       let final = TestCaseMatchingStrategy.name | TestCaseMatchingStrategy.property;
@@ -373,8 +349,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var result = taskParameters.getProcessorParameters();
+      var result = subject.getProcessorParameters();
 
       // assert
       expect(result.testConfigProperty).to.be.eq( "config" );
@@ -390,8 +365,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = taskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.collectionUri).to.eq("https://my");
@@ -404,8 +378,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = taskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
@@ -424,8 +397,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = taskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.buildId).to.eq("1234");
@@ -438,8 +410,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = taskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.dryRun).to.be.true;
@@ -489,8 +460,7 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
-      var parameters = taskParameters.getPublisherParameters();
+      var parameters = subject.getPublisherParameters();
 
       // assert
       expect(parameters.releaseUri).to.be.undefined;
@@ -507,8 +477,7 @@ describe('TaskParameters', () => {
         util.loadData();
 
         // act
-        require(tp);
-        var parameters = taskParameters.getPublisherParameters();
+        var parameters = subject.getPublisherParameters();
 
         // assert
         expect(parameters.releaseUri).to.satisfy( (x: string) => x.startsWith("vstfs://ReleaseManagement"));
