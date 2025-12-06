@@ -9,6 +9,11 @@ export function setSystemVariable(name: string, val: string) {
   process.env[key] = val;
 }
 
+export function setFeatureFlag(name: string, val: string) {
+  let key: string = "PUBLISHTESTPLANRESULTS_" + name.toUpperCase();
+  process.env[key] = val;
+}
+
 export function setInput(name: string, val: string) {
   let key: string = im._getVariableKey(name);
   process.env['INPUT_' + key] = val;
@@ -24,7 +29,8 @@ export function clearData() {
       key.startsWith("SECRET_") ||
       key.startsWith("VSTS_TASKVARIABLE_") ||
       key.startsWith("BUILD_") ||
-      key.startsWith("RELEASE_")
+      key.startsWith("RELEASE_") ||
+      key.startsWith("PUBLISHTESTPLANRESULTS_")
     )
     // caution: System_* variables should not be deleted
     ).forEach(key => delete process.env[key]);
