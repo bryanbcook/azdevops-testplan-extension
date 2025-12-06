@@ -3,6 +3,7 @@ import * as path from 'path';
 import { TestCaseMatchingStrategy } from '../processing/TestResultMatchStrategy';
 import { TaskParameters } from '../TaskParameters';
 import * as util from './testUtil';
+import FeatureFlags, { FeatureFlag } from '../services/FeatureFlags';
 
 describe('TaskParameters', () => {
 
@@ -136,7 +137,6 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
       var parameters = TaskParameters.getFrameworkParameters();
 
       // assert
@@ -150,7 +150,6 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
       var parameters = TaskParameters.getFrameworkParameters();
 
       // assert
@@ -164,7 +163,6 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
       var parameters = TaskParameters.getFrameworkParameters();
 
       // assert
@@ -423,7 +421,6 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
       util.shouldNotThrow( () => { TaskParameters.getPublisherParameters(); });
     })
 
@@ -433,7 +430,6 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
       var parameters = TaskParameters.getPublisherParameters();
 
       // assert
@@ -447,7 +443,6 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
       var parameters = TaskParameters.getPublisherParameters();
 
       // assert
@@ -486,12 +481,99 @@ describe('TaskParameters', () => {
     })
   });
 
+  context('TelemetryPublisherParameters', () => {
+    it('Should include telemetry payload', () => {
+      // arrange
+      // act
+      var parameters = subject.getTelemetryParameters();
+      // assert
+      expect(parameters.payload).to.not.be.undefined;
+    });
+
+    context(`FeatureFlag: ${FeatureFlag.DisplayTelemetry}`, () =>  {
+
+      it(`should populate ${FeatureFlag.DisplayTelemetry} from FeatureFlag`, () => {
+        // arrange
+        util.setFeatureFlag(FeatureFlag.DisplayTelemetry, "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTelemetryParameters();
+
+        // assert
+        expect(parameters.displayTelemetryPayload).to.be.true;
+      });
+
+      it(`should default ${FeatureFlag.DisplayTelemetry} to false`, () => {
+        // arrange
+        util.loadData();
+        // act
+        var parameters = subject.getTelemetryParameters();
+        // assert
+        expect(parameters.displayTelemetryPayload).to.be.false;
+      });
+
+    });
+    
+    context(`FeatureFlag: ${FeatureFlag.DisplayTelemetryErrors}`, () =>  {
+
+      it(`should populate ${FeatureFlag.DisplayTelemetryErrors} from FeatureFlag`, () => {
+        // arrange
+        util.setFeatureFlag(FeatureFlag.DisplayTelemetryErrors, "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTelemetryParameters();
+
+        // assert
+        expect(parameters.displayTelemetryErrors).to.be.true;
+      });
+
+      it(`should default ${FeatureFlag.DisplayTelemetryErrors} to false`, () => {
+        // arrange
+        util.loadData();
+        // act
+        var parameters = subject.getTelemetryParameters();
+        // assert
+        expect(parameters.displayTelemetryErrors).to.be.false;
+      });
+
+    });
+
+    context('When error is provided', () => {
+      it('Should populate telemetry payload with error (typed)', () => {
+        // arrange
+        let error : Error;
+        try {
+          throw new Error("Something bad happened");
+        }
+        catch (err: any) {
+          error = (err as Error);
+        }
+        // act
+        const parameters = subject.getTelemetryParameters(error);
+        // assert
+        expect(parameters.payload.errorMessage).to.eq("Something bad happened");
+        expect(parameters.payload.errorStack).to.not.be.undefined;
+      });
+
+      it('Should populate telemetry payload with error (untyped)', () => {
+        // arrange
+        const error = { message: "Something bad happened", code: 500 };
+        // act
+        const parameters = subject.getTelemetryParameters(error);
+        // assert
+        expect(parameters.payload.errorMessage).to.eq(JSON.stringify(error));
+        expect(parameters.payload.errorStack).to.be.undefined;
+      });
+    });
+  });
+
   context('StatusFilterParameters', () => {
 
     it('Should use defaults if no inputs are provided', () => {
       // arrange
       // act
-      require(tp);
       var parameters = TaskParameters.getStatusFilterParameters();
 
       // assert
@@ -505,7 +587,6 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
       var parameters = TaskParameters.getStatusFilterParameters();
 
       // assert
@@ -518,7 +599,6 @@ describe('TaskParameters', () => {
       util.loadData();
 
       // act
-      require(tp);
       var parameters = TaskParameters.getStatusFilterParameters();
 
       // assert

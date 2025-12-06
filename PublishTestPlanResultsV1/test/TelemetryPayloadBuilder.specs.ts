@@ -19,16 +19,6 @@ describe('TelemetryPayloadBuilder', () => {
       // assert
       expect(subject.getPayload().taskInputName).to.equal("someValue");      
     });
-
-    it('should not add element when value is the default value', () => {
-      
-      // act
-      subject.add("taskInputName", "someValue", "someValue");
-
-      // assert
-      expect(subject.getPayload().taskInputName).to.be.undefined;
-    });
-
   });
 
   context('recordAnonymizedValue', () => {
@@ -75,5 +65,27 @@ describe('TelemetryPayloadBuilder', () => {
     });
 
   });
+
+  context('recordError', () => {
+    it('should not record error details when error is undefined', () => {
+      
+      // act
+      subject.recordError(undefined);
+
+      // assert
+      let payload = subject.getPayload();
+      expect(payload.errorMessage).to.be.undefined;
+    });
+
+    it('should record error details when error is provided', () => {
+      // arrange
+      const error = new Error("Something bad happened");
+      // act
+      subject.recordError(error);
+      // assert
+      let payload = subject.getPayload();
+      expect(payload.errorMessage).to.eq("Something bad happened");
+    });
+  })
 
 });

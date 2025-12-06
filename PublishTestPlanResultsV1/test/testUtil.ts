@@ -3,6 +3,7 @@ import * as assert from 'assert'
 import { ShallowReference, TestPlan, TestConfiguration, WorkItemReference, SuiteTestCase } from 'azure-devops-node-api/interfaces/TestInterfaces';
 import { TestPoint2 } from '../services/AdoWrapper';
 import { TestFrameworkResult } from '../framework/TestFrameworkResult';
+import FeatureFlags from '../services/FeatureFlags';
 
 export function setSystemVariable(name: string, val: string) {
   let key: string = im._getVariableKey(name);
@@ -21,6 +22,7 @@ export function setInput(name: string, val: string) {
 
 export function loadData() {
   im._loadData();
+  FeatureFlags.reload();
 }
 
 export function clearData() {

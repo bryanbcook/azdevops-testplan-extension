@@ -8,6 +8,8 @@ import { TestRunPublisherParameters } from './publishing/TestRunPublisherParamet
 import { TaskParameterHelper } from './services/TaskParameterHelper';
 import { TelemetryPayloadBuilder } from './services/TelemetryPayloadBuilder';
 import { StatusFilterParameters } from './services/StatusFilterParameters';
+import { TelemetryPublisherParameters } from './telemetry/TelemetryPublisherParameters';
+import FeatureFlags, { FeatureFlag } from './services/FeatureFlags';
 
 class TaskParameters {
 
@@ -111,6 +113,18 @@ class TaskParameters {
     parameters.failTaskOnSkippedTests = getBoolInput("failTaskOnSkippedTests", /*default*/ false);
 
     return parameters;
+  }
+
+  /* Fetch the telemetry payload for this task execution */
+  getTelemetryParameters(err?: any) : TelemetryPublisherParameters {
+    let withErrorOrWithoutError = err !== undefined && err !== null ? "with error" : "without error";
+    tl.debug(`reading TelemetryPublisherParameters from task inputs ${withErrorOrWithoutError}.`);
+
+    const result = new TelemetryPublisherParameters();
+    result.displayTelemetryPayload = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetry);
+    result.displayTelemetryErrors = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetryErrors);
+    result.payload = this.tph.getPayload(err); // todo: specify privacy level
+    return result;
   }
 }
 

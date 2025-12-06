@@ -1,3 +1,8 @@
+export class FeatureFlag {
+  static DisplayTelemetry : string = "displaytelemetry";
+  static DisplayTelemetryErrors : string = "displaytelemetryerrors";
+}
+
 export class FeatureFlags {
   flags: Map<string,boolean>;
 
@@ -13,6 +18,11 @@ export class FeatureFlags {
     return Array.from(this.flags.keys());
   }
 
+  // for testing
+  reload() {
+    this.flags = this.#getFeatureFlags();
+  }
+
   #getFeatureFlags() : Map<string,boolean> {
     const prefix = "PUBLISHTESTPLANRESULTS_";
     let featureFlags = new Map<string,boolean>();
@@ -26,3 +36,5 @@ export class FeatureFlags {
     return featureFlags;
   }
 }
+
+export default new FeatureFlags();
