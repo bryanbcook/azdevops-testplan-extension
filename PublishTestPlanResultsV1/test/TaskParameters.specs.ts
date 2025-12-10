@@ -28,51 +28,272 @@ describe('TaskParameters', () => {
 
   context('TestResultContextParameters', () => {
 
-    it('Should use user-supplied values if provided', () => {
-      // arrange
-      util.setInput("collectionUri", "https://my");
-      util.setInput("projectName", "myProject");
-      util.setInput("accessToken", "myToken")
-      util.loadData();
+    context('user supplied values', () => {
+      it('Should use custom url, project or access token if provided', () => {
+        // arrange
+        util.setInput("collectionUri", "https://my");
+        util.setInput("projectName", "myProject");
+        util.setInput("accessToken", "myToken")
+        util.loadData();
 
-      // act
-      var parameters = subject.getTestContextParameters();
+        // act
+        var parameters = subject.getTestContextParameters();
 
-      // assert
-      expect(parameters.collectionUri).to.eq("https://my");
-      expect(parameters.accessToken).to.eq("myToken");
-      expect(parameters.projectName).to.eq("myProject");
+        // assert
+        expect(parameters.collectionUri).to.eq("https://my");
+        expect(parameters.accessToken).to.eq("myToken");
+        expect(parameters.projectName).to.eq("myProject");
+      });
+
+      it('Should record that custom url, project or access token were provided in telemetry', () => {
+        // arrange
+        util.setInput("collectionUri", "https://my");
+        util.setInput("projectName", "myProject");
+        util.setInput("accessToken", "myToken")
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.accessToken_custom).to.be.true;
+        expect(telemetry.collectionUri_custom).to.be.true;
+        expect(telemetry.projectName_custom).to.be.true;
+
+        expect(telemetry.collectionUri).to.not.be.undefined;
+        expect(telemetry.projectName).to.not.be.undefined;
+      });
+
+      it('Should anonymize url + project name in telemetry', () => {
+        // arrange
+        util.setInput("collectionUri", "https://my");
+        util.setInput("projectName", "myProject");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.collectionUri).to.not.equal(parameters.collectionUri)
+        expect(telemetry.projectName).to.not.equal(parameters.projectName);
+      });
+
+      it('Should not include access token value in telemetry', () => {
+        // arrange
+        util.setInput("collectionUri", "https://my");
+        util.setInput("projectName", "myProject");
+        util.setInput("accessToken", "myToken")
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.accesstoken).to.be.undefined;
+      });
+
+      it('Should resolve testPlan if provided', () => {
+        // arrange
+        util.setInput("testPlan", "My Test Plan");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        expect(parameters.testPlan).to.eq("My Test Plan");
+      })
+
+      it('Should only include that custom testPlan value was provided in telemetry', () => {
+        // arrange
+        util.setInput("testPlan", "My Test Plan");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testPlan).to.be.undefined;
+        expect(telemetry.testPlan_custom).to.be.true;
+      });
+
+      it('Should resolve config filter if provided', () => {
+        // arrange
+        util.setInput("testConfigFilter", "chrome");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        expect(parameters.testConfigFilter).to.eq("chrome");
+      });
+
+      it('Should only include that custom config filter was provided in telemetry', () => {
+        // arrange
+        util.setInput("testConfigFilter", "chrome");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testConfigFilter).to.be.undefined;
+        expect(telemetry.testConfigFilter_custom).to.be.true;
+      });
+
+      it('Should resolve config aliases', () => {
+        // arrange
+        util.setInput("testConfigAliases", 'ie="Internet Explorer", chrome="Chrome"' + ", lnx='Ubuntu 22.04'");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        expect(parameters.testConfigAliases.length).to.eq(3);
+        expect(parameters.testConfigAliases[0].alias).to.eq("ie");
+        expect(parameters.testConfigAliases[0].config).to.eq("Internet Explorer");
+        expect(parameters.testConfigAliases[1].alias).to.eq("chrome")
+        expect(parameters.testConfigAliases[1].config).to.eq("Chrome")
+        expect(parameters.testConfigAliases[2].alias).to.eq("lnx")
+        expect(parameters.testConfigAliases[2].config).to.eq("Ubuntu 22.04")
+      });
+
+      it('Should only indicate that custom config aliases were provided in telemetry', () => {
+        // arrange
+        util.setInput("testConfigAliases", 'ie="Internet Explorer", chrome="Chrome"');
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testConfigAliases).to.be.undefined;
+        expect(telemetry.testConfigAliases_custom).to.be.true;
+      });
     });
 
-    it('Should resolve default taskParameters', () => {
-      // arrange
-      util.loadData();
+    context('default values', () => {
+      it('Should resolve default taskParameters for url, project and access token', () => {
+        // arrange
+        util.loadData();
 
-      // act
-      var parameters = subject.getTestContextParameters();
+        // act
+        var parameters = subject.getTestContextParameters();
 
-      // assert
-      expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI);
-      expect(parameters.accessToken).to.eq(accessToken);
-      expect(parameters.projectName).to.eq(process.env.TEAMPROJECT);
+        // assert
+        expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI);
+        expect(parameters.accessToken).to.eq(accessToken);
+        expect(parameters.projectName).to.eq(process.env.TEAMPROJECT);
+      });
+
+      it('Should anonymize url + project name in telemetry', () => {
+        // arrange
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.collectionUri).to.not.equal(parameters.collectionUri)
+        expect(telemetry.projectName).to.not.equal(parameters.projectName);
+      });
+
+      it('Should not include access token value in telemetry', () => {
+        // arrange
+        util.loadData();
+
+        // act
+        subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.accessToken).to.be.undefined;
+      });
+
+      it('Should treat empty testPlan as undefined', () => {
+        // arrange
+        util.loadData();
+        // act
+        var parameters = subject.getTestContextParameters();
+        // assert
+        expect(parameters.testPlan).to.be.undefined;
+      });
+
+      it('Should not include details about testPlan in telemetry when not provided', () => {
+        // arrange
+        util.loadData();
+        // act
+        subject.getTestContextParameters();
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testPlan).to.be.undefined;
+        expect(telemetry.testPlan_custom).to.be.undefined;
+      });
+
+      it('Should not include test config filter in telemetry when not provided', () => {
+        // arrange
+        util.loadData();
+
+        // act
+        subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testConfigFilter).to.be.undefined;
+        expect(telemetry.testConfigFilter_custom).to.be.undefined;
+      });
+
+      it('Should not include details about testConfigAliases in telemetry when not provided', () => {
+        // arrange
+        util.loadData();
+        // act
+        subject.getTestContextParameters();
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testConfigAliases).to.be.undefined;
+        expect(telemetry.testConfigAliases_custom).to.be.undefined;
+      });
     });
 
-    it('Should resolve config aliases', () => {
+    it('Should record begin and end of context stage in telemetry', () => {
       // arrange
-      util.setInput("testConfigAliases", 'ie="Internet Explorer", chrome="Chrome"' + ", lnx='Ubuntu 22.04'");
+      // mock out the tph to spy on recordStage
+      //const tphRecordStage = subject.tph.recordStage;
+      let recordedStages: string[] = [];
+      subject.tph.recordStage = (stage: string) => {
+        recordedStages.push(stage);
+        //tphRecordStage.call(subject.tph, stage);
+      };
       util.loadData();
 
       // act
-      var parameters = subject.getTestContextParameters();
+      subject.getTestContextParameters();
 
       // assert
-      expect(parameters.testConfigAliases.length).to.eq(3);
-      expect(parameters.testConfigAliases[0].alias).to.eq("ie");
-      expect(parameters.testConfigAliases[0].config).to.eq("Internet Explorer");
-      expect(parameters.testConfigAliases[1].alias).to.eq("chrome")
-      expect(parameters.testConfigAliases[1].config).to.eq("Chrome")
-      expect(parameters.testConfigAliases[2].alias).to.eq("lnx")
-      expect(parameters.testConfigAliases[2].config).to.eq("Ubuntu 22.04")
+      expect(recordedStages.length).to.eq(2);
+      expect(recordedStages[0]).to.eq("getTestContextParameters");
+      expect(recordedStages[1]).to.eq("createContext");
+    })
+
+    it('Should record that context stage was reached in telemetry', () => {
+      // arrange
+      util.loadData();
+
+      // act
+      subject.getTestContextParameters();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.taskStage).to.eq("createContext");
     });
   });
 
