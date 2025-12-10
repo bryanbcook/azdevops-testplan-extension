@@ -11,6 +11,7 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
+    "applicationinsights": "^2.3.6",
     "azure-devops-node-api": "^12.5.0",
     "azure-pipelines-task-lib": "^4.17.3",
     "test-results-parser": "0.3.0"

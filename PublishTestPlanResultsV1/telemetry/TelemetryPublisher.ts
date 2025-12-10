@@ -1,20 +1,28 @@
 import { TelemetryPublisherParameters } from "./TelemetryPublisherParameters";
 import { getLogger, ILogger } from '../services/Logger';
+import * as appInsights from 'applicationinsights';
+
+const connectionString = '<<APPINSIGHTS_CONNECTIONSTRING>>';
 
 export class TelemetryPublisher {
   logger: ILogger;
+  client: appInsights.TelemetryClient;
 
   static getInstance() : TelemetryPublisher {
-    return new TelemetryPublisher(getLogger());
+    appInsights.setup(connectionString).start();
+    const client = appInsights.defaultClient;
+    return new TelemetryPublisher(getLogger(), client);
   }
 
-  constructor(logger: ILogger) {
+  constructor(logger: ILogger, client: appInsights.TelemetryClient) {
     this.logger = logger || getLogger();
+    this.client = client;
   }
 
   async publish(parameters: TelemetryPublisherParameters) : Promise<void> {
     try {
       this.#displayTelemetry(parameters);
+      this.#publishEvent(parameters);
     }
     catch (err) {
       // swallow telemetry errors
@@ -29,6 +37,13 @@ export class TelemetryPublisher {
       this.logger.info(JSON.stringify(parameters.payload, null, 2));
     }
   }
+  
+  #publishEvent(parameters: TelemetryPublisherParameters) {
+    if (parameters.publishTelemetry) {
+      this.client.trackEvent({ name: "PublishTestPlanResults", properties: parameters.payload });
+    }    
+  }
+
   #dumpError(err: any, enabled: boolean | undefined) {
     // only show telemtry errors when feature flag is enabled
     if (enabled) {
