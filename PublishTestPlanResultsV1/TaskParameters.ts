@@ -123,6 +123,7 @@ class TaskParameters {
     const result = new TelemetryPublisherParameters();
     result.displayTelemetryPayload = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetry);
     result.displayTelemetryErrors = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetryErrors);
+    result.publishTelemetry = FeatureFlags.isFeatureEnabled(FeatureFlag.PublishTelemetry);
 
     result.payload = this.tph.getPayload(err); // todo: specify privacy level
     result.payload["flags"] = FeatureFlags.getFlags();

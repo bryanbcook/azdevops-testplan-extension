@@ -723,6 +723,30 @@ describe('TaskParameters', () => {
       expect(parameters.payload.flags).to.have.lengthOf(2);
     });
 
+    context(`FeatureFlag: ${FeatureFlag.PublishTelemetry}`, () =>  {
+
+      it(`should populate ${FeatureFlag.PublishTelemetry} from FeatureFlag`, () => {
+        // arrange
+        util.setFeatureFlag(FeatureFlag.PublishTelemetry, "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTelemetryParameters();
+
+        // assert
+        expect(parameters.publishTelemetry).to.be.true;
+      });
+
+      it(`should default ${FeatureFlag.PublishTelemetry} to false`, () => {
+        // arrange
+        util.loadData();
+        // act
+        var parameters = subject.getTelemetryParameters();
+        // assert
+        expect(parameters.publishTelemetry).to.be.false;
+      });
+    });
+
     context(`FeatureFlag: ${FeatureFlag.DisplayTelemetry}`, () =>  {
 
       it(`should populate ${FeatureFlag.DisplayTelemetry} from FeatureFlag`, () => {
