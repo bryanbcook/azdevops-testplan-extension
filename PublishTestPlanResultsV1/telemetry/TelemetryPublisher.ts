@@ -5,6 +5,7 @@ import * as appInsights from 'applicationinsights';
 const connectionString = '<<APPINSIGHTS_CONNECTIONSTRING>>';
 
 export class TelemetryPublisher {
+
   logger: ILogger;
   client: appInsights.TelemetryClient;
 
@@ -30,6 +31,10 @@ export class TelemetryPublisher {
     }
   }
 
+  dispose() {
+    appInsights.dispose();
+  }
+
   #displayTelemetry(parameters: TelemetryPublisherParameters) {
     if (parameters.displayTelemetryPayload) {
       // dump telemetry payload to console for debugging
@@ -37,10 +42,11 @@ export class TelemetryPublisher {
       this.logger.info(JSON.stringify(parameters.payload, null, 2));
     }
   }
-  
+
   #publishEvent(parameters: TelemetryPublisherParameters) {
     if (parameters.publishTelemetry) {
       this.client.trackEvent({ name: "PublishTestPlanResults", properties: parameters.payload });
+      this.client.flush();
     }    
   }
 
