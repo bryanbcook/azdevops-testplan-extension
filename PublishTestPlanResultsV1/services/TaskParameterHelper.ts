@@ -17,9 +17,10 @@ export class TaskParameterHelper {
   /* Fetches an input parameter, falling back to a default value if not specified.
     param name: The name of the input parameter
     param fallback: A function that returns the default value to use if the input is not specified
-    param recordNonDefault: Whether to record in telemetry that a non-default value was used
-    param recordValue: Whether to record the value in telemetry
-    param anonymize: Whether to anonymize the value when recording in telemetry
+    param TaskTelemetryOptions: Options for telemetry recording
+      - recordNonDefault: Whether to record in telemetry that a non-default value was used
+      - recordValue: Whether to record the value in telemetry
+      - anonymize: Whether to anonymize the value when recording in telemetry
     returns: The input parameter value, or the default value if not specified
   */
   getInputOrFallback(name: string, fallback: () => string | undefined, options: TaskTelemetryOptions = {}) : string {
@@ -38,6 +39,58 @@ export class TaskParameterHelper {
       }
     }
     return value!;
+  }
+
+  /* Fetches an input parameter that does not have a fallback value.
+    param name: The name of the input parameter
+    param required: Whether the input parameter is required
+    param TaskTelemetryOptions: Options for telemetry recording
+      - recordNonDefault: Whether to record in telemetry that a non-default value was used
+      - recordValue: Whether to record the value in telemetry
+    returns: The input parameter value, or undefined if not specified
+  */
+  getInput(name: string, required: boolean, options: TaskTelemetryOptions = {}) : string | undefined {
+    let value = tl.getInput(name, required);
+    
+    if (value !== undefined) {
+      // optional: record value if not undefined
+      if (options.recordValue) {
+        this.payloadBuilder.add(name, value);
+      }
+      // optional: record that custom value was provided
+      if (options.recordNonDefault) {
+        this.payloadBuilder.recordNonDefaultValue(name);
+      }
+    }
+    
+    return value;
+  }
+
+  /* Fetches a delimited input parameter as an array of strings.
+    param name: The name of the input parameter
+    param TaskTelemetryOptions: Options for telemetry recording
+      - recordNonDefault: Whether to record in telemetry that a non-default value was used
+      - recordValue: Whether to record the value in telemetry
+    returns: The input parameter value as an array of strings
+  */
+  getDelimitedInput(name: string, options: TaskTelemetryOptions = {}) : string[] {
+    let values = tl.getDelimitedInput(name, ",", false);
+    if (values.length > 0) {
+      // optional: record value if not undefined
+      if (options.recordValue) {
+        this.payloadBuilder.add(name, values.join(","));
+      }
+      // optional: record that custom value was provided
+      if (options.recordNonDefault) {
+        this.payloadBuilder.recordNonDefaultValue(name);
+      }
+    }
+    return values;
+  }
+
+  /* record the current stage of the task */
+  recordStage(stage: string) {
+    this.payloadBuilder.add("taskStage", stage);
   }
 
   /* Expose the telemetry payload */

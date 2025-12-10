@@ -120,4 +120,150 @@ describe('TaskParameterHelper', () => {
     })
   });
 
+  context('getInput', () => {
+
+    it('should return input value when specified', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "userValue");
+      testUtil.loadData();
+
+      // act
+      let result = subject.getInput("taskInputName", false);
+
+      // assert
+      expect(result).to.equal("userValue");
+    });
+
+    it('should return undefined when input is not specified', () => {
+      // arrange
+      testUtil.clearData();
+      testUtil.loadData();
+
+      // act
+      let result = subject.getInput("taskInputName", false);
+
+      // assert
+      expect(result).to.be.undefined;
+    });
+
+    it('should record user value if specified in options', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "userValue");
+      testUtil.loadData();
+
+      // act
+      let result = subject.getInput("taskInputName", false, { recordValue: true });
+
+      // assert
+      expect(payloadBuilder.getPayload().taskInputName).to.equal("userValue");
+      expect(payloadBuilder.getPayload().taskInputName_custom).to.be.undefined;
+    });
+
+    it('should not record user value if not specified', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "userValue");
+      testUtil.loadData();
+
+      // act
+      let result = subject.getInput("taskInputName", false);
+
+      // assert
+      expect(payloadBuilder.getPayload().taskInputName).to.be.undefined;
+      expect(payloadBuilder.getPayload().taskInputName_custom).to.be.undefined;
+    });
+
+    it('should record that custom user value was provided if specified in options', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "userValue");
+      testUtil.loadData();
+
+      // act
+      let result = subject.getInput("taskInputName", false, { recordNonDefault: true });
+
+      // assert
+      expect(payloadBuilder.getPayload().taskInputName_custom).to.be.true;
+      expect(payloadBuilder.getPayload().taskInputName).to.be.undefined;
+    });
+
+  });
+
+  context('getDelimitedInput', () => {
+    it('should return array of input values when specified', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "value1,value2,value3");
+      testUtil.loadData();
+
+      // act
+      let result = subject.getDelimitedInput("taskInputName");
+
+      // assert
+      expect(result).to.deep.equal(["value1", "value2", "value3"]);
+    });
+
+    it('should return empty array when input is not specified', () => {
+      // arrange
+      testUtil.clearData();
+      testUtil.loadData();
+
+      // act
+      let result = subject.getDelimitedInput("taskInputName");
+
+      // assert
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should record value in telemetry when recordValue is true', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "value1,value2,value3");
+      testUtil.loadData();
+      // act
+      let result = subject.getDelimitedInput("taskInputName", { recordValue: true });
+
+      // assert
+      const payload = subject.getPayload();
+      expect(payload.taskInputName).to.eq("value1,value2,value3");
+      expect(payload.taskInputName_custom).to.be.undefined;
+    });
+
+    it('should record that custom value was provided when recordNonDefault is true', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "value1,value2,value3");
+      testUtil.loadData();
+
+      // act
+      let result = subject.getDelimitedInput("taskInputName", { recordNonDefault: true });
+
+      // assert
+      const payload = subject.getPayload();
+      expect(payload.taskInputName).to.be.undefined;
+      expect(payload.taskInputName_custom).to.be.true;
+    });
+  });
+
+  context('recordStage', () => {
+    it('should record the current task stage', () => {
+      // arrange
+      testUtil.loadData();
+
+      // act
+      subject.recordStage("createContext");
+
+      // assert
+      let telemetry = subject.getPayload();
+      expect(telemetry.taskStage).to.eq("createContext");
+    });
+
+    it('should overwrite the task stage when recorded multiple times', () => {
+      // arrange
+      testUtil.loadData();
+      // act
+      subject.recordStage("stage1");
+      subject.recordStage("stage2");
+      // assert
+      let telemetry = subject.getPayload();
+      expect(telemetry.taskStage).to.eq("stage2");
+    });
+
+  });
+
 });
