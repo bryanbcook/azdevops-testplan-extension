@@ -45,6 +45,15 @@ jobs:
       command: install
       workingDir: $(workingDir)
 
+  - pwsh: |
+      $filePath = "$(workingDir)/telemetry/TelemetryPublisher.ts"
+      $content = Get-Content $filePath -Raw
+      $content = $content -replace '<<APPINSIGHTS_CONNECTIONSTRING>>', $env:APPINSIGHTS_CONNECTIONSTRING
+      Set-Content $filePath $content
+    displayName: 'Embed secrets'
+    env:
+      APPINSIGHTS_CONNECTIONSTRING: $(AppInsightsConnectionString)
+
   # tsc
   - task: Npm@1
     displayName: "Compile"
