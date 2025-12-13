@@ -13,10 +13,15 @@ import FeatureFlags, { FeatureFlag } from './services/FeatureFlags';
 
 class TaskParameters {
 
+  // dependencies
   tph: TaskParameterHelper
+
+  // cached parameters
   accessToken?: string;
   collectionUri?: string;
   projectName?: string;
+
+  testFiles: string[] = [];
 
   constructor(tph: TaskParameterHelper) {
     this.tph = tph;
@@ -52,14 +57,17 @@ class TaskParameters {
   /* Fetch the parameters used to parse through automated test results */
   getFrameworkParameters(): TestFrameworkParameters {
     tl.debug("reading TestFrameworkParameters from task inputs.");
+    this.tph.recordStage("getFrameworkParameters");  
 
-  let testResultFormat = tl.getInput("testResultFormat", true);
-  let failTaskOnMissingResultsFile = getBoolInput("failTaskOnMissingResultsFile", /*default*/ true);
-  let failTaskOnMissingTests = getBoolInput("failTaskOnMissingTests", /*default*/ false);
-  let testResultFiles = getTestFiles(failTaskOnMissingResultsFile);
-
-  return new TestFrameworkParameters(testResultFiles, testResultFormat!.toLowerCase(), failTaskOnMissingResultsFile, failTaskOnMissingTests);
-}
+    let testResultFormat = this.tph.getInput("testResultFormat", true, { recordValue: true});
+    let failTaskOnMissingResultsFile = this.tph.getBoolInput("failTaskOnMissingResultsFile", /*default*/ true, { recordValue: true, recordNonDefault: true});
+    let failTaskOnMissingTests = this.tph.getBoolInput("failTaskOnMissingTests", /*default*/ false, { recordValue: true, recordNonDefault: true});
+    this.testFiles = this.#getTestFiles(failTaskOnMissingResultsFile);
+    
+    const parameters = new TestFrameworkParameters(this.testFiles, testResultFormat!.toLowerCase(), failTaskOnMissingResultsFile, failTaskOnMissingTests);
+    this.tph.recordStage("readFrameworkResults");
+    return parameters;
+  }
 
   /* Fetch the parameters used to process test results and match them to test cases */
   getProcessorParameters() : TestResultProcessorParameters {
@@ -86,9 +94,8 @@ class TaskParameters {
     const releaseEnvironmentUri = tl.getVariable("RELEASE_ENVIRONMENTURI"); // only in release pipelines
     const dryRun = tl.getBoolInput("dryRun", false);
     const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
-    let verifyFiles = getBoolInput("failTaskOnMissingResultsFile", /*default*/ true);
     let failTaskOnUnmatchedTestCases = getBoolInput("failTaskOnUnmatchedTestCases", /*default*/ true);
-    const testFiles = getTestFiles(verifyFiles).filter(file => file.indexOf('**') == -1);  
+    const testFiles = this.testFiles.filter(file => file.indexOf('**') == -1);  
     let result = new TestRunPublisherParameters(
         this.collectionUri!, 
         this.accessToken!, 
@@ -137,49 +144,58 @@ class TaskParameters {
       this.collectionUri = this.tph.getInputOrFallback("collectionUri", () => tl.getVariable("SYSTEM_COLLECTIONURI"), { recordNonDefault: true, anonymize: true });
     }
   }
+
+  #getTestFiles(verifyFiles: boolean) : string[] {
+    var wildCardUsed : boolean | undefined = undefined;
+
+
+    // Resolve the user specified testResultDirectory.
+    // If not specified, default to SYSTEM_DEFAULTWORKINGDIRECTORY.
+    // - For Build Pipelines: "C:\agent\work\1\s" equivalent to "$(Build.SourcesDirectory)"
+    // - For Release Pipelines: "C:\agent\work\r1\a" equivalent to "$(System.ArtifactsDirectory)"
+    let testResultFolder = this.tph.getInputOrFallback("testResultDirectory", () => tl.getVariable("SYSTEM_DEFAULTWORKINGDIRECTORY")!, { recordNonDefault: true });
+
+    let testResultFiles = tl.getDelimitedInput("testResultFiles", ",", true)
+      .map(file => {
+        // merge relative paths with the testresult folder
+        if (!path.isAbsolute(file)) {
+          tl.debug(`joining relative path '${file}' with testResultDirectory '${testResultFolder}'`);
+          return path.join(testResultFolder, file);
+        }
+        return file;
+      })
+      .filter(file => {
+        // if it's not a wildcard, verify that the file exists
+        if (file.indexOf('**') == -1) {
+          // either filter out missing files, or fail the task based on user-preference
+          if (verifyFiles) { 
+            // fail if the file does not exist
+            tl.checkPath(file, "testResultFile(s)");
+          } else {
+            // task supports missing files, so filter out missing files
+            return tl.exist(file);
+          }
+        }
+        else {
+          wildCardUsed = true;
+        }
+        return true;
+      });
+
+    // update telemetry
+    if (wildCardUsed) {
+      this.tph.payloadBuilder.add("testResultFilesWildcard", true);
+    }
+    if (testResultFiles.length > 0) {
+      this.tph.payloadBuilder.add("numTestFiles", testResultFiles.length);
+    }
+
+    return testResultFiles;
+  }
 }
 
 export default TaskParameters.getInstance();
 export { TaskParameters };
-
-function getTestFiles(verifyFiles: boolean) : string[] {
-  
-  let testResultFolder = tl.getInput("testResultDirectory", false);
-  if (testResultFolder == undefined) {    
-    // System.DefaultWorkingDirectory:
-    // - build pipelines: "C:\agent\work\1\s" equivalent to "$(Build.SourcesDirectory)"
-    // - release pipelines: "C:\agent\work\r1\a" equivalent to "$(System.ArtifactsDirectory)"
-    testResultFolder = tl.getVariable("SYSTEM_DEFAULTWORKINGDIRECTORY") as string;
-
-    tl.debug(`testResultDirectory was not specified. Using default working directory: ${testResultFolder}`);
-  }
-
-  let testResultFiles = tl.getDelimitedInput("testResultFiles", ",", true)
-    .map(file => {
-      // merge relative paths with the testresult folder
-      if (!path.isAbsolute(file)) {
-        tl.debug(`joining relative path '${file}' with testResultDirectory '${testResultFolder}'`);
-        return path.join(testResultFolder, file);
-      }
-      return file;
-    })
-    .filter(file => {
-      // if it's not a wildcard, verify that the file exists
-      if (file.indexOf('**') == -1) {
-        // either filter out missing files, or fail the task based on user-preference
-        if (verifyFiles) { 
-          // fail if the file does not exist
-          tl.checkPath(file, "testResultFile(s)");
-        } else {
-          // task supports missing files, so filter out missing files
-          return tl.exist(file);
-        }
-      }
-      return true;
-    });
-
-  return testResultFiles;
-}
 
 function getBoolInput(name: string, defaultValue: boolean) : boolean {
   let input = tl.getInput(name, false);

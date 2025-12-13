@@ -301,12 +301,17 @@ describe('TaskParameters', () => {
 
     var validFiles : string[] = [];
     var invalidFiles : string[] = [];
+    var relativeFiles : string[] = [];
     var emptyResults : string
+    var basePath : string;
 
     before(() => {
-      var basePath = path.join(__dirname, "data");
+      basePath = path.join(__dirname, "data");
       validFiles.push( path.join( basePath, "xunit","xunit-1.xml") );
       validFiles.push( path.join( basePath, "xunit","xunit-2.xml") );
+
+      relativeFiles.push( path.join("xunit", "xunit-1.xml") );
+      relativeFiles.push( path.join("xunit", "xunit-2.xml") );
 
       invalidFiles.push( path.join("xunit", "invalidFile1.xml") );
 
@@ -315,174 +320,374 @@ describe('TaskParameters', () => {
 
     beforeEach(() => {
       util.setSystemVariable("System.DefaultWorkingDirectory", __dirname);
+    });
+
+    context('ensure required inputs are provided', () => {
+
+      it('Should require testResultFormat to be provided', () => {
+        // arrange
+        // leave testResultFormat empty
+        util.setInput("testResultFiles", validFiles[0] );
+        util.loadData();
+
+        // act / assert
+        util.shouldThrow( () => subject.getFrameworkParameters(), "Input required: testResultFormat");
+      });
+
+      it('Should require testResultFiles to be provided', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");
+        util.loadData();
+
+        // act / assert
+        util.shouldThrow( () => subject.getFrameworkParameters(), "Input required: testResultFiles");
+      });
+
+    });
+
+    context('get test files', () => {
+
+      it('Should verify that absolute result files are valid', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", validFiles[0]);
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        expect(parameters.testFormat).to.eq("xunit");
+        expect(parameters.testFiles[0]).to.eq(validFiles[0]);
+      });
+
+      it('Should allow absolute files to be missing when failTaskOnMissingResultsFile is false', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", "not-a-valid-file.xml");
+        util.setInput("failTaskOnMissingResultsFile", "false");
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        expect(parameters.testFiles.length).to.eq(0);
+      });
+
+      it('Should resolve relative paths to working directory', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");
+        util.setInput("testResultDirectory", path.join(__dirname)); // assume user supplied $(Pipeline.Workspace)/folder
+        util.setInput("testResultFiles", "data/xunit/xunit-1.xml");
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        expect(parameters.testFiles[0]).to.eq(validFiles[0]);
+      })
+
+      it('Should use default working directory as base results folder when relative path is provided', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");
+        util.setInput("testResultFiles", "data/xunit/xunit-1.xml");
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        expect(parameters.testFiles[0]).to.eq(validFiles[0]);
+      })
+
+      it('Should complain if testResultFiles refers to invalid file', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", invalidFiles[0]);
+        util.loadData();
+        var messageRegex = new RegExp(`Not found testResultFile\\(s\\): .+invalidFile1.xml`);
+
+        // act / assert
+        //require(tp);
+        util.shouldThrow( () => subject.getFrameworkParameters(), messageRegex);
+      });
+
+      it('Should allow glob paths to be specified', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");
+        util.setInput("testResultDirectory", path.join(__dirname)); // assume user supplied $(Pipeline.Workspace)/folder
+        util.setInput("testResultFiles","data/xunit/**.xml");
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        expect(parameters.testFormat).to.eq("xunit");
+        expect(parameters.testFiles.length).to.eq(1);
+        // future: make sure that the glob pattern was resolved
+        //expect(parameters.testFiles[0].indexOf("*")).to.eq(-1);
+      });
+
+      it('Should allow multiple test result files to be specified', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", validFiles.join(","));
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        expect(parameters.testFormat).to.eq("xunit");
+        expect(parameters.testFiles[0]).to.eq(validFiles[0]);
+        expect(parameters.testFiles[1]).to.eq(validFiles[1]);
+      });
+
+      it('Should record number of test result files in telemetry', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");
+        util.setInput("testResultFiles", validFiles.join(","));
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.numTestFiles).to.eq(2);
+      });
+
+      it('Should indiciate that testResultFiles have wildcards in telemetry', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");
+        util.setInput("testResultFiles", path.join(__dirname, "data","xunit","**.xml"));
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testResultFilesWildcard).to.be.true;
+      });
+    });
+
+    context('user supplied values', () => {
+
+      it('Should complain if testResultFormat is not a supported type.', () => {
+        // arrange
+        util.setInput("testResultFormat","yomamma");
+        util.setInput("testResultFiles", validFiles.join(","));
+        util.loadData();
+
+        // act / assert
+        util.shouldThrow( () => subject.getFrameworkParameters(), /testResultformat 'yomamma' is not supported. Please specify one of the following values: xunit, .*/);
+      });
+
+      it('Should allow mixed case on testResultFormat', () => {
+        // arrange
+        util.setInput("testResultFormat","XuNiT");
+        util.setInput("testResultFiles", validFiles.join(","));
+        util.loadData();
+        
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        expect(parameters.testFormat).to.eq("xunit");
+      });
+
+      it('Should include testResultFormat in telemetry', () => {
+        // arrange
+        util.setInput("testResultFormat","xUnit");
+        util.setInput("testResultFiles", validFiles.join(","));
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testResultFormat).to.eq("xUnit"); // todo: apply transform in telemetry helper to ensure consistent casing?
+      });
+
+      it('Should indicate when user has provided value for testResultsDirectory in telemetry', () => {
+        // arrange
+        util.setInput("testResultDirectory", path.join(__dirname)); // assume user supplied $(Pipeline.Workspace)/folder
+        util.setInput("testResultFormat", "xUnit");
+        util.setInput("testResultFiles", "data/xunit/xunit-1.xml");
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testResultDirectory).to.be.undefined;
+        expect(telemetry.testResultDirectory_custom).to.be.true;
+      })
+
+      it('Should indicate when user has provided value for failTaskOnMissingTests in telemetry', () => {
+        // arrange
+        util.setInput("failTaskOnMissingTests", "true");
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", validFiles.join(','));
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnMissingTests).to.be.true;
+        expect(telemetry.failTaskOnMissingTests_custom).to.be.true;
+      });
+
+      it('Should indicate when user has provided opted-out of failTaskOnMissingTests in telemetry', () => {
+        // arrange
+        util.setInput("failTaskOnMissingTests", "false");
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", validFiles.join(','));
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnMissingTests).to.be.false;
+        expect(telemetry.failTaskOnMissingTests_custom).to.be.true;
+      });
+
+      it('Should indicate when user has provided value for failTaskOnMissingResultsFile in telemetry', () => {
+        // arrange
+        util.setInput("failTaskOnMissingResultsFile", "true");
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", validFiles.join(','));
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnMissingResultsFile).to.be.true;
+        expect(telemetry.failTaskOnMissingResultsFile_custom).to.be.true;
+      });
+
+      it('Should indicate when user has provided opted-out of failTaskOnMissingResultsFile in telemetry', () => {
+        // arrange
+        util.setInput("failTaskOnMissingResultsFile", "false");
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", validFiles.join(','));
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnMissingResultsFile).to.be.false;
+        expect(telemetry.failTaskOnMissingResultsFile_custom).to.be.true;
+      });
+
+    });
+
+    context('default values', () => {
+
+      it('Should default failTaskOnMissingResultFiles to true', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", emptyResults);
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        expect(parameters.failOnMissingResultsFile).to.be.true;
+      });
+
+      it('Should default failTaskOnMissingTests to false', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", emptyResults);
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        expect(parameters.failOnMissingTests).to.be.false;
+      });
+
+      it('Should not record a value for failTaskOnMissingTests in telemetry when default is used', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", emptyResults);
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnMissingTests).to.be.undefined;
+        expect(telemetry.failTaskOnMissingTests_custom).to.be.undefined;
+      });
+
+      it('Should not record a value for failTaskOnMissingResultsFile in telemetry when default is used', () => {
+        // arrange
+        util.setInput("testResultFormat", "xUnit");     
+        util.setInput("testResultFiles", emptyResults);
+        util.loadData();
+
+        // act
+        var parameters = subject.getFrameworkParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnMissingResultsFile).to.be.undefined;
+        expect(telemetry.failTaskOnMissingResultsFile_custom).to.be.undefined;
+      });
+    });
+
+    it('Should record begin and end of framework stage in telemetry', () => {
+      // arrange
+      // mock out the tph to spy on recordStage
+      let recordedStages: string[] = [];
+      subject.tph.recordStage = (stage: string) => {
+        recordedStages.push(stage);
+      };
+      util.setInput("testResultFormat", "xUnit");     
+      util.setInput("testResultFiles", validFiles.join(','));
+      util.loadData();
+
+      // act
+      subject.getFrameworkParameters();
+
+      // assert
+      expect(recordedStages.length).to.eq(2);
+      expect(recordedStages[0]).to.eq("getFrameworkParameters");
+      expect(recordedStages[1]).to.eq("readFrameworkResults");
     })
 
-    it('Should require testResultFormat to be provided', () => {
-      // arrange
-      // leave testResultFormat empty
-      util.setInput("testResultFiles", validFiles[0] );
-      util.loadData();
-
-      // act / assert
-      util.shouldThrow( () => subject.getFrameworkParameters(), "Input required: testResultFormat");
-    });
-
-    it('Should require testResultFiles to be provided', () => {
-      // arrange
-      util.setInput("testResultFormat", "xUnit");
-      util.loadData();
-
-      // act / assert
-      util.shouldThrow( () => subject.getFrameworkParameters(), "Input required: testResultFiles");
-    });
-
-    it('Should verify that absolute result files are valid', () => {
+    it('Should record that framework stage was reached in telemetry', () => {
       // arrange
       util.setInput("testResultFormat", "xUnit");     
-      util.setInput("testResultFiles", validFiles[0]);
+      util.setInput("testResultFiles", validFiles.join(','));
       util.loadData();
 
       // act
-      var parameters = subject.getFrameworkParameters();
+      subject.getFrameworkParameters();
 
       // assert
-      expect(parameters.testFormat).to.eq("xunit");
-      expect(parameters.testFiles[0]).to.eq(validFiles[0]);
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.taskStage).to.eq("readFrameworkResults");
     });
-
-    it('Should allow absolute files to be missing when failTaskOnMissingResultsFile is false', () => {
-      // arrange
-      util.setInput("testResultFormat", "xUnit");     
-      util.setInput("testResultFiles", "not-a-valid-file.xml");
-      util.setInput("failTaskOnMissingResultsFile", "false");
-      util.loadData();
-
-      // act
-      var parameters = subject.getFrameworkParameters();
-
-      // assert
-      expect(parameters.testFiles.length).to.eq(0);
-    });
-
-    it('Should default failTaskOnMissingResultFiles to true', () => {
-      // arrange
-      util.setInput("testResultFormat", "xUnit");     
-      util.setInput("testResultFiles", emptyResults);
-      util.loadData();
-
-      // act
-      var parameters = subject.getFrameworkParameters();
-
-      // assert
-      expect(parameters.failOnMissingResultsFile).to.be.true;
-    });
-
-    it('Should default failTaskOnMissingTests to false', () => {
-      // arrange
-      util.setInput("testResultFormat", "xUnit");     
-      util.setInput("testResultFiles", emptyResults);
-      util.loadData();
-
-      // act
-      var parameters = subject.getFrameworkParameters();
-
-      // assert
-      expect(parameters.failOnMissingTests).to.be.false;
-    })
-
-    it('Should resolve relative paths to working directory', () => {
-      // arrange
-      util.setInput("testResultFormat", "xUnit");
-      util.setInput("testResultDirectory", path.join(__dirname)); // assume user supplied $(Pipeline.Workspace)/folder
-      util.setInput("testResultFiles", "data/xunit/xunit-1.xml");
-      util.loadData();
-
-      // act
-      var parameters = subject.getFrameworkParameters();
-
-      // assert
-      expect(parameters.testFiles[0]).to.eq(validFiles[0]);
-    })
-
-    it('Should use default working directory as base results folder when relative path is provided', () => {
-      // arrange
-      util.setInput("testResultFormat", "xUnit");
-      util.setInput("testResultFiles", "data/xunit/xunit-1.xml");
-      util.loadData();
-
-      // act
-      var parameters = subject.getFrameworkParameters();
-
-      // assert
-      expect(parameters.testFiles[0]).to.eq(validFiles[0]);
-    })
-
-    it('Should complain if testResultFiles refers to invalid file', () => {
-      // arrange
-      util.setInput("testResultFormat", "xUnit");     
-      util.setInput("testResultFiles", invalidFiles[0]);
-      util.loadData();
-      var messageRegex = new RegExp(`Not found testResultFile\\(s\\): .+invalidFile1.xml`);
-
-      // act / assert
-      //require(tp);
-      util.shouldThrow( () => subject.getFrameworkParameters(), messageRegex);
-    });
-
-    it('Should allow glob paths to be specified', () => {
-      // arrange
-      util.setInput("testResultFormat", "xUnit");
-      util.setInput("testResultDirectory", path.join(__dirname)); // assume user supplied $(Pipeline.Workspace)/folder
-      util.setInput("testResultFiles","data/xunit/**.xml");
-      util.loadData();
-
-      // act
-      var parameters = subject.getFrameworkParameters();
-
-      // assert
-      expect(parameters.testFormat).to.eq("xunit");
-      expect(parameters.testFiles.length).to.eq(1);
-      // future: make sure that the glob pattern was resolved
-      //expect(parameters.testFiles[0].indexOf("*")).to.eq(-1);
-    });
-
-    it('Should allow multiple test result files to be specified', () => {
-      // arrange
-      util.setInput("testResultFormat", "xUnit");     
-      util.setInput("testResultFiles", validFiles.join(","));
-      util.loadData();
-
-      // act
-      var parameters = subject.getFrameworkParameters();
-
-      // assert
-      expect(parameters.testFormat).to.eq("xunit");
-      expect(parameters.testFiles[0]).to.eq(validFiles[0]);
-      expect(parameters.testFiles[1]).to.eq(validFiles[1]);
-    });
-
-    it('Should complain if testResultFormat is not a supported type.', () => {
-      // arrange
-      util.setInput("testResultFormat","yomamma");
-      util.setInput("testResultFiles", validFiles.join(","));
-      util.loadData();
-
-      // act / assert
-      util.shouldThrow( () => subject.getFrameworkParameters(), /testResultformat 'yomamma' is not supported. Please specify one of the following values: xunit, .*/);
-    })
-
-    it('Should allow mixed case on testResultFormat', () => {
-      // arrange
-      util.setInput("testResultFormat","XuNiT");
-      util.setInput("testResultFiles", validFiles.join(","));
-      util.loadData();
-      
-      // act
-      var parameters = subject.getFrameworkParameters();
-
-      // assert
-      expect(parameters.testFormat).to.eq("xunit");
-    })
 
   });
 
@@ -576,11 +781,18 @@ describe('TaskParameters', () => {
   });
 
   context('TestRunPublisherParameters', () => {
+
+    beforeEach(() => {
+      // test files are used by the TestRunPubliser to include as attachments
+      // but they are resolved earlier in getTestFrameworkParameters
+      // we can add a static reference here
+      subject.testFiles = [ path.join(__dirname, "data", "xunit", "xunit-1.xml") ];
+    })
+
     it('Should read user-supplied server and accesstoken', () => {
       // arrange
       util.setInput("collectionUri", "https://my");
       util.setInput("accessToken", "myToken")
-      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
       util.loadData();
 
       // act
@@ -593,7 +805,6 @@ describe('TaskParameters', () => {
 
     it('Should resolve default values', () => {
       // arrange
-      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
       util.loadData();
 
       // act
@@ -608,7 +819,6 @@ describe('TaskParameters', () => {
 
     it('Should resolve build id from build pipeline', () => {
       // arrange
-      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
       // BUILD_BUILDID is available in build and classic release pipelines.
       // for release pipelines, if there are multiple build artifacts, the build id is 
       // based on the primary artifact.
@@ -624,7 +834,6 @@ describe('TaskParameters', () => {
 
     it("Should allow testRun publishing to be disabled by enabling 'dryRun'", () => {
       // arrange
-      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
       util.setInput("dryRun", "true");
       util.loadData();
 
@@ -635,19 +844,8 @@ describe('TaskParameters', () => {
       expect(parameters.dryRun).to.be.true;
     })
 
-    it("Should ignore invalid file references when failTaskOnMissingResultsFile is set to false", () => {
-      // arrange
-      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "not-a-file.xml"));
-      util.setInput("failTaskOnMissingResultsFile", "false");
-      util.loadData();
-
-      // act
-      util.shouldNotThrow( () => { subject.getPublisherParameters(); });
-    })
-
     it("Should default failTaskOnUnmatchedTestCases to true", () => {
       // arrange
-      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
       util.loadData();
 
       // act
@@ -659,7 +857,6 @@ describe('TaskParameters', () => {
 
     it("Should resolve values for failTaskOnUnmatchedTestCases", () => {
       // arrange
-      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
       util.setInput("failTaskOnUnmatchedTestCases", "false");
       util.loadData();
 
@@ -672,7 +869,6 @@ describe('TaskParameters', () => {
 
     it("Should resolve empty values for release variables if not present", () => {
       // arrange
-      util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
       util.loadData();
 
       // act
@@ -687,7 +883,6 @@ describe('TaskParameters', () => {
 
       it("Should resolve release uri and environment uri from release pipeline", () => {
         // arrange
-        util.setInput("testResultFiles", path.join(__dirname, "data", "xunit", "xunit-1.xml"));
         util.setSystemVariable("RELEASE_RELEASEURI", "vstfs://ReleaseManagement/Release/1234");
         util.setSystemVariable("RELEASE_ENVIRONMENTURI", "vstfs://ReleaseManagement/Environment/5678");
         util.loadData();
