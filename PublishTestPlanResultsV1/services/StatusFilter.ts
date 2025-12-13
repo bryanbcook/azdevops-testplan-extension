@@ -20,5 +20,7 @@ export function analyzeTestResults(testResults: TestFrameworkResult[], parameter
       throw new Error("Test framework results contain skipped tests.");
     }
   }
+
+  tl.debug("Status filter found no issues.");
 }
 

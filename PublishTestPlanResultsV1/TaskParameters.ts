@@ -117,7 +117,7 @@ class TaskParameters {
   /* Fetch the telemetry payload for this task execution */
   getTelemetryParameters(err?: any) : TelemetryPublisherParameters {
     const hasError = err !== undefined && err !== null;
-    const withErrorOrWithoutError = hasError ? "with error" : "without error";
+    const withErrorOrWithoutError = hasError ? "(error condition)" : "";
     tl.debug(`reading TelemetryPublisherParameters from task inputs ${withErrorOrWithoutError}.`);
 
     const result = new TelemetryPublisherParameters();
