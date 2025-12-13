@@ -68,7 +68,7 @@ describe('TaskParameterHelper', () => {
         expect(payloadBuilder.getPayload().taskInputName_custom).to.be.true;
       });
 
-      it('should not record that fallback value is used and recordNonDefault is true', () => {
+      it('should not record that fallback value was used when recordNonDefault is true', () => {
         // arrange
         testUtil.loadData();
         
@@ -103,6 +103,18 @@ describe('TaskParameterHelper', () => {
         expect(result).to.equal("userValue");
         expect(payloadBuilder.getPayload().taskInputName).to.equal("userValue");
       });
+
+      it('should not record default value if dontRecordDefault is true', () => {
+        // arrange
+        testUtil.loadData();
+
+        // act
+        let result = subject.getInputOrFallback("taskInputName", () => "defaultValue", { recordValue: true, dontRecordDefault: true });
+        
+        // assert
+        expect(result).to.equal("defaultValue");
+        expect(payloadBuilder.getPayload().taskInputName).to.be.undefined;
+      })
     });
 
     context('anonymize', () => {

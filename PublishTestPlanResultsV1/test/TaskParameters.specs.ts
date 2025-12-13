@@ -693,91 +693,215 @@ describe('TaskParameters', () => {
 
   context('TestResultProcessorParameters', () => {
 
-    it('Should use defaults if no inputs are provided', () => {
-      // arrange
-      // act
-      var result = subject.getProcessorParameters();
+    context('default values', () => {
+      it('Should use defaults if no inputs are provided', () => {
+        // arrange
+        // act
+        var result = subject.getProcessorParameters();
 
-      // assert
-      expect(result.testConfigFilter).to.be.undefined;
-      expect(result.testCaseMatchStrategy).to.eq(TestCaseMatchingStrategy.auto); // TODO: Enum
-      expect(result.testCaseProperty).to.be.eq("TestCase");
-      expect(result.testCaseRegEx).to.be.eq("(\\d+)");
-      expect(result.testConfigProperty).eq("Config");
+        // assert
+        expect(result.testConfigFilter).to.be.undefined;
+        expect(result.testCaseMatchStrategy).to.eq(TestCaseMatchingStrategy.auto); // TODO: Enum
+        expect(result.testCaseProperty).to.be.eq("TestCase");
+        expect(result.testCaseRegEx).to.be.eq("(\\d+)");
+        expect(result.testConfigProperty).eq("Config");
+      });
+
+      it('Should should not record values for processor parameters in telemetry when defaults are used', () => {
+        // arrange
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testConfigFilter).to.be.undefined;
+        expect(telemetry.testConfigFilter_custom).to.be.undefined;
+        expect(telemetry.testCaseMatchStrategy).to.be.undefined;
+        expect(telemetry.testCaseMatchStrategy_custom).to.be.undefined;
+        expect(telemetry.testCaseProperty).to.be.undefined;
+        expect(telemetry.testCaseProperty_custom).to.be.undefined;
+        expect(telemetry.testCaseRegEx).to.be.undefined;
+        expect(telemetry.testCaseRegEx_custom).to.be.undefined;
+        expect(telemetry.testConfigProperty).to.be.undefined;
+        expect(telemetry.testConfigProperty_custom).to.be.undefined;
+      });
     });
 
-    it('Should recognize testConfigFilter has been applied', () => {
+    context('user supplied values', () => {
+      it('Should recognize testConfigFilter has been applied', () => {
+        // arrange
+        util.setInput("testConfigFilter", "Default");
+        util.loadData();
+
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        expect(result.testConfigFilter).to.be.eq("Default");
+      });
+
+      it('Should reflect that custom value for testConfigFilter was provided in telemetry', () => {
+        // arrange
+        util.setInput("testConfigFilter", "Default");
+        util.loadData();
+
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testConfigFilter).to.be.undefined; // don't record user's config names
+        expect(telemetry.testConfigFilter_custom).to.be.true;
+      });
+
+      it('Should support custom regex for testcase name', () => {
+        // arrange
+        util.setInput("testCaseRegex", "TestCase(\\d+)");
+        util.loadData();
+
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        expect(result.testCaseRegEx).to.be.eq("TestCase(\\d+)");
+      });
+
+      it('Should record custom regex in telemetry when custom value is provided', () => {
+        // arrange
+        util.setInput("testCaseRegex", "TestCase(\\d+)");
+        util.loadData();
+
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testCaseRegex).to.be.eq("TestCase(\\d+)");
+        expect(telemetry.testCaseRegex_custom).to.be.true;
+      });
+
+      it('Should support custom property for testcase id', () => {
+        // arrange
+        util.setInput("testCaseProperty", "id");
+        util.loadData();
+
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        expect(result.testCaseProperty).to.be.eq("id");
+      });
+
+      it('Should record custom property for testcase id in telemetry when custom value is provided', () => {
+        // arrange
+        util.setInput("testCaseProperty", "id");
+        util.loadData();
+
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testCaseProperty).to.be.eq("id");
+        expect(telemetry.testCaseProperty_custom).to.be.true;
+      });
+
+      it('Should support custom property for config name or alias', () => {
+        // arrange
+        util.setInput("testConfigProperty", "Category");
+        util.loadData();
+
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        expect(result.testConfigProperty).to.be.eq("Category");
+      });
+
+      it('Should record custom config property in telemetry when custom value is provided', () => {
+        // arrange
+        util.setInput("testConfigProperty", "Category");
+        util.loadData();
+
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testConfigProperty).to.be.eq("Category");
+        expect(telemetry.testConfigProperty_custom).to.be.true;
+      });
+
+      it('Should allow testCaseMatchStrategy to be used as a set of flags', () => {
+        // arrange
+        util.setInput("testCaseMatchStrategy", "name,property");
+        util.loadData();
+
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        let final = TestCaseMatchingStrategy.name | TestCaseMatchingStrategy.property;
+        expect(result.testCaseMatchStrategy).to.be.eq( final );
+      });
+
+      it('Should record testCaseMatchStrategy in telemetry when custom value is provided', () => {
+        // arrange
+        util.setInput("testCaseMatchStrategy", "name,property");
+        util.loadData();
+
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testCaseMatchStrategy).to.be.eq("name,property"); // record actual values, not realized processed values
+        expect(telemetry.testCaseMatchStrategy_custom).to.be.true;
+      });
+
+      it('Should allow testConfigProperty to find single configuration property', () => {
+        // arrange
+        util.setInput("testConfigProperty", "config");
+        util.loadData();
+
+        // act
+        var result = subject.getProcessorParameters();
+
+        // assert
+        expect(result.testConfigProperty).to.be.eq( "config" );
+      })
+    });
+
+    it('Should record begin and end of result processor stage in telemetry', () => {
       // arrange
-      util.setInput("testConfigFilter", "Default");
+      // mock out the tph to spy on recordStage
+      let recordedStages: string[] = [];
+      subject.tph.recordStage = (stage: string) => {
+        recordedStages.push(stage);
+      };
+      
       util.loadData();
 
       // act
-      var result = subject.getProcessorParameters();
+      subject.getProcessorParameters();
 
       // assert
-      expect(result.testConfigFilter).not.to.be.undefined;
-    });
-
-    it('Should support custom regex for testcase name', () => {
-      // arrange
-      util.setInput("testCaseRegex", "TestCase(\\d+)");
-      util.loadData();
-
-      // act
-      var result = subject.getProcessorParameters();
-
-      // assert
-      expect(result.testCaseRegEx).to.be.eq("TestCase(\\d+)");
-    });
-
-    it('Should support custom property for testcase id', () => {
-      // arrange
-      util.setInput("testCaseProperty", "id");
-      util.loadData();
-
-      // act
-      var result = subject.getProcessorParameters();
-
-      // assert
-      expect(result.testCaseProperty).to.be.eq("id");
-    });
-
-    it('Should support custom property for config name or alias', () => {
-      // arrange
-      util.setInput("testConfigProperty", "Category");
-      util.loadData();
-
-      // act
-      var result = subject.getProcessorParameters();
-
-      // assert
-      expect(result.testConfigProperty).to.be.eq("Category");
-    });
-
-    it('Should allow testCaseMatchStrategy to be used as a set of flags', () => {
-      // arrange
-      util.setInput("testCaseMatchStrategy", "name,property");
-      util.loadData();
-
-      // act
-      var result = subject.getProcessorParameters();
-
-      // assert
-      let final = TestCaseMatchingStrategy.name | TestCaseMatchingStrategy.property;
-      expect(result.testCaseMatchStrategy).to.be.eq( final );
-    });
-
-    it('Should allow testConfigProperty to find single configuration property', () => {
-      // arrange
-      util.setInput("testConfigProperty", "config");
-      util.loadData();
-
-      // act
-      var result = subject.getProcessorParameters();
-
-      // assert
-      expect(result.testConfigProperty).to.be.eq( "config" );
+      expect(recordedStages.length).to.eq(2);
+      expect(recordedStages[0]).to.eq("getProcessorParameters");
+      expect(recordedStages[1]).to.eq("processFrameworkResults");
     })
+
+    it('Should record that framework stage was reached in telemetry', () => {
+      // arrange
+      util.loadData();
+
+      // act
+      subject.getProcessorParameters();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.taskStage).to.eq("processFrameworkResults");
+    });
   });
 
   context('TestRunPublisherParameters', () => {

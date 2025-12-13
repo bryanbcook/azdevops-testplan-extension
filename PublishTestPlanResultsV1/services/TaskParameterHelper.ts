@@ -2,6 +2,7 @@ import * as tl from 'azure-pipelines-task-lib/task';
 import { TelemetryPayloadBuilder } from './TelemetryPayloadBuilder';
 
 interface TaskTelemetryOptions {
+  dontRecordDefault?: boolean; /* don't record the default value in telemetry */
   recordNonDefault?: boolean; /* capture that the user has supplied a custom value for an input, but not the value */
   recordValue?: boolean; /* capture the actual value supplied for an input */
   anonymize?: boolean; /* capture an anonymized version of the user supplied value */
@@ -20,18 +21,23 @@ export class TaskParameterHelper {
     param TaskTelemetryOptions: Options for telemetry recording
       - recordNonDefault: Whether to record in telemetry that a non-default value was used
       - recordValue: Whether to record the value in telemetry
+      - dontRecordDefault: Overrides recordValue if the default value was used
       - anonymize: Whether to anonymize the value when recording in telemetry
     returns: The input parameter value, or the default value if not specified
   */
   getInputOrFallback(name: string, fallback: () => string | undefined, options: TaskTelemetryOptions = {}) : string {
     let value = tl.getInput(name, false);
+    let wasDefault = false;
     if (value === undefined || value === null || value.length == 0) {
       tl.debug(`input '${name}' not specified. using default value.`);
       value = fallback();
+      wasDefault = true;
     } else if (options.recordNonDefault) {
       this.payloadBuilder.recordNonDefaultValue(name);
     }
-    if (options.recordValue || options.anonymize) {
+    // record the value if requested, but skip defaults if specified
+    let recordValue = options.recordValue && (!wasDefault || !options.dontRecordDefault);
+    if (recordValue || options.anonymize) {
       if (options.anonymize) {
         this.payloadBuilder.recordAnonymizedValue(name, value!);
       } else {
