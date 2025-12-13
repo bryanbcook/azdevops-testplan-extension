@@ -10,7 +10,21 @@ export class TelemetryPublisher {
   client: appInsights.TelemetryClient;
 
   static getInstance() : TelemetryPublisher {
-    appInsights.setup(connectionString).start();
+    appInsights.setup(connectionString)
+      // disable defaults
+      .setAutoDependencyCorrelation(false) // correlation ids have no meaning in services that are not under our control
+      .setAutoCollectRequests(false) // not relevant as there are no incoming requuests
+      .setAutoCollectPerformance(false) // not relevant for short-lived processes
+      //.setAutoCollectExceptions(false) // handle uncaughtException or unhandledRejection
+      .setUseDiskRetryCaching(false) // disable disk caching for network issues
+
+      // TODO: enable profiling for dependencies using a feature flag
+      // TODO: add telemetry processor to mask customer server urls + ado organization/project details
+      // TODO: instrument ado api calls with correlation ids as trackEvent does not do this automatically
+      // TODO: ensure that post-body or sensitive data is not sent in any dependency telemetry
+      .setAutoCollectDependencies(false)
+      .start();
+    
     const client = appInsights.defaultClient;
     return new TelemetryPublisher(getLogger(), client);
   }
