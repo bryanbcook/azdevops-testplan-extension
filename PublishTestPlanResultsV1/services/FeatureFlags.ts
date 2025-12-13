@@ -1,3 +1,5 @@
+import { getLogger, ILogger } from "./Logger";
+
 export class FeatureFlag {
   static DisplayTelemetry : string = "displaytelemetry";
   static DisplayTelemetryErrors : string = "displaytelemetryerrors";
@@ -6,13 +8,19 @@ export class FeatureFlag {
 
 export class FeatureFlags {
   flags: Map<string,boolean>;
+  logger: ILogger;
 
   constructor() {
     this.flags = this.#getFeatureFlags();
+    this.logger = getLogger();
   }
 
   isFeatureEnabled(flagName: string) : boolean {
-    return this.flags.get(flagName.toLowerCase()) ?? false;
+    let enabled = this.flags.get(flagName.toLowerCase()) ?? false;
+    if (enabled) {
+      this.logger.info(`Feature flag enabled: ${flagName}`);
+    }
+    return enabled;
   }
 
   getFlags() : string[] {
