@@ -187,6 +187,58 @@ describe('TaskParameterHelper', () => {
 
   });
 
+  context('getBoolInput', () => {
+    it('should return input value when specified', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "true");
+      testUtil.loadData();
+
+      // act
+      let result = subject.getBoolInput("taskInputName", false);
+
+      // assert
+      expect(result).to.equal(true);
+    });
+
+    it('should return default value when input is not specified', () => {
+      // arrange
+      testUtil.clearData();
+      testUtil.loadData();
+
+      // act
+      let result = subject.getBoolInput("taskInputName", true);
+
+      // assert
+      expect(result).to.equal(true);
+    });
+
+    it('should record user value if specified in options', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "true");
+      testUtil.loadData();
+
+      // act
+      let result = subject.getBoolInput("taskInputName", false, { recordValue: true });
+
+      // assert
+      expect(payloadBuilder.getPayload().taskInputName).to.equal(true);
+      expect(payloadBuilder.getPayload().taskInputName_custom).to.be.undefined;
+    });
+
+    it('should record that custom user value was provided if specified in options', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "true");
+      testUtil.loadData();
+
+      // act
+      let result = subject.getBoolInput("taskInputName", false, { recordNonDefault: true });
+
+      // assert
+      expect(payloadBuilder.getPayload().taskInputName_custom).to.be.true;
+      expect(payloadBuilder.getPayload().taskInputName).to.be.undefined;
+    });
+  })
+
   context('getDelimitedInput', () => {
     it('should return array of input values when specified', () => {
       // arrange

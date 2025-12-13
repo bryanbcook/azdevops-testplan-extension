@@ -66,6 +66,27 @@ export class TaskParameterHelper {
     return value;
   }
 
+  getBoolInput(name: string, defaultValue: boolean, options: TaskTelemetryOptions = {}) : boolean {
+    // check if input is provided
+    let input = tl.getInput(name, false);
+
+    // if value is provided
+    if (input !== undefined) {
+      // parse as boolean and record telemetry options
+      let boolValue = input.toUpperCase() == "TRUE";
+      if (options.recordValue) {
+        this.payloadBuilder.add(name, boolValue);
+      }
+      if (options.recordNonDefault) {
+        this.payloadBuilder.recordNonDefaultValue(name);
+      }
+      return boolValue;
+    }
+    else {
+      return defaultValue;
+    }
+  }
+
   /* Fetches a delimited input parameter as an array of strings.
     param name: The name of the input parameter
     param TaskTelemetryOptions: Options for telemetry recording
