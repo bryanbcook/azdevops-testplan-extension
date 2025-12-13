@@ -23,13 +23,19 @@ export class TelemetryPublisher {
     }
 
     appInsights.setup(connectionString)
-      // disable defaults
-      .setAutoDependencyCorrelation(false) // correlation ids have no meaning in services that are not under our control
-      .setAutoCollectRequests(false) // not relevant as there are no incoming requuests
-      .setAutoCollectPerformance(false) // not relevant for short-lived processes
+      // disable configuration elements that are not relevant, introduce performance cost or potential privacy concerns
+      .setAutoCollectConsole(false) // do not collect logs
       //.setAutoCollectExceptions(false) // handle uncaughtException or unhandledRejection
+      .setAutoCollectHeartbeat(false) // not relevant for short-lived processes
+      .setAutoCollectIncomingRequestAzureFunctions(false) // not relevant as there are no incoming requests
+      .setAutoCollectPerformance(false) // not relevant for short-lived processes
+      .setAutoCollectPreAggregatedMetrics(false) // not relevant for short-lived processes
+      .setAutoCollectRequests(false) // not relevant as there are no incoming requuests
+      .setAutoDependencyCorrelation(false) // correlation ids have no meaning in services that are not under our control     
+      .setInternalLogging(false, false) // disable internal logging
+      .setSendLiveMetrics(false) // disable live metrics
       .setUseDiskRetryCaching(false) // disable disk caching for network issues
-
+      
       // TODO: enable profiling for dependencies using a feature flag
       // TODO: add telemetry processor to mask customer server urls + ado organization/project details
       // TODO: instrument ado api calls with correlation ids as trackEvent does not do this automatically
@@ -72,6 +78,7 @@ export class TelemetryPublisher {
 
   #publishEvent(parameters: TelemetryPublisherParameters) {
     if (parameters.publishTelemetry) {
+      this.logger.debug("publishing telemetry event.");
       this.client.trackEvent({ name: "PublishTestPlanResults", properties: parameters.payload });
       this.client.flush();
     }    
