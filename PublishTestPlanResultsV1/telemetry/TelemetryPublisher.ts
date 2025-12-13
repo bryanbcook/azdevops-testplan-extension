@@ -2,7 +2,7 @@ import { TelemetryPublisherParameters } from "./TelemetryPublisherParameters";
 import { getLogger, ILogger } from '../services/Logger';
 import * as appInsights from 'applicationinsights';
 
-const connectionString = '<<APPINSIGHTS_CONNECTIONSTRING>>';
+let connectionString = '<<APPINSIGHTS_CONNECTIONSTRING>>';
 
 export class TelemetryPublisher {
 
@@ -10,6 +10,18 @@ export class TelemetryPublisher {
   client: appInsights.TelemetryClient;
 
   static getInstance() : TelemetryPublisher {
+
+    const logger = getLogger();
+
+    // support local debugging
+    if (connectionString.startsWith("<<")) {
+      connectionString = process.env['APPINSIGHTS_CONNECTIONSTRING'] || '';
+      if (!connectionString) {
+        logger.warn("Application Insights connection string is not set.");
+        return new TelemetryPublisher(logger, {} as appInsights.TelemetryClient);
+      }      
+    }
+
     appInsights.setup(connectionString)
       // disable defaults
       .setAutoDependencyCorrelation(false) // correlation ids have no meaning in services that are not under our control
@@ -26,7 +38,8 @@ export class TelemetryPublisher {
       .start();
     
     const client = appInsights.defaultClient;
-    return new TelemetryPublisher(getLogger(), client);
+
+    return new TelemetryPublisher(logger, client);
   }
 
   constructor(logger: ILogger, client: appInsights.TelemetryClient) {
