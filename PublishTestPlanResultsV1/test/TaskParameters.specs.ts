@@ -1147,29 +1147,87 @@ describe('TaskParameters', () => {
 
   context('StatusFilterParameters', () => {
 
-    it('Should use defaults if no inputs are provided', () => {
-      // arrange
-      // act
-      var parameters = subject.getStatusFilterParameters();
+    context('default values', () => {
+      it('Should use defaults if no inputs are provided', () => {
+        // arrange
+        // act
+        var parameters = subject.getStatusFilterParameters();
 
-      // assert
-      expect(parameters.failTaskOnFailedTests).to.be.false;
-      expect(parameters.failTaskOnSkippedTests).to.be.false;
+        // assert
+        expect(parameters.failTaskOnFailedTests).to.be.false;
+        expect(parameters.failTaskOnSkippedTests).to.be.false;
+      });
+
+      it('should not record values for status filter parameters in telemetry when defaults are used', () => {
+        // arrange
+        // act
+        var parameters = subject.getStatusFilterParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnFailedTests).to.be.undefined;
+        expect(telemetry.failTaskOnFailedTests_custom).to.be.undefined;
+        expect(telemetry.failTaskOnSkippedTests).to.be.undefined;
+        expect(telemetry.failTaskOnSkippedTests_custom).to.be.undefined;
+      });
     });
+    
+    context('user supplied values', () => {
+      it('Should resolve failTaskOnFailedTests input', () => {
+        // arrange
+        util.setInput("failTaskOnFailedTests", "true");
+        util.loadData();
 
-    it('Should resolve failTaskOnFailedTests input', () => {
-      // arrange
-      util.setInput("failTaskOnFailedTests", "true");
-      util.loadData();
+        // act
+        var parameters = subject.getStatusFilterParameters();
 
-      // act
-      var parameters = subject.getStatusFilterParameters();
+        // assert
+        expect(parameters.failTaskOnFailedTests).to.be.true;
+      });
 
-      // assert
-      expect(parameters.failTaskOnFailedTests).to.be.true;
+      it('should record failTaskOnFailedTests in telemetry when custom value is provided', () => {
+        // arrange
+        util.setInput("failTaskOnFailedTests", "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getStatusFilterParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnFailedTests).to.be.true;
+        expect(telemetry.failTaskOnFailedTests_custom).to.be.undefined;
+      });
+
+      it('should record failTaskOnFailedTests in telemetry when custom value is provided (false)', () => {
+        // arrange
+        util.setInput("failTaskOnFailedTests", "false");
+        util.loadData();
+
+        // act
+        var parameters = subject.getStatusFilterParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnFailedTests).to.be.false;
+        expect(telemetry.failTaskOnFailedTests_custom).to.be.undefined;
+      });
+
+      it('Should resolve failTaskOnSkippedTests input', () => {
+        // arrange
+        util.setInput("failTaskOnSkippedTests", "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getStatusFilterParameters();
+
+        // assert
+        expect(parameters.failTaskOnSkippedTests).to.be.true;
+      });
     });
+    
 
-    it('Should resolve failTaskOnSkippedTests input', () => {
+    it('should record failTaskOnSkippedTests in telemetry when custom value is provided', () => {
       // arrange
       util.setInput("failTaskOnSkippedTests", "true");
       util.loadData();
@@ -1178,8 +1236,54 @@ describe('TaskParameters', () => {
       var parameters = subject.getStatusFilterParameters();
 
       // assert
-      expect(parameters.failTaskOnSkippedTests).to.be.true;
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.failTaskOnSkippedTests).to.be.true;
+      expect(telemetry.failTaskOnSkippedTests_custom).to.be.undefined;
     });
+
+    it('should record failTaskOnSkippedTests in telemetry when custom value is provided (false)', () => {
+      // arrange
+      util.setInput("failTaskOnSkippedTests", "false");
+      util.loadData();
+
+      // act
+      var parameters = subject.getStatusFilterParameters();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.failTaskOnSkippedTests).to.be.false;
+      expect(telemetry.failTaskOnSkippedTests_custom).to.be.undefined;
+    });
+
+    it('Should record begin and end of status filter stage in telemetry', () => {
+      // arrange
+      // mock out the tph to spy on recordStage
+      let recordedStages: string[] = [];
+      subject.tph.recordStage = (stage: string) => {
+        recordedStages.push(stage);
+      };
+      util.loadData();
+
+      // act
+      subject.getStatusFilterParameters();
+
+      // assert
+      expect(recordedStages.length).to.eq(2);
+      expect(recordedStages[0]).to.eq("getStatusFilterParameters");
+      expect(recordedStages[1]).to.eq("finalizeResults");
+    })
+
+    it('Should record that status filter stage was reached in telemetry', () => {
+      // arrange
+      util.loadData();
+
+      // act
+      subject.getStatusFilterParameters();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.taskStage).to.eq("finalizeResults");
+    });    
   });
 });
 

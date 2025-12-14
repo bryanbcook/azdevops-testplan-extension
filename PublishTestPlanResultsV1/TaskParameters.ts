@@ -115,11 +115,13 @@ class TaskParameters {
   /* Fetch the parameters used to filter test results and finalize task outcome */
   getStatusFilterParameters() : StatusFilterParameters {
     tl.debug("reading StatusFilterParameters from task inputs.");
+    this.tph.recordStage("getStatusFilterParameters");
 
     var parameters = new StatusFilterParameters();
-    parameters.failTaskOnFailedTests = getBoolInput("failTaskOnFailedTests", /*default*/ false);
-    parameters.failTaskOnSkippedTests = getBoolInput("failTaskOnSkippedTests", /*default*/ false);
+    parameters.failTaskOnFailedTests =  this.tph.getBoolInput("failTaskOnFailedTests", /*default*/ false, { recordValue: true, dontRecordDefault: true });
+    parameters.failTaskOnSkippedTests = this.tph.getBoolInput("failTaskOnSkippedTests", /*default*/ false, { recordValue: true, dontRecordDefault: true });
 
+    this.tph.recordStage("finalizeResults");
     return parameters;
   }
 
