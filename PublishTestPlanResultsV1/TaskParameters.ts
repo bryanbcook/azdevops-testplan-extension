@@ -90,13 +90,13 @@ class TaskParameters {
   /* Fetch the parameters used to publish test results to ADO Test Plan */
   getPublisherParameters() : TestRunPublisherParameters {
     tl.debug("reading TestRunPublisherParameters from task inputs.");
+    this.tph.recordStage("getPublisherParameters");
+
     this.#ensureCredentialsAreSet();
-    const buildId = tl.getVariable("BUILD_BUILDID")!; // available in build and release pipelines
-    const releaseUri = tl.getVariable("RELEASE_RELEASEURI"); // only in release pipelines
-    const releaseEnvironmentUri = tl.getVariable("RELEASE_ENVIRONMENTURI"); // only in release pipelines
-    const dryRun = tl.getBoolInput("dryRun", false);
-    const testRunTitle = tl.getInput("testRunTitle", false) ?? "PublishTestPlanResult";
-    let failTaskOnUnmatchedTestCases = getBoolInput("failTaskOnUnmatchedTestCases", /*default*/ true);
+    const { buildId, releaseUri, releaseEnvironmentUri } = this.#getPipelineEnvironment();
+    const dryRun = this.tph.getBoolInput("dryRun", false, { recordValue: true, dontRecordDefault: true });
+    const testRunTitle = this.tph.getInputOrFallback("testRunTitle", () =>  "PublishTestPlanResult", { recordNonDefault: true });
+    let failTaskOnUnmatchedTestCases = this.tph.getBoolInput("failTaskOnUnmatchedTestCases", /*default*/ true, { recordValue: true, dontRecordDefault: true });
     const testFiles = this.testFiles.filter(file => file.indexOf('**') == -1);  
     let result = new TestRunPublisherParameters(
         this.collectionUri!, 
@@ -109,6 +109,8 @@ class TaskParameters {
         );
     result.releaseUri = releaseUri;
     result.releaseEnvironmentUri = releaseEnvironmentUri;
+
+    this.tph.recordStage("publishTestRunResults");
     return result;
   }
 
@@ -196,12 +198,18 @@ class TaskParameters {
 
     return testResultFiles;
   }
+
+  #getPipelineEnvironment() : { buildId: string, releaseUri?: string, releaseEnvironmentUri?: string } {
+    const buildId = tl.getVariable("BUILD_BUILDID")!; // available in build and release pipelines
+    const releaseUri = tl.getVariable("RELEASE_RELEASEURI"); // only in release pipelines
+    const releaseEnvironmentUri = tl.getVariable("RELEASE_ENVIRONMENTURI"); // only in release pipelines
+
+    let hostType = (releaseUri && releaseEnvironmentUri) ? "release" : "build";
+    this.tph.payloadBuilder.add("hostType", hostType);
+    
+    return { buildId, releaseUri, releaseEnvironmentUri };
+  }
 }
 
 export default TaskParameters.getInstance();
 export { TaskParameters };
-
-function getBoolInput(name: string, defaultValue: boolean) : boolean {
-  let input = tl.getInput(name, false);
-  return input ? tl.getBoolInput(name, false) : defaultValue;
-}

@@ -913,95 +913,173 @@ describe('TaskParameters', () => {
       subject.testFiles = [ path.join(__dirname, "data", "xunit", "xunit-1.xml") ];
     })
 
-    it('Should read user-supplied server and accesstoken', () => {
-      // arrange
-      util.setInput("collectionUri", "https://my");
-      util.setInput("accessToken", "myToken")
-      util.loadData();
+    context('user supplied values', () => {
 
-      // act
-      var parameters = subject.getPublisherParameters();
+      it('Should read user-supplied server and accesstoken', () => {
+        // arrange
+        util.setInput("collectionUri", "https://my");
+        util.setInput("accessToken", "myToken")
+        util.loadData();
 
-      // assert
-      expect(parameters.collectionUri).to.eq("https://my");
-      expect(parameters.accessToken).to.eq("myToken");
-    })
+        // act
+        var parameters = subject.getPublisherParameters();
 
-    it('Should resolve default values', () => {
-      // arrange
-      util.loadData();
+        // assert
+        expect(parameters.collectionUri).to.eq("https://my");
+        expect(parameters.accessToken).to.eq("myToken");
+      });
 
-      // act
-      var parameters = subject.getPublisherParameters();
+      it("Should default failTaskOnUnmatchedTestCases to true", () => {
+        // arrange
+        util.loadData();
 
-      // assert
-      expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
-      expect(parameters.accessToken).to.eq(process.env.SYSTEM_ACCESSTOKEN as string);
-      expect(parameters.dryRun).to.be.false;
-      expect(parameters.testRunTitle).to.eq("PublishTestPlanResult");
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        expect(parameters.failTaskOnUnmatchedTestCases).to.be.true;
+      });
+
+      it('Should record failTaskOnUnmatchedTestCases in telemetry when custom value is provided', () => {
+        // arrange
+        util.setInput("failTaskOnUnmatchedTestCases", "false");
+        util.loadData();
+
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnUnmatchedTestCases).to.be.false;
+        expect(telemetry.failTaskOnUnmatchedTestCases_custom).to.be.undefined;
+      });
+
+      it("Should allow testRun publishing to be disabled by enabling 'dryRun'", () => {
+        // arrange
+        util.setInput("dryRun", "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        expect(parameters.dryRun).to.be.true;
+      });
+
+      it('should record dryRun in telemetry when custom value is provided', () => {
+        // arrange
+        util.setInput("dryRun", "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.dryRun).to.be.true;
+        expect(telemetry.dryRun_custom).to.be.undefined;
+      });
+
+      it('should resolve testRunTitle if provided', () => {
+        // arrange
+        util.setInput("testRunTitle", "My Test Run");
+        util.loadData();
+
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        expect(parameters.testRunTitle).to.eq("My Test Run");
+      });
+
+      it('should record testRunTitle in telemetry when custom value is provided', () => {
+        // arrange
+        util.setInput("testRunTitle", "My Test Run");
+        util.loadData();
+
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testRunTitle).to.be.undefined;
+        expect(telemetry.testRunTitle_custom).to.be.true;
+      });
+
     });
 
-    it('Should resolve build id from build pipeline', () => {
-      // arrange
-      // BUILD_BUILDID is available in build and classic release pipelines.
-      // for release pipelines, if there are multiple build artifacts, the build id is 
-      // based on the primary artifact.
-      util.setSystemVariable("BUILD_BUILDID", "1234")
-      util.loadData();
+    context('default values', () => {
+      it('Should resolve default values', () => {
+        // arrange
+        util.loadData();
 
-      // act
-      var parameters = subject.getPublisherParameters();
+        // act
+        var parameters = subject.getPublisherParameters();
 
-      // assert
-      expect(parameters.buildId).to.eq("1234");
-    })
+        // assert
+        expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
+        expect(parameters.accessToken).to.eq(process.env.SYSTEM_ACCESSTOKEN as string);
+        expect(parameters.dryRun).to.be.false;
+        expect(parameters.testRunTitle).to.eq("PublishTestPlanResult");
+      });
 
-    it("Should allow testRun publishing to be disabled by enabling 'dryRun'", () => {
-      // arrange
-      util.setInput("dryRun", "true");
-      util.loadData();
+      it('Should not record telemetry for default values', () => {
+        // arrange
+        util.loadData();
 
-      // act
-      var parameters = subject.getPublisherParameters();
+        // act
+        var parameters = subject.getPublisherParameters();
 
-      // assert
-      expect(parameters.dryRun).to.be.true;
-    })
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.dryRun).to.be.undefined;
+        expect(telemetry.testRunTitle).to.be.undefined;
+      })
+    });
 
-    it("Should default failTaskOnUnmatchedTestCases to true", () => {
-      // arrange
-      util.loadData();
+    context('For Build Pipeline', () => {
 
-      // act
-      var parameters = subject.getPublisherParameters();
+      it('Should resolve build id from build pipeline', () => {
+        // arrange
+        // BUILD_BUILDID is available in build and classic release pipelines.
+        // for release pipelines, if there are multiple build artifacts, the build id is 
+        // based on the primary artifact.
+        util.setSystemVariable("BUILD_BUILDID", "1234")
+        util.loadData();
 
-      // assert
-      expect(parameters.failTaskOnUnmatchedTestCases).to.be.true;
-    })
+        // act
+        var parameters = subject.getPublisherParameters();
 
-    it("Should resolve values for failTaskOnUnmatchedTestCases", () => {
-      // arrange
-      util.setInput("failTaskOnUnmatchedTestCases", "false");
-      util.loadData();
+        // assert
+        expect(parameters.buildId).to.eq("1234");
+      });
 
-      // act
-      var parameters = subject.getPublisherParameters();
+      it("Should resolve empty values for release variables if not present", () => {
+        // arrange
+        util.loadData();
 
-      // assert
-      expect(parameters.failTaskOnUnmatchedTestCases).to.be.false;
-    })
+        // act
+        var parameters = subject.getPublisherParameters();
 
-    it("Should resolve empty values for release variables if not present", () => {
-      // arrange
-      util.loadData();
+        // assert
+        expect(parameters.releaseUri).to.be.undefined;
+        expect(parameters.releaseEnvironmentUri).to.be.undefined;
+      });
 
-      // act
-      var parameters = subject.getPublisherParameters();
+      it('Should reflect build pipeline in telemetry', () => {
+        // arrange
+        util.setSystemVariable("BUILD_BUILDID", "1234")
+        util.loadData();
 
-      // assert
-      expect(parameters.releaseUri).to.be.undefined;
-      expect(parameters.releaseEnvironmentUri).to.be.undefined;
-    })
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.hostType).to.eq("build");
+      });
+
+    });    
 
     context("For Release Pipeline", () => {
 
@@ -1018,7 +1096,52 @@ describe('TaskParameters', () => {
         expect(parameters.releaseUri).to.satisfy( (x: string) => x.startsWith("vstfs://ReleaseManagement"));
         expect(parameters.releaseEnvironmentUri).to.satisfy( (x: string) => x.startsWith("vstfs://ReleaseManagement"));
       });
+
+      it('Should reflect release pipeline in telemetry', () => {
+        // arrange
+        util.setSystemVariable("RELEASE_RELEASEURI", "vstfs://ReleaseManagement/Release/1234");
+        util.setSystemVariable("RELEASE_ENVIRONMENTURI", "vstfs://ReleaseManagement/Environment/5678");
+        util.loadData();
+
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.hostType).to.eq("release");
+      });
+    });
+
+    
+    it('Should record begin and end of testrun publishing stage in telemetry', () => {
+      // arrange
+      // mock out the tph to spy on recordStage
+      let recordedStages: string[] = [];
+      subject.tph.recordStage = (stage: string) => {
+        recordedStages.push(stage);
+      };
+      util.loadData();
+
+      // act
+      subject.getPublisherParameters();
+
+      // assert
+      expect(recordedStages.length).to.eq(2);
+      expect(recordedStages[0]).to.eq("getPublisherParameters");
+      expect(recordedStages[1]).to.eq("publishTestRunResults");
     })
+
+    it('Should record that testrun publishing stage was reached in telemetry', () => {
+      // arrange
+      util.loadData();
+
+      // act
+      subject.getPublisherParameters();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.taskStage).to.eq("publishTestRunResults");
+    });
   });
 
   context('TelemetryPublisherParameters', () => {
