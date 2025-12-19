@@ -122,7 +122,6 @@ export class TaskParameterHelper {
 
   /* Expose the telemetry payload */
   getPayload(err? : any) : any { // todo: specify privacy level
-    // todo: enrich payload with additional info (task version, os, etc)
     this.payloadBuilder.recordError(err);
     return this.payloadBuilder.getPayload(); // todo: specify privacy level
   }

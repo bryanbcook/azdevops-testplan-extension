@@ -10,6 +10,11 @@ export function setSystemVariable(name: string, val: string) {
   process.env[key] = val;
 }
 
+export function clearSystemVariable(name: string) {
+  let key: string = im._getVariableKey(name);
+  delete process.env[key];
+}
+
 export function setFeatureFlag(name: string, val: string) {
   let key: string = "PUBLISHTESTPLANRESULTS_" + name.toUpperCase();
   process.env[key] = val;

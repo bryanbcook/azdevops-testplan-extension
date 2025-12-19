@@ -21,10 +21,18 @@ class TaskParameters {
   collectionUri?: string;
   projectName?: string;
 
+  buildId?: string;
+  releaseUri?: string;
+  releaseEnvironmentUri?: string;
+
   testFiles: string[] = [];
 
   constructor(tph: TaskParameterHelper) {
     this.tph = tph;
+    const {buildId, releaseUri, releaseEnvironmentUri } = this.#getPipelineEnvironment();
+    this.buildId = buildId;
+    this.releaseUri = releaseUri;
+    this.releaseEnvironmentUri = releaseEnvironmentUri;    
   }
 
   static getInstance() : TaskParameters {
@@ -93,7 +101,6 @@ class TaskParameters {
     this.tph.recordStage("getPublisherParameters");
 
     this.#ensureCredentialsAreSet();
-    const { buildId, releaseUri, releaseEnvironmentUri } = this.#getPipelineEnvironment();
     const dryRun = this.tph.getBoolInput("dryRun", false, { recordValue: true, dontRecordDefault: true });
     const testRunTitle = this.tph.getInputOrFallback("testRunTitle", () =>  "PublishTestPlanResult", { recordNonDefault: true });
     let failTaskOnUnmatchedTestCases = this.tph.getBoolInput("failTaskOnUnmatchedTestCases", /*default*/ true, { recordValue: true, dontRecordDefault: true });
@@ -103,12 +110,12 @@ class TaskParameters {
         this.accessToken!, 
         dryRun, 
         testRunTitle, 
-        buildId,
+        this.buildId!,
         testFiles,
         failTaskOnUnmatchedTestCases
         );
-    result.releaseUri = releaseUri;
-    result.releaseEnvironmentUri = releaseEnvironmentUri;
+    result.releaseUri = this.releaseUri;
+    result.releaseEnvironmentUri = this.releaseEnvironmentUri;
 
     this.tph.recordStage("publishTestRunResults");
     return result;
@@ -148,12 +155,15 @@ class TaskParameters {
       this.accessToken = this.tph.getInputOrFallback("accessToken", () => tl.getVariable("SYSTEM_ACCESSTOKEN"), { recordNonDefault: true });
       this.projectName = this.tph.getInputOrFallback("projectName", () => tl.getVariable("SYSTEM_TEAMPROJECT"), { recordNonDefault: true, anonymize: true });
       this.collectionUri = this.tph.getInputOrFallback("collectionUri", () => tl.getVariable("SYSTEM_COLLECTIONURI"), { recordNonDefault: true, anonymize: true });
+
+      let serverType = (this.collectionUri && (this.collectionUri.startsWith("https://dev.azure.com/") || this.collectionUri.includes(".visualstudio.com"))) ?
+        "Hosted" : "OnPremises";
+      this.tph.payloadBuilder.add("serverType", serverType);
     }
   }
 
   #getTestFiles(verifyFiles: boolean) : string[] {
     var wildCardUsed : boolean | undefined = undefined;
-
 
     // Resolve the user specified testResultDirectory.
     // If not specified, default to SYSTEM_DEFAULTWORKINGDIRECTORY.
@@ -200,13 +210,24 @@ class TaskParameters {
   }
 
   #getPipelineEnvironment() : { buildId: string, releaseUri?: string, releaseEnvironmentUri?: string } {
+
+    // determine whether we're running in a build or release pipeline
     const buildId = tl.getVariable("BUILD_BUILDID")!; // available in build and release pipelines
     const releaseUri = tl.getVariable("RELEASE_RELEASEURI"); // only in release pipelines
     const releaseEnvironmentUri = tl.getVariable("RELEASE_ENVIRONMENTURI"); // only in release pipelines
 
+    // detect running in a build or a release
     let hostType = (releaseUri && releaseEnvironmentUri) ? "release" : "build";
     this.tph.payloadBuilder.add("hostType", hostType);
-    
+
+    // detect if we're using a hosted or self-hosted agent
+    let agentType = tl.getVariable("Agent.CloudId") ? "Hosted" : "OnPremises";
+    this.tph.payloadBuilder.add("agentType", agentType);
+
+    // collect the agent version
+    let agentVersion = tl.getVariable("System.AgentVersion") || '';
+    this.tph.payloadBuilder.add("agentVersion", agentVersion);    
+
     return { buildId, releaseUri, releaseEnvironmentUri };
   }
 }

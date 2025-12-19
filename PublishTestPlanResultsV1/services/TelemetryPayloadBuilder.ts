@@ -1,5 +1,9 @@
 import { createHash } from 'crypto';
 
+const { v4: uuidv4 } = require('uuid');
+const correlationId = uuidv4();
+const task = require('../task.json');
+
 export class TelemetryPayloadBuilder {
   payload: any; // todo: use different payloads for privacy levels
 
@@ -38,6 +42,9 @@ export class TelemetryPayloadBuilder {
 
   /* Fetch the contents of the constructed telemetry payload */
   getPayload() : any {
+    this.add("correlationId", correlationId);
+    this.add("nodeVersion", process.version);
+    this.add("taskVersion", `${task.version.Major}.${task.version.Minor}.${task.version.Patch}`);
     return this.payload; // todo: combine payloads for different privacy levels
   }
 

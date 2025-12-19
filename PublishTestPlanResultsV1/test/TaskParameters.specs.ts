@@ -20,10 +20,102 @@ describe('TaskParameters', () => {
     util.setSystemVariable("System.AccessToken", process.env.SYSTEM_ACCESSTOKEN as string);
     util.setSystemVariable("ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN", process.env.SYSTEM_ACCESSTOKEN as string);
     util.setSystemVariable("System.TeamProject", process.env.TEAMPROJECT as string);
+    util.setSystemVariable("System.AgentVersion", "3.220.3");
+    util.clearSystemVariable("Agent.CloudId");
   });
 
   afterEach(() => {
     util.clearData();
+  });
+
+  context('Default common telemetry properties', () => {
+    it('Should include correlationId and taskVersion in telemetry payload', () => {
+      // arrange
+      util.loadData();
+
+      // act
+      subject = TaskParameters.getInstance();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.correlationId).to.not.be.undefined;
+      expect(telemetry.taskVersion).to.not.be.undefined;
+    });
+
+    it('Should detect nodejs version in telemetry payload', () => {
+      // 
+      util.loadData();
+
+      // act
+      subject = TaskParameters.getInstance();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.nodeVersion).to.eq(process.version);
+    });
+
+    it('Should include agentVersion in telemetry payload', () => { 
+      // arrange
+      util.loadData();
+
+      // act
+      subject = TaskParameters.getInstance();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.agentVersion).to.eq("3.220.3");
+    });
+
+    it('Should reflect running in a build pipeline in telemetry payload', () => {
+      // arrange
+      util.setSystemVariable("BUILD_BUILDID", "1234");
+      util.loadData();
+
+      // act
+      subject = TaskParameters.getInstance();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.hostType).to.be.eq("build");
+    });
+
+    it('Should reflect running in a release pipeline in telemetry payload', () => {
+      // arrange
+      util.setSystemVariable("RELEASE_RELEASEURI", "vstfs:///Release/Release/1");
+      util.setSystemVariable("RELEASE_ENVIRONMENTURI", "vstfs:///Release/Environment/1");
+      util.loadData();
+
+      // act
+      subject = TaskParameters.getInstance();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.hostType).to.be.eq("release");
+    });
+
+    it('Should reflect running on a hosted agent in telemetry payload', () => {
+      // arrange
+      util.setSystemVariable("Agent.CloudId", "12345");
+      util.loadData();
+
+      // act
+      subject = TaskParameters.getInstance();
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.agentType).to.be.eq("Hosted");
+    });
+
+    it('Should reflect running on a self-hosted agent in telemetry payload', () => {
+      // arrange
+      util.loadData();
+
+      // act
+      subject = TaskParameters.getInstance();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.agentType).to.be.eq("OnPremises");
+    });
   });
 
   context('TestResultContextParameters', () => {
@@ -63,6 +155,45 @@ describe('TaskParameters', () => {
 
         expect(telemetry.collectionUri).to.not.be.undefined;
         expect(telemetry.projectName).to.not.be.undefined;
+      });
+
+      it('Should detect when custom url is Azure DevOps Services in telemetry', () => {
+        // arrange
+        util.setInput("collectionUri", "https://dev.azure.com/myOrg");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.serverType).to.be.eq("Hosted");
+      });
+
+      it('Should detect when custom url is Azure DevOps Services (old url) in telemetry', () => {
+        // arrange
+        util.setInput("collectionUri", "https://myOrg.visualstudio.com");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.serverType).to.be.eq("Hosted");
+      });
+
+      it('Should detect when custom url is Azure DevOps Server in telemetry', () => {
+        // arrange
+        util.setInput("collectionUri", "https://myserver.com/tfs/myOrg");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.serverType).to.be.eq("OnPremises");
       });
 
       it('Should anonymize url + project name in telemetry', () => {
@@ -181,6 +312,21 @@ describe('TaskParameters', () => {
     });
 
     context('default values', () => {
+
+      let expectedCollectionUri : string | undefined;
+
+      before(() => {
+        // process.env.SYSTEM_COLLECTIONURI is defined in the mocha test explorer env
+        // but is not unloaded using our testUtil. Capture the original value
+        expectedCollectionUri = process.env.SYSTEM_COLLECTIONURI;
+      });
+
+      afterEach(() => {
+        // reset System_CollectionUri to prevent test pollution
+        util.setSystemVariable("SYSTEM.COLLECTIONURI", expectedCollectionUri as string);
+        util.loadData();
+      })
+
       it('Should resolve default taskParameters for url, project and access token', () => {
         // arrange
         util.loadData();
@@ -192,6 +338,44 @@ describe('TaskParameters', () => {
         expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI);
         expect(parameters.accessToken).to.eq(accessToken);
         expect(parameters.projectName).to.eq(process.env.TEAMPROJECT);
+      });
+
+      it('Should detect when running on Azure DevOps Services in telemetry', () => {
+        // arrange
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.serverType).to.be.eq("Hosted");
+      });
+
+      it('Should detect when running on Azure DevOps Services (old url) in telemetry', () => {
+        // arrange
+        util.setSystemVariable("SYSTEM.COLLECTIONURI", "https://myOrg.visualstudio.com");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.serverType).to.be.eq("Hosted");
+      });
+
+      it('Should detect when running on Azure DevOps Server in telemetry', () => {
+        // arrange
+        util.setSystemVariable("SYSTEM.COLLECTIONURI", "https://myserver.com/tfs/myOrg");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestContextParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.serverType).to.be.eq("OnPremises");
       });
 
       it('Should anonymize url + project name in telemetry', () => {
@@ -1048,6 +1232,7 @@ describe('TaskParameters', () => {
         util.loadData();
 
         // act
+        subject = TaskParameters.getInstance(); // reload to pick up values from constructor
         var parameters = subject.getPublisherParameters();
 
         // assert
@@ -1059,24 +1244,12 @@ describe('TaskParameters', () => {
         util.loadData();
 
         // act
+        subject = TaskParameters.getInstance(); // reload to pick up values from constructor
         var parameters = subject.getPublisherParameters();
 
         // assert
         expect(parameters.releaseUri).to.be.undefined;
         expect(parameters.releaseEnvironmentUri).to.be.undefined;
-      });
-
-      it('Should reflect build pipeline in telemetry', () => {
-        // arrange
-        util.setSystemVariable("BUILD_BUILDID", "1234")
-        util.loadData();
-
-        // act
-        var parameters = subject.getPublisherParameters();
-
-        // assert
-        let telemetry = subject.getTelemetryParameters().payload;
-        expect(telemetry.hostType).to.eq("build");
       });
 
     });    
@@ -1090,28 +1263,14 @@ describe('TaskParameters', () => {
         util.loadData();
 
         // act
+        subject = TaskParameters.getInstance(); // reload to pick up values from constructor
         var parameters = subject.getPublisherParameters();
 
         // assert
         expect(parameters.releaseUri).to.satisfy( (x: string) => x.startsWith("vstfs://ReleaseManagement"));
         expect(parameters.releaseEnvironmentUri).to.satisfy( (x: string) => x.startsWith("vstfs://ReleaseManagement"));
       });
-
-      it('Should reflect release pipeline in telemetry', () => {
-        // arrange
-        util.setSystemVariable("RELEASE_RELEASEURI", "vstfs://ReleaseManagement/Release/1234");
-        util.setSystemVariable("RELEASE_ENVIRONMENTURI", "vstfs://ReleaseManagement/Environment/5678");
-        util.loadData();
-
-        // act
-        var parameters = subject.getPublisherParameters();
-
-        // assert
-        let telemetry = subject.getTelemetryParameters().payload;
-        expect(telemetry.hostType).to.eq("release");
-      });
     });
-
     
     it('Should record begin and end of testrun publishing stage in telemetry', () => {
       // arrange
