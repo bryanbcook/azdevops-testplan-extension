@@ -65,6 +65,9 @@ async function run() {
       tl.setResult(tl.TaskResult.Failed, 'An unhandled error occurred.');
     }
   }
+  finally {
+    TelemetryPublisher.dispose();
+  }
 }
 
 run();

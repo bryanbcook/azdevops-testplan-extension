@@ -11,9 +11,11 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
+    "applicationinsights": "^2.3.6",
     "azure-devops-node-api": "^12.5.0",
     "azure-pipelines-task-lib": "^4.17.3",
-    "test-results-parser": "0.3.0"
+    "test-results-parser": "0.3.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/chai": "^5.2.2",
@@ -21,6 +23,7 @@
     "@types/node": "^20.19.22",
     "@types/q": "^1.5.7",
     "@types/sinon": "^17.0.4",
+    "@types/uuid": "^8.3.2",
     "chai": "^4.5.0",
     "sinon": "^21.0.0",
     "sync-request": "^6.1.0"
