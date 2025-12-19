@@ -20,7 +20,7 @@ describe('TaskParameters', () => {
     util.setSystemVariable("System.AccessToken", process.env.SYSTEM_ACCESSTOKEN as string);
     util.setSystemVariable("ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN", process.env.SYSTEM_ACCESSTOKEN as string);
     util.setSystemVariable("System.TeamProject", process.env.TEAMPROJECT as string);
-    util.setSystemVariable("System.AgentVersion", "3.220.3");
+    util.setSystemVariable("Agent.Version", "3.220.3");
     util.clearSystemVariable("Agent.CloudId");
   });
 

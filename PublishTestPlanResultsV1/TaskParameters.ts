@@ -226,7 +226,7 @@ class TaskParameters {
     this.tph.payloadBuilder.add("agentType", agentType);
 
     // collect the agent version
-    let agentVersion = tl.getVariable("System.AgentVersion") || '';
+    let agentVersion = tl.getVariable("Agent.Version") || '';
     this.tph.payloadBuilder.add("agentVersion", agentVersion);    
 
     return { buildId, releaseUri, releaseEnvironmentUri };
