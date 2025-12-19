@@ -1324,6 +1324,18 @@ describe('TaskParameters', () => {
       expect(parameters.payload.flags).to.have.lengthOf(2);
     });
 
+    it('Should not record telemetry stage in telemetry', () => {
+      // arrange
+      util.loadData();
+
+      // act
+      subject.getTelemetryParameters();
+
+      // assert
+      let telemetry = subject.getTelemetryParameters().payload;
+      expect(telemetry.taskStage).to.be.undefined;
+    });
+
     context(`FeatureFlag: ${FeatureFlag.PublishTelemetry}`, () =>  {
 
       it(`should populate ${FeatureFlag.PublishTelemetry} from FeatureFlag`, () => {

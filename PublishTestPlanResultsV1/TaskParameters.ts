@@ -139,6 +139,7 @@ class TaskParameters {
     const hasError = err !== undefined && err !== null;
     const withErrorOrWithoutError = hasError ? "(error condition)" : "";
     tl.debug(`reading TelemetryPublisherParameters from task inputs ${withErrorOrWithoutError}.`);
+    // don't record stage so that we can publish which stage we last completed
 
     const result = new TelemetryPublisherParameters();
     result.displayTelemetryPayload = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetry);
