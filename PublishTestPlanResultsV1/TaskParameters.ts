@@ -68,8 +68,8 @@ class TaskParameters {
     this.tph.recordStage("getFrameworkParameters");  
 
     let testResultFormat = this.tph.getInput("testResultFormat", true, { recordValue: true});
-    let failTaskOnMissingResultsFile = this.tph.getBoolInput("failTaskOnMissingResultsFile", /*default*/ true, { recordValue: true, recordNonDefault: true});
-    let failTaskOnMissingTests = this.tph.getBoolInput("failTaskOnMissingTests", /*default*/ false, { recordValue: true, recordNonDefault: true});
+    let failTaskOnMissingResultsFile = this.tph.getBoolInput("failTaskOnMissingResultsFile", /*default*/ true, { recordValue: true, dontRecordDefault: true});
+    let failTaskOnMissingTests = this.tph.getBoolInput("failTaskOnMissingTests", /*default*/ false, { recordValue: true, dontRecordDefault: true});
     this.testFiles = this.#getTestFiles(failTaskOnMissingResultsFile);
     
     const parameters = new TestFrameworkParameters(this.testFiles, testResultFormat!.toLowerCase(), failTaskOnMissingResultsFile, failTaskOnMissingTests);

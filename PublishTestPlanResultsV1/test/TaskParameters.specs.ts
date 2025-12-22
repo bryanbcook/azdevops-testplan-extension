@@ -700,6 +700,8 @@ describe('TaskParameters', () => {
 
       it('Should indicate when user has provided value for testResultsDirectory in telemetry', () => {
         // arrange
+        // change the working directory to an alternate path, but set the resultDirectory to a valid path
+        util.setSystemVariable("System.DefaultWorkingDirectory", "/some/other/path");
         util.setInput("testResultDirectory", path.join(__dirname)); // assume user supplied $(Pipeline.Workspace)/folder
         util.setInput("testResultFormat", "xUnit");
         util.setInput("testResultFiles", "data/xunit/xunit-1.xml");
@@ -716,7 +718,7 @@ describe('TaskParameters', () => {
 
       it('Should indicate when user has provided value for failTaskOnMissingTests in telemetry', () => {
         // arrange
-        util.setInput("failTaskOnMissingTests", "true");
+        util.setInput("failTaskOnMissingTests", "true"); // default is false
         util.setInput("testResultFormat", "xUnit");     
         util.setInput("testResultFiles", validFiles.join(','));
         util.loadData();
@@ -727,44 +729,12 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.failTaskOnMissingTests).to.be.true;
-        expect(telemetry.failTaskOnMissingTests_custom).to.be.true;
-      });
-
-      it('Should indicate when user has provided opted-out of failTaskOnMissingTests in telemetry', () => {
-        // arrange
-        util.setInput("failTaskOnMissingTests", "false");
-        util.setInput("testResultFormat", "xUnit");     
-        util.setInput("testResultFiles", validFiles.join(','));
-        util.loadData();
-
-        // act
-        var parameters = subject.getFrameworkParameters();
-
-        // assert
-        let telemetry = subject.getTelemetryParameters().payload;
-        expect(telemetry.failTaskOnMissingTests).to.be.false;
-        expect(telemetry.failTaskOnMissingTests_custom).to.be.true;
+        expect(telemetry.failTaskOnMissingTests_custom).to.be.undefined;
       });
 
       it('Should indicate when user has provided value for failTaskOnMissingResultsFile in telemetry', () => {
         // arrange
-        util.setInput("failTaskOnMissingResultsFile", "true");
-        util.setInput("testResultFormat", "xUnit");     
-        util.setInput("testResultFiles", validFiles.join(','));
-        util.loadData();
-
-        // act
-        var parameters = subject.getFrameworkParameters();
-
-        // assert
-        let telemetry = subject.getTelemetryParameters().payload;
-        expect(telemetry.failTaskOnMissingResultsFile).to.be.true;
-        expect(telemetry.failTaskOnMissingResultsFile_custom).to.be.true;
-      });
-
-      it('Should indicate when user has provided opted-out of failTaskOnMissingResultsFile in telemetry', () => {
-        // arrange
-        util.setInput("failTaskOnMissingResultsFile", "false");
+        util.setInput("failTaskOnMissingResultsFile", "false"); // default is true
         util.setInput("testResultFormat", "xUnit");     
         util.setInput("testResultFiles", validFiles.join(','));
         util.loadData();
@@ -775,12 +745,18 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.failTaskOnMissingResultsFile).to.be.false;
-        expect(telemetry.failTaskOnMissingResultsFile_custom).to.be.true;
+        expect(telemetry.failTaskOnMissingResultsFile_custom).to.be.undefined;
       });
 
     });
 
     context('default values', () => {
+
+      beforeEach(() => {
+        // azure devops populates the values of the task.json with their default values
+        util.setInput("failTaskOnMissingResultsFile", "true");
+        util.setInput("failTaskOnMissingTests", "false");
+      });
 
       it('Should default failTaskOnMissingResultFiles to true', () => {
         // arrange
