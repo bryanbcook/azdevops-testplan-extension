@@ -143,10 +143,12 @@ class TaskParameters {
     tl.debug(`reading TelemetryPublisherParameters from task inputs ${withErrorOrWithoutError}.`);
     // don't record stage so that we can publish which stage we last completed
 
+    let dryRun = this.#getDryRun();
+
     const result = new TelemetryPublisherParameters();
-    result.displayTelemetryPayload = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetry);
+    result.displayTelemetryPayload = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetry); // TODO: deprecate
     result.displayTelemetryErrors = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetryErrors);
-    result.publishTelemetry = FeatureFlags.isFeatureEnabled(FeatureFlag.PublishTelemetry);
+    result.publishTelemetry = FeatureFlags.isFeatureEnabled(FeatureFlag.PublishTelemetry) && !dryRun;
 
     result.payload = this.tph.getPayload(err); // todo: specify privacy level
     result.payload["flags"] = FeatureFlags.getFlags();

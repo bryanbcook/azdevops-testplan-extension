@@ -1194,7 +1194,7 @@ describe('TaskParameters', () => {
         expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
         expect(parameters.accessToken).to.eq(process.env.SYSTEM_ACCESSTOKEN as string);
         expect(parameters.failTaskOnUnmatchedTestCases).to.be.true;
-        expect(parameters.dryRun).to.be.false;
+        expect(parameters.dryRun).to.be.false;        
         expect(parameters.testRunTitle).to.eq("PublishTestPlanResult");
       });
 
@@ -1302,7 +1302,7 @@ describe('TaskParameters', () => {
         expect(parameters.releaseEnvironmentUri).to.be.undefined;
       });
 
-    });    
+    });  
 
     context("For Release Pipeline", () => {
 
@@ -1388,6 +1388,7 @@ describe('TaskParameters', () => {
 
     context(`FeatureFlag: ${FeatureFlag.PublishTelemetry}`, () =>  {
 
+      // TODO: deprecate
       it(`should populate ${FeatureFlag.PublishTelemetry} from FeatureFlag`, () => {
         // arrange
         util.setFeatureFlag(FeatureFlag.PublishTelemetry, "true");
@@ -1400,6 +1401,7 @@ describe('TaskParameters', () => {
         expect(parameters.publishTelemetry).to.be.true;
       });
 
+      // TODO: deprecate
       it(`should default ${FeatureFlag.PublishTelemetry} to false`, () => {
         // arrange
         util.loadData();
@@ -1408,6 +1410,34 @@ describe('TaskParameters', () => {
         // assert
         expect(parameters.publishTelemetry).to.be.false;
       });
+
+      // TODO: remove from feature flag context
+      it('Should recognize when dryRun is specified', () => {
+        // arrange
+        util.setFeatureFlag(FeatureFlag.PublishTelemetry, "true");
+        util.setInput("dryRun", "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTelemetryParameters();
+
+        // assert
+        expect(parameters.publishTelemetry).to.be.false;
+      })
+
+      it('Should recognize when dryRun is not specified', () => {
+        // arrange
+        util.setFeatureFlag(FeatureFlag.PublishTelemetry, "true");
+        util.setInput("dryRun", "false");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTelemetryParameters();
+
+        // assert
+        expect(parameters.publishTelemetry).to.be.true;
+      });
+
     });
 
     context(`FeatureFlag: ${FeatureFlag.DisplayTelemetry}`, () =>  {
@@ -1492,6 +1522,13 @@ describe('TaskParameters', () => {
   context('StatusFilterParameters', () => {
 
     context('default values', () => {
+
+      beforeEach(() => {
+        // azure devops populates the values of the task.json with their default values
+        util.setInput("failTaskOnFailedTests", "false");
+        util.setInput("failTaskOnSkippedTests", "false");
+      });
+
       it('Should use defaults if no inputs are provided', () => {
         // arrange
         // act
@@ -1531,7 +1568,7 @@ describe('TaskParameters', () => {
 
       it('should record failTaskOnFailedTests in telemetry when custom value is provided', () => {
         // arrange
-        util.setInput("failTaskOnFailedTests", "true");
+        util.setInput("failTaskOnFailedTests", "true"); // default is false
         util.loadData();
 
         // act
@@ -1543,23 +1580,9 @@ describe('TaskParameters', () => {
         expect(telemetry.failTaskOnFailedTests_custom).to.be.undefined;
       });
 
-      it('should record failTaskOnFailedTests in telemetry when custom value is provided (false)', () => {
-        // arrange
-        util.setInput("failTaskOnFailedTests", "false");
-        util.loadData();
-
-        // act
-        var parameters = subject.getStatusFilterParameters();
-
-        // assert
-        let telemetry = subject.getTelemetryParameters().payload;
-        expect(telemetry.failTaskOnFailedTests).to.be.false;
-        expect(telemetry.failTaskOnFailedTests_custom).to.be.undefined;
-      });
-
       it('Should resolve failTaskOnSkippedTests input', () => {
         // arrange
-        util.setInput("failTaskOnSkippedTests", "true");
+        util.setInput("failTaskOnSkippedTests", "true"); // default is false
         util.loadData();
 
         // act
@@ -1573,7 +1596,7 @@ describe('TaskParameters', () => {
 
     it('should record failTaskOnSkippedTests in telemetry when custom value is provided', () => {
       // arrange
-      util.setInput("failTaskOnSkippedTests", "true");
+      util.setInput("failTaskOnSkippedTests", "true"); // default is false
       util.loadData();
 
       // act
@@ -1582,20 +1605,6 @@ describe('TaskParameters', () => {
       // assert
       let telemetry = subject.getTelemetryParameters().payload;
       expect(telemetry.failTaskOnSkippedTests).to.be.true;
-      expect(telemetry.failTaskOnSkippedTests_custom).to.be.undefined;
-    });
-
-    it('should record failTaskOnSkippedTests in telemetry when custom value is provided (false)', () => {
-      // arrange
-      util.setInput("failTaskOnSkippedTests", "false");
-      util.loadData();
-
-      // act
-      var parameters = subject.getStatusFilterParameters();
-
-      // assert
-      let telemetry = subject.getTelemetryParameters().payload;
-      expect(telemetry.failTaskOnSkippedTests).to.be.false;
       expect(telemetry.failTaskOnSkippedTests_custom).to.be.undefined;
     });
 
