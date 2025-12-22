@@ -1175,6 +1175,14 @@ describe('TaskParameters', () => {
     });
 
     context('default values', () => {
+
+      beforeEach(() => {
+        // azure devops populates the values of the task.json with their default values
+        util.setInput("testRunTitle", "PublishTestPlanResult");
+        util.setInput("dryRun", "false");
+        util.setInput("failTaskOnUnmatchedTestCases", "true");
+      });
+
       it('Should resolve default values', () => {
         // arrange
         util.loadData();
@@ -1185,6 +1193,7 @@ describe('TaskParameters', () => {
         // assert
         expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
         expect(parameters.accessToken).to.eq(process.env.SYSTEM_ACCESSTOKEN as string);
+        expect(parameters.failTaskOnUnmatchedTestCases).to.be.true;
         expect(parameters.dryRun).to.be.false;
         expect(parameters.testRunTitle).to.eq("PublishTestPlanResult");
       });
@@ -1199,8 +1208,67 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.dryRun).to.be.undefined;
+        expect(telemetry.dryRun_custom).to.be.undefined;
+        expect(telemetry.failTaskOnUnmatchedTestCases).to.be.undefined;
+        expect(telemetry.failTaskOnUnmatchedTestCases_custom).to.be.undefined;
         expect(telemetry.testRunTitle).to.be.undefined;
+        expect(telemetry.testRunTitle_custom).to.be.undefined;
       })
+    });
+
+    context('user supplied values', () => {
+
+      it('Should resolve testRunTitle if provided', () => {
+        // arrange
+        util.setInput("testRunTitle", "My Test Run");
+        util.loadData();
+
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        expect(parameters.testRunTitle).to.eq("My Test Run");
+      });
+
+      it('Should record custom value for testRunTitle in telemetry when provided', () => {
+        // arrange
+        util.setInput("testRunTitle", "My Test Run");
+        util.loadData();
+
+        // act
+        subject.getPublisherParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testRunTitle).to.be.undefined; // don't record user value
+        expect(telemetry.testRunTitle_custom).to.be.true;
+      });
+
+      it('Should resolve value for failTaskOnUnmatchedTestCases from input', () => {
+        // arrange
+        util.setInput("failTaskOnUnmatchedTestCases", "false"); // default is true
+        util.loadData();
+
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        expect(parameters.failTaskOnUnmatchedTestCases).to.be.false;
+      });
+
+      it('Should record custom value for failTaskOnUnmatchedTestCases in telemetry when provided', () => {
+        // arrange
+        util.setInput("failTaskOnUnmatchedTestCases", "false");
+        util.loadData();
+
+        // act
+        subject.getPublisherParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnUnmatchedTestCases).to.be.false;
+        expect(telemetry.failTaskOnUnmatchedTestCases_custom).to.be.undefined;
+      });
     });
 
     context('For Build Pipeline', () => {
@@ -1270,7 +1338,7 @@ describe('TaskParameters', () => {
       expect(recordedStages.length).to.eq(2);
       expect(recordedStages[0]).to.eq("getPublisherParameters");
       expect(recordedStages[1]).to.eq("publishTestRunResults");
-    })
+    });
 
     it('Should record that testrun publishing stage was reached in telemetry', () => {
       // arrange

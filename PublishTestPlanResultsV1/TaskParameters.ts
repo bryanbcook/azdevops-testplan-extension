@@ -25,6 +25,8 @@ class TaskParameters {
   releaseUri?: string;
   releaseEnvironmentUri?: string;
 
+  dryRun?: boolean;
+
   testFiles: string[] = [];
 
   constructor(tph: TaskParameterHelper) {
@@ -101,8 +103,8 @@ class TaskParameters {
     this.tph.recordStage("getPublisherParameters");
 
     this.#ensureCredentialsAreSet();
-    const dryRun = this.tph.getBoolInput("dryRun", false, { recordValue: true, dontRecordDefault: true });
-    const testRunTitle = this.tph.getInputOrFallback("testRunTitle", () =>  "PublishTestPlanResult", { recordNonDefault: true });
+    const dryRun = this.#getDryRun();
+    const testRunTitle = this.tph.getInputOrFallback("testRunTitle", () =>  "PublishTestPlanResult", { recordNonDefault: true, dontRecordDefault: true });
     let failTaskOnUnmatchedTestCases = this.tph.getBoolInput("failTaskOnUnmatchedTestCases", /*default*/ true, { recordValue: true, dontRecordDefault: true });
     const testFiles = this.testFiles.filter(file => file.indexOf('**') == -1);  
     let result = new TestRunPublisherParameters(
@@ -230,6 +232,13 @@ class TaskParameters {
     this.tph.payloadBuilder.add("agentVersion", agentVersion);    
 
     return { buildId, releaseUri, releaseEnvironmentUri };
+  }
+
+  #getDryRun() : boolean {
+    if (this.dryRun === undefined) {
+      this.dryRun = this.tph.getBoolInput("dryRun", false, { recordValue: true, dontRecordDefault: true });
+    }
+    return this.dryRun;
   }
 }
 
