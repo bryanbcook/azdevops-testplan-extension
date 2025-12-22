@@ -28,13 +28,20 @@ export class TaskParameterHelper {
   getInputOrFallback(name: string, fallback: () => string | undefined, options: TaskTelemetryOptions = {}) : string {
     let value = tl.getInput(name, false);
     let wasDefault = false;
+    let defaultValue = fallback();
     if (value === undefined || value === null || value.length == 0) {
       tl.debug(`input '${name}' not specified. using default value.`);
-      value = fallback();
+      value = defaultValue;
       wasDefault = true;
-    } else if (options.recordNonDefault) {
+    } else {
+      wasDefault = value === defaultValue;
+    }
+    
+    // record that a custom value was provided if requested
+    if (!wasDefault && options.recordNonDefault) {
       this.payloadBuilder.recordNonDefaultValue(name);
     }
+
     // record the value if requested, but skip defaults if specified
     let recordValue = options.recordValue && (!wasDefault || !options.dontRecordDefault);
     if (recordValue || options.anonymize) {
@@ -81,9 +88,11 @@ export class TaskParameterHelper {
       // parse as boolean and record telemetry options
       let boolValue = input.toUpperCase() == "TRUE";
       if (options.recordValue) {
-        this.payloadBuilder.add(name, boolValue);
+        if (boolValue != defaultValue || !options.dontRecordDefault) {
+          this.payloadBuilder.add(name, boolValue);
+        }
       }
-      if (options.recordNonDefault) {
+      if (options.recordNonDefault && boolValue != defaultValue) {
         this.payloadBuilder.recordNonDefaultValue(name);
       }
       return boolValue;
