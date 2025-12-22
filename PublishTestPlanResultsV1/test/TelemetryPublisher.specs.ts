@@ -61,9 +61,9 @@ describe('TelemetryPublisher', () => {
 
   });
  
-  context(`FeatureFlag: ${FeatureFlag.PublishTelemetry}`, () => {
+  context(`publishTelemetry`, () => {
 
-    it('should publish telemetry when feature flag is enabled', async () => {
+    it('should publish telemetry when enabled', async () => {
       // arrange
       parameters.publishTelemetry = true;
       parameters.payload = { testKey: "testValue" };
@@ -76,7 +76,7 @@ describe('TelemetryPublisher', () => {
       sinon.assert.calledWith(telemetryClientStub.trackEvent, sinon.match.has("name", "PublishTestPlanResults"));
     });
 
-    it('should not publish telemetry when feature flag is disabled', async () => {
+    it('should not publish telemetry disabled', async () => {
       // arrange
       parameters.publishTelemetry = false;
       parameters.payload = { testKey: "testValue" };

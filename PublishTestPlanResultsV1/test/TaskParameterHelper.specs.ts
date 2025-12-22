@@ -117,6 +117,34 @@ describe('TaskParameterHelper', () => {
       })
     });
 
+    context('dontRecordDefault', () => {
+      it('should record non-default value when input is provided and dontRecordDefault is true', () => {
+        // arrange
+        testUtil.setInput("taskInputName", "userValue");
+        testUtil.loadData();
+
+        // act
+        let result = subject.getInputOrFallback("taskInputName", () => "defaultValue", { recordValue: true, dontRecordDefault: true });
+
+        // assert
+        expect(result).to.equal("userValue");
+        expect(payloadBuilder.getPayload().taskInputName).to.equal("userValue");
+      });
+
+      it('should not record default value when input is default value and dontRecordDefault is true', () => {
+        // arrange
+        testUtil.setInput("taskInputName", "defaultValue");
+        testUtil.loadData();
+
+        // act
+        let result = subject.getInputOrFallback("taskInputName", () => "defaultValue", { recordValue: true, dontRecordDefault: true });
+
+        // assert
+        expect(result).to.equal("defaultValue");
+        expect(payloadBuilder.getPayload().taskInputName).to.be.undefined;
+      });
+    });
+
     context('anonymize', () => {
       it('should record anonymized value when anonymize is true', () => {
         // arrange
@@ -248,6 +276,45 @@ describe('TaskParameterHelper', () => {
       // assert
       expect(payloadBuilder.getPayload().taskInputName_custom).to.be.true;
       expect(payloadBuilder.getPayload().taskInputName).to.be.undefined;
+    });
+
+    it('should not record a value when input matches the default and recordNonDefault is specified', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "false");
+      testUtil.loadData();
+
+      // act
+      let result = subject.getBoolInput("taskInputName", false, { recordNonDefault: true });
+
+      // assert
+      expect(payloadBuilder.getPayload().taskInputName).to.be.undefined;
+      expect(payloadBuilder.getPayload().taskInputName_custom).to.be.undefined;
+    });
+
+    it('should record the value if non-default value is provided and recordValue and dontRecordDefault are specified', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "true");
+      testUtil.loadData();
+
+      // act
+      subject.getBoolInput("taskInputName", false, { recordValue: true, dontRecordDefault: true });
+
+      // assert
+      expect(payloadBuilder.getPayload().taskInputName).to.equal(true);
+      expect(payloadBuilder.getPayload().taskInputName_custom).to.be.undefined;
+    });
+
+    it('should not record the value if default value is provided and recordValue and dontRecordDefault are specified', () => {
+      // arrange
+      testUtil.setInput("taskInputName", "false");
+      testUtil.loadData();
+
+      // act
+      subject.getBoolInput("taskInputName", false, { recordValue: true, dontRecordDefault: true });
+
+      // assert
+      expect(payloadBuilder.getPayload().taskInputName).to.be.undefined;
+      expect(payloadBuilder.getPayload().taskInputName_custom).to.be.undefined;
     });
   })
 

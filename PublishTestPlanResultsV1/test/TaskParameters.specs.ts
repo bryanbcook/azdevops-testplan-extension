@@ -120,12 +120,26 @@ describe('TaskParameters', () => {
 
   context('TestResultContextParameters', () => {
 
+    let expectedCollectionUri : string | undefined;
+
+    before(() => {
+      // process.env.SYSTEM_COLLECTIONURI is defined in the mocha test explorer env
+      // but is not unloaded using our testUtil. Capture the original value
+      expectedCollectionUri = process.env.SYSTEM_COLLECTIONURI;
+    });
+
+    afterEach(() => {
+      // reset System_CollectionUri to prevent test pollution
+      util.setSystemVariable("SYSTEM.COLLECTIONURI", expectedCollectionUri as string);
+      util.loadData();
+    })
+
     context('user supplied values', () => {
       it('Should use custom url, project or access token if provided', () => {
         // arrange
-        util.setInput("collectionUri", "https://my");
-        util.setInput("projectName", "myProject");
-        util.setInput("accessToken", "myToken")
+        util.setInput("collectionUri", "https://my"); // different than default
+        util.setInput("projectName", "myProject"); // different than default
+        util.setInput("accessToken", "myToken") // different than default
         util.loadData();
 
         // act
@@ -313,19 +327,12 @@ describe('TaskParameters', () => {
 
     context('default values', () => {
 
-      let expectedCollectionUri : string | undefined;
-
-      before(() => {
-        // process.env.SYSTEM_COLLECTIONURI is defined in the mocha test explorer env
-        // but is not unloaded using our testUtil. Capture the original value
-        expectedCollectionUri = process.env.SYSTEM_COLLECTIONURI;
+      beforeEach(() => {
+        // azure devops populates the values of the task.json with their default values
+        util.setInput("collectionUri", process.env.SYSTEM_COLLECTIONURI as string);
+        util.setInput("projectName", process.env.TEAMPROJECT as string);
+        // access token is not set to a default value in task.json
       });
-
-      afterEach(() => {
-        // reset System_CollectionUri to prevent test pollution
-        util.setSystemVariable("SYSTEM.COLLECTIONURI", expectedCollectionUri as string);
-        util.loadData();
-      })
 
       it('Should resolve default taskParameters for url, project and access token', () => {
         // arrange
@@ -355,6 +362,7 @@ describe('TaskParameters', () => {
       it('Should detect when running on Azure DevOps Services (old url) in telemetry', () => {
         // arrange
         util.setSystemVariable("SYSTEM.COLLECTIONURI", "https://myOrg.visualstudio.com");
+        util.setInput("collectionUri", "https://myOrg.visualstudio.com");
         util.loadData();
 
         // act
@@ -368,6 +376,7 @@ describe('TaskParameters', () => {
       it('Should detect when running on Azure DevOps Server in telemetry', () => {
         // arrange
         util.setSystemVariable("SYSTEM.COLLECTIONURI", "https://myserver.com/tfs/myOrg");
+        util.setInput("collectionUri", "https://myserver.com/tfs/myOrg");
         util.loadData();
 
         // act
@@ -700,6 +709,8 @@ describe('TaskParameters', () => {
 
       it('Should indicate when user has provided value for testResultsDirectory in telemetry', () => {
         // arrange
+        // change the working directory to an alternate path, but set the resultDirectory to a valid path
+        util.setSystemVariable("System.DefaultWorkingDirectory", "/some/other/path");
         util.setInput("testResultDirectory", path.join(__dirname)); // assume user supplied $(Pipeline.Workspace)/folder
         util.setInput("testResultFormat", "xUnit");
         util.setInput("testResultFiles", "data/xunit/xunit-1.xml");
@@ -716,7 +727,7 @@ describe('TaskParameters', () => {
 
       it('Should indicate when user has provided value for failTaskOnMissingTests in telemetry', () => {
         // arrange
-        util.setInput("failTaskOnMissingTests", "true");
+        util.setInput("failTaskOnMissingTests", "true"); // default is false
         util.setInput("testResultFormat", "xUnit");     
         util.setInput("testResultFiles", validFiles.join(','));
         util.loadData();
@@ -727,44 +738,12 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.failTaskOnMissingTests).to.be.true;
-        expect(telemetry.failTaskOnMissingTests_custom).to.be.true;
-      });
-
-      it('Should indicate when user has provided opted-out of failTaskOnMissingTests in telemetry', () => {
-        // arrange
-        util.setInput("failTaskOnMissingTests", "false");
-        util.setInput("testResultFormat", "xUnit");     
-        util.setInput("testResultFiles", validFiles.join(','));
-        util.loadData();
-
-        // act
-        var parameters = subject.getFrameworkParameters();
-
-        // assert
-        let telemetry = subject.getTelemetryParameters().payload;
-        expect(telemetry.failTaskOnMissingTests).to.be.false;
-        expect(telemetry.failTaskOnMissingTests_custom).to.be.true;
+        expect(telemetry.failTaskOnMissingTests_custom).to.be.undefined;
       });
 
       it('Should indicate when user has provided value for failTaskOnMissingResultsFile in telemetry', () => {
         // arrange
-        util.setInput("failTaskOnMissingResultsFile", "true");
-        util.setInput("testResultFormat", "xUnit");     
-        util.setInput("testResultFiles", validFiles.join(','));
-        util.loadData();
-
-        // act
-        var parameters = subject.getFrameworkParameters();
-
-        // assert
-        let telemetry = subject.getTelemetryParameters().payload;
-        expect(telemetry.failTaskOnMissingResultsFile).to.be.true;
-        expect(telemetry.failTaskOnMissingResultsFile_custom).to.be.true;
-      });
-
-      it('Should indicate when user has provided opted-out of failTaskOnMissingResultsFile in telemetry', () => {
-        // arrange
-        util.setInput("failTaskOnMissingResultsFile", "false");
+        util.setInput("failTaskOnMissingResultsFile", "false"); // default is true
         util.setInput("testResultFormat", "xUnit");     
         util.setInput("testResultFiles", validFiles.join(','));
         util.loadData();
@@ -775,12 +754,18 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.failTaskOnMissingResultsFile).to.be.false;
-        expect(telemetry.failTaskOnMissingResultsFile_custom).to.be.true;
+        expect(telemetry.failTaskOnMissingResultsFile_custom).to.be.undefined;
       });
 
     });
 
     context('default values', () => {
+
+      beforeEach(() => {
+        // azure devops populates the values of the task.json with their default values
+        util.setInput("failTaskOnMissingResultsFile", "true");
+        util.setInput("failTaskOnMissingTests", "false");
+      });
 
       it('Should default failTaskOnMissingResultFiles to true', () => {
         // arrange
@@ -878,6 +863,15 @@ describe('TaskParameters', () => {
   context('TestResultProcessorParameters', () => {
 
     context('default values', () => {
+
+      beforeEach(() => {
+        // azure devops populates the values of the task.json with their default values
+        util.setInput("testCaseMatchStrategy", "auto");
+        util.setInput("testCaseProperty", "TestCase");
+        util.setInput("testCaseRegex", "(\\d+)");
+        util.setInput("testConfigProperty", "Config");
+      });
+
       it('Should use defaults if no inputs are provided', () => {
         // arrange
         // act
@@ -961,7 +955,7 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.testCaseRegex).to.be.eq("TestCase(\\d+)");
-        expect(telemetry.testCaseRegex_custom).to.be.true;
+        expect(telemetry.testCaseRegex_custom).to.be.undefined;
       });
 
       it('Should support custom property for testcase id', () => {
@@ -987,7 +981,7 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.testCaseProperty).to.be.eq("id");
-        expect(telemetry.testCaseProperty_custom).to.be.true;
+        expect(telemetry.testCaseProperty_custom).to.be.undefined;
       });
 
       it('Should support custom property for config name or alias', () => {
@@ -1013,7 +1007,7 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.testConfigProperty).to.be.eq("Category");
-        expect(telemetry.testConfigProperty_custom).to.be.true;
+        expect(telemetry.testConfigProperty_custom).to.be.undefined;
       });
 
       it('Should allow testCaseMatchStrategy to be used as a set of flags', () => {
@@ -1040,20 +1034,8 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.testCaseMatchStrategy).to.be.eq("name,property"); // record actual values, not realized processed values
-        expect(telemetry.testCaseMatchStrategy_custom).to.be.true;
+        expect(telemetry.testCaseMatchStrategy_custom).to.be.undefined;
       });
-
-      it('Should allow testConfigProperty to find single configuration property', () => {
-        // arrange
-        util.setInput("testConfigProperty", "config");
-        util.loadData();
-
-        // act
-        var result = subject.getProcessorParameters();
-
-        // assert
-        expect(result.testConfigProperty).to.be.eq( "config" );
-      })
     });
 
     it('Should record begin and end of result processor stage in telemetry', () => {
@@ -1193,6 +1175,14 @@ describe('TaskParameters', () => {
     });
 
     context('default values', () => {
+
+      beforeEach(() => {
+        // azure devops populates the values of the task.json with their default values
+        util.setInput("testRunTitle", "PublishTestPlanResult");
+        util.setInput("dryRun", "false");
+        util.setInput("failTaskOnUnmatchedTestCases", "true");
+      });
+
       it('Should resolve default values', () => {
         // arrange
         util.loadData();
@@ -1203,7 +1193,8 @@ describe('TaskParameters', () => {
         // assert
         expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
         expect(parameters.accessToken).to.eq(process.env.SYSTEM_ACCESSTOKEN as string);
-        expect(parameters.dryRun).to.be.false;
+        expect(parameters.failTaskOnUnmatchedTestCases).to.be.true;
+        expect(parameters.dryRun).to.be.false;        
         expect(parameters.testRunTitle).to.eq("PublishTestPlanResult");
       });
 
@@ -1217,8 +1208,67 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.dryRun).to.be.undefined;
+        expect(telemetry.dryRun_custom).to.be.undefined;
+        expect(telemetry.failTaskOnUnmatchedTestCases).to.be.undefined;
+        expect(telemetry.failTaskOnUnmatchedTestCases_custom).to.be.undefined;
         expect(telemetry.testRunTitle).to.be.undefined;
+        expect(telemetry.testRunTitle_custom).to.be.undefined;
       })
+    });
+
+    context('user supplied values', () => {
+
+      it('Should resolve testRunTitle if provided', () => {
+        // arrange
+        util.setInput("testRunTitle", "My Test Run");
+        util.loadData();
+
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        expect(parameters.testRunTitle).to.eq("My Test Run");
+      });
+
+      it('Should record custom value for testRunTitle in telemetry when provided', () => {
+        // arrange
+        util.setInput("testRunTitle", "My Test Run");
+        util.loadData();
+
+        // act
+        subject.getPublisherParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.testRunTitle).to.be.undefined; // don't record user value
+        expect(telemetry.testRunTitle_custom).to.be.true;
+      });
+
+      it('Should resolve value for failTaskOnUnmatchedTestCases from input', () => {
+        // arrange
+        util.setInput("failTaskOnUnmatchedTestCases", "false"); // default is true
+        util.loadData();
+
+        // act
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        expect(parameters.failTaskOnUnmatchedTestCases).to.be.false;
+      });
+
+      it('Should record custom value for failTaskOnUnmatchedTestCases in telemetry when provided', () => {
+        // arrange
+        util.setInput("failTaskOnUnmatchedTestCases", "false");
+        util.loadData();
+
+        // act
+        subject.getPublisherParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.failTaskOnUnmatchedTestCases).to.be.false;
+        expect(telemetry.failTaskOnUnmatchedTestCases_custom).to.be.undefined;
+      });
     });
 
     context('For Build Pipeline', () => {
@@ -1252,7 +1302,7 @@ describe('TaskParameters', () => {
         expect(parameters.releaseEnvironmentUri).to.be.undefined;
       });
 
-    });    
+    });  
 
     context("For Release Pipeline", () => {
 
@@ -1288,7 +1338,7 @@ describe('TaskParameters', () => {
       expect(recordedStages.length).to.eq(2);
       expect(recordedStages[0]).to.eq("getPublisherParameters");
       expect(recordedStages[1]).to.eq("publishTestRunResults");
-    })
+    });
 
     it('Should record that testrun publishing stage was reached in telemetry', () => {
       // arrange
@@ -1338,6 +1388,7 @@ describe('TaskParameters', () => {
 
     context(`FeatureFlag: ${FeatureFlag.PublishTelemetry}`, () =>  {
 
+      // TODO: deprecate
       it(`should populate ${FeatureFlag.PublishTelemetry} from FeatureFlag`, () => {
         // arrange
         util.setFeatureFlag(FeatureFlag.PublishTelemetry, "true");
@@ -1350,6 +1401,7 @@ describe('TaskParameters', () => {
         expect(parameters.publishTelemetry).to.be.true;
       });
 
+      // TODO: deprecate
       it(`should default ${FeatureFlag.PublishTelemetry} to false`, () => {
         // arrange
         util.loadData();
@@ -1358,6 +1410,34 @@ describe('TaskParameters', () => {
         // assert
         expect(parameters.publishTelemetry).to.be.false;
       });
+
+      // TODO: remove from feature flag context
+      it('Should recognize when dryRun is specified', () => {
+        // arrange
+        util.setFeatureFlag(FeatureFlag.PublishTelemetry, "true");
+        util.setInput("dryRun", "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTelemetryParameters();
+
+        // assert
+        expect(parameters.publishTelemetry).to.be.false;
+      })
+
+      it('Should recognize when dryRun is not specified', () => {
+        // arrange
+        util.setFeatureFlag(FeatureFlag.PublishTelemetry, "true");
+        util.setInput("dryRun", "false");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTelemetryParameters();
+
+        // assert
+        expect(parameters.publishTelemetry).to.be.true;
+      });
+
     });
 
     context(`FeatureFlag: ${FeatureFlag.DisplayTelemetry}`, () =>  {
@@ -1442,6 +1522,13 @@ describe('TaskParameters', () => {
   context('StatusFilterParameters', () => {
 
     context('default values', () => {
+
+      beforeEach(() => {
+        // azure devops populates the values of the task.json with their default values
+        util.setInput("failTaskOnFailedTests", "false");
+        util.setInput("failTaskOnSkippedTests", "false");
+      });
+
       it('Should use defaults if no inputs are provided', () => {
         // arrange
         // act
@@ -1481,7 +1568,7 @@ describe('TaskParameters', () => {
 
       it('should record failTaskOnFailedTests in telemetry when custom value is provided', () => {
         // arrange
-        util.setInput("failTaskOnFailedTests", "true");
+        util.setInput("failTaskOnFailedTests", "true"); // default is false
         util.loadData();
 
         // act
@@ -1493,23 +1580,9 @@ describe('TaskParameters', () => {
         expect(telemetry.failTaskOnFailedTests_custom).to.be.undefined;
       });
 
-      it('should record failTaskOnFailedTests in telemetry when custom value is provided (false)', () => {
-        // arrange
-        util.setInput("failTaskOnFailedTests", "false");
-        util.loadData();
-
-        // act
-        var parameters = subject.getStatusFilterParameters();
-
-        // assert
-        let telemetry = subject.getTelemetryParameters().payload;
-        expect(telemetry.failTaskOnFailedTests).to.be.false;
-        expect(telemetry.failTaskOnFailedTests_custom).to.be.undefined;
-      });
-
       it('Should resolve failTaskOnSkippedTests input', () => {
         // arrange
-        util.setInput("failTaskOnSkippedTests", "true");
+        util.setInput("failTaskOnSkippedTests", "true"); // default is false
         util.loadData();
 
         // act
@@ -1523,7 +1596,7 @@ describe('TaskParameters', () => {
 
     it('should record failTaskOnSkippedTests in telemetry when custom value is provided', () => {
       // arrange
-      util.setInput("failTaskOnSkippedTests", "true");
+      util.setInput("failTaskOnSkippedTests", "true"); // default is false
       util.loadData();
 
       // act
@@ -1532,20 +1605,6 @@ describe('TaskParameters', () => {
       // assert
       let telemetry = subject.getTelemetryParameters().payload;
       expect(telemetry.failTaskOnSkippedTests).to.be.true;
-      expect(telemetry.failTaskOnSkippedTests_custom).to.be.undefined;
-    });
-
-    it('should record failTaskOnSkippedTests in telemetry when custom value is provided (false)', () => {
-      // arrange
-      util.setInput("failTaskOnSkippedTests", "false");
-      util.loadData();
-
-      // act
-      var parameters = subject.getStatusFilterParameters();
-
-      // assert
-      let telemetry = subject.getTelemetryParameters().payload;
-      expect(telemetry.failTaskOnSkippedTests).to.be.false;
       expect(telemetry.failTaskOnSkippedTests_custom).to.be.undefined;
     });
 

@@ -132,7 +132,8 @@ if ($DryRun -ne "") {
 }
 
 $PSBoundParameters.GetEnumerator() | ForEach-Object {
-  if (($_.Value -ne $null) -or $_.Value -ne "") {
+  if (($_.Value -ne $null) -and $_.Value -ne "") {
+    Write-Host "Setting input '$($_.Key)' to '$($_.Value)'"
     $key = "INPUT_$($_.Key)"
     [System.Environment]::SetEnvironmentVariable($key, $_.Value)
   }  

@@ -25,6 +25,8 @@ class TaskParameters {
   releaseUri?: string;
   releaseEnvironmentUri?: string;
 
+  dryRun?: boolean;
+
   testFiles: string[] = [];
 
   constructor(tph: TaskParameterHelper) {
@@ -68,8 +70,8 @@ class TaskParameters {
     this.tph.recordStage("getFrameworkParameters");  
 
     let testResultFormat = this.tph.getInput("testResultFormat", true, { recordValue: true});
-    let failTaskOnMissingResultsFile = this.tph.getBoolInput("failTaskOnMissingResultsFile", /*default*/ true, { recordValue: true, recordNonDefault: true});
-    let failTaskOnMissingTests = this.tph.getBoolInput("failTaskOnMissingTests", /*default*/ false, { recordValue: true, recordNonDefault: true});
+    let failTaskOnMissingResultsFile = this.tph.getBoolInput("failTaskOnMissingResultsFile", /*default*/ true, { recordValue: true, dontRecordDefault: true});
+    let failTaskOnMissingTests = this.tph.getBoolInput("failTaskOnMissingTests", /*default*/ false, { recordValue: true, dontRecordDefault: true});
     this.testFiles = this.#getTestFiles(failTaskOnMissingResultsFile);
     
     const parameters = new TestFrameworkParameters(this.testFiles, testResultFormat!.toLowerCase(), failTaskOnMissingResultsFile, failTaskOnMissingTests);
@@ -82,14 +84,14 @@ class TaskParameters {
     tl.debug("reading TestResultProcessorParameters from task inputs.");
     this.tph.recordStage("getProcessorParameters");
 
-    let matchingStrategy = this.tph.getInputOrFallback("testCaseMatchStrategy", () => "Auto", { recordValue: true, recordNonDefault: true, dontRecordDefault: true })!;
+    let matchingStrategy = this.tph.getInputOrFallback("testCaseMatchStrategy", () => "Auto", { recordValue: true, dontRecordDefault: true })!;
     var parameters = new TestResultProcessorParameters(matchingStrategy);
     
     // optional parameters
     parameters.testConfigFilter   = this.tph.getInput("testConfigFilter", false, { recordNonDefault: true });
-    parameters.testCaseProperty   = this.tph.getInputOrFallback("testCaseProperty", () => "TestCase", { recordValue: true, recordNonDefault: true, dontRecordDefault: true });
-    parameters.testCaseRegEx      = this.tph.getInputOrFallback("testCaseRegex", () => "(\\d+)", { recordValue: true, recordNonDefault: true, dontRecordDefault: true });
-    parameters.testConfigProperty = this.tph.getInputOrFallback("testConfigProperty", () => "Config", { recordValue: true, recordNonDefault: true, dontRecordDefault: true });
+    parameters.testCaseProperty   = this.tph.getInputOrFallback("testCaseProperty", () => "TestCase", { recordValue: true, dontRecordDefault: true });
+    parameters.testCaseRegEx      = this.tph.getInputOrFallback("testCaseRegex", () => "(\\d+)", { recordValue: true, dontRecordDefault: true });
+    parameters.testConfigProperty = this.tph.getInputOrFallback("testConfigProperty", () => "Config", { recordValue: true, dontRecordDefault: true });
 
     this.tph.recordStage("processFrameworkResults");
     return parameters;
@@ -101,8 +103,8 @@ class TaskParameters {
     this.tph.recordStage("getPublisherParameters");
 
     this.#ensureCredentialsAreSet();
-    const dryRun = this.tph.getBoolInput("dryRun", false, { recordValue: true, dontRecordDefault: true });
-    const testRunTitle = this.tph.getInputOrFallback("testRunTitle", () =>  "PublishTestPlanResult", { recordNonDefault: true });
+    const dryRun = this.#getDryRun();
+    const testRunTitle = this.tph.getInputOrFallback("testRunTitle", () =>  "PublishTestPlanResult", { recordNonDefault: true, dontRecordDefault: true });
     let failTaskOnUnmatchedTestCases = this.tph.getBoolInput("failTaskOnUnmatchedTestCases", /*default*/ true, { recordValue: true, dontRecordDefault: true });
     const testFiles = this.testFiles.filter(file => file.indexOf('**') == -1);  
     let result = new TestRunPublisherParameters(
@@ -141,10 +143,12 @@ class TaskParameters {
     tl.debug(`reading TelemetryPublisherParameters from task inputs ${withErrorOrWithoutError}.`);
     // don't record stage so that we can publish which stage we last completed
 
+    let dryRun = this.#getDryRun();
+
     const result = new TelemetryPublisherParameters();
-    result.displayTelemetryPayload = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetry);
+    result.displayTelemetryPayload = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetry); // TODO: deprecate
     result.displayTelemetryErrors = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetryErrors);
-    result.publishTelemetry = FeatureFlags.isFeatureEnabled(FeatureFlag.PublishTelemetry);
+    result.publishTelemetry = FeatureFlags.isFeatureEnabled(FeatureFlag.PublishTelemetry) && !dryRun;
 
     result.payload = this.tph.getPayload(err); // todo: specify privacy level
     result.payload["flags"] = FeatureFlags.getFlags();
@@ -230,6 +234,13 @@ class TaskParameters {
     this.tph.payloadBuilder.add("agentVersion", agentVersion);    
 
     return { buildId, releaseUri, releaseEnvironmentUri };
+  }
+
+  #getDryRun() : boolean {
+    if (this.dryRun === undefined) {
+      this.dryRun = this.tph.getBoolInput("dryRun", false, { recordValue: true, dontRecordDefault: true });
+    }
+    return this.dryRun;
   }
 }
 
