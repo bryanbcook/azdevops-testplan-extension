@@ -82,14 +82,14 @@ class TaskParameters {
     tl.debug("reading TestResultProcessorParameters from task inputs.");
     this.tph.recordStage("getProcessorParameters");
 
-    let matchingStrategy = this.tph.getInputOrFallback("testCaseMatchStrategy", () => "Auto", { recordValue: true, recordNonDefault: true, dontRecordDefault: true })!;
+    let matchingStrategy = this.tph.getInputOrFallback("testCaseMatchStrategy", () => "Auto", { recordValue: true, dontRecordDefault: true })!;
     var parameters = new TestResultProcessorParameters(matchingStrategy);
     
     // optional parameters
     parameters.testConfigFilter   = this.tph.getInput("testConfigFilter", false, { recordNonDefault: true });
-    parameters.testCaseProperty   = this.tph.getInputOrFallback("testCaseProperty", () => "TestCase", { recordValue: true, recordNonDefault: true, dontRecordDefault: true });
-    parameters.testCaseRegEx      = this.tph.getInputOrFallback("testCaseRegex", () => "(\\d+)", { recordValue: true, recordNonDefault: true, dontRecordDefault: true });
-    parameters.testConfigProperty = this.tph.getInputOrFallback("testConfigProperty", () => "Config", { recordValue: true, recordNonDefault: true, dontRecordDefault: true });
+    parameters.testCaseProperty   = this.tph.getInputOrFallback("testCaseProperty", () => "TestCase", { recordValue: true, dontRecordDefault: true });
+    parameters.testCaseRegEx      = this.tph.getInputOrFallback("testCaseRegex", () => "(\\d+)", { recordValue: true, dontRecordDefault: true });
+    parameters.testConfigProperty = this.tph.getInputOrFallback("testConfigProperty", () => "Config", { recordValue: true, dontRecordDefault: true });
 
     this.tph.recordStage("processFrameworkResults");
     return parameters;

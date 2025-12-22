@@ -120,12 +120,26 @@ describe('TaskParameters', () => {
 
   context('TestResultContextParameters', () => {
 
+    let expectedCollectionUri : string | undefined;
+
+    before(() => {
+      // process.env.SYSTEM_COLLECTIONURI is defined in the mocha test explorer env
+      // but is not unloaded using our testUtil. Capture the original value
+      expectedCollectionUri = process.env.SYSTEM_COLLECTIONURI;
+    });
+
+    afterEach(() => {
+      // reset System_CollectionUri to prevent test pollution
+      util.setSystemVariable("SYSTEM.COLLECTIONURI", expectedCollectionUri as string);
+      util.loadData();
+    })
+
     context('user supplied values', () => {
       it('Should use custom url, project or access token if provided', () => {
         // arrange
-        util.setInput("collectionUri", "https://my");
-        util.setInput("projectName", "myProject");
-        util.setInput("accessToken", "myToken")
+        util.setInput("collectionUri", "https://my"); // different than default
+        util.setInput("projectName", "myProject"); // different than default
+        util.setInput("accessToken", "myToken") // different than default
         util.loadData();
 
         // act
@@ -313,19 +327,12 @@ describe('TaskParameters', () => {
 
     context('default values', () => {
 
-      let expectedCollectionUri : string | undefined;
-
-      before(() => {
-        // process.env.SYSTEM_COLLECTIONURI is defined in the mocha test explorer env
-        // but is not unloaded using our testUtil. Capture the original value
-        expectedCollectionUri = process.env.SYSTEM_COLLECTIONURI;
+      beforeEach(() => {
+        // azure devops populates the values of the task.json with their default values
+        util.setInput("collectionUri", process.env.SYSTEM_COLLECTIONURI as string);
+        util.setInput("projectName", process.env.TEAMPROJECT as string);
+        // access token is not set to a default value in task.json
       });
-
-      afterEach(() => {
-        // reset System_CollectionUri to prevent test pollution
-        util.setSystemVariable("SYSTEM.COLLECTIONURI", expectedCollectionUri as string);
-        util.loadData();
-      })
 
       it('Should resolve default taskParameters for url, project and access token', () => {
         // arrange
@@ -355,6 +362,7 @@ describe('TaskParameters', () => {
       it('Should detect when running on Azure DevOps Services (old url) in telemetry', () => {
         // arrange
         util.setSystemVariable("SYSTEM.COLLECTIONURI", "https://myOrg.visualstudio.com");
+        util.setInput("collectionUri", "https://myOrg.visualstudio.com");
         util.loadData();
 
         // act
@@ -368,6 +376,7 @@ describe('TaskParameters', () => {
       it('Should detect when running on Azure DevOps Server in telemetry', () => {
         // arrange
         util.setSystemVariable("SYSTEM.COLLECTIONURI", "https://myserver.com/tfs/myOrg");
+        util.setInput("collectionUri", "https://myserver.com/tfs/myOrg");
         util.loadData();
 
         // act
@@ -854,6 +863,15 @@ describe('TaskParameters', () => {
   context('TestResultProcessorParameters', () => {
 
     context('default values', () => {
+
+      beforeEach(() => {
+        // azure devops populates the values of the task.json with their default values
+        util.setInput("testCaseMatchStrategy", "auto");
+        util.setInput("testCaseProperty", "TestCase");
+        util.setInput("testCaseRegex", "(\\d+)");
+        util.setInput("testConfigProperty", "Config");
+      });
+
       it('Should use defaults if no inputs are provided', () => {
         // arrange
         // act
@@ -937,7 +955,7 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.testCaseRegex).to.be.eq("TestCase(\\d+)");
-        expect(telemetry.testCaseRegex_custom).to.be.true;
+        expect(telemetry.testCaseRegex_custom).to.be.undefined;
       });
 
       it('Should support custom property for testcase id', () => {
@@ -963,7 +981,7 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.testCaseProperty).to.be.eq("id");
-        expect(telemetry.testCaseProperty_custom).to.be.true;
+        expect(telemetry.testCaseProperty_custom).to.be.undefined;
       });
 
       it('Should support custom property for config name or alias', () => {
@@ -989,7 +1007,7 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.testConfigProperty).to.be.eq("Category");
-        expect(telemetry.testConfigProperty_custom).to.be.true;
+        expect(telemetry.testConfigProperty_custom).to.be.undefined;
       });
 
       it('Should allow testCaseMatchStrategy to be used as a set of flags', () => {
@@ -1016,20 +1034,8 @@ describe('TaskParameters', () => {
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
         expect(telemetry.testCaseMatchStrategy).to.be.eq("name,property"); // record actual values, not realized processed values
-        expect(telemetry.testCaseMatchStrategy_custom).to.be.true;
+        expect(telemetry.testCaseMatchStrategy_custom).to.be.undefined;
       });
-
-      it('Should allow testConfigProperty to find single configuration property', () => {
-        // arrange
-        util.setInput("testConfigProperty", "config");
-        util.loadData();
-
-        // act
-        var result = subject.getProcessorParameters();
-
-        // assert
-        expect(result.testConfigProperty).to.be.eq( "config" );
-      })
     });
 
     it('Should record begin and end of result processor stage in telemetry', () => {
