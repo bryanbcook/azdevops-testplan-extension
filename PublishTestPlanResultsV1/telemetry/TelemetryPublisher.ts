@@ -39,7 +39,6 @@ export class TelemetryPublisher {
       // TODO: enable profiling for dependencies using a feature flag
       // TODO: add telemetry processor to mask customer server urls + ado organization/project details
       // TODO: instrument ado api calls with correlation ids as trackEvent does not do this automatically
-      // TODO: ensure that post-body or sensitive data is not sent in any dependency telemetry
       .setAutoCollectDependencies(false)
       .start();
     
@@ -69,10 +68,26 @@ export class TelemetryPublisher {
   }
 
   #displayTelemetry(parameters: TelemetryPublisherParameters) {
-    if (parameters.displayTelemetryPayload) {
+    // TODO: move to package.json?
+    const supportUrl = "https://github.com/bryanbcook/azdevops-testplan-extension/issues";
+    const debugEnabled = this.logger.isDebugEnabled();
+    const correlationId = parameters.payload['correlationId']! as string;
+    const payloadAsJson = parameters.displayTelemetryErrors ?
+      JSON.stringify(parameters.payload, null, 2) : 
+      JSON.stringify(parameters.payload);
+
+    if (debugEnabled && !parameters.displayTelemetryPayload) {
+      // include payload in debug logs
+      this.logger.debug("anonymous usage telemetry payload:");
+      this.logger.debug(payloadAsJson);
+    } else if (parameters.displayTelemetryPayload) {
       // dump telemetry payload to console for debugging
       this.logger.info("Telemetry Payload:");
-      this.logger.info(JSON.stringify(parameters.payload, null, 2));
+      this.logger.info(payloadAsJson);
+    }
+    this.logger.debug(`When reporting issues include correlation id: ${correlationId}`);
+    if (parameters.errorPresent) {
+      this.logger.info(`If you need assistance, please log an issue at ${supportUrl} referencing correlation id: ${correlationId}`);
     }
   }
 
