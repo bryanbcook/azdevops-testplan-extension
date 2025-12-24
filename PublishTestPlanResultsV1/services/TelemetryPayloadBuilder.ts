@@ -4,28 +4,50 @@ const { v4: uuidv4 } = require('uuid');
 const correlationId = uuidv4();
 const task = require('../task.json');
 
+export enum PrivacyLevel {
+  Minimum = 0,
+  Normal = 1
+}
+
 export class TelemetryPayloadBuilder {
-  payload: any; // todo: use different payloads for privacy levels
+  basepayload: any; // minimum payload
+  payload: any; // other payload details
 
   constructor() {
+    this.basepayload = {};
     this.payload = {};
   }
 
   /* Add a telemetry element to the payload */
-  add(name : string, value: any) { // todo: privacy level
+  add(name : string, value: any, privacyLevel: PrivacyLevel = PrivacyLevel.Normal) {
     if (value !== undefined && value !== null) {
-      this.payload[name] = value;
+      if (privacyLevel === PrivacyLevel.Minimum) {
+        this.basepayload[name] = value;
+      } else {
+        this.payload[name] = value;
+      }     
     }
   }
 
   /* Record an anonymized value in the payload */
-  recordAnonymizedValue(name: string, value: string) {
-    this.payload[name] = createHash('sha256').update(value).digest('hex');
+  recordAnonymizedValue(name: string, value: string, privacyLevel: PrivacyLevel = PrivacyLevel.Minimum) {
+    let unreversableValue = createHash('sha256').update(value).digest('hex');
+
+    if (privacyLevel === PrivacyLevel.Minimum) {
+      this.basepayload[name] = unreversableValue;
+    } else {
+      this.payload[name] = unreversableValue;
+    }
   }
 
   /* Record that a task input was set to a non-default value */
-  recordNonDefaultValue(name: string) {
-    this.payload[`${name}_custom`] = true;
+  recordNonDefaultValue(name: string, privacyLevel: PrivacyLevel = PrivacyLevel.Normal) {
+    let key = `${name}_custom`;
+    if (privacyLevel === PrivacyLevel.Minimum) {
+      this.basepayload[key] = true;
+    } else {
+      this.payload[key] = true;
+    }
   }
 
   /* Record the details of an error in the payload */
@@ -41,11 +63,19 @@ export class TelemetryPayloadBuilder {
   }
 
   /* Fetch the contents of the constructed telemetry payload */
-  getPayload() : any {
-    this.add("correlationId", correlationId);
-    this.add("nodeVersion", process.version);
-    this.add("taskVersion", `${task.version.Major}.${task.version.Minor}.${task.version.Patch}`);
-    return this.payload; // todo: combine payloads for different privacy levels
+  getPayload(optOut: boolean = false) : any {
+    this.add("correlationId", correlationId, PrivacyLevel.Normal);
+    this.add("nodeVersion", process.version, PrivacyLevel.Normal);
+    this.add("taskVersion", `${task.version.Major}.${task.version.Minor}.${task.version.Patch}`, PrivacyLevel.Minimum);
+
+    if (optOut) {
+      return this.basepayload;
+    } else {
+      return {
+        ...this.basepayload,
+        ...this.payload
+      };
+    }
   }
 
   #formatStackTrace(stack: string | undefined) : string[] | undefined {
