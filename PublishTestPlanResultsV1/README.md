@@ -25,7 +25,8 @@ Publishes test results to your Azure DevOps Test Plan.
     #failTaskOnMissingResultsFile: #boolean. Optional.
     #failTaskOnMissingTests: # boolean. Optional.
     #failTaskOnUnmatchedTestCases: # boolean. Optional
-    #dryRun: # boolean. Optional    
+    #dryRun: # boolean. Optional
+    #telemetryOptOut: boolean. Optional
 ```
 
 ## Inputs
@@ -165,6 +166,12 @@ When enabled, the task reports a pipeline run failure if the test case match str
 `boolean`. Optional.
 
 Enables or disables publishing results to the TestPlan. Useful for evaluating different test case match strategies.
+
+### `telemetryOptOut` - Disable anonymous data collection
+
+`boolean`. Optional.
+
+Enables or disables anonymous data collection. When disabled, an opt-out flag is collected instead. The telemetry payload appears in the debug log.
 
 ## Feature Flags
 

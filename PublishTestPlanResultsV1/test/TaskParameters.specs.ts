@@ -1386,6 +1386,86 @@ describe('TaskParameters', () => {
       expect(telemetry.taskStage).to.be.undefined;
     });
 
+    context('telemetryOptout', () => {
+
+      beforeEach(() => {
+        
+        util.setInput("accessToken", "custom");
+        util.setInput("collectionUri", "https://myorg.visualstudio.com/");
+        util.setInput("projectName", "MyProject");
+        util.setInput("testPlan", "My Test Plan");
+        util.setInput("testResultFormat", "xUnit");
+        util.setInput("testResultFiles", path.join(__dirname, "data","xunit","xunit-1.xml"));
+        util.setInput("testCaseMatchStrategy", "name");
+        util.setInput("testRunTitle", "My Test Run");
+      });
+
+      it('Should only include minimum details when telemetryOptout is enabled', () => {
+        // arrange
+        util.setInput("telemetryOptout", "true");
+        util.loadData();
+        
+        // force parameters to be loaded
+        subject.getTestContextParameters();
+        subject.getFrameworkParameters();
+        subject.getProcessorParameters();
+        subject.getPublisherParameters();
+        subject.getStatusFilterParameters();
+
+        // act
+        var parameters = subject.getTelemetryParameters();
+
+        // assert
+        let payload = parameters.payload;
+        
+        // minimum details
+        // when the user has opted out, we only record:
+        // - which task version was opted out
+        // - which project collection (in a unreversable hashed form) to identity unique instances of opt-out
+        // - flag to indicate that it was opted-out
+        expect(Object.keys(payload).length).to.be.eq(3);
+        expect(payload.collectionUri).to.not.be.undefined;
+        expect(payload.taskVersion).to.not.be.undefined;
+        expect(payload.optOut).to.be.true;
+
+        // normal fields should be omitted from the payload
+        expect(payload.accessToken).to.be.undefined; // should never be recorded anyway
+        expect(payload.accessToken_custom).to.be.undefined;
+        expect(payload.collectionUri_custom).to.be.undefined;
+        expect(payload.projectName).to.be.undefined;
+        expect(payload.projectName_custom).to.be.undefined;
+        
+        expect(payload.testResultFormat).to.be.undefined;
+        expect(payload.testCaseMatchStrategy).to.be.undefined;
+        expect(payload.testFiles).to.be.undefined;
+        expect(payload.numTestFiles).to.be.undefined;
+        expect(payload.testResultFilesWildcard).to.be.undefined;
+        expect(payload.testConfigFilter_custom).to.be.undefined;
+        expect(payload.failTaskOnMissingTests).to.be.undefined;
+        expect(payload.failTaskOnMissingResultsFile).to.be.undefined;
+        expect(payload.failTaskOnUnmatchedTestCases).to.be.undefined;
+        expect(payload.testRunTitle_custom).to.be.undefined;
+      })
+
+      it('Should include minimal and normal fields in payload when optOut is not specified', () => {
+        // arrange
+        util.loadData();
+
+        // force parameters to be loaded
+        subject.getTestContextParameters();
+        subject.getFrameworkParameters();
+        subject.getProcessorParameters();
+        subject.getPublisherParameters();
+        subject.getStatusFilterParameters();
+
+        // act
+        var payload = subject.getTelemetryParameters().payload;
+
+        // assert
+        expect(Object.keys(payload).length).to.be.greaterThan(3);
+      });
+    });
+
     context(`FeatureFlag: ${FeatureFlag.PublishTelemetry}`, () =>  {
 
       // TODO: deprecate
