@@ -1,5 +1,5 @@
 import * as tl from 'azure-pipelines-task-lib/task';
-import { TelemetryPayloadBuilder } from './TelemetryPayloadBuilder';
+import { PrivacyLevel, TelemetryPayloadBuilder } from './TelemetryPayloadBuilder';
 
 interface TaskTelemetryOptions {
   dontRecordDefault?: boolean; /* don't record the default value in telemetry */
@@ -25,7 +25,7 @@ export class TaskParameterHelper {
       - anonymize: Whether to anonymize the value when recording in telemetry
     returns: The input parameter value, or the default value if not specified
   */
-  getInputOrFallback(name: string, fallback: () => string | undefined, options: TaskTelemetryOptions = {}) : string {
+  getInputOrFallback(name: string, fallback: () => string | undefined, options: TaskTelemetryOptions = {}, privacyLevel: PrivacyLevel = PrivacyLevel.Normal) : string {
     let value = tl.getInput(name, false);
     let wasDefault = false;
     let defaultValue = fallback();
@@ -39,16 +39,16 @@ export class TaskParameterHelper {
     
     // record that a custom value was provided if requested
     if (!wasDefault && options.recordNonDefault) {
-      this.payloadBuilder.recordNonDefaultValue(name);
+      this.payloadBuilder.recordNonDefaultValue(name, PrivacyLevel.Normal);
     }
 
     // record the value if requested, but skip defaults if specified
     let recordValue = options.recordValue && (!wasDefault || !options.dontRecordDefault);
     if (recordValue || options.anonymize) {
       if (options.anonymize) {
-        this.payloadBuilder.recordAnonymizedValue(name, value!);
+        this.payloadBuilder.recordAnonymizedValue(name, value!, privacyLevel);
       } else {
-        this.payloadBuilder.add(name, value);
+        this.payloadBuilder.add(name, value, privacyLevel);
       }
     }
     return value!;
@@ -126,12 +126,12 @@ export class TaskParameterHelper {
 
   /* record the current stage of the task */
   recordStage(stage: string) {
-    this.payloadBuilder.add("taskStage", stage);
+    this.payloadBuilder.add("taskStage", stage, PrivacyLevel.Normal);
   }
 
   /* Expose the telemetry payload */
-  getPayload(err? : any) : any { // todo: specify privacy level
+  getPayload(err? : any, optOut: boolean = false) : any {
     this.payloadBuilder.recordError(err);
-    return this.payloadBuilder.getPayload(); // todo: specify privacy level
+    return this.payloadBuilder.getPayload(optOut);
   }
 }

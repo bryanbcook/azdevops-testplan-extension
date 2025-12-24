@@ -54,7 +54,8 @@ describe('TaskParameterHelper', () => {
         let result = subject.getInputOrFallback("taskInputName", () => "defaultValue");
         // assert
         expect(result).to.equal("userValue");
-        expect(payloadBuilder.getPayload().properties).to.be.undefined;
+        let payload = payloadBuilder.getPayload();
+        expect(payload.taskInputName_custom).to.be.undefined;
       });
 
       it('should record that custom value was used when input is provided and recordNonDefault is true', () => {
@@ -68,6 +69,20 @@ describe('TaskParameterHelper', () => {
         expect(payloadBuilder.getPayload().taskInputName_custom).to.be.true;
       });
 
+      
+      it('should not record that custom value was used in minimum telemetry payload', () => {
+        // arrange
+        testUtil.setInput("taskInputName", "userValue");
+        testUtil.loadData();
+        
+        // act
+        let result = subject.getInputOrFallback("taskInputName", () => "defaultValue", { recordNonDefault: true });
+
+        // assert
+        let payload = payloadBuilder.getPayload(true);
+        expect(payload.taskInputName_custom).to.be.undefined;
+      });
+
       it('should not record that fallback value was used when recordNonDefault is true', () => {
         // arrange
         testUtil.loadData();
@@ -79,6 +94,7 @@ describe('TaskParameterHelper', () => {
         expect(result).to.equal("defaultValue");
         expect(payloadBuilder.getPayload().taskInputName_custom).to.be.undefined;
       });
+
     });
 
     context('recordValue', () => {
