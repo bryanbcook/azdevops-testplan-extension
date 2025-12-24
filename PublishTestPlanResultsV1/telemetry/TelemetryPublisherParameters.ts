@@ -1,6 +1,7 @@
 export class TelemetryPublisherParameters {
-  displayTelemetryPayload?: boolean;
-  displayTelemetryErrors?: boolean;
-  publishTelemetry?: boolean;
+  errorPresent: boolean = false;
+  displayTelemetryPayload: boolean = false;
+  displayTelemetryErrors: boolean = false;
+  publishTelemetry: boolean = false;
   payload: any;
 }

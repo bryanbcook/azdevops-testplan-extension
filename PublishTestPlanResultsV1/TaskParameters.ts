@@ -139,13 +139,14 @@ class TaskParameters {
   /* Fetch the telemetry payload for this task execution */
   getTelemetryParameters(err?: any) : TelemetryPublisherParameters {
     const hasError = err !== undefined && err !== null;
-    const withErrorOrWithoutError = hasError ? "(error condition)" : "";
-    tl.debug(`reading TelemetryPublisherParameters from task inputs ${withErrorOrWithoutError}.`);
+    const withErrorOrWithoutError = hasError ? " (error condition)" : "";
+    tl.debug(`reading TelemetryPublisherParameters from task inputs${withErrorOrWithoutError}.`);
     // don't record stage so that we can publish which stage we last completed
 
     let dryRun = this.#getDryRun();
 
     const result = new TelemetryPublisherParameters();
+    result.errorPresent = hasError;
     result.displayTelemetryPayload = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetry); // TODO: deprecate
     result.displayTelemetryErrors = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetryErrors);
     result.publishTelemetry = FeatureFlags.isFeatureEnabled(FeatureFlag.PublishTelemetry) && !dryRun;

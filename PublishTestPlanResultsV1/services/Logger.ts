@@ -13,6 +13,7 @@ export interface ILogger {
   info(message: string): void,
   warn(message: string): void,
   error(message: string): void
+  isDebugEnabled() : boolean;
 }
 
 export class Logger implements ILogger {
@@ -37,6 +38,10 @@ export class Logger implements ILogger {
 
   public error(message: string): void {
     this.log(LogLevel.Error, message);
+  }
+  
+  public isDebugEnabled() : boolean {
+    return this._level === LogLevel.Debug;
   }
 
   private log(level: LogLevel, message: string): void {
@@ -74,6 +79,9 @@ export class NullLogger implements ILogger {
   warn(message: string): void {
   }
   error(message: string): void {
+  }
+  isDebugEnabled() : boolean {
+    return false;
   }
 }
 
