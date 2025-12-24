@@ -72,7 +72,7 @@ export class TelemetryPublisher {
     const supportUrl = "https://github.com/bryanbcook/azdevops-testplan-extension/issues";
     const debugEnabled = this.logger.isDebugEnabled();
     const correlationId = parameters.payload['correlationId']! as string;
-    const payloadAsJson = parameters.displayTelemetryErrors ?
+    const payloadAsJson = parameters.displayTelemetryPayload ?
       JSON.stringify(parameters.payload, null, 2) : 
       JSON.stringify(parameters.payload);
 
