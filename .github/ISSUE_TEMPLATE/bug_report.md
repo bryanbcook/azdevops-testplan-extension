@@ -7,7 +7,13 @@ assignees: ''
 ---
 **Description**
 
-_provide a clear and concise description of what the bug is_
+_describe what you are attempting to do and the issue you are experiencing _
+
+_provide the `correlationId` that appears in the task log output:_
+
+```
+correlationId: ______
+```
 
 _provide sample usage of the task, if applicable_
 
@@ -35,6 +41,7 @@ paste your build output here
 ```
 
 **To Reproduce**
+
 Steps to reproduce the behaviour:
 1. Go to '...'
 2. Click on '....'
