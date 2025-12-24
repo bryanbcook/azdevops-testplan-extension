@@ -216,6 +216,14 @@
             "groupName": "advanced",
             "defaultValue": "false",
             "helpMarkDown": "Fail the task if no test cases are found in the test results."
+        },
+        {
+            "name": "telemetryOptOut",
+            "type": "boolean",
+            "required": false,
+            "groupName": "advanced",
+            "defaultValue": "false",
+            "helpMarkDown": "Opt out of anonymous usage data collection to help improve this extension."
         }
     ],
     "minimumAgentVersion": "2.209.0",

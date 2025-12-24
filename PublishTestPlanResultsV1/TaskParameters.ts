@@ -6,7 +6,7 @@ import { TestFrameworkParameters } from "./framework/TestFrameworkParameters";
 import { TestResultProcessorParameters } from './processing/TestResultProcessorParameters';
 import { TestRunPublisherParameters } from './publishing/TestRunPublisherParameters';
 import { TaskParameterHelper } from './services/TaskParameterHelper';
-import { TelemetryPayloadBuilder } from './services/TelemetryPayloadBuilder';
+import { PrivacyLevel, TelemetryPayloadBuilder } from './services/TelemetryPayloadBuilder';
 import { StatusFilterParameters } from './services/StatusFilterParameters';
 import { TelemetryPublisherParameters } from './telemetry/TelemetryPublisherParameters';
 import FeatureFlags, { FeatureFlag } from './services/FeatureFlags';
@@ -144,6 +144,7 @@ class TaskParameters {
     // don't record stage so that we can publish which stage we last completed
 
     let dryRun = this.#getDryRun();
+    let optOut = this.tph.getBoolInput("telemetryOptOut", /*default*/ false);
 
     const result = new TelemetryPublisherParameters();
     result.errorPresent = hasError;
@@ -151,16 +152,21 @@ class TaskParameters {
     result.displayTelemetryErrors = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetryErrors);
     result.publishTelemetry = FeatureFlags.isFeatureEnabled(FeatureFlag.PublishTelemetry) && !dryRun;
 
-    result.payload = this.tph.getPayload(err); // todo: specify privacy level
-    result.payload["flags"] = FeatureFlags.getFlags();
+    result.payload = this.tph.getPayload(err, optOut);
+    if (optOut) {
+      result.payload["optOut"] = true;
+    } else {
+      // exclude feature flags when opting-out
+      result.payload["flags"] = FeatureFlags.getFlags();
+    }
     return result;
   }
 
   #ensureCredentialsAreSet() {
     if (!this.accessToken) {
       this.accessToken = this.tph.getInputOrFallback("accessToken", () => tl.getVariable("SYSTEM_ACCESSTOKEN"), { recordNonDefault: true });
-      this.projectName = this.tph.getInputOrFallback("projectName", () => tl.getVariable("SYSTEM_TEAMPROJECT"), { recordNonDefault: true, anonymize: true });
-      this.collectionUri = this.tph.getInputOrFallback("collectionUri", () => tl.getVariable("SYSTEM_COLLECTIONURI"), { recordNonDefault: true, anonymize: true });
+      this.projectName = this.tph.getInputOrFallback("projectName", () => tl.getVariable("SYSTEM_TEAMPROJECT"), { recordNonDefault: true, anonymize: true }, PrivacyLevel.Normal);
+      this.collectionUri = this.tph.getInputOrFallback("collectionUri", () => tl.getVariable("SYSTEM_COLLECTIONURI"), { recordNonDefault: true, anonymize: true }, PrivacyLevel.Minimum);
 
       let serverType = (this.collectionUri && (this.collectionUri.startsWith("https://dev.azure.com/") || this.collectionUri.includes(".visualstudio.com"))) ?
         "Hosted" : "OnPremises";
