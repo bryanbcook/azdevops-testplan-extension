@@ -28,17 +28,12 @@ describe('TestResultProcessor', () => {
     (ctx as any).testPlan = null;
     (ctx as any).projectId = null;
 
-    // setup test data
-    var testResult1 = new TestFrameworkResult("First","PASS");
-    testResult1.properties.set("TestCase","1000");
-
-    var testResult2 = new TestFrameworkResult("Second","PASS");
-    testResult2.properties.set("TestCase","2000");
-
-    var testResult3 = new TestFrameworkResult("Third","PASS");
-    testResult3.properties.set("TestCase","3000");
-
-    testresults = [ testResult1, testResult2, testResult3];
+    // setup test framework results with properties for TestIdMatchStrategy
+    testresults = [ 
+      testUtil.newTestFrameworkResult("First", "PASS", new Map([["TestCase", "1000"]])),
+      testUtil.newTestFrameworkResult("Second", "PASS", new Map([["TestCase", "2000"]])),
+      testUtil.newTestFrameworkResult("Third", "PASS", new Map([["TestCase", "3000"]]))
+    ];
 
     setupTestPoints([
       testUtil.newTestPoint(1, "Test Case 1000", "0", "1000"),
@@ -112,6 +107,55 @@ describe('TestResultProcessor', () => {
     ctx.getTestPoints.returns(points);
   }
 
+  // Although Test Points are unique, it's possible to import a test suite that contains
+  // the same test case multiple times. When this happens, typically this should be viewed
+  // as a mistake in the test plan design as this would represent duplication of testing efforts.
+  // However, multiple users have requested to have the ability to support this scenario.
+  context("Test Plan contains Duplicates", () => {
+
+    beforeEach(() => {
+      // setup the test plan to have duplicate test points
+      setupTestPoints(
+        [
+          testUtil.newTestPoint(10000, "Test Case 1234", "0", "1234"),
+          testUtil.newTestPoint(10001, "Test Case 1234", "0", "1234"),
+          testUtil.newTestPoint(10002, "Test Case 5678", "0", "5678"),
+          testUtil.newTestPoint(10003, "Test Case 9012", "0", "9012")
+        ]
+      );
+
+      testresults = [
+         testUtil.newTestFrameworkResult("Test Case 1234", "PASS", new Map([["TestCase", "1234"]])), // should match 10000, 10001
+         testUtil.newTestFrameworkResult("Test Case 5678", "PASS", new Map([["TestCase", "5678"]])) // should match 10002
+      ]
+    })
+
+    it("Should log a warning that the test plan contains duplicates", async () => {
+      // arrange
+      subject.logger = sinon.createStubInstance(Logger);
+
+      // act
+      var result = await subject.process(testresults);
+      
+      // assert
+      sinon.assert.called(subject.logger.warn as sinon.SinonSpy);
+      var loggedMessage = (subject.logger.warn as sinon.SinonSpy).getCall(0).args[0] as string;
+      expect(loggedMessage).to.contain("Test Plan contains duplicates for test case: 1234");
+    });
+
+    it ("Should map test result to multiple test points", async () => {
+      // arrange
+      // act
+      var result = await subject.process(testresults);
+
+      // assert
+      expect(result.matches.size).to.eq(3);
+      expect(result.matches.get(10000)?.name).to.eq("Test Case 1234");
+      expect(result.matches.get(10001)?.name).to.eq("Test Case 1234");
+      expect(result.matches.get(10002)?.name).to.eq("Test Case 5678");
+    })
+  })
+
   context("Multiple Matches", () => {
 
     it("Should log an issue when multiple matches are found", async () => {
@@ -124,9 +168,10 @@ describe('TestResultProcessor', () => {
 
       // assert
       sinon.assert.called(subject.logger.warn as sinon.SinonSpy);
+      var loggedMessage = (subject.logger.warn as sinon.SinonSpy).getCall(0).args[0] as string;
+      expect(loggedMessage).to.contain("Multiple matches were found for test case");
       expect(result.matches.size).to.eq(0);
     })
-
   })
 
 })

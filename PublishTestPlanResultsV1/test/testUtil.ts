@@ -151,9 +151,14 @@ export function newShallowReference(id : string, name : string) {
   return <ShallowReference>{ id: id, name: name};
 }
 
-export function newTestFrameworkResult(name : string = "Test1", outcome : string = "PASS") {
+export function newTestFrameworkResult(name : string = "Test1", outcome : string = "PASS", properties? : Map<string, string>) : TestFrameworkResult {
   let result = new TestFrameworkResult(name, outcome);
   result.duration = 1000;
+  if (properties) {
+    properties.forEach((value, key) => {
+      result.properties.set(key, value);
+    });
+  }
   return result;
 }
 
