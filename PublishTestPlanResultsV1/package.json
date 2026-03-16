@@ -13,7 +13,7 @@
   "dependencies": {
     "applicationinsights": "^2.3.6",
     "azure-devops-node-api": "^15.1.2",
-    "azure-pipelines-task-lib": "^4.17.3",
+    "azure-pipelines-task-lib": "^5.2.8",
     "test-results-parser": "0.4.0",
     "uuid": "^8.3.2"
   },
