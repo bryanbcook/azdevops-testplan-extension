@@ -14,7 +14,7 @@
     "applicationinsights": "^2.9.8",
     "azure-devops-node-api": "^15.1.2",
     "azure-pipelines-task-lib": "^5.2.8",
-    "test-results-parser": "0.4.3",
+    "test-results-parser": "0.4.4",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
