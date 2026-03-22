@@ -35,6 +35,14 @@ parameters:
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
     failTaskOnSkippedTests: true
+  - name: TestDuplicates
+    format: xunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitResults/examples/dotnet/xUnitResults/TestResults-adotestplan-prj.xml'
+    projectName: 'ADO Test Automation'
+    testplan: 'Plan w Duplicates'
+    expectedResults:
+      - outcome: Passed
+        count: 2
 
 steps:
 - pwsh: |
@@ -72,11 +80,11 @@ steps:
       filePath: '$(Pipeline.Workspace)/build/Test-ExtensionLocally.ps1'
       arguments: >
         -CollectionUri $(System.CollectionUri)
-        -ProjectName 'Test Plan Extension'
+        -ProjectName ${{ iif( ne(test.projectName,''), test.projectName, 'Test Plan Extension' ) }}
         -AccessToken $(System.AccessToken)
         -TestResultFormat ${{ test.format }}
         -TestResultFiles ${{ test.testResultsFile }}
-        -TestPlan 'Primary Test Plan'
+        -TestPlan ${{ iif( ne(test.testPlan,''), test.testPlan, 'Primary Test Plan' ) }}
         -TestConfigFilter ''
         -TestConfigAliases ''
         -TestCaseMatchStrategy ''

@@ -1,0 +1,12 @@
+<assemblies timestamp="03/24/2026 16:09:58">
+  <assembly name="dummy" run-date="03/24/2026" run-time="16:09:58" total="1" passed="1" failed="0" skipped="0" time="0.377" errors="0">
+    <errors />
+    <collection total="1" passed="1" failed="0" skipped="0" name="Dummy" time="0.377">
+      <test name="ADO-Test-Automation_Logging_Register-new-product" type="xUnitExample" method="ADO-Test-Automation_Logging_Register-new-product" time="0.0000188" result="Pass">
+        <traits>
+          <trait name="TestCaseId" value="180" />
+        </traits>
+      </test>      
+    </collection>
+  </assembly>
+</assemblies>
