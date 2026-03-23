@@ -17,7 +17,6 @@ describe('TelemetryPublisher', () => {
     telemetryClientStub = sinon.createStubInstance<TelemetryClient>(TelemetryClient);
     subject = new TelemetryPublisher(loggerStub as ILogger, telemetryClientStub as TelemetryClient);
     parameters = new TelemetryPublisherParameters();
-    parameters.publishTelemetry = true; // TODO: remove with featureflag
   });
 
   it('should swallow any errors that occur when publishing telemetry', async () => {

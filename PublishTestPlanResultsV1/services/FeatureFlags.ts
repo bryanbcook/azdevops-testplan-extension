@@ -3,7 +3,6 @@ import { getLogger, ILogger } from "./Logger";
 export class FeatureFlag {
   static DisplayTelemetry : string = "displaytelemetry";
   static DisplayTelemetryErrors : string = "displaytelemetryerrors";
-  static PublishTelemetry : string = "publishtelemetry";
 }
 
 export class FeatureFlags {

@@ -1466,35 +1466,19 @@ describe('TaskParameters', () => {
       });
     });
 
-    context(`FeatureFlag: ${FeatureFlag.PublishTelemetry}`, () =>  {
+    context('Publish telemetry', () =>  {
 
-      // TODO: deprecate
-      it(`should populate ${FeatureFlag.PublishTelemetry} from FeatureFlag`, () => {
+      it(`Should default to publishing telemetry`, () => {
         // arrange
-        util.setFeatureFlag(FeatureFlag.PublishTelemetry, "true");
         util.loadData();
-
         // act
         var parameters = subject.getTelemetryParameters();
-
         // assert
         expect(parameters.publishTelemetry).to.be.true;
       });
 
-      // TODO: deprecate
-      it(`should default ${FeatureFlag.PublishTelemetry} to false`, () => {
-        // arrange
-        util.loadData();
-        // act
-        var parameters = subject.getTelemetryParameters();
-        // assert
-        expect(parameters.publishTelemetry).to.be.false;
-      });
-
-      // TODO: remove from feature flag context
       it('Should recognize when dryRun is specified', () => {
         // arrange
-        util.setFeatureFlag(FeatureFlag.PublishTelemetry, "true");
         util.setInput("dryRun", "true");
         util.loadData();
 
@@ -1504,20 +1488,6 @@ describe('TaskParameters', () => {
         // assert
         expect(parameters.publishTelemetry).to.be.false;
       })
-
-      it('Should recognize when dryRun is not specified', () => {
-        // arrange
-        util.setFeatureFlag(FeatureFlag.PublishTelemetry, "true");
-        util.setInput("dryRun", "false");
-        util.loadData();
-
-        // act
-        var parameters = subject.getTelemetryParameters();
-
-        // assert
-        expect(parameters.publishTelemetry).to.be.true;
-      });
-
     });
 
     context(`FeatureFlag: ${FeatureFlag.DisplayTelemetry}`, () =>  {

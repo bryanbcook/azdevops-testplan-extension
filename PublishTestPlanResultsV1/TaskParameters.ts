@@ -148,9 +148,9 @@ class TaskParameters {
 
     const result = new TelemetryPublisherParameters();
     result.errorPresent = hasError;
-    result.displayTelemetryPayload = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetry); // TODO: deprecate
-    result.displayTelemetryErrors = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetryErrors);
-    result.publishTelemetry = FeatureFlags.isFeatureEnabled(FeatureFlag.PublishTelemetry) && !dryRun;
+    result.displayTelemetryPayload = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetry); // allow enabling output for regression or local debugging
+    result.displayTelemetryErrors = FeatureFlags.isFeatureEnabled(FeatureFlag.DisplayTelemetryErrors); // allow users to show errors in telemetry publishing
+    result.publishTelemetry = !dryRun;
 
     result.payload = this.tph.getPayload(err, optOut);
     if (optOut) {
