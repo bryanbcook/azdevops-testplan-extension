@@ -80,11 +80,11 @@ steps:
       filePath: '$(Pipeline.Workspace)/build/Test-ExtensionLocally.ps1'
       arguments: >
         -CollectionUri $(System.CollectionUri)
-        -ProjectName ${{ iif( ne(test.projectName,''), test.projectName, 'Test Plan Extension' ) }}
+        -ProjectName '${{ iif( ne(test.projectName,''), test.projectName, 'Test Plan Extension' ) }}'
         -AccessToken $(System.AccessToken)
         -TestResultFormat ${{ test.format }}
         -TestResultFiles ${{ test.testResultsFile }}
-        -TestPlan ${{ iif( ne(test.testPlan,''), test.testPlan, 'Primary Test Plan' ) }}
+        -TestPlan '${{ iif( ne(test.testPlan,''), test.testPlan, 'Primary Test Plan' ) }}'
         -TestConfigFilter ''
         -TestConfigAliases ''
         -TestCaseMatchStrategy ''
