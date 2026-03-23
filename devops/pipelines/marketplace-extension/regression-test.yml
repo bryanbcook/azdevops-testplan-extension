@@ -128,7 +128,7 @@ steps:
 
           $auth64 = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$(System.AccessToken)"))
           $headers = @{ Authorization = "Basic $auth64" }
-          $uri = "$(System.CollectionUri)/Test%20Plan%20Extension/_apis/test/runs/$($testRun)?api-version=7.1"
+          $uri = "$(System.CollectionUri)/$($env:projectName)/_apis/test/runs/$($testRun)?api-version=7.1"
 
           $response = Invoke-RestMethod -Uri $uri -Headers $headers -Method Get
 
@@ -150,3 +150,4 @@ steps:
         expected: ${{ convertToJson(test.expectedResults) }}
         testrun: $(${{ replace(lower(test.name), '-','_') }}.TestRunId)
         testrunurl: $(${{ replace(lower(test.name), '-','_') }}.TestRunUrl)
+        projectName: ${{ iif( ne(test.projectName,''), test.projectName, 'Test Plan Extension' ) }}
