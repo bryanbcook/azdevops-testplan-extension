@@ -64,6 +64,13 @@ export class TestResultContextBuilder {
     let points = await this.getTestPoints(projectId, testPlan, testConfigFilterId);
     ctx.addTestPoints(points);
     this.log.info(`Available Test Points: ${points.length}`);
+    if (ctx.hasSyncTestOutcomeEnabled()) {
+      this.log.info(`Test Plan has 'sync outcomes across suites' enabled. Duplicate test case references will be removed.`);
+      let uniqueTestLength = ctx.getTestPoints().length;
+      if (points.length != uniqueTestLength) {
+        this.log.info(`Removed ${points.length - uniqueTestLength} duplicate test case reference(s).`);
+      }
+    }
 
     return ctx;
   }

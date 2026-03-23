@@ -52,7 +52,7 @@ parameters:
     buildId: 2436
     expectedResults:
       - outcome: Passed
-        count: 2        
+        count: 1        
 
 steps:
 - pwsh: |
