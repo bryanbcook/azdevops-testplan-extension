@@ -40,6 +40,7 @@ parameters:
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitResults/TestResults-adotestplan-prj.xml'
     projectName: 'ADO Test Automation'
     testplan: 'Plan w Duplicates'
+    buildId: 2436
     expectedResults:
       - outcome: Passed
         count: 2
@@ -92,7 +93,7 @@ steps:
         -TestCaseRegex 'TestCase(\d+)'
         -TestConfigProperty ''
         -TestRunTitle '$(Build.DefinitionName) - $(nodeVersion) - ${{ test.name }}'
-        -BuildId $(Build.BuildId)
+        -BuildId ${{ iif( ne(test.buildId,''), test.buildId, '$(Build.BuildId)' ) }}
         -ReleaseId ''
         -ReleaseEnvironmentId ''
         -failTaskOnFailedTests '${{ iif( ne(test.failTaskOnFailedTests,''), test.failTaskOnFailedTests, 'false' ) }}'
