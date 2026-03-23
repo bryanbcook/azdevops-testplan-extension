@@ -37,7 +37,7 @@ parameters:
     failTaskOnSkippedTests: true
   - name: TestDuplicates
     format: xunit
-    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitResults/examples/dotnet/xUnitResults/TestResults-adotestplan-prj.xml'
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitResults/TestResults-adotestplan-prj.xml'
     projectName: 'ADO Test Automation'
     testplan: 'Plan w Duplicates'
     expectedResults:
