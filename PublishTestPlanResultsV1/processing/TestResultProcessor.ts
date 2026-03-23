@@ -53,18 +53,24 @@ export class TestResultProcessor {
 
       // process matches
       if (matchingPoints && matchingPoints.length > 0) {
-        if (matchingPoints.length == 1) {
-          result.matches.set( matchingPoints[0].id, frameworkResult );
+
+        const singleTestCase : boolean = matchingPoints.length == 1 || this.allMatchSameTestCase(matchingPoints);
+        
+        if (singleTestCase) {
+          // record matches
+          matchingPoints.forEach( p => {
+            result.matches.set( p.id, frameworkResult );
+          })
 
           // strip matched points from subsequent evaluations
           var matchingPointIds = matchingPoints.map(p => p.id);
           testPoints = testPoints.filter(i => matchingPointIds.indexOf(i.id) === -1);
         } else {
-            const testCaseNames = matchingPoints.map(item => JSON.stringify(item)).join("\n");
-            this.logger.warn(`Multiple matches were found for test case: ${frameworkResult.name}. Matches:\n${testCaseNames}`);
-            this.logger.info("To prevent this warning, adjust the duplicates or the testCaseMatchStrategy to be more specific.");
-        }
-        
+          // match strategy found too many matches
+          const testCaseNames = matchingPoints.map(item => JSON.stringify(item)).join("\n");
+          this.logger.warn(`Multiple matches were found for test case: ${frameworkResult.name}. Matches:\n${testCaseNames}`);
+          this.logger.info("To prevent this warning, adjust the testCaseMatchStrategy to be more specific.");
+        }        
       } else {
         result.unmatched.push(frameworkResult);
       }
@@ -114,6 +120,19 @@ export class TestResultProcessor {
     });
 
     return match;
+  }
+
+  private allMatchSameTestCase( matches : TestPoint[] ) : boolean {
+    
+    let firstTestCaseId = (matches[0] as TestPoint2).testCaseReference.id;
+
+    const allMatch = matches.map( p => p as TestPoint2).every( p => p.testCaseReference.id === firstTestCaseId);
+
+    if (allMatch && matches.length > 1) {
+      this.logger.warn(`Test Plan contains duplicates for test case: ${firstTestCaseId}.`);
+    }
+
+    return allMatch;
   }
 
 }

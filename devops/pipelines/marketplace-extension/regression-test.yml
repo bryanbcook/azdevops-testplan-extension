@@ -35,6 +35,24 @@ parameters:
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
     failTaskOnSkippedTests: true
+  - name: TestDuplicates
+    format: xunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitResults/TestResults-adotestplan-prj.xml'
+    projectName: 'ADO Test Automation'
+    testplan: 'Plan w Duplicates'
+    buildId: 2436
+    expectedResults:
+      - outcome: Passed
+        count: 2
+  - name: TestDuplicates_wTestOutcomeSettingEnabled
+    format: xunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitResults/TestResults-adotestplan-prj.xml'
+    projectName: 'ADO Test Automation'
+    testplan: 'Plan w Duplicates and TestOutcome Setting Enabled'
+    buildId: 2436
+    expectedResults:
+      - outcome: Passed
+        count: 2        
 
 steps:
 - pwsh: |
@@ -72,11 +90,11 @@ steps:
       filePath: '$(Pipeline.Workspace)/build/Test-ExtensionLocally.ps1'
       arguments: >
         -CollectionUri $(System.CollectionUri)
-        -ProjectName 'Test Plan Extension'
+        -ProjectName '${{ iif( ne(test.projectName,''), test.projectName, 'Test Plan Extension' ) }}'
         -AccessToken $(System.AccessToken)
         -TestResultFormat ${{ test.format }}
         -TestResultFiles ${{ test.testResultsFile }}
-        -TestPlan 'Primary Test Plan'
+        -TestPlan '${{ iif( ne(test.testPlan,''), test.testPlan, 'Primary Test Plan' ) }}'
         -TestConfigFilter ''
         -TestConfigAliases ''
         -TestCaseMatchStrategy ''
@@ -84,7 +102,7 @@ steps:
         -TestCaseRegex 'TestCase(\d+)'
         -TestConfigProperty ''
         -TestRunTitle '$(Build.DefinitionName) - $(nodeVersion) - ${{ test.name }}'
-        -BuildId $(Build.BuildId)
+        -BuildId ${{ iif( ne(test.buildId,''), test.buildId, '$(Build.BuildId)' ) }}
         -ReleaseId ''
         -ReleaseEnvironmentId ''
         -failTaskOnFailedTests '${{ iif( ne(test.failTaskOnFailedTests,''), test.failTaskOnFailedTests, 'false' ) }}'
@@ -119,7 +137,7 @@ steps:
 
           $auth64 = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$(System.AccessToken)"))
           $headers = @{ Authorization = "Basic $auth64" }
-          $uri = "$(System.CollectionUri)/Test%20Plan%20Extension/_apis/test/runs/$($testRun)?api-version=7.1"
+          $uri = "$(System.CollectionUri)/$($env:projectName)/_apis/test/runs/$($testRun)?api-version=7.1"
 
           $response = Invoke-RestMethod -Uri $uri -Headers $headers -Method Get
 
@@ -141,3 +159,4 @@ steps:
         expected: ${{ convertToJson(test.expectedResults) }}
         testrun: $(${{ replace(lower(test.name), '-','_') }}.TestRunId)
         testrunurl: $(${{ replace(lower(test.name), '-','_') }}.TestRunUrl)
+        projectName: ${{ iif( ne(test.projectName,''), test.projectName, 'Test Plan Extension' ) }}
