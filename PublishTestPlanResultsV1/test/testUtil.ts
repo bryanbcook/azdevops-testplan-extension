@@ -100,12 +100,15 @@ export function newTestConfig(id : number = 0, name : string = "DefaultConfig") 
   return <TestConfiguration>{ id: id, name: name};
 }
 
-export function newTestPlan(id : number = 0, name? : string, endDate? : Date) : TestPlan {
+export function newTestPlan(id : number = 0, name? : string, endDate? : Date, syncOutcomeAcrossSuites? : boolean) : TestPlan {
   return <TestPlan> { 
     id: id, 
     name: name, 
     endDate: endDate, 
-    rootSuite: newShallowReference(id.toString(), name as string)
+    rootSuite: newShallowReference(id.toString(), name as string),
+    testOutcomeSettings: {
+      syncOutcomeAcrossSuites: syncOutcomeAcrossSuites
+    }
   };
 }
 

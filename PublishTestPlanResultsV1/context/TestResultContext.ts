@@ -2,6 +2,7 @@ import { TestConfiguration, TestPlan, TestPoint } from "azure-devops-node-api/in
 import { TestResultContextParameters } from "./TestResultContextParameters";
 import { TestResultContextBuilder } from "./TestResultContextBuilder";
 import { configAlias } from "./configAlias";
+import { TestPoint2 } from "../services/AdoWrapper";
 
 export class TestResultContext {
 
@@ -17,6 +18,8 @@ export class TestResultContext {
 
   private readonly supportedTestConfigs: Map<string, TestConfiguration>;
   private readonly testPoints: Map<number, TestPoint>;
+  private readonly testCases: Set<string>;
+  private readonly syncOutcomeAcrossSuites: boolean = false;
 
   constructor(projectId: string, projectName: string, testPlan: TestPlan) {
     this.projectId = projectId;
@@ -24,6 +27,8 @@ export class TestResultContext {
     this.testPlan = testPlan;
     this.supportedTestConfigs = new Map<string, TestConfiguration>();
     this.testPoints = new Map<number, TestPoint>();
+    this.testCases = new Set<string>();
+    this.syncOutcomeAcrossSuites = this.testPlan.testOutcomeSettings?.syncOutcomeAcrossSuites ?? false;
   }
 
   addConfig(config: TestConfiguration) {
@@ -54,6 +59,22 @@ export class TestResultContext {
   }
 
   addTestPoint(point: TestPoint) {
+    
+    // as performance optimization, we can exclude test points that are duplicate test case references
+    // when the test plan has the "sync outcome across suites" option enabled
+    if (this.syncOutcomeAcrossSuites) {
+      // logic to handle duplicate test points
+      const testCaseId = (point as TestPoint2).testCaseReference.id;
+      if (testCaseId) {
+        if (this.testCases.has(testCaseId.toString())) {
+          // skip adding this test point as it's a duplicate reference to the same test case
+          return;
+        }
+        // add the test case ID to the set to track it
+        this.testCases.add(testCaseId.toString());
+      }
+    }
+
     this.testPoints.set(point.id, point);
   }
 
@@ -90,5 +111,9 @@ export class TestResultContext {
 
   hasConfig(name: string): boolean {
     return this.supportedTestConfigs.has(name);
+  }
+
+  hasSyncTestOutcomeEnabled() : boolean {
+    return this.syncOutcomeAcrossSuites;
   }
 }

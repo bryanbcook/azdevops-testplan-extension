@@ -256,6 +256,48 @@ describe("TestResultContextBuilder", () => {
         expect((points[3] as TestPoint2).testCaseReference.name).to.eq("Test Case 4");
       });
     });
+
+    context("Sync outcomes across test suites enabled", () => {
+      it("Should not include duplicate test points that reference the same test case", async () => {
+        // arrange
+        setupTestPlans([
+          newTestPlan(1, "ValidPlan", undefined, true /*sync outcomes across suites*/)
+        ]);
+        setupTestPoints([
+          newTestPoint(1, "Test Case 1", "1", "150"),
+          newTestPoint(2, "Test Case 1 - duplicate", "1", "150"),
+          newTestPoint(3, "Test Case 2", "1", "151"),
+        ]);
+
+        // act
+        var result = await subject.build();
+
+        // assert
+        let points = result.getTestPoints();
+        expect(points.length).to.eq(2);
+      });
+    });
+
+    context("Sync outcomes across test suites not set", () => {
+      it("Should not duplicate test points that reference the same test case", async () => {
+        // arrange
+        setupTestPlans([
+          newTestPlan(1, "ValidPlan")
+        ]);
+        setupTestPoints([
+          newTestPoint(1, "Test Case 1", "1", "150"),
+          newTestPoint(2, "Test Case 1 - duplicate", "1", "150"),
+          newTestPoint(3, "Test Case 2", "1", "151"),
+        ]);
+
+        // act
+        var result = await subject.build();
+
+        // assert
+        let points = result.getTestPoints();
+        expect(points.length).to.eq(3);
+      });
+    });
   })
 
   context("Load Test Case Meta", () => {
