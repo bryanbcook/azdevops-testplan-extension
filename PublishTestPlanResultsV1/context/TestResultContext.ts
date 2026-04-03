@@ -3,6 +3,7 @@ import { TestResultContextParameters } from "./TestResultContextParameters";
 import { TestResultContextBuilder } from "./TestResultContextBuilder";
 import { configAlias } from "./configAlias";
 import { TestPoint2 } from "../services/AdoWrapper";
+import { ILogger, getLogger } from "../services/Logger";
 
 export class TestResultContext {
 
@@ -11,7 +12,6 @@ export class TestResultContext {
     return await builder.build();
   }
 
-  // logger
   public readonly projectId: string;
   public readonly projectName: string;
   public readonly testPlan: TestPlan;
@@ -20,8 +20,9 @@ export class TestResultContext {
   private readonly testPoints: Map<number, TestPoint>;
   private readonly testCases: Set<string>;
   private readonly syncOutcomeAcrossSuites: boolean = false;
+  private readonly logger: ILogger;
 
-  constructor(projectId: string, projectName: string, testPlan: TestPlan) {
+  constructor(projectId: string, projectName: string, testPlan: TestPlan, logger : ILogger) {
     this.projectId = projectId;
     this.projectName = projectName;
     this.testPlan = testPlan;
@@ -29,6 +30,7 @@ export class TestResultContext {
     this.testPoints = new Map<number, TestPoint>();
     this.testCases = new Set<string>();
     this.syncOutcomeAcrossSuites = this.testPlan.testOutcomeSettings?.syncOutcomeAcrossSuites ?? false;
+    this.logger = logger;
   }
 
   addConfig(config: TestConfiguration) {
@@ -61,13 +63,16 @@ export class TestResultContext {
   addTestPoint(point: TestPoint) {
     
     // as performance optimization, we can exclude test points that are duplicate test case references
-    // when the test plan has the "sync outcome across suites" option enabled
-    if (this.syncOutcomeAcrossSuites) {
+    // when the test plan doesn't have the "sync outcome across suites" option enabled.
+    // duplicates when found will be logged as warnings
+    if (!this.syncOutcomeAcrossSuites) {
+
       // logic to handle duplicate test points
       const testCaseId = (point as TestPoint2).testCaseReference.id;
       if (testCaseId) {
         if (this.testCases.has(testCaseId.toString())) {
           // skip adding this test point as it's a duplicate reference to the same test case
+          this.logger.warn(`Test Plan contains duplicates for test case: ${(point as TestPoint2).testCaseReference.name} (id: ${testCaseId}). This test case will be matched to the first test point reference found, and duplicate references will be ignored.`);
           return;
         }
         // add the test case ID to the set to track it

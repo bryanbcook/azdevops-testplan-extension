@@ -130,7 +130,7 @@ describe('TestResultProcessor', () => {
       ]
     })
 
-    it("Should log a warning that the test plan contains duplicates", async () => {
+    it("Should log a debug message that the test plan contains duplicates", async () => {
       // arrange
       subject.logger = sinon.createStubInstance(Logger);
 
@@ -138,9 +138,11 @@ describe('TestResultProcessor', () => {
       var result = await subject.process(testresults);
       
       // assert
-      sinon.assert.called(subject.logger.warn as sinon.SinonSpy);
-      var loggedMessage = (subject.logger.warn as sinon.SinonSpy).getCall(0).args[0] as string;
-      expect(loggedMessage).to.contain("Test Plan contains duplicates for test case: 1234");
+      
+      const debugSpy = subject.logger.debug as sinon.SinonSpy;
+      sinon.assert.called(debugSpy);
+      const loggedMessages = testUtil.getLoggedMessages(debugSpy);
+      expect(loggedMessages.some(msg => msg.includes("Found multiple test points for test case: 1234"))).to.eq(true);
     });
 
     it ("Should map test result to multiple test points", async () => {

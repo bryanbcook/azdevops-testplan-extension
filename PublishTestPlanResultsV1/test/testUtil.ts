@@ -4,6 +4,7 @@ import { ShallowReference, TestPlan, TestConfiguration, WorkItemReference, Suite
 import { TestPoint2 } from '../services/AdoWrapper';
 import { TestFrameworkResult } from '../framework/TestFrameworkResult';
 import FeatureFlags from '../services/FeatureFlags';
+import Sinon = require('sinon');
 
 export function setSystemVariable(name: string, val: string) {
   let key: string = im._getVariableKey(name);
@@ -112,7 +113,13 @@ export function newTestPlan(id : number = 0, name? : string, endDate? : Date, sy
   };
 }
 
+var testCaseIdCounter : number = 0;
+
 export function newTestPoint(id : number = 0, name : string = "Test 1", configId : string = "0", testCaseId : string = "0" ) {
+  if (testCaseId === "0") {
+    // use a unique value if test case id isn't specified
+    testCaseId = (++testCaseIdCounter).toString();
+  }
   return <TestPoint2>{ 
     id: id, 
     testCaseReference: <WorkItemReference>{ /*TestPoint has testCase, but it should be testCaseReference*/
@@ -165,3 +172,6 @@ export function newTestFrameworkResult(name : string = "Test1", outcome : string
   return result;
 }
 
+export function getLoggedMessages( spy : Sinon.SinonSpy<any[], any> ) : string[] {
+  return Array.from({ length: spy.callCount }, (_, i) => spy.getCall(i).args[0] as string);
+}
