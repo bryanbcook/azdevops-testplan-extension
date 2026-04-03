@@ -63,13 +63,14 @@ context("TestRunPublisher", () => {
       // this resolves endpoint information from the server, so values must be present
       this.timeout(10000);
       const serverUrl = process.env.SYSTEM_COLLECTIONURI as string;
+      const projectName = process.env.SYSTEM_TEAMPROJECT as string;
       const accessToken = (process.env.SYSTEM_ACCESSTOKEN ?? process.env.ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN) as string;
       const buildId = "123";
       const rUri = "vstfs://ReleaseManagement/Release/1";
       const eUri = "vstfs://ReleaseManagement/Environment/1";
       const testFiles = ["file1", "file2"];
       console.log(serverUrl);
-      var parameters = new TestRunPublisherParameters(serverUrl, accessToken, false, "Dummy", buildId, testFiles, true);
+      var parameters = new TestRunPublisherParameters(serverUrl, projectName, accessToken, false, "Dummy", buildId, testFiles, true);
       parameters.releaseUri = rUri;
       parameters.releaseEnvironmentUri = eUri;
 
@@ -190,6 +191,21 @@ context("TestRunPublisher", () => {
         })
       )).eq(true);
     })
+
+    context("With Build Information available", () => {
+
+      it("Should include build information in the test run", async () => {
+        // arrange
+        let buildId = "123";
+        subject.buildId = buildId;
+        
+        // act
+        var result = await subject.publishTestRun(testData);
+
+        // assert
+        expect(ado.createTestRun.calledWith( "project1", 1, [1,2], buildId)).eq(true);
+      });
+    });
 
     context("With Classic Release Information available", () => {
 

@@ -1095,17 +1095,6 @@ describe('TaskParameters', () => {
         expect(parameters.accessToken).to.eq("myToken");
       });
 
-      it("Should default failTaskOnUnmatchedTestCases to true", () => {
-        // arrange
-        util.loadData();
-
-        // act
-        var parameters = subject.getPublisherParameters();
-
-        // assert
-        expect(parameters.failTaskOnUnmatchedTestCases).to.be.true;
-      });
-
       it('Should record failTaskOnUnmatchedTestCases in telemetry when custom value is provided', () => {
         // arrange
         util.setInput("failTaskOnUnmatchedTestCases", "false");
@@ -1168,10 +1157,9 @@ describe('TaskParameters', () => {
 
         // assert
         let telemetry = subject.getTelemetryParameters().payload;
-        expect(telemetry.testRunTitle).to.be.undefined;
+        expect(telemetry.testRunTitle).to.be.undefined; // don't record user value
         expect(telemetry.testRunTitle_custom).to.be.true;
       });
-
     });
 
     context('default values', () => {
@@ -1216,61 +1204,6 @@ describe('TaskParameters', () => {
       })
     });
 
-    context('user supplied values', () => {
-
-      it('Should resolve testRunTitle if provided', () => {
-        // arrange
-        util.setInput("testRunTitle", "My Test Run");
-        util.loadData();
-
-        // act
-        var parameters = subject.getPublisherParameters();
-
-        // assert
-        expect(parameters.testRunTitle).to.eq("My Test Run");
-      });
-
-      it('Should record custom value for testRunTitle in telemetry when provided', () => {
-        // arrange
-        util.setInput("testRunTitle", "My Test Run");
-        util.loadData();
-
-        // act
-        subject.getPublisherParameters();
-
-        // assert
-        let telemetry = subject.getTelemetryParameters().payload;
-        expect(telemetry.testRunTitle).to.be.undefined; // don't record user value
-        expect(telemetry.testRunTitle_custom).to.be.true;
-      });
-
-      it('Should resolve value for failTaskOnUnmatchedTestCases from input', () => {
-        // arrange
-        util.setInput("failTaskOnUnmatchedTestCases", "false"); // default is true
-        util.loadData();
-
-        // act
-        var parameters = subject.getPublisherParameters();
-
-        // assert
-        expect(parameters.failTaskOnUnmatchedTestCases).to.be.false;
-      });
-
-      it('Should record custom value for failTaskOnUnmatchedTestCases in telemetry when provided', () => {
-        // arrange
-        util.setInput("failTaskOnUnmatchedTestCases", "false");
-        util.loadData();
-
-        // act
-        subject.getPublisherParameters();
-
-        // assert
-        let telemetry = subject.getTelemetryParameters().payload;
-        expect(telemetry.failTaskOnUnmatchedTestCases).to.be.false;
-        expect(telemetry.failTaskOnUnmatchedTestCases_custom).to.be.undefined;
-      });
-    });
-
     context('For Build Pipeline', () => {
 
       it('Should resolve build id from build pipeline', () => {
@@ -1301,7 +1234,6 @@ describe('TaskParameters', () => {
         expect(parameters.releaseUri).to.be.undefined;
         expect(parameters.releaseEnvironmentUri).to.be.undefined;
       });
-
     });  
 
     context("For Release Pipeline", () => {
@@ -1319,6 +1251,43 @@ describe('TaskParameters', () => {
         // assert
         expect(parameters.releaseUri).to.satisfy( (x: string) => x.startsWith("vstfs://ReleaseManagement"));
         expect(parameters.releaseEnvironmentUri).to.satisfy( (x: string) => x.startsWith("vstfs://ReleaseManagement"));
+      });
+    });
+
+    context('Cross project publishing', () => {
+    
+      it('Should exclude buildId when publishing to Test Plans in a different project', () => {
+        // arrange
+        util.setInput("collectionUri", "https://myorg.visualstudio.com/");
+        util.setInput("projectName", "MyProject");
+        util.setInput("testPlan", "My Test Plan");
+        util.setSystemVariable("BUILD_BUILDID", "1234");
+        util.setSystemVariable("SYSTEM_TEAMPROJECT", "OriginProject");
+        util.loadData();
+
+        // act 
+        subject = TaskParameters.getInstance(); // reload to pick up values from constructor
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        expect(parameters.buildId).to.be.undefined;
+      });
+
+      it('Should include buildId when publishing to Test Plans in the same project', () => {
+        // arrange
+        util.setInput("collectionUri", "https://myorg.visualstudio.com/");
+        util.setInput("projectName", "MyProject");
+        util.setInput("testPlan", "My Test Plan");
+        util.setSystemVariable("BUILD_BUILDID", "1234");
+        util.setSystemVariable("SYSTEM_TEAMPROJECT", "MyProject");
+        util.loadData();
+
+        // act
+        subject = TaskParameters.getInstance(); // reload to pick up values from constructor
+        var parameters = subject.getPublisherParameters();
+
+        // assert
+        expect(parameters.buildId).to.eq("1234");
       });
     });
     

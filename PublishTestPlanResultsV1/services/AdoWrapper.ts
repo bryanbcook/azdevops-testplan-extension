@@ -133,7 +133,7 @@ export class AdoWrapper {
    * @param releaseEnvironmentUri url to the release environment
    * @returns returns the resulting TestRun from the operation
    */
-  async createTestRun(projectId : string, testPlanId : number, testPoints : number[], buildId : string, releaseUri? : string, releaseEnvironmentUri? : string) : Promise<Contracts.TestRun> {
+  async createTestRun(projectId : string, testPlanId : number, testPoints : number[], buildId? : string, releaseUri? : string, releaseEnvironmentUri? : string) : Promise<Contracts.TestRun> {
     this.logger.debug(`createTestRun projectId:${projectId} testPlanId:${testPlanId} testPoints: (${testPoints.length} items) - buildId:${buildId}`);
 
     let testRun : Contracts.RunCreateModel = {
@@ -142,9 +142,6 @@ export class AdoWrapper {
       plan: <Contracts.ShallowReference>{
         id: testPlanId.toString()
       },
-      build: <Contracts.ShallowReference>{
-        id: buildId,
-      },
       releaseUri: releaseUri,
       releaseEnvironmentUri: releaseEnvironmentUri,
       pointIds: testPoints,
@@ -152,9 +149,12 @@ export class AdoWrapper {
       configurationIds: []
     };
 
-    // temp: disable build id association when test plan is different project than pipeline
-    if (FeatureFlags.isFeatureEnabled(FeatureFlag.DisableBuildAssociation)) {
-      testRun.build = undefined;
+    if (buildId !== undefined) {
+      testRun.build = <Contracts.ShallowReference>{
+        id: buildId
+      }
+    } else {
+      this.logger.debug('Build association is not supported when the test project is different from the pipeline project.');
     }
 
     return await this.testApi.createTestRun(testRun, projectId);

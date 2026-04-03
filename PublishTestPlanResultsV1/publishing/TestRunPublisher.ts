@@ -26,7 +26,7 @@ export class TestRunPublisher {
 
   private ado : AdoWrapper;
   private logger : ILogger;
-  public buildId : string;
+  public buildId : string | undefined;
   public dryRun : boolean;
   public releaseUri? : string;
   public releaseEnvironmentUri? : string;
