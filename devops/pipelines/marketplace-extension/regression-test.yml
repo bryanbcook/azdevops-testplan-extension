@@ -43,7 +43,7 @@ parameters:
     buildId: 2436
     expectedResults:
       - outcome: Passed
-        count: 2
+        count: 1
   - name: TestDuplicates_wTestOutcomeSettingEnabled
     format: xunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitResults/TestResults-adotestplan-prj.xml'
@@ -52,7 +52,7 @@ parameters:
     buildId: 2436
     expectedResults:
       - outcome: Passed
-        count: 1        
+        count: 2        
 
 steps:
 - pwsh: |
