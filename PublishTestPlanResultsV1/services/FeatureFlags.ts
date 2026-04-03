@@ -3,6 +3,7 @@ import { getLogger, ILogger } from "./Logger";
 export class FeatureFlag {
   static DisplayTelemetry : string = "displaytelemetry";
   static DisplayTelemetryErrors : string = "displaytelemetryerrors";
+  static DisableBuildAssociation : string = "disablebuildassociation";
 }
 
 export class FeatureFlags {

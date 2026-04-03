@@ -7,6 +7,7 @@ import { ITestApi } from "azure-devops-node-api/TestApi";
 import * as fs from "fs";
 import path from "path";
 import { ILogger, getLogger } from "./Logger";
+import FeatureFlags, { FeatureFlag } from "./FeatureFlags";
 
 interface AdoResponseHeaders {
   "x-ms-continuationtoken"? : string;
@@ -150,6 +151,11 @@ export class AdoWrapper {
       /* this property is required because it's not optional in the typescript def */
       configurationIds: []
     };
+
+    // temp: disable build id association when test plan is different project than pipeline
+    if (FeatureFlags.isFeatureEnabled(FeatureFlag.DisableBuildAssociation)) {
+      testRun.build = undefined;
+    }
 
     return await this.testApi.createTestRun(testRun, projectId);
   }
