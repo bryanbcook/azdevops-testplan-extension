@@ -4,7 +4,7 @@ import * as testUtil from './testUtil';
 import { newTestConfig, newTestPlan, newTestPoint, newTestCase } from './testUtil';
 import { TestPlan, TestConfiguration, TestPoint, SuiteTestCase } from 'azure-devops-node-api/interfaces/TestInterfaces';
 import { AdoWrapper, TestPoint2 } from '../services/AdoWrapper';
-import { ILogger, NullLogger } from '../services/Logger';
+import { ILogger, Logger } from '../services/Logger';
 import { TestResultContextBuilder } from '../context/TestResultContextBuilder';
 import { configAlias } from '../context/configAlias';
 
@@ -16,7 +16,7 @@ describe("TestResultContextBuilder", () => {
   var subject : TestResultContextBuilder;
 
   beforeEach(() => {
-    logger = new NullLogger();
+    logger = sinon.createStubInstance(Logger);
     ado = sinon.createStubInstance(AdoWrapper);
     subject = new TestResultContextBuilder(logger, ado);
   });
@@ -216,7 +216,7 @@ describe("TestResultContextBuilder", () => {
         expect((points[1] as TestPoint2).testCaseReference.name).to.eq("Test Case 4");
       });
 
-      it("Should recognize when test config filter is not a valid config", async () =>{
+      it("Should recognize when test config filter is not a valid config", async () => {
         // arrange
         setupTestConfigurations([
           newTestConfig(1, "Config 1"),
@@ -257,38 +257,22 @@ describe("TestResultContextBuilder", () => {
       });
     });
 
-    context("Sync outcomes across test suites enabled", () => {
-      it("Should not include duplicate test points that reference the same test case", async () => {
-        // arrange
+    context("Sync outcomes across test suites enabled (duplicates present)", () => {
+
+      beforeEach(() => {
         setupTestPlans([
           newTestPlan(1, "ValidPlan", undefined, true /*sync outcomes across suites*/)
         ]);
         setupTestPoints([
           newTestPoint(1, "Test Case 1", "1", "150"),
-          newTestPoint(2, "Test Case 1 - duplicate", "1", "150"),
+          newTestPoint(2, "Test Case 1", "1", "150"), // duplicate
           newTestPoint(3, "Test Case 2", "1", "151"),
         ]);
-
-        // act
-        var result = await subject.build();
-
-        // assert
-        let points = result.getTestPoints();
-        expect(points.length).to.eq(2);
       });
-    });
 
-    context("Sync outcomes across test suites not set", () => {
-      it("Should not duplicate test points that reference the same test case", async () => {
+      it("Should include duplicate test points that reference the same test case", async () => {
         // arrange
-        setupTestPlans([
-          newTestPlan(1, "ValidPlan")
-        ]);
-        setupTestPoints([
-          newTestPoint(1, "Test Case 1", "1", "150"),
-          newTestPoint(2, "Test Case 1 - duplicate", "1", "150"),
-          newTestPoint(3, "Test Case 2", "1", "151"),
-        ]);
+        
 
         // act
         var result = await subject.build();
@@ -297,6 +281,109 @@ describe("TestResultContextBuilder", () => {
         let points = result.getTestPoints();
         expect(points.length).to.eq(3);
       });
+
+      it("Should log that 'sync outcomes across suites' is enabled", async () => {
+        // arrange
+        // act
+        var result = await subject.build();
+
+        // assert
+        const infoSpy = logger.info as sinon.SinonSpy;
+        sinon.assert.called(infoSpy);
+        const loggedMessages = testUtil.getLoggedMessages(infoSpy);
+        expect(loggedMessages.some(msg => msg.includes("Test Plan has 'sync outcomes across suites' enabled"))).to.eq(true);
+      });
+    });
+
+    context("Sync outcomes across test suites not set (duplicates present)", () => {
+
+      beforeEach(() => {
+        // arrange setup a test plan that contains duplicates
+        setupTestPlans([
+          newTestPlan(1, "ValidPlan")
+        ]);
+        setupTestPoints([
+          newTestPoint(1, "Test Case 1", "1", "150"),
+          newTestPoint(2, "Test Case 1", "1", "150"), // duplicate
+          newTestPoint(3, "Test Case 2", "1", "151"),
+        ]);
+      });
+
+      it("Should not include duplicate test points that reference the same test case", async () => {
+        // arrange       
+
+        // act
+        var result = await subject.build();
+
+        // assert
+        let points = result.getTestPoints();
+        expect(points.length).to.eq(2);
+      });
+
+      it("Should log a warning that the test plan contains duplicates", async () => {
+        // arrange
+
+        // act
+        var result = await subject.build();
+
+        // assert
+        const warnSpy = logger.warn as sinon.SinonSpy;
+        sinon.assert.called(warnSpy);
+        const loggedMessages = testUtil.getLoggedMessages(warnSpy);
+        expect(loggedMessages.some(msg => msg.includes("Test Plan contains duplicates for test case: Test Case 1 (id: 150)"))).to.eq(true);
+      });
+
+      it("Should log the number of duplicates that were removed", async () => {
+        // arrange
+
+        // act
+        var result = await subject.build();
+
+        // assert
+        const warnSpy = logger.warn as sinon.SinonSpy;
+        sinon.assert.called(warnSpy);
+        const loggedMessages = testUtil.getLoggedMessages(warnSpy);
+        expect(loggedMessages.some(msg => msg.includes("Removed 1 duplicate test case reference(s)."))).to.eq(true);
+      });
+
+      it("Should inform user about 'sync outcomes across suites' should be enabled", async () => {
+        // arrange
+
+        // act
+        var result = await subject.build();
+
+        // assert
+        const warnSpy = logger.warn as sinon.SinonSpy;
+        sinon.assert.called(warnSpy);
+        const loggedMessages = testUtil.getLoggedMessages(warnSpy);
+        expect(loggedMessages.some(msg => msg.includes("Consider enabling 'sync outcomes across suites' on the Test Plan settings to allow duplicate test case references."))).to.eq(true);
+      });
+    });
+
+    context("Sync outcomes across test suites not set (no duplicates)", () => {
+
+      beforeEach(() => {
+        // arrange setup a test plan that does not contain duplicates
+        setupTestPlans([
+          newTestPlan(1, "ValidPlan") // sync outcomes across suites not enabled
+        ]);
+        setupTestPoints([
+          newTestPoint(1, "Test Case 1", "1", "150"),
+          newTestPoint(2, "Test Case 2", "1", "151"),
+        ]);
+      });
+
+      it("Should not log a warning about duplicates", async () => {
+        // arrange
+
+        // act
+        var result = await subject.build();
+
+        // assert
+        const warnSpy = logger.warn as sinon.SinonSpy;
+        sinon.assert.notCalled(warnSpy);
+      })
+
     });
   })
 
@@ -377,6 +464,6 @@ describe("TestResultContextBuilder", () => {
   function setupTestCases(testCases : any[]) {
     ado.getTestCasesForSuite.returns(new Promise((resolve) => {
       resolve(testCases);
-    }))
+    }));
   }
 });

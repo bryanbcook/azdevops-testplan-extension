@@ -129,7 +129,7 @@ export class TestResultProcessor {
     const allMatch = matches.map( p => p as TestPoint2).every( p => p.testCaseReference.id === firstTestCaseId);
 
     if (allMatch && matches.length > 1) {
-      this.logger.warn(`Test Plan contains duplicates for test case: ${firstTestCaseId}.`);
+      this.logger.debug(`Found multiple test points for test case: ${firstTestCaseId}.`);
     }
 
     return allMatch;

@@ -44,7 +44,7 @@ export class TestResultContextBuilder {
     
     this.log.info(`Using Test Plan: ${testPlan.name}`);
 
-    let ctx = new TestResultContext(projectId, (this.projectName as string), testPlan);
+    let ctx = new TestResultContext(projectId, (this.projectName as string), testPlan, this.log);
     let configs = await this.getTestConfigurations();
     if (configs) {
       this.log.debug(`${configs.length} test configurations available.`);
@@ -65,10 +65,11 @@ export class TestResultContextBuilder {
     ctx.addTestPoints(points);
     this.log.info(`Available Test Points: ${points.length}`);
     if (ctx.hasSyncTestOutcomeEnabled()) {
-      this.log.info(`Test Plan has 'sync outcomes across suites' enabled. Duplicate test case references will be removed.`);
+      this.log.info(`Test Plan has 'sync outcomes across suites' enabled.`);
+    } else {
       let uniqueTestLength = ctx.getTestPoints().length;
       if (points.length != uniqueTestLength) {
-        this.log.info(`Removed ${points.length - uniqueTestLength} duplicate test case reference(s).`);
+        this.log.warn(`Removed ${points.length - uniqueTestLength} duplicate test case reference(s). Consider enabling 'sync outcomes across suites' on the Test Plan settings to allow duplicate test case references.`);
       }
     }
 

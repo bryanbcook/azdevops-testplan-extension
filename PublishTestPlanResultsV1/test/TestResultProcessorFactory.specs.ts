@@ -5,15 +5,16 @@ import { TestResultContext } from '../context/TestResultContext';
 import { TestResultProcessorParameters } from '../processing/TestResultProcessorParameters';
 
 import * as subject from '../processing/TestResultProcessorFactory';
+import { ILogger, NullLogger } from '../services/Logger';
 
 describe('TestResultProcessorFactory', () => {
 
   var ctx : TestResultContext;
   var parameters : TestResultProcessorParameters;
-
+  
   beforeEach( () => {
     let dummyPlan = <TestPlan>{id:1};
-    ctx = new TestResultContext("projectId","projectName", dummyPlan);
+    ctx = new TestResultContext("projectId","projectName", dummyPlan, new NullLogger());
   });
   
   it('Should configure all matchers when set to auto', async () => {
