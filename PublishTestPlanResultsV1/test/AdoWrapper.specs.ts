@@ -4,6 +4,7 @@ import path from "path";
 import * as Contracts from 'azure-devops-node-api/interfaces/TestInterfaces'
 import * as testUtil from './testUtil';
 import { AdoWrapper } from "../services/AdoWrapper";
+import { FeatureFlag } from "../services/FeatureFlags";
 
 describe("AdoWrapper", () => {
 
@@ -43,6 +44,7 @@ describe("AdoWrapper", () => {
 
   afterEach(() => {
     sinon.restore();
+    testUtil.clearData();
   })
 
   context('Integration Tests', () => {
@@ -157,6 +159,37 @@ describe("AdoWrapper", () => {
     // assert
     expect(result.length).eq(20);
   })
+
+  context("Create Test Run", () => {
+
+    it(`Should disable build association when ${FeatureFlag.DisableBuildAssociation} feature flag is enabled`, async () => {
+      // arrange
+      const createTestRunStub = stubCreateTestRun(<Contracts.TestRun>{ id: 123 });
+      testUtil.setFeatureFlag(FeatureFlag.DisableBuildAssociation, "true");
+      testUtil.loadData();
+
+      // act
+      await subject.createTestRun(projectId, parseInt(planId), [1,2,3], "buildId");
+
+      // assert
+      let testRun = createTestRunStub.getCall(0).args[1] as Contracts.TestRun;
+      expect(testRun.build).to.be.undefined;
+    });
+
+    it(`Should include build association when ${FeatureFlag.DisableBuildAssociation} feature flag is not provided`, async () => {
+      // arrange
+      const createTestRunStub = stubCreateTestRun(<Contracts.TestRun>{ id: 123 });
+      testUtil.loadData();
+      
+      // act
+      await subject.createTestRun(projectId, parseInt(planId), [1,2,3], "buildId");
+
+      // assert
+      let testRun = createTestRunStub.getCall(0).args[1] as Contracts.TestRun;
+      expect(testRun.build).not.to.be.undefined;
+      expect(testRun.build?.id).to.be.eq("buildId");
+    });
+  });
 
   // it("Should create a testrun", async function () {
   //   // arrange
@@ -319,6 +352,20 @@ describe("AdoWrapper", () => {
 
       return Promise.resolve(response);
     });
+  }
+
+  function stubCreateTestRun(testRun : Contracts.TestRun) : sinon.SinonStub {
+    const createTestRunStub = sinon.stub(subject.testApi.rest, "create");
+    createTestRunStub.callsFake( (url, testRun, options?) => {
+
+      let response : any = {
+        result : testRun,
+        headers : {}
+      }
+
+      return Promise.resolve(response);
+    });
+    return createTestRunStub;
   }
 
 })

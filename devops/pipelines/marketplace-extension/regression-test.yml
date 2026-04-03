@@ -40,16 +40,16 @@ parameters:
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitResults/TestResults-adotestplan-prj.xml'
     projectName: 'ADO Test Automation'
     testplan: 'Plan w Duplicates'
-    buildId: 2436
     expectedResults:
       - outcome: Passed
         count: 1
+    featureFlags: 'DisableBuildAssociation'
   - name: TestDuplicates_wTestOutcomeSettingEnabled
     format: xunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitResults/TestResults-adotestplan-prj.xml'
     projectName: 'ADO Test Automation'
     testplan: 'Plan w Duplicates and TestOutcome Setting Enabled'
-    buildId: 2436
+    buildId: 2436 # TODO: remove when 137 is fixed
     expectedResults:
       - outcome: Passed
         count: 2        
@@ -110,7 +110,7 @@ steps:
         -failTaskOnMissingResultsFile ''
         -failTaskOnMissingTests ''
         -failTaskOnUnmatchedTestCases ''
-        -featureFlags 'DisplayTelemetry,DisplayTelemetryErrors'
+        -featureFlags '${{ iif(ne(test.featureFlags,''), test.featureFlags, 'DisplayTelemetry,DisplayTelemetryErrors') }}'
         -DryRun ''
 
   - ${{ if ne(test.expectedResults, '') }}:
