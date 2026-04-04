@@ -7,7 +7,6 @@ import { ITestApi } from "azure-devops-node-api/TestApi";
 import * as fs from "fs";
 import path from "path";
 import { ILogger, getLogger } from "./Logger";
-import FeatureFlags, { FeatureFlag } from "./FeatureFlags";
 
 interface AdoResponseHeaders {
   "x-ms-continuationtoken"? : string;
