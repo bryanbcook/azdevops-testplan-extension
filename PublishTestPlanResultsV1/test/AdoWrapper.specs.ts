@@ -177,6 +177,21 @@ describe("AdoWrapper", () => {
     });
 
     // unit test / stub out testApi
+    // cross-project publishing scenarios require release association to be disabled, so releaseUri and releaseEnvironmentUri are optional in createTestRun parameters and test
+    it(`Should disable release association when releaseUri and releaseEnvironmentUri are not provided`, async () => {
+      // arrange
+      const createTestRunStub = stubCreateTestRun(<Contracts.TestRun>{ id: 123 });
+
+      // act
+      await subject.createTestRun(projectId, parseInt(planId), [1,2,3], undefined, undefined, undefined);
+
+      // assert
+      let testRun = createTestRunStub.getCall(0).args[1] as Contracts.TestRun;
+      expect(testRun.releaseUri).to.be.undefined;
+      expect(testRun.releaseEnvironmentUri).to.be.undefined;
+    });
+
+    // unit test / stub out testApi
     // build association is associated with 
     it(`Should include build association when buildId is provided`, async () => {
       // arrange

@@ -1256,13 +1256,15 @@ describe('TaskParameters', () => {
 
     context('Cross project publishing', () => {
     
-      it('Should exclude buildId when publishing to Test Plans in a different project', () => {
+      it('Should exclude build and release associations when publishing to Test Plans in a different project', () => {
         // arrange
         util.setInput("collectionUri", "https://myorg.visualstudio.com/");
         util.setInput("projectName", "MyProject");
         util.setInput("testPlan", "My Test Plan");
         util.setSystemVariable("BUILD_BUILDID", "1234");
         util.setSystemVariable("SYSTEM_TEAMPROJECT", "OriginProject");
+        util.setSystemVariable("RELEASE_RELEASEURI", "vstfs://ReleaseManagement/Release/1234");
+        util.setSystemVariable("RELEASE_ENVIRONMENTURI", "vstfs://ReleaseManagement/Environment/5678");
         util.loadData();
 
         // act 
@@ -1271,6 +1273,8 @@ describe('TaskParameters', () => {
 
         // assert
         expect(parameters.buildId).to.be.undefined;
+        expect(parameters.releaseUri).to.be.undefined;
+        expect(parameters.releaseEnvironmentUri).to.be.undefined;
       });
 
       it('Should include buildId when publishing to Test Plans in the same project', () => {

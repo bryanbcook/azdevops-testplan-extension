@@ -121,8 +121,11 @@ class TaskParameters {
     result.releaseUri = this.releaseUri;
     result.releaseEnvironmentUri = this.releaseEnvironmentUri;
 
+    // detect if we are publishing to a test plan in a different project
     if (this.projectName != this.originProjectName) {
       result.buildId = undefined;
+      result.releaseUri = undefined;
+      result.releaseEnvironmentUri = undefined;
     }
 
     this.tph.recordStage("publishTestRunResults");
