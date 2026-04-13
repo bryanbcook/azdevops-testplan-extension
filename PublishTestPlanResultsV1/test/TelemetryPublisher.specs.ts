@@ -86,6 +86,18 @@ describe('TelemetryPublisher', () => {
       // assert
       sinon.assert.notCalled(telemetryClientStub.trackEvent);
     });
+
+    it('should log debug message when telemetry disabled', async () => {
+      // arrange
+      parameters.publishTelemetry = false;
+      parameters.payload = { testKey: "testValue" };
+
+      // act
+      await subject.publish(parameters);
+
+      // assert
+      sinon.assert.calledWith(loggerStub.debug, "Telemetry publishing is disabled due to dryRun. Skipping publish.");
+    })
   });
 
   context(`FeatureFlag: ${FeatureFlag.DisplayTelemetry}`, () => {

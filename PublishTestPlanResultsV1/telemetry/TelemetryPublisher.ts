@@ -96,7 +96,9 @@ export class TelemetryPublisher {
       this.logger.debug("publishing telemetry event.");
       this.client.trackEvent({ name: "PublishTestPlanResults", properties: parameters.payload });
       this.client.flush();
-    }    
+    } else {
+      this.logger.debug("Telemetry publishing is disabled due to dryRun. Skipping publish.");
+    }
   }
 
   #dumpError(err: any, enabled: boolean | undefined) {
