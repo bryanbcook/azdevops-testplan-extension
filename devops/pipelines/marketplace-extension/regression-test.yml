@@ -103,8 +103,8 @@ steps:
         -TestConfigProperty ''
         -TestRunTitle '$(Build.DefinitionName) - $(nodeVersion) - ${{ test.name }}'
         -BuildId $(Build.BuildId)
-        -ReleaseId '${{ if ne(test.releaseId,''), test.releaseId, '' }}'
-        -ReleaseEnvironmentId '${{ if ne(test.releaseEnvironmentId,''), test.releaseEnvironmentId, '' }}'
+        -ReleaseId '${{ iif( ne(test.releaseId,''), test.releaseId, '' ) }}'
+        -ReleaseEnvironmentId '${{ iif( ne(test.releaseEnvironmentId,''), test.releaseEnvironmentId, '' ) }}'
         -failTaskOnFailedTests '${{ iif( ne(test.failTaskOnFailedTests,''), test.failTaskOnFailedTests, 'false' ) }}'
         -failTaskOnSkippedTests '${{ iif( ne(test.failTaskOnSkippedTests,''), test.failTaskOnSkippedTests, 'false' ) }}'
         -failTaskOnMissingResultsFile ''
