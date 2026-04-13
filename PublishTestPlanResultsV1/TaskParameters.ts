@@ -20,6 +20,7 @@ class TaskParameters {
   accessToken?: string;
   collectionUri?: string;
   projectName?: string;
+  originProjectName?: string;
 
   buildId?: string;
   releaseUri?: string;
@@ -109,15 +110,23 @@ class TaskParameters {
     const testFiles = this.testFiles.filter(file => file.indexOf('**') == -1);  
     let result = new TestRunPublisherParameters(
         this.collectionUri!, 
+        this.projectName!,
         this.accessToken!, 
         dryRun, 
         testRunTitle, 
-        this.buildId!,
+        this.buildId,
         testFiles,
         failTaskOnUnmatchedTestCases
         );
     result.releaseUri = this.releaseUri;
     result.releaseEnvironmentUri = this.releaseEnvironmentUri;
+
+    // detect if we are publishing to a test plan in a different project
+    if (this.projectName != this.originProjectName) {
+      result.buildId = undefined;
+      result.releaseUri = undefined;
+      result.releaseEnvironmentUri = undefined;
+    }
 
     this.tph.recordStage("publishTestRunResults");
     return result;
@@ -164,8 +173,9 @@ class TaskParameters {
 
   #ensureCredentialsAreSet() {
     if (!this.accessToken) {
+      this.originProjectName = tl.getVariable("SYSTEM_TEAMPROJECT");
       this.accessToken = this.tph.getInputOrFallback("accessToken", () => tl.getVariable("SYSTEM_ACCESSTOKEN"), { recordNonDefault: true });
-      this.projectName = this.tph.getInputOrFallback("projectName", () => tl.getVariable("SYSTEM_TEAMPROJECT"), { recordNonDefault: true, anonymize: true }, PrivacyLevel.Normal);
+      this.projectName = this.tph.getInputOrFallback("projectName", () => this.originProjectName, { recordNonDefault: true, anonymize: true }, PrivacyLevel.Normal);
       this.collectionUri = this.tph.getInputOrFallback("collectionUri", () => tl.getVariable("SYSTEM_COLLECTIONURI"), { recordNonDefault: true, anonymize: true }, PrivacyLevel.Minimum);
 
       let serverType = (this.collectionUri && (this.collectionUri.startsWith("https://dev.azure.com/") || this.collectionUri.includes(".visualstudio.com"))) ?

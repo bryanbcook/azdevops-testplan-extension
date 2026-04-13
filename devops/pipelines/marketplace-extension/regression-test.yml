@@ -40,16 +40,16 @@ parameters:
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitResults/TestResults-adotestplan-prj.xml'
     projectName: 'ADO Test Automation'
     testplan: 'Plan w Duplicates'
+    releaseId: vstfs:///ReleaseManagement/Release/8
+    releaseEnvironmentId: vstfs:///ReleaseManagement/Environment/8
     expectedResults:
       - outcome: Passed
         count: 1
-    featureFlags: 'DisableBuildAssociation'
   - name: TestDuplicates_wTestOutcomeSettingEnabled
     format: xunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/xUnitResults/TestResults-adotestplan-prj.xml'
     projectName: 'ADO Test Automation'
     testplan: 'Plan w Duplicates and TestOutcome Setting Enabled'
-    buildId: 2436 # TODO: remove when 137 is fixed
     expectedResults:
       - outcome: Passed
         count: 2        
@@ -102,9 +102,9 @@ steps:
         -TestCaseRegex 'TestCase(\d+)'
         -TestConfigProperty ''
         -TestRunTitle '$(Build.DefinitionName) - $(nodeVersion) - ${{ test.name }}'
-        -BuildId ${{ iif( ne(test.buildId,''), test.buildId, '$(Build.BuildId)' ) }}
-        -ReleaseId ''
-        -ReleaseEnvironmentId ''
+        -BuildId $(Build.BuildId)
+        -ReleaseId '${{ iif( ne(test.releaseId,''), test.releaseId, '' ) }}'
+        -ReleaseEnvironmentId '${{ iif( ne(test.releaseEnvironmentId,''), test.releaseEnvironmentId, '' ) }}'
         -failTaskOnFailedTests '${{ iif( ne(test.failTaskOnFailedTests,''), test.failTaskOnFailedTests, 'false' ) }}'
         -failTaskOnSkippedTests '${{ iif( ne(test.failTaskOnSkippedTests,''), test.failTaskOnSkippedTests, 'false' ) }}'
         -failTaskOnMissingResultsFile ''
