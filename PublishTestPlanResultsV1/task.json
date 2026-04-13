@@ -221,6 +221,7 @@
             "name": "telemetryOptOut",
             "type": "boolean",
             "required": false,
+            "label": "Opt out of a telemetry data collection",
             "groupName": "advanced",
             "defaultValue": "false",
             "helpMarkDown": "Opt out of anonymous usage data collection to help improve this extension."
