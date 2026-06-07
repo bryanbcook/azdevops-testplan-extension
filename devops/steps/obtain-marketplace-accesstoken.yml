@@ -1,0 +1,16 @@
+# uses $(MarketplaceServiceConnection) stored in pipeline-extension-settings variable group. This is the ID of the service connection
+
+
+steps:
+- task: AzureCLI@2
+  displayName: 'Obtain Access Token for Marketplace API'
+  inputs:
+    azureSubscription: 'azure-devops-marketplace'
+    scriptType: 'pscore'
+    scriptLocation: 'inlineScript'
+    useGlobalConfig: true
+    inlineScript: |
+      $accessToken = az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv
+      write-host "##vso[task.setsecret]$accessToken"
+      write-host "##vso[task.setendpoint id=$env:MARKETPLACESERVICECONNECTION;field=authParameter;key=password]$accessToken"
+          
