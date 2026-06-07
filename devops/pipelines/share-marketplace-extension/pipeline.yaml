@@ -24,13 +24,15 @@ steps:
     version: 'v0.x'
     checkLatest: true
 
+- template: /devops/steps/obtain-marketplace-accesstoken.yml
+
 # share the extension
 # --share-with only adds new organizations, existing orgs are untouched
 - task: ShareAzureDevOpsExtension@5
   displayName: 'Share Extension with Organization'
   inputs:
     connectTo: 'VsTeam'
-    connectedServiceName: 'AzureDevOpsMarketplace'
+    connectedServiceName: '$(MarketplaceServiceConnection)'
     method: 'id'
     publisherId: '$(PublisherID)'
     extensionId: '$(ExtensionID)'
