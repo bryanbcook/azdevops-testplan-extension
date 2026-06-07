@@ -91,6 +91,8 @@ jobs:
       version: 'v0.x'
       checkLatest: true
 
+  - template: ../steps/obtain-marketplace-accesstoken.yml
+
   # fetch the current extension version
   #   You must build and upload manually for the first execution
   #   specify the Extension.VersionOverride variable at queue time to override this value
@@ -99,7 +101,7 @@ jobs:
     name: Query
     inputs:
       connectTo: 'VsTeam'
-      connectedServiceName: 'AzureDevOpsMarketplace'
+      connectedServiceName: '$(MarketplaceServiceConnection)'
       publisherId: '$(PublisherID)'
       extensionId: '$(ExtensionID)'
       versionAction: 'Patch'
@@ -125,7 +127,7 @@ jobs:
     condition: eq('${{ parameters.publishExtension}}', 'true')
     inputs:
       connectTo: 'VsTeam'
-      connectedServiceName: 'AzureDevOpsMarketplace' 
+      connectedServiceName: '$(MarketplaceServiceConnection)' 
       fileType: 'vsix'
       vsixFile: '$(Build.ArtifactStagingDirectory)/*.vsix'
       publisherId: '$(PublisherID)'
