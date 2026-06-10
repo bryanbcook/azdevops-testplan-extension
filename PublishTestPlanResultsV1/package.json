@@ -14,8 +14,7 @@
     "applicationinsights": "^2.9.8",
     "azure-devops-node-api": "^15.1.2",
     "azure-pipelines-task-lib": "^5.2.10",
-    "test-results-parser": "0.4.5",
-    "uuid": "^8.3.2"
+    "test-results-parser": "0.4.5"
   },
   "devDependencies": {
     "@types/chai": "^4.3.20",
@@ -23,7 +22,6 @@
     "@types/node": "^20.19.37",
     "@types/q": "^1.5.7",
     "@types/sinon": "^21.0.0",
-    "@types/uuid": "^8.3.2",
     "chai": "^4.5.0",
     "sinon": "^21.0.3",
     "sync-request": "^6.1.0"

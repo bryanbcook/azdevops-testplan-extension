@@ -1,7 +1,6 @@
-import { createHash } from 'crypto';
+import { createHash, randomUUID } from 'crypto';
 
-const { v4: uuidv4 } = require('uuid');
-const correlationId = uuidv4();
+const correlationId = randomUUID();
 const task = require('../task.json');
 
 export enum PrivacyLevel {
