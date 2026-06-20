@@ -10,6 +10,8 @@ const TestParserMapping = {
 export class TestFrameworkResult {
   name: string;
   duration: number | undefined;
+  startedDate: Date | undefined;
+  completedDate: Date | undefined;
   stacktrace: string | undefined;
   failure: string | undefined;
   outcome: TestOutcome = TestOutcome.None;

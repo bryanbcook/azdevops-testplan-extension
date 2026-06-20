@@ -132,32 +132,61 @@ context("TestRunPublisher", () => {
       var result = await subject.publishTestRun(testData);
 
       // assert
-      expect(ado.updateTestResults.calledWith(
+      expect(ado.updateTestResults.calledWithMatch(
         "project1",
         400,
         [
-          <Contracts.TestCaseResult>{
+          sinon.match({
             id: 100001,
-            testPoint: <any>{
-              id: "1"
-            },
-            outcome: "2" /* VERIFY */,
+            testPoint: sinon.match({ id: "1" }),
+            outcome: "2",
             state: "Completed",
             stackTrace: undefined,
             errorMessage: undefined,
             durationInMs: 1000,
-          },
-          <Contracts.TestCaseResult>{
+          }),
+          sinon.match({
             id: 100002,
-            testPoint: <any>{
-              id: "2"
-            },
-            outcome: "2" /* VERIFY */,
+            testPoint: sinon.match({ id: "2" }),
+            outcome: "2",
             state: "Completed",
             stackTrace: undefined,
             errorMessage: undefined,
             durationInMs: 1000,
-          },
+          }),
+        ]
+      )).eq(true);
+    });
+
+    it("Should record start and end times for test results", async () => {
+      // arrange
+      testData.matches.clear();
+
+      let started1 = new Date(2024, 0, 1, 12, 0, 0);
+      let completed1 = new Date(2024, 0, 1, 12, 0, 1);
+      testData.matches.set(/*testpoint*/ 1, testUtil.newTestFrameworkResult("Test1", "PASS", undefined, started1, completed1));
+      let started2 = new Date(2024, 0, 1, 12, 0, 2);
+      let completed2 = new Date(2024, 0, 1, 12, 0, 3);
+      testData.matches.set(/*testpoint*/ 2, testUtil.newTestFrameworkResult("Test2", "PASS", undefined, started2, completed2));
+
+      // act
+      var result = await subject.publishTestRun(testData);
+
+            // assert
+      expect(ado.updateTestResults.calledWithMatch(
+        "project1",
+        400,
+        [
+          sinon.match({
+            id: 100001,
+            startedDate: started1,
+            completedDate: completed1
+          }),
+          sinon.match({
+            id: 100002,
+            startedDate: started2,
+            completedDate: completed2
+          }),
         ]
       )).eq(true);
     });

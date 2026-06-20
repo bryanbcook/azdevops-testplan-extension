@@ -69,16 +69,18 @@ describe("TestFramework Results Reader", () => {
     expect(results[0].properties.get("TestProduct")).to.equal('TestProductExample');
   });
 
-  // https://github.com/bryanbcook/azdevops-testplan-extension/issues/98
-  it("Can detect when wildcard files do not resolve to any files", async () => {
+  // https://github.com/bryanbcook/azdevops-testplan-extension/issues/122
+  it("Can read xUnit start and end times", async () => {
     // arrange
-    files.push(path.join(baseDir, "**", "non-existing-file.xml"));
+    files.push(path.join(baseDir, "xunit/xunit3.xml")); // uses xml3 format which has start and end times
+    
+    // act
+    var results = await subject.read("xunit", files);
 
-    // act / assert
-    await util.shouldThrowAsync( async () => { await subject.read("xunit", files); }, 
-      /No test results found for format 'xunit' in files: .*[\\/]\*\*[\\/]+non-existing-file\.xml/
-    );
-  })
+    // assert
+    expect(results[0].startedDate).to.be.instanceOf(Date);
+    expect(results[0].completedDate).to.be.instanceOf(Date);
+  });
 
   // https://github.com/bryanbcook/azdevops-testplan-extension/issues/48
   it("Can read xUnit time", async () => {
@@ -90,8 +92,18 @@ describe("TestFramework Results Reader", () => {
 
     // assert
     expect(results[0].duration).to.eq(86006.5);
-  });
- 
+  });  
+
+  // https://github.com/bryanbcook/azdevops-testplan-extension/issues/98
+  it("Can detect when wildcard files do not resolve to any files", async () => {
+    // arrange
+    files.push(path.join(baseDir, "**", "non-existing-file.xml"));
+
+    // act / assert
+    await util.shouldThrowAsync( async () => { await subject.read("xunit", files); }, 
+      /No test results found for format 'xunit' in files: .*[\\/]\*\*[\\/]+non-existing-file\.xml/
+    );
+  }) 
  
   it("Can read jUnit results", async () => {
     // arrange
@@ -260,6 +272,19 @@ describe("TestFramework Results Reader", () => {
     expect(results.length).to.eq(2);
     expect(results[0].attachments.length).to.be.greaterThan(0);
   })
+
+  // https://github.com/bryanbcook/azdevops-testplan-extension/issues/122
+  it("Can read MStest start and end times", async () => {
+    // arrange
+    files.push(path.join(baseDir, "mstest", "testresults.trx")); // uses xml3 format which has start and end times
+    
+    // act
+    var results = await subject.read("mstest", files);
+
+    // assert
+    expect(results[0].startedDate).to.be.instanceOf(Date);
+    expect(results[0].completedDate).to.be.instanceOf(Date);
+  });  
 
   async function fixLocalPaths(file: string) {
     let repositoryRoot = path.join(__dirname, "..", "..");

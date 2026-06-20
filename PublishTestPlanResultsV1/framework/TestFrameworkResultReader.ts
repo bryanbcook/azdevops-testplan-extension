@@ -68,6 +68,8 @@ export class TestFrameworkResultReader {
         result.failure = test.failure;
         result.stacktrace = test.stack_trace;
         result.duration = test.duration;
+        result.startedDate = test.startTime;
+        result.completedDate = test.endTime;
         // 0.1.19 separated tags from metadata
         result.properties = new Map<string,string>(Object.entries(test.metadata));
 
