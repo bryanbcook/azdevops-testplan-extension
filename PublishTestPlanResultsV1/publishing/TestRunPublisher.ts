@@ -75,10 +75,12 @@ export class TestRunPublisher {
           let frameworkResult = results.matches.get(parseInt(pointId)) as TestFrameworkResult;
           r.outcome = frameworkResult.outcome.toString(); // sends integer value to API which is supported
           r.durationInMs = frameworkResult.duration;
+          r.startedDate = frameworkResult.startedDate;
+          r.completedDate = frameworkResult.completedDate;
           r.errorMessage = frameworkResult.failure;
           r.stackTrace = frameworkResult.stacktrace;
           r.state = "Completed";
-
+          
           if (frameworkResult.hasAttachments()) {
             testAttachments.set(r.id!, frameworkResult.attachments);
           }
