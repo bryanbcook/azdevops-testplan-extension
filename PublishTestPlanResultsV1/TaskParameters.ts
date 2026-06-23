@@ -5,6 +5,7 @@ import { TestResultContextParameters } from "./context/TestResultContextParamete
 import { TestFrameworkParameters } from "./framework/TestFrameworkParameters";
 import { TestResultProcessorParameters } from './processing/TestResultProcessorParameters';
 import { TestRunPublisherParameters } from './publishing/TestRunPublisherParameters';
+import { TestRunReporterParameters } from './reporting/TestRunReporterParameters';
 import { TaskParameterHelper } from './services/TaskParameterHelper';
 import { PrivacyLevel, TelemetryPayloadBuilder } from './services/TelemetryPayloadBuilder';
 import { StatusFilterParameters } from './services/StatusFilterParameters';
@@ -170,6 +171,29 @@ class TaskParameters {
     }
     return result;
   }
+
+  /* Fetch parameters used for reporting test automation status */
+  getTestRunReporterParameters() : TestRunReporterParameters {
+    tl.debug("reading TestRunReporterParameters from task inputs.");
+    this.tph.recordStage("getReporterParameters");
+
+    // fetch parameters
+    this.#ensureCredentialsAreSet();
+    const dryRun = this.#getDryRun();
+    const updateTestCaseAutomationStatusInput = this.tph.getBoolInput("updateTestCaseAutomationStatus", /*default*/ false, { recordValue: true, dontRecordDefault: true });
+
+    // only update when opted in and not in dry run
+    const updateTestCaseAutomationStatus = 
+            !dryRun && 
+            updateTestCaseAutomationStatusInput && 
+            FeatureFlags.isFeatureEnabled(FeatureFlag.UpdateTestCaseAutomationStatus);
+
+    // construct parameters
+    var parameters = new TestRunReporterParameters(this.collectionUri!, this.projectName!, this.accessToken!, updateTestCaseAutomationStatus);
+    this.tph.recordStage("reportTestRunDetails");
+
+    return parameters;
+  };
 
   #ensureCredentialsAreSet() {
     if (!this.accessToken) {

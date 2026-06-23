@@ -225,6 +225,15 @@
             "groupName": "advanced",
             "defaultValue": "false",
             "helpMarkDown": "Opt out of anonymous usage data collection to help improve this extension."
+        },
+        {
+            "name": "updateTestCaseAutomationStatus",
+            "type": "boolean",
+            "required": false,
+            "label": "Update Test Case Automation Status",
+            "groupName": "advanced",
+            "defaultValue": "false",
+            "helpMarkDown": "When set to true, the task will update the Automation Status field of the TestCase for all matched results."
         }
     ],
     "minimumAgentVersion": "2.209.0",

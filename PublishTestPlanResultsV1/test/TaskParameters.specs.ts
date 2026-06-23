@@ -1542,6 +1542,97 @@ describe('TaskParameters', () => {
     });
   });
 
+  context('TestRunReporterParameters', () => {
+
+    beforeEach(() => {
+      // TODO: remove
+      util.setFeatureFlag(FeatureFlag.UpdateTestCaseAutomationStatus, "true");
+    });
+
+    it('Should record begin and end of testrun reporting stage in telemetry', () => {
+      // arrange
+      // mock out the tph to spy on recordStage
+      let recordedStages: string[] = [];
+      subject.tph.recordStage = (stage: string) => {
+        recordedStages.push(stage);
+      };
+      util.loadData();
+
+      // act
+      subject.getTestRunReporterParameters();
+
+      // assert
+      expect(recordedStages.length).to.eq(2);
+      expect(recordedStages[0]).to.eq("getReporterParameters");
+      expect(recordedStages[1]).to.eq("reportTestRunDetails");
+    });
+
+    context('user supplied values', () => {
+
+      it('Should override updateTestCaseAutomationStatus when dryrun is specified', () => {
+        // arrange
+        util.setInput("dryRun", "true");
+        util.setInput("updateTestCaseAutomationStatus", "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestRunReporterParameters();
+        
+        // assert
+        expect(parameters.updateTestCaseAutomationStatus).to.be.false;
+      });
+
+      it('Should recognize when updateTestCaseAutomationStatus is specified', () => {
+        // arrange
+        util.setInput("updateTestCaseAutomationStatus", "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestRunReporterParameters();
+
+        // assert
+        expect(parameters.updateTestCaseAutomationStatus).to.be.true;
+      });
+
+      it('Should record updateTestCaseAutomationStatus in telemetry when value is provided', () => {
+        // arrange
+        util.setInput("updateTestCaseAutomationStatus", "true");
+        util.loadData();
+
+        // act
+        var parameters = subject.getTestRunReporterParameters();
+
+        // assert
+        let telemetry = subject.getTelemetryParameters().payload;
+        expect(telemetry.updateTestCaseAutomationStatus).to.be.true;
+      });
+
+    });
+
+    context('default values', () => {
+
+      it('Should default updateTestCaseAutomationStatus to false', () => {
+        // arrange
+        util.loadData();
+        // act
+        var parameters = subject.getTestRunReporterParameters();
+        
+        // assert
+        expect(parameters.updateTestCaseAutomationStatus).to.be.false;
+      });
+
+      it('Should include default values', () => {
+        // act
+        var parameters = subject.getTestRunReporterParameters();
+
+        // assert
+        expect(parameters.collectionUri).to.eq(process.env.SYSTEM_COLLECTIONURI as string);
+        expect(parameters.accessToken).to.eq(process.env.SYSTEM_ACCESSTOKEN as string);
+        expect(parameters.projectName).to.eq(process.env.SYSTEM_TEAMPROJECT as string);
+      })
+    });
+  });
+
   context('StatusFilterParameters', () => {
 
     context('default values', () => {
