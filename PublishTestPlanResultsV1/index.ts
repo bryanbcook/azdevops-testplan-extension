@@ -7,6 +7,7 @@ import { TestRunPublisher } from "./publishing/TestRunPublisher";
 import { getLogger } from './services/Logger';
 import * as statusFilter from './services/StatusFilter';
 import TelemetryPublisher from "./telemetry/TelemetryPublisher";
+import { TestRunReporter } from "./reporting/TestRunReporter";
 
 async function run() {
 
@@ -43,6 +44,12 @@ async function run() {
     const publisherParameters = TaskParameters.getPublisherParameters();
     const publisher = await TestRunPublisher.create(publisherParameters);
     await publisher.publishTestRun(testRunData);
+
+    // report results and update automation status
+    logger.info('##[section]Reporting results and updating automation status...');
+    const reporterParameters = TaskParameters.getTestRunReporterParameters();
+    const reporter = await TestRunReporter.create(reporterParameters);
+    await reporter.reportTestResults(context, testRunData);
 
     // finalize task outcome
     logger.info('##[section]Finalizing results...');

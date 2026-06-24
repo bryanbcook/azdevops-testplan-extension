@@ -4,6 +4,7 @@ import * as Contracts from 'azure-devops-node-api/interfaces/TestInterfaces'
 import { ClientApiBase } from "azure-devops-node-api/ClientApiBases";
 import { ICoreApi } from "azure-devops-node-api/CoreApi";
 import { ITestApi } from "azure-devops-node-api/TestApi";
+import { IWorkItemTrackingApi } from "azure-devops-node-api/WorkItemTrackingApi";
 import * as fs from "fs";
 import path from "path";
 import { ILogger, getLogger } from "./Logger";
@@ -28,17 +29,20 @@ export class AdoWrapper {
     let connection = new ado.WebApi(server, handler);
     let coreApi = await connection.getCoreApi();
     let testApi = await connection.getTestApi();
+    let workItemApi = await connection.getWorkItemTrackingApi();
     let logger = getLogger();
-    return new AdoWrapper(coreApi, testApi, logger);
+    return new AdoWrapper(coreApi, testApi, workItemApi, logger);
   }
 
   coreApi : ICoreApi;
   testApi : ITestApi;
+  workItemApi : IWorkItemTrackingApi;
   logger : ILogger;
   
-  constructor(coreApi : ICoreApi, testApi : ITestApi, logger : ILogger) {
+  constructor(coreApi : ICoreApi, testApi : ITestApi, workItemApi : IWorkItemTrackingApi, logger : ILogger) {
     this.coreApi = coreApi;
     this.testApi = testApi;
+    this.workItemApi = workItemApi;
     this.logger = logger;
   }
 
@@ -270,6 +274,12 @@ export class AdoWrapper {
       state: testRun.state 
     };
     return await this.testApi.updateTestRun(updateModel, projectId, testRun.id);
+  }
+
+  async updateTestCaseAutomationStatus(workItemId : number, automationStatus : boolean) : Promise<void> {
+    this.logger.debug(`updating TestCaseAutomationStatus for workItemId:${workItemId} automationStatus:${automationStatus}`);
+    // Implementation for updating the automation status of a work item
+    throw new Error("Not implemented yet");
   }
 
   private async fetchWithPagination<T>(api : ClientApiBase, baseUrl : string, responseType : any) : Promise<T[]> {

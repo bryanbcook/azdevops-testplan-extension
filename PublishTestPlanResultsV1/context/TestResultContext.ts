@@ -87,6 +87,10 @@ export class TestResultContext {
     return [...this.testPoints.values()];
   }
 
+  getTestPoint(id: number): TestPoint | undefined {
+    return this.testPoints.get(id);
+  }
+
   getTestConfig(alias: string) : TestConfiguration {
     if (! this.hasConfig(alias)) {
       throw new Error(`Unrecognized configuration ${alias}.`);
