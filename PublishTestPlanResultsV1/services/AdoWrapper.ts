@@ -1,6 +1,7 @@
 
 import * as ado from "azure-devops-node-api";
 import * as Contracts from 'azure-devops-node-api/interfaces/TestInterfaces'
+import * as VssInterfaces from 'azure-devops-node-api/interfaces/common/VSSInterfaces'
 import { ClientApiBase } from "azure-devops-node-api/ClientApiBases";
 import { ICoreApi } from "azure-devops-node-api/CoreApi";
 import { ITestApi } from "azure-devops-node-api/TestApi";
@@ -8,6 +9,7 @@ import { IWorkItemTrackingApi } from "azure-devops-node-api/WorkItemTrackingApi"
 import * as fs from "fs";
 import path from "path";
 import { ILogger, getLogger } from "./Logger";
+import { WorkItem } from "azure-devops-node-api/interfaces/WorkItemTrackingInterfaces";
 
 interface AdoResponseHeaders {
   "x-ms-continuationtoken"? : string;
@@ -239,6 +241,11 @@ export class AdoWrapper {
     return results;
   }
 
+  async GetWorkItem(workItemId : number) : Promise<WorkItem> {
+    this.logger.debug(`GetWorkItem workItemId:${workItemId}`);
+    return await this.workItemApi.getWorkItem(workItemId);
+  }
+
   /**
    * Updates the outcomes for TestCaseResult for a given TestRun
    * 
@@ -276,10 +283,25 @@ export class AdoWrapper {
     return await this.testApi.updateTestRun(updateModel, projectId, testRun.id);
   }
 
-  async updateTestCaseAutomationStatus(workItemId : number, automationStatus : boolean) : Promise<void> {
+  /**
+   * Updates the Microsoft.VSTS.TCM.AutomationStatus field for a TestCase workitem
+   * 
+   * @param projectId project id or identifer
+   * @param workItemId workitem id
+   * @param automationStatus boolean to mark the test as automated / not automated
+   */
+  async updateTestCaseAutomationStatus(projectId : string, workItemId : number, automationStatus : boolean) : Promise<void> {
     this.logger.debug(`updating TestCaseAutomationStatus for workItemId:${workItemId} automationStatus:${automationStatus}`);
-    // Implementation for updating the automation status of a work item
-    throw new Error("Not implemented yet");
+    
+    const patch : VssInterfaces.JsonPatchOperation[] = [
+      {
+        op: VssInterfaces.Operation.Add,
+        path: "/fields/Microsoft.VSTS.TCM.AutomationStatus",
+        value: automationStatus ? "Automated" : "Not Automated"
+      }
+    ];
+
+    await this.workItemApi.updateWorkItem( [] , patch, workItemId, projectId, false, true, false);
   }
 
   private async fetchWithPagination<T>(api : ClientApiBase, baseUrl : string, responseType : any) : Promise<T[]> {

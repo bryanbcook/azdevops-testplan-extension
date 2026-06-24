@@ -230,7 +230,7 @@
             "name": "updateTestCaseAutomationStatus",
             "type": "boolean",
             "required": false,
-            "label": "Update Test Case Automation Status",
+            "label": "Update TestCase Automation Status",
             "groupName": "advanced",
             "defaultValue": "false",
             "helpMarkDown": "When set to true, the task will update the Automation Status field of the TestCase for all matched results."

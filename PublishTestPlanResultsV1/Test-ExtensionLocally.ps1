@@ -123,6 +123,10 @@ param(
   [AllowEmptyString()]
   [string]$DryRun,
 
+  [Parameter(Mandatory)]
+  [AllowEmptyString()]
+  [string]$UpdateTestCaseAutomationStatus,
+
   [switch]$DebugMode
 
 )

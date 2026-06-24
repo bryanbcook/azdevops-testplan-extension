@@ -27,6 +27,7 @@ Publishes test results to your Azure DevOps Test Plan.
     #failTaskOnUnmatchedTestCases: # boolean. Optional
     #dryRun: # boolean. Optional
     #telemetryOptOut: boolean. Optional
+    #updateTestCaseAutomationStatus: #boolean. Optional. 
 ```
 
 ## Inputs
@@ -171,7 +172,14 @@ Enables or disables publishing results to the TestPlan. Useful for evaluating di
 
 `boolean`. Optional.
 
-Enables or disables anonymous data collection. When disabled, an opt-out flag is collected instead. The telemetry payload appears in the debug log.
+Enables or disables anonymous data collection. When enabled, an opt-out flag is collected instead. The telemetry payload appears in the debug log.
+
+### `updateTestCaseAutomationStatus` - Update TestCase Automation status
+
+`boolean`. Optional.
+
+When enabled, the Test Automation Status (`Microsoft.VSTS.TCM.TestAutomationStatus`) field for all matching TestCases will be set to _Automated_. Useful for teams
+that track percentage of _Automated_ versus _Not Automated_ TestCases.
 
 ## Feature Flags
 

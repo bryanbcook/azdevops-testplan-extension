@@ -65,7 +65,7 @@ export class TestRunReporter {
         this.logger.info("Updating automation status for TestCases...");
         for (const workItemId of workItemsToUpdate) {
             this.logger.debug(`Updating automation status for TestCase ${workItemId}...`);
-            await this.ado.updateTestCaseAutomationStatus(workItemId, true);
+            await this.ado.updateTestCaseAutomationStatus(ctx.projectId, workItemId, true);
         }
 
         // TODO: Report summary

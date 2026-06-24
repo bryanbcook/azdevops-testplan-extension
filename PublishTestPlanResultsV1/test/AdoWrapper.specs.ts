@@ -119,6 +119,42 @@ describe("AdoWrapper", () => {
       // assert
       expect(result.length).greaterThan(0);
     })
+
+    it("Should retrieve work item details for a test case", async function () {
+      // arrange
+      this.timeout(10000);
+      var testPoints = await subject.getTestPointsForSuite(projectId, planId, rootSuite, true);
+      var workItemId = testPoints[0].testCaseReference.id!;
+
+      // act
+      var workItem = await subject.GetWorkItem(parseInt(workItemId));
+
+      // assert
+      expect(workItem).not.undefined;
+      expect(workItem.fields).not.undefined;
+      expect(workItem.fields!["System.WorkItemType"]).eq("Test Case");
+      expect(workItem.fields!["Microsoft.VSTS.TCM.AutomationStatus"]).not.undefined;
+    })
+
+    it("Should update automation status for a test case work item", async function () {
+      // arrange
+      this.timeout(20000);
+      var testPoints = await subject.getTestPointsForSuite(projectId, planId, rootSuite, true);
+      var workItemId = testPoints[0].testCaseReference.id!;
+      let workItem = await subject.GetWorkItem(parseInt(workItemId));
+      var automationStatus = workItem.fields!["Microsoft.VSTS.TCM.AutomationStatus"] as string;
+
+      // act
+      await subject.updateTestCaseAutomationStatus(projectId, parseInt(workItemId), automationStatus != "Automated");
+      workItem = await subject.GetWorkItem(parseInt(workItemId));
+      var updatedAutomationStatus = workItem.fields!["Microsoft.VSTS.TCM.AutomationStatus"] as string;
+
+      // assert
+      expect(updatedAutomationStatus).eq(automationStatus != "Automated" ? "Automated" : "Not Automated");
+
+      // reset the automation status to the original value
+      await subject.updateTestCaseAutomationStatus(projectId, parseInt(workItemId), automationStatus == "Automated");
+    })
   })  
 
   // unit test / stub out rest get
@@ -341,7 +377,6 @@ describe("AdoWrapper", () => {
     })
 
   })
-
 
   function stubGetRequestWithContinuationToken(nameFormat : string) {
     const getRequestStub = sinon.stub(subject.testApi.rest, "get");

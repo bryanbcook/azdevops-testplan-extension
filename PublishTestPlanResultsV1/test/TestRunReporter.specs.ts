@@ -130,10 +130,10 @@ describe('TestRunReporter', () => {
                 // assert
                 sinon.assert.calledTwice(ado.updateTestCaseAutomationStatus);
                 sinon.assert.calledWithExactly(ado.updateTestCaseAutomationStatus, 
-                    parseInt(testCase1), true
+                    ctx.projectId, parseInt(testCase1), true
                 );
                 sinon.assert.calledWithExactly(ado.updateTestCaseAutomationStatus, 
-                    parseInt(testCase2), true
+                    ctx.projectId,parseInt(testCase2), true
                 );
             });
 
