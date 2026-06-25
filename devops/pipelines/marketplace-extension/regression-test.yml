@@ -57,7 +57,7 @@ parameters:
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
     featureFlags: 'UpdateTestCaseAutomationStatus'
-    accessToken: $(System.AccessToken)
+    accessToken: $(TestPlanPAT)
     updateTestCaseAutomationStatus: true
 
 steps:

@@ -15,6 +15,13 @@ parameters:
   default: false
 
 variables:
+# group contains:
+#  - AppInsightsConnectionString
+#  - ExtensionId
+#  - ExtensionName
+#  - MarketPlaceServiceConnection (GUID)
+#  - PublisherId
+#  - TestPlanPAT
 - group: pipeline-extension-settings
 - name: workingDir
   value: $(Build.SourcesDirectory)/PublishTestPlanResultsV1
