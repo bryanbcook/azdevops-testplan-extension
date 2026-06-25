@@ -52,7 +52,13 @@ parameters:
     testplan: 'Plan w Duplicates and TestOutcome Setting Enabled'
     expectedResults:
       - outcome: Passed
-        count: 2        
+        count: 2
+  - name: UpdateTestCaseAutomationStatus
+    format: nunit
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
+    featureFlags: 'UpdateTestCaseAutomationStatus'
+    accessToken: $(System.AccessToken)
+    updateTestCaseAutomationStatus: true
 
 steps:
 - pwsh: |
@@ -91,7 +97,7 @@ steps:
       arguments: >
         -CollectionUri $(System.CollectionUri)
         -ProjectName '${{ iif( ne(test.projectName,''), test.projectName, 'Test Plan Extension' ) }}'
-        -AccessToken $(System.AccessToken)
+        -AccessToken '${{ iif (ne(test.accessToken,''), test.accessToken, '$(System.AccessToken)' ) }}'
         -TestResultFormat ${{ test.format }}
         -TestResultFiles ${{ test.testResultsFile }}
         -TestPlan '${{ iif( ne(test.testPlan,''), test.testPlan, 'Primary Test Plan' ) }}'
@@ -110,8 +116,8 @@ steps:
         -failTaskOnMissingResultsFile ''
         -failTaskOnMissingTests ''
         -failTaskOnUnmatchedTestCases ''
-        -featureFlags '${{ iif(ne(test.featureFlags,''), test.featureFlags, 'DisplayTelemetry,DisplayTelemetryErrors,UpdateTestCaseAutomationStatus') }}'
-        -updateTestCaseAutomationStatus 'true'
+        -featureFlags '${{ iif(ne(test.featureFlags,''), test.featureFlags, 'DisplayTelemetry,DisplayTelemetryErrors') }}'
+        -updateTestCaseAutomationStatus '${{ iif(ne(test.updateTestCaseAutomationStatus,''), test.updateTestCaseAutomationStatus, 'false') }}'
         -DryRun ''
 
   - ${{ if ne(test.expectedResults, '') }}:
