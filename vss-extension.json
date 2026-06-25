@@ -14,6 +14,7 @@
     "vso.project",
     "vso.test",
     "vso.test_write"
+    //,"vso.work_write" // can't set automation status directly
   ],
   "description": "Updates Azure DevOps Test Plans using xUnit, jUnit and other test result formats",
   "public": false,
