@@ -36,7 +36,13 @@ Publishes test results to your Azure DevOps Test Plan.
 
 `string`. Optional
 
-Access Token used to obtain Test Plan details and publish Test Results. Defaults to PAT token of the build agent, `$(System.AccessToken)`
+Access Token used to obtain Test Plan details and publish Test Results. Defaults to PAT token of the build agent, `$(System.AccessToken)`.
+
+Custom PAT tokens must have the following permission scopes:
+
+- Project and Team (read): for accessing Azure DevOps REST APIs
+- Test Management (read & write): for querying TestPlans and updating TestRuns
+- Work Items (read & write): for updating automation status of TestCases
 
 ### `collectionUri` - Azure DevOps Instance
 
