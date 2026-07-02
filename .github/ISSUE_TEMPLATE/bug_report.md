@@ -18,7 +18,7 @@ correlationId: ______
 _provide sample usage of the task, if applicable_
 
 ```yaml
-- task: PublishTestPlanResults@0
+- task: PublishTestPlanResults@1
   inputs:
 ```
 

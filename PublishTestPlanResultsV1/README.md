@@ -5,13 +5,14 @@ Publishes test results to your Azure DevOps Test Plan.
 ## Syntax
 
 ```yaml
-- task: PublishTestPlanResults@0
+- task: PublishTestPlanResults@1
   inputs:
     #accessToken: # string. Optional. PAT token
     #collectionUri: # string. Optional. Azure DevOps instance
     #projectName: # string. Optional. Project containing the Test Plan
     testResultFormat: # string. Required. Result Format (xUnit, Unit, etc)
     testResultFiles: # string. Required. Path to the test result file(s)
+    #testResultDirectory: # string. Optional. 
     #testPlan: # string. Optional. Test Plan name or identifier.
     #testConfigFilter: # string. Optional. Limit updates to a specific Test Configuration.
     #testConfigAliases: # string. Optional.
@@ -61,6 +62,12 @@ Specifes the format of the `testResultFiles`. Supported values: xUnit, jUnit, cu
 
 Specifies the path to the test result file(s). Multiple files can be expressed in a comma-delimited format.
 
+### `testResultDirectory` - Test Result Folder
+
+`string`. Optional.
+
+Specifies the folder on the pipeline agent that contains the test results. Defaults to `$(System.DefaultWorkingDirectory)` which is equivalent to `$(Build.SourcesDirectory)` on build pipelines or `$(System.ArtifactDirectory)` for release pipelines.
+
 ### `testPlan` - Test Plan Name or Identifier
 
 `string`. Optional.
@@ -73,7 +80,21 @@ If a value is not specified, the task will attempt to locate the latest active T
 
 `string`. Optional.
 
-Specifies the Test Configuration name or identifier that will be associated to the test results.
+Limits the test result associations to Test Cases that have a specific Test Configuration name or identifier.
+
+Examples:
+
+```yaml
+testConfigFilter: 11 # id of a specific Test Configuration
+```
+
+```yaml
+testConfigFilter: 'Windows 11' # name of a Test Configuration
+```
+
+```yaml
+testConfigFilter: 'win11' # name of a config alias specified in the testConfigAliases
+```
 
 This value is optional if there is only a single Test Configuration available.
 
