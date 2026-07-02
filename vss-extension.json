@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "azdevops-testplan-extension",
   "name": "Cross-Platform Test Result Publisher",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "bcook",
   "targets": [
     {
@@ -16,7 +16,7 @@
     "vso.test_write"
   ],
   "description": "Updates Azure DevOps Test Plans using xUnit, jUnit and other test result formats",
-  "public": false,
+  "public": true,
   "categories": [
     "Azure Test Plans",
     "Azure Pipelines"
