@@ -1,17 +1,18 @@
-# PublishTestPlanResults@0
+# PublishTestPlanResults@1
 
 Publishes test results to your Azure DevOps Test Plan.
 
 ## Syntax
 
 ```yaml
-- task: PublishTestPlanResults@0
+- task: PublishTestPlanResults@1
   inputs:
     #accessToken: # string. Optional. PAT token
     #collectionUri: # string. Optional. Azure DevOps instance
     #projectName: # string. Optional. Project containing the Test Plan
     testResultFormat: # string. Required. Result Format (xUnit, Unit, etc)
     testResultFiles: # string. Required. Path to the test result file(s)
+    #testResultDirectory: # string. Optional. 
     #testPlan: # string. Optional. Test Plan name or identifier.
     #testConfigFilter: # string. Optional. Limit updates to a specific Test Configuration.
     #testConfigAliases: # string. Optional.
@@ -60,6 +61,12 @@ Specifes the format of the `testResultFiles`. Supported values: xUnit, jUnit, cu
 `string`. Required.
 
 Specifies the path to the test result file(s). Multiple files can be expressed in a comma-delimited format.
+
+### `testResultDirectory` - Test Result Folder
+
+`string`. Optional.
+
+Specifies the folder on the pipeline agent that contains the test results. Defaults to `$(System.DefaultWorkingDirectory)` which is equivalent to `$(Build.SourcesDirectory)` on build pipelines or `$(System.ArtifactDirectory)` for release pipelines.
 
 ### `testPlan` - Test Plan Name or Identifier
 
