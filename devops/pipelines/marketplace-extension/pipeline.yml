@@ -134,7 +134,7 @@ jobs:
       extensionId: '$(ExtensionID)'
       extensionName: '$(ExtensionName)'
       updateTasksVersion: false
-      extensionVisibility: 'private'
+      extensionVisibility: 'public'
       extensionPricing: 'free'
 
   # publish artifact for inspection
