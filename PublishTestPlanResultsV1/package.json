@@ -13,8 +13,8 @@
   "dependencies": {
     "applicationinsights": "^2.9.8",
     "azure-devops-node-api": "^15.1.2",
-    "azure-pipelines-task-lib": "^5.2.11",
-    "test-results-parser": "0.4.5"
+    "azure-pipelines-task-lib": "^5.279.0",
+    "test-results-parser": "0.4.6"
   },
   "devDependencies": {
     "@types/chai": "^4.3.20",
