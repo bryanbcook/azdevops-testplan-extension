@@ -12,7 +12,7 @@
   "description": "",
   "dependencies": {
     "applicationinsights": "^2.9.8",
-    "azure-devops-node-api": "^15.1.2",
+    "azure-devops-node-api": "^17.0.0",
     "azure-pipelines-task-lib": "^5.279.0",
     "test-results-parser": "0.4.6"
   },
