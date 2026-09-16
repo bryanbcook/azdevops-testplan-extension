@@ -305,6 +305,17 @@ describe("TestCaseMatchStrategy", () => {
       expect(result).to.eq(TestResultMatch.Fail);
     });
 
+    it("Should match if AutomatedTestName includes namespace prefix but result name is only the method", () => {
+      // arrange
+      test = new TestFrameworkResult("MyMethod", "FAIL");
+
+      // act
+      var result = subject.isMatch(test, point);
+
+      // assert
+      expect(result).to.eq(TestResultMatch.Exact);
+    });
+
     it("Should not match if test automation property is not available on test case", () => {
       // arrange
       point.workItemProperties = [];

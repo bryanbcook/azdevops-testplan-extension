@@ -147,8 +147,13 @@ export class TestAutomationPropertyMatchStrategy implements TestResultMatchStrat
     if (point.workItemProperties && point.workItemProperties.length > 0) {
       let automatedTestName = this.getAutomationProperty(point);
       if (automatedTestName) {
-        return result.name.toLowerCase() == automatedTestName.toLowerCase() ?
-          TestResultMatch.Exact : TestResultMatch.Fail;
+        if (result.name.toLowerCase() == automatedTestName.toLowerCase()) {
+          return TestResultMatch.Exact;
+        }
+        if (automatedTestName.toLowerCase().endsWith('.' + result.name.toLowerCase())) {
+          return TestResultMatch.Exact;
+        }
+        return TestResultMatch.Fail;
       }
     }
     // if not present, pass-thru
