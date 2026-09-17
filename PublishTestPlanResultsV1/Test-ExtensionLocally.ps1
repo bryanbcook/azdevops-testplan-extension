@@ -188,7 +188,7 @@ if ($DebugMode.IsPresent) {
   }
   $outputString = $capturedOutput -join "`n"
 
-  $expectedFailures = $failTaskOnFailedTests -eq "true" -or $failTaskOnSkippedTests -eq "true"
+  $expectedFailures = $failTaskOnFailedTests -eq "true" -or $failTaskOnSkippedTests -eq "true" -or $failTaskOnMissingResultsFile -eq "true" -or $failTaskOnMissingTests -eq "true" -or $failTaskOnUnmatchedTestCases -eq "true"
   
   if ($expectedFailures -eq "true") {
     # Check if the task explicitly set a failed result via Azure DevOps logging command
