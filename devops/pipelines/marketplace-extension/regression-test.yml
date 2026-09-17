@@ -5,6 +5,9 @@ parameters:
   - name: MSTestExample-Attachments
     format: mstest
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/MSTestExample-Attachments/TestResults/TestResults.trx'
+  - name: MSTestResults-Properties
+    format: mstest
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/MSTestResults/testresults_properties.trx'
   - name: NUnitExample
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'

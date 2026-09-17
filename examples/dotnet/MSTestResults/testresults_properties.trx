@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="ddf44296-8c1e-427d-b9ba-4472deee1249" name="@f7b0a9e33611 2026-09-17 12:43:42.1055510" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-17T12:41:33.995206Z" queuing="2026-09-17T12:41:33.995206Z" start="2026-09-17T12:41:33.995206Z" finish="2026-09-17T12:43:42.1061934Z" />
+  <TestSettings name="default" id="b920e7d9-c6f0-40b4-9203-50b774f76fd6">
+    <Deployment runDeploymentRoot="_f7b0a9e33611_2026-09-17_12_43_42.1055510" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="131a30ca-0ff3-4e7c-8aa9-b5c365f443cc" testId="4b5c6992-34b5-b89e-38bd-473cd1d722d6" testName="TestName" computerName="f7b0a9e33611" duration="00:00:33.2867150" startTime="2026-09-17T12:42:33.8175587+00:00" endTime="2026-09-17T12:43:07.1042032+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Failed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="131a30ca-0ff3-4e7c-8aa9-b5c365f443cc">
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="TestName" storage="/azp/_work/1/s/tests/bin/debug/net10.0/tests.dll" id="4b5c6992-34b5-b89e-38bd-473cd1d722d6">
+      <TestCategory>
+        <TestCategoryItem TestCategory="story:12345" />
+      </TestCategory>
+      <Execution id="131a30ca-0ff3-4e7c-8aa9-b5c365f443cc" />
+      <Properties>
+        <Property>
+          <Key>tc:4888</Key>
+          <Value></Value>
+        </Property>
+      </Properties>
+      <TestMethod codeBase="/azp/_work/1/s/tests/bin/Debug/net10.0/tests.dll" adapterTypeName="executor://NUnitExtension/6.3.0+b5a66c0f74e52257b3ec1e04abc3ef812a7e74d5" className="tests.Tests.CompaniesTest" name="TestName" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="4b5c6992-34b5-b89e-38bd-473cd1d722d6" executionId="131a30ca-0ff3-4e7c-8aa9-b5c365f443cc" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Passed">
+    <Counters total="1" executed="1" passed="0" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>
