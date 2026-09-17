@@ -8,7 +8,6 @@ parameters:
   - name: MSTestResults-Properties
     format: mstest
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/MSTestResults/testresults_properties.trx'
-    failTaskOnUnmatchedTestCases: true
   - name: NUnitExample
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
@@ -87,7 +86,7 @@ steps:
   - task: PowerShell@2
     name: ${{ replace(lower(test.name), '-','_') }}
     displayName: 'Run extension against ${{ test.name }}'
-    ${{ if or( eq(test.failTaskOnFailedTests,'true'), eq(test.failTaskOnSkippedTests,'true'), eq(test.failTaskOnMissingResultsFile,'true'), eq(test.failTaskOnMissingTests,'true'), eq(test.failTaskOnUnmatchedTestCases,'true') ) }}:
+    ${{ if eq(test.failTaskOnFailedTests,'true') }}:
       continueOnError: true
     inputs:
       workingDirectory: $(Pipeline.Workspace)/build
@@ -111,9 +110,9 @@ steps:
         -ReleaseEnvironmentId '${{ iif( ne(test.releaseEnvironmentId,''), test.releaseEnvironmentId, '' ) }}'
         -failTaskOnFailedTests '${{ iif( ne(test.failTaskOnFailedTests,''), test.failTaskOnFailedTests, 'false' ) }}'
         -failTaskOnSkippedTests '${{ iif( ne(test.failTaskOnSkippedTests,''), test.failTaskOnSkippedTests, 'false' ) }}'
-        -failTaskOnMissingResultsFile `'${{ iif( ne(test.failTaskOnMissingResultsFile,''), test.failTaskOnMissingResultsFile, 'false' ) }}'
-        -failTaskOnMissingTests '${{ iif( ne(test.failTaskOnMissingTests,''), test.failTaskOnMissingTests, 'false' ) }}'
-        -failTaskOnUnmatchedTestCases '${{ iif( ne(test.failTaskOnUnmatchedTestCases,''), test.failTaskOnUnmatchedTestCases, 'false' ) }}'
+        -failTaskOnMissingResultsFile `'${{ iif( ne(test.failTaskOnMissingResultsFile,''), test.failTaskOnMissingResultsFile, '' ) }}'
+        -failTaskOnMissingTests '${{ iif( ne(test.failTaskOnMissingTests,''), test.failTaskOnMissingTests, '' ) }}'
+        -failTaskOnUnmatchedTestCases '${{ iif( ne(test.failTaskOnUnmatchedTestCases,''), test.failTaskOnUnmatchedTestCases, '' ) }}'
         -featureFlags '${{ iif(ne(test.featureFlags,''), test.featureFlags, 'DisplayTelemetry,DisplayTelemetryErrors') }}'
         -DryRun ''
 
