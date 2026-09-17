@@ -110,7 +110,7 @@ steps:
         -ReleaseEnvironmentId '${{ iif( ne(test.releaseEnvironmentId,''), test.releaseEnvironmentId, '' ) }}'
         -failTaskOnFailedTests '${{ iif( ne(test.failTaskOnFailedTests,''), test.failTaskOnFailedTests, 'false' ) }}'
         -failTaskOnSkippedTests '${{ iif( ne(test.failTaskOnSkippedTests,''), test.failTaskOnSkippedTests, 'false' ) }}'
-        -failTaskOnMissingResultsFile `'${{ iif( ne(test.failTaskOnMissingResultsFile,''), test.failTaskOnMissingResultsFile, '' ) }}'
+        -failTaskOnMissingResultsFile '${{ iif( ne(test.failTaskOnMissingResultsFile,''), test.failTaskOnMissingResultsFile, '' ) }}'
         -failTaskOnMissingTests '${{ iif( ne(test.failTaskOnMissingTests,''), test.failTaskOnMissingTests, '' ) }}'
         -failTaskOnUnmatchedTestCases '${{ iif( ne(test.failTaskOnUnmatchedTestCases,''), test.failTaskOnUnmatchedTestCases, '' ) }}'
         -featureFlags '${{ iif(ne(test.featureFlags,''), test.featureFlags, 'DisplayTelemetry,DisplayTelemetryErrors') }}'
