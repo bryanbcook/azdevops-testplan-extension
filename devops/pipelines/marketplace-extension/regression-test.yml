@@ -8,7 +8,7 @@ parameters:
     # regression test for https://github.com/test-results-reporter/parser/pull/131
   - name: MSTestResults-Properties
     format: mstest
-    failOnUnmatchedTestCases: false # ignore missing matches
+    failTaskOnUnmatchedTestCases: false # ignore missing matches
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/MSTestResults/testresults_properties.trx'
   - name: NUnitExample
     format: nunit
