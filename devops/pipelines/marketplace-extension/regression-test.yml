@@ -5,6 +5,11 @@ parameters:
   - name: MSTestExample-Attachments
     format: mstest
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/MSTestExample-Attachments/TestResults/TestResults.trx'
+    # regression test for https://github.com/test-results-reporter/parser/pull/131
+  - name: MSTestResults-Properties
+    format: mstest
+    failTaskOnUnmatchedTestCases: false # ignore missing matches
+    testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/MSTestResults/testresults_properties.trx'
   - name: NUnitExample
     format: nunit
     testResultsFile: '$(Build.SourcesDirectory)/examples/dotnet/NUnitExample/TestResults/TestResults.xml'
@@ -107,9 +112,9 @@ steps:
         -ReleaseEnvironmentId '${{ iif( ne(test.releaseEnvironmentId,''), test.releaseEnvironmentId, '' ) }}'
         -failTaskOnFailedTests '${{ iif( ne(test.failTaskOnFailedTests,''), test.failTaskOnFailedTests, 'false' ) }}'
         -failTaskOnSkippedTests '${{ iif( ne(test.failTaskOnSkippedTests,''), test.failTaskOnSkippedTests, 'false' ) }}'
-        -failTaskOnMissingResultsFile ''
-        -failTaskOnMissingTests ''
-        -failTaskOnUnmatchedTestCases ''
+        -failTaskOnMissingResultsFile '${{ iif( ne(test.failTaskOnMissingResultsFile,''), test.failTaskOnMissingResultsFile, '' ) }}'
+        -failTaskOnMissingTests '${{ iif( ne(test.failTaskOnMissingTests,''), test.failTaskOnMissingTests, '' ) }}'
+        -failTaskOnUnmatchedTestCases '${{ iif( ne(test.failTaskOnUnmatchedTestCases,''), test.failTaskOnUnmatchedTestCases, '' ) }}'
         -featureFlags '${{ iif(ne(test.featureFlags,''), test.featureFlags, 'DisplayTelemetry,DisplayTelemetryErrors') }}'
         -DryRun ''
 

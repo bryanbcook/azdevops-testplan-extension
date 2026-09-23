@@ -190,10 +190,12 @@ if ($DebugMode.IsPresent) {
 
   $expectedFailures = $failTaskOnFailedTests -eq "true" -or $failTaskOnSkippedTests -eq "true"
   
+  $taskFailurePattern = "##vso\[task\.complete result=Failed;\].*"
+  $taskFailureFound = $outputString -match $taskFailurePattern
+
   if ($expectedFailures -eq "true") {
     # Check if the task explicitly set a failed result via Azure DevOps logging command
-    $taskFailurePattern = "##vso\[task\.complete result=Failed;\].*"
-    $taskFailureFound = $outputString -match $taskFailurePattern
+    
     
     if ($taskFailureFound) {
       Write-Host "Task failure was detected via Azure DevOps logging command. This was expected."
@@ -203,5 +205,8 @@ if ($DebugMode.IsPresent) {
       Write-Host "Task was expected to fail if test failed. No failure was reported."
       Write-Host "##vso[task.issue type=error]Task was expected to fail if test failed. However, no failure was reported."
     }
+  } elseif ($taskFailureFound) {
+    Write-Host "Task was not expected to fail, but a failure was reported."
+    Write-Host "##vso[task.issue type=error]Task was not expected to fail, but a failure was reported."
   }
 }
